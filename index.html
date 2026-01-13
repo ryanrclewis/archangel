@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHANGEL LABORATORIES</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/ocr-a-std" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffd700;
+            font-family: 'OCR A Std', 'Share Tech Mono', 'Courier New', monospace;
+            line-height: 1.6;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .terminal-header {
+            border: 2px solid #ffd700;
+            padding: 10px;
+            margin-bottom: 30px;
+            background-color: #000;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ffd700;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ffd700;
+            opacity: 0.7;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+            }
+        }
+
+        .prompt {
+            color: #ffd700;
+            margin-right: 10px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #ffd700;
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ffd700;
+            background-color: rgba(255, 215, 0, 0.03);
+            position: relative;
+        }
+
+        section::before {
+            content: '>';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            margin-left: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p, li {
+            margin-left: 20px;
+            font-size: 1em;
+            color: #e6be00;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        li::before {
+            content: '▸';
+            position: absolute;
+            left: 10px;
+            color: #ffd700;
+        }
+
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            border-bottom: 1px solid #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            border-top: 1px solid #ffd700;
+            opacity: 0.7;
+        }
+
+        .ascii-art {
+            font-size: 0.7em;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-align: center;
+            white-space: pre;
+            color: #ffd700;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            .ascii-art {
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <!-- <div class="terminal-buttons">
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                </div> -->
+                <span>TERMINAL - ARCHANGEL-LABORATORIES</span>
+            </div>
+            <div class="ascii-art">
+    ____   ____  ________  ______   __  ________________ 
+   /   |  / __ \/ ____/ / / /   |  / | / / ____/ ____/ /
+  / /| | / /_/ / /   / /_/ / /| | /  |/ / / __/ __/ / / 
+ / ___ |/ _, _/ /___/ __  / ___ |/ /|  / /_/ / /___/ /___
+/_/  |_/_/ |_|\____/_/ /_/_/  |_/_/ |_/\____/_____/_____/
+            </div>
+            <h1>ARCHANGEL LABORATORIES</h1>
+            <p class="tagline"><span class="prompt">$</span> TECHNOLOGY WITH TELOS<span class="cursor"></span></p>
+        </div>
+        <!--
+        <section>
+            <h2>About Us</h2>
+            <p>
+                ARCHANGEL LABORATORIES delivers cutting-edge technology consulting services 
+                to enterprises seeking digital transformation and innovation. We architect, 
+                implement, and optimize solutions that drive measurable business outcomes.
+            </p>
+        </section>
+
+        <section>
+            <h2>Services</h2>
+            <ul>
+                <li>Cloud Architecture & Migration</li>
+                <li>DevOps & Infrastructure Automation</li>
+                <li>Custom Software Development</li>
+                <li>Security & Compliance Solutions</li>
+                <li>AI & Machine Learning Integration</li>
+                <li>Technical Strategy Consulting</li>
+                <li>System Performance Optimization</li>
+                <li>Data Engineering & Analytics</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Our Approach</h2>
+            <p>
+                <span class="prompt">></span> ANALYZE: Deep dive into your current infrastructure and requirements<br>
+                <span class="prompt">></span> ARCHITECT: Design scalable, secure, and maintainable solutions<br>
+                <span class="prompt">></span> IMPLEMENT: Execute with precision and best practices<br>
+                <span class="prompt">></span> OPTIMIZE: Continuous improvement and performance tuning<br>
+                <span class="prompt">></span> SUPPORT: Ongoing maintenance and expert guidance
+            </p>
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <p>
+                <span class="prompt">></span> Email: <a href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a><br>
+                <span class="prompt">></span> Ready to transform your technology infrastructure?<br>
+                <span class="prompt">></span> Let's build something extraordinary.
+            </p>
+        </section>
+        -->
+
+        <div class="footer">
+            <p>2026 ARCHANGEL LABORATORIES. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">System Status: <span style="color: #00ff00;">ONLINE</span></p>
+        </div>
+    </div>
+</body>
+</html>
