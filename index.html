@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHANGEL LABORATORIES</title>
-    <link href="https://fonts.cdnfonts.com/css/sf-mono" rel="stylesheet">4
-    <link href="https://fonts.cdnfonts.com/css/ocr-a-std" rel="stylesheet">
+    <title>Archangel Laboratories</title>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><style>.wing{fill:%23ffd700;}</style></defs><path class='wing' d='M50,10 Q70,20 80,35 Q75,25 60,20 Q65,30 70,45 Q60,35 50,35 Q40,35 30,45 Q35,30 40,20 Q25,25 20,35 Q30,20 50,10 M50,35 Q60,40 75,50 Q65,45 50,45 Q35,45 25,50 Q40,40 50,35 M45,50 Q45,65 50,80 Q55,65 55,50 Z'/></svg>"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><style>.wing{fill:%23007AFF;}</style></defs><path class='wing' d='M50,10 Q70,20 80,35 Q75,25 60,20 Q65,30 70,45 Q60,35 50,35 Q40,35 30,45 Q35,30 40,20 Q25,25 20,35 Q30,20 50,10 M50,35 Q60,40 75,50 Q65,45 50,45 Q35,45 25,50 Q40,40 50,35 M45,50 Q45,65 50,80 Q55,65 55,50 Z'/></svg>"
         type="image/svg+xml">
     <style>
         * {
@@ -18,241 +16,304 @@
         }
 
         body {
-            background-color: #0a0a0a;
-            color: #ffd700;
-            font-family: 'OCR A Std', 'Share Tech Mono', 'Courier New', monospace;
-            line-height: 1.6;
-            padding: 10px;
-            overflow-x: hidden;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.47059;
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: -0.022em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 980px;
             margin: 0 auto;
+            padding: 0 22px;
         }
 
-        .terminal-header {
-            border: 2px solid #ffd700;
-            padding: 8px;
-            margin-bottom: 20px;
-            background-color: #000;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .terminal-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ffd700;
-        }
-
-        .terminal-buttons {
-            display: flex;
-            gap: 8px;
-            margin-right: 15px;
-        }
-
-        .btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            opacity: 0.9;
-        }
-
-        .btn:nth-child(1) {
-            background-color: #FF5F56;
-        }
-
-        .btn:nth-child(2) {
-            background-color: #FFBD2E;
-        }
-
-        .btn:nth-child(3) {
-            background-color: #27C93F;
+        header {
+            padding: 44px 0 32px;
+            text-align: center;
         }
 
         h1 {
-            font-size: 1.8em;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size: 48px;
+            line-height: 1.08349;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+            color: #1d1d1f;
+            margin-bottom: 12px;
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            }
-
-            to {
-                text-shadow: 0 0 20px rgba(255, 215, 0, 1);
-            }
-        }
-
-        .prompt {
-            color: #ffd700;
-            margin-right: 10px;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background-color: #ffd700;
-            animation: blink 1s step-end infinite;
-            margin-left: 5px;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
+        .tagline {
+            font-size: 21px;
+            line-height: 1.381;
+            font-weight: 400;
+            letter-spacing: 0.011em;
+            color: #6e6e73;
+            margin-bottom: 8px;
         }
 
         section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border: 1px solid #ffd700;
-            background-color: rgba(255, 215, 0, 0.03);
-            position: relative;
+            background-color: #ffffff;
+            border-radius: 18px;
+            padding: 40px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.06);
         }
 
         h2 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            margin-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 32px;
+            line-height: 1.125;
+            font-weight: 600;
+            letter-spacing: 0.004em;
+            color: #1d1d1f;
+            margin-bottom: 24px;
         }
 
-        p,
-        li {
-            margin-left: 20px;
-            font-size: 1em;
-            color: #e6be00;
+        h3 {
+            font-size: 24px;
+            line-height: 1.16667;
+            font-weight: 600;
+            letter-spacing: 0.009em;
+            color: #1d1d1f;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -0.022em;
+            color: #1d1d1f;
+            margin-bottom: 12px;
         }
 
         ul {
             list-style: none;
-            margin-top: 10px;
+            margin: 0;
+            padding: 0;
         }
 
         li {
-            margin-bottom: 10px;
-            padding-left: 30px;
-            position: relative;
+            margin-bottom: 16px;
+            padding-left: 0;
         }
 
-        li::before {
-            content: '▸';
-            position: absolute;
-            left: 10px;
-            color: #ffd700;
+        .project-link {
+            display: block;
+            padding: 16px 20px;
+            background-color: #f5f5f7;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1d1d1f;
+            transition: all 0.3s ease;
+            min-height: 44px;
+        }
+
+        .project-link:hover {
+            background-color: #e8e8ed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .project-link:active {
+            transform: translateY(0);
+        }
+
+        .project-title {
+            font-size: 19px;
+            line-height: 1.42105;
+            font-weight: 600;
+            letter-spacing: 0.012em;
+            color: #007aff;
+            margin-bottom: 4px;
+        }
+
+        .project-description {
+            font-size: 15px;
+            line-height: 1.46667;
+            font-weight: 400;
+            letter-spacing: -0.016em;
+            color: #6e6e73;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #007aff;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            margin-left: 8px;
+            letter-spacing: 0.01em;
         }
 
         a {
-            color: #ffd700;
+            color: #007aff;
             text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         a:hover {
-            border-bottom: 1px solid #ffd700;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
-        }
-
-        .tagline {
-            font-size: 1.2em;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            border-top: 1px solid #ffd700;
-            opacity: 0.7;
-        }
-
-        .ascii-art {
-            font-size: 0.55em;
-            line-height: 1.1;
-            margin-bottom: 15px;
-            text-align: center;
-            white-space: pre;
-            color: #ffd700;
             opacity: 0.8;
-            overflow-x: auto;
-            padding: 5px;
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 8px;
+        .contact-info {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: #f5f5f7;
+            border-radius: 12px;
+            min-height: 44px;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            margin-right: 8px;
+            color: #1d1d1f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px 0 44px;
+            color: #6e6e73;
+            font-size: 15px;
+            line-height: 1.46667;
+            letter-spacing: -0.016em;
+        }
+
+        footer p {
+            color: #6e6e73;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 734px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            header {
+                padding: 32px 0 24px;
             }
 
             h1 {
-                font-size: 1.4em;
-                letter-spacing: 1px;
-            }
-
-            h2 {
-                font-size: 1.2em;
-                margin-left: 15px;
-            }
-
-            .ascii-art {
-                font-size: 0.45em;
-                line-height: 1;
-                margin-bottom: 10px;
-            }
-
-            .terminal-header {
-                padding: 6px;
-                margin-bottom: 15px;
-            }
-
-            .terminal-title {
-                font-size: 0.9em;
-                margin-bottom: 8px;
-                padding-bottom: 8px;
-            }
-
-            p,
-            li {
-                font-size: 0.95em;
-                margin-left: 15px;
-            }
-
-            section {
-                margin-bottom: 25px;
-                padding: 12px;
+                font-size: 32px;
+                line-height: 1.125;
+                letter-spacing: 0.004em;
             }
 
             .tagline {
-                font-size: 1em;
+                font-size: 19px;
+                line-height: 1.42105;
+                letter-spacing: 0.012em;
             }
 
-            .cursor {
-                width: 8px;
-                height: 16px;
-                margin-left: 3px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.6em;
+            section {
+                padding: 24px;
+                margin-bottom: 16px;
+                border-radius: 16px;
             }
 
             h2 {
-                font-size: 1.3em;
+                font-size: 24px;
+                line-height: 1.16667;
+                letter-spacing: 0.009em;
+                margin-bottom: 16px;
             }
 
-            .ascii-art {
-                font-size: 0.5em;
+            h3 {
+                font-size: 21px;
+                line-height: 1.19048;
+                letter-spacing: 0.011em;
+                margin-top: 24px;
+                margin-bottom: 12px;
+            }
+
+            .project-link {
+                padding: 12px 16px;
+            }
+
+            .project-title {
+                font-size: 17px;
+                line-height: 1.47059;
+                letter-spacing: -0.022em;
+            }
+
+            .project-description {
+                font-size: 14px;
+                line-height: 1.42857;
+                letter-spacing: -0.016em;
+            }
+
+            footer {
+                padding: 24px 0 32px;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #000000;
+                color: #f5f5f7;
+            }
+
+            h1, h2, h3 {
+                color: #f5f5f7;
+            }
+
+            .tagline {
+                color: #a1a1a6;
+            }
+
+            section {
+                background-color: #1d1d1f;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+
+            p {
+                color: #f5f5f7;
+            }
+
+            .project-link {
+                background-color: #2c2c2e;
+                color: #f5f5f7;
+            }
+
+            .project-link:hover {
+                background-color: #3a3a3c;
+            }
+
+            .project-title {
+                color: #0a84ff;
+            }
+
+            .project-description {
+                color: #a1a1a6;
+            }
+
+            .badge {
+                background-color: #0a84ff;
+            }
+
+            .contact-info {
+                background-color: #2c2c2e;
+            }
+
+            .contact-label {
+                color: #f5f5f7;
+            }
+
+            a {
+                color: #0a84ff;
+            }
+
+            footer p {
+                color: #a1a1a6;
             }
         }
     </style>
@@ -260,59 +321,69 @@
 
 <body>
     <div class="container">
-        <div class="terminal-header">
-            <div class="terminal-title">
-                <div class="terminal-buttons">
-                    <div class="btn"></div>
-                    <div class="btn"></div>
-                    <div class="btn"></div>
-                </div>
-                <span>TERMINAL - ARCHANGEL-LABORATORIES</span>
-            </div>
-            <h1>ARCHANGEL LABORATORIES</h1>
-            <p class="tagline"><span class="prompt">$</span> TECHNOLOGY WITH TELOS<span class="cursor"></span></p>
-        </div>
+        <header>
+            <h1>Archangel Laboratories</h1>
+            <p class="tagline">Technology with Telos</p>
+        </header>
 
         <section>
             <h2>Our Work</h2>
-            <p>
-                <span class="prompt">></span> <a href="https://heirloom-two.vercel.app/login" target="_blank">HEIRLOOM:
-                    A digital keepsake for your family's history.</a> <span style="opacity: 0.7; font-size: 0.85em;">[IN
-                    PROGRESS]</span><br>
-                <span class="prompt">></span> <a href="https://saintstombs.com" target="_blank">SAINTSTOMBS: Explore the
-                    final
-                    resting places of the world's most revered holy figures.</a><br>
-                <span class="prompt">></span> <a href="https://crisis-catalog.pages.dev/" target="_blank">CRISIS
-                    CATALOG: A checklist for emergency preparedness for Catholic families.</a> <span
-                    style="opacity: 0.7; font-size: 0.85em;">[IN PROGRESS]</span><br>
-                <span class="prompt">></span> <a href="https://github.com/ryanrclewis/psalm113-3" target="_blank">PSALM
-                    113:3: A visualization of Earth, reactive to the Consecration of the Eucharist at Catholic
-                    Masses.</a> <span style="opacity: 0.7; font-size: 0.85em;">[IN PROGRESS]</span><br>
-                <span class="prompt">></span> <a href="https://github.com/ryanrclewis/pantrie" target="_blank">PANTRIE: A self-hosted utility to catalog what is in your pantry and when it expires.</a> <span style="opacity: 0.7; font-size: 0.85em;">[IN PROGRESS]</span><br>
+            <ul>
+                <li>
+                    <a href="https://heirloom-two.vercel.app/login" target="_blank" class="project-link">
+                        <div class="project-title">Heirloom<span class="badge">In Progress</span></div>
+                        <div class="project-description">A digital keepsake for your family's history.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://saintstombs.com" target="_blank" class="project-link">
+                        <div class="project-title">Saintstombs</div>
+                        <div class="project-description">Explore the final resting places of the world's most revered holy figures.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://crisis-catalog.pages.dev/" target="_blank" class="project-link">
+                        <div class="project-title">Crisis Catalog<span class="badge">In Progress</span></div>
+                        <div class="project-description">A checklist for emergency preparedness for Catholic families.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/ryanrclewis/psalm113-3" target="_blank" class="project-link">
+                        <div class="project-title">Psalm 113:3<span class="badge">In Progress</span></div>
+                        <div class="project-description">A visualization of Earth, reactive to the Consecration of the Eucharist at Catholic Masses.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/ryanrclewis/pantrie" target="_blank" class="project-link">
+                        <div class="project-title">Pantrie<span class="badge">In Progress</span></div>
+                        <div class="project-description">A self-hosted utility to catalog what is in your pantry and when it expires.</div>
+                    </a>
+                </li>
+            </ul>
 
-            </p>
-            <h2>Past Work</h2>
-            <p>
-                <span class="prompt">></span> <a href="https://ryanrclewis.family" target="_blank">PORTFOLIO:
-                    The legacy portfolio of work from Ryan R. C. Lewis</a><br>
-            </p>
+            <h3>Past Work</h3>
+            <ul>
+                <li>
+                    <a href="https://ryanrclewis.family" target="_blank" class="project-link">
+                        <div class="project-title">Portfolio</div>
+                        <div class="project-description">The legacy portfolio of work from Ryan R. C. Lewis</div>
+                    </a>
+                </li>
+            </ul>
         </section>
+
         <section>
             <h2>Contact</h2>
-            <p>
-                <span class="prompt">></span> Email: <a
-                    href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a><br>
-
-            </p>
+            <div class="contact-info">
+                <span class="contact-label">Email:</span>
+                <a href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a>
+            </div>
         </section>
 
-
-        <div class="footer">
-            <p>2026 ARCHANGEL LABORATORIES LLC. All rights reserved. <a href="https://x.com/archangellabs"
-                    target="_blank">𝕏</a></p>
-            <p style="margin-top: 10px; font-size: 0.9em;">System Status: <span style="color: #00ff00;">ONLINE</span>
-            </p>
-        </div>
+        <footer>
+            <p>© 2026 Archangel Laboratories LLC. All rights reserved.</p>
+            <p><a href="https://x.com/archangellabs" target="_blank">Follow us on 𝕏</a></p>
+        </footer>
     </div>
 </body>
 
