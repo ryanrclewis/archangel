@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0a0a;
+    color: #ffd700;
+    font-family: 'OCR A Std', 'Share Tech Mono', 'Courier New', monospace;
+    line-height: 1.6;
+    padding: 10px;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.terminal-header {
+    border: 2px solid #ffd700;
+    padding: 8px;
+    margin-bottom: 20px;
+    background-color: #000;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.terminal-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ffd700;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+}
+
+.btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0.9;
+}
+
+.btn:nth-child(1) {
+    background-color: #FF5F56;
+}
+
+.btn:nth-child(2) {
+    background-color: #FFBD2E;
+}
+
+.btn:nth-child(3) {
+    background-color: #27C93F;
+}
+
+h1 {
+    font-size: 1.8em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+    }
+}
+
+.prompt {
+    color: #ffd700;
+    margin-right: 10px;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background-color: #ffd700;
+    animation: blink 1s step-end infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #ffd700;
+    background-color: rgba(255, 215, 0, 0.03);
+    position: relative;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h3 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    letter-spacing: 1px;
+    color: #e6be00;
+    margin-top: 20px;
+}
+
+p,
+li {
+    margin-left: 20px;
+    font-size: 1em;
+    color: #e6be00;
+}
+
+ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+li {
+    margin-bottom: 10px;
+    padding-left: 30px;
+    position: relative;
+}
+
+li::before {
+    content: '▸';
+    position: absolute;
+    left: 10px;
+    color: #ffd700;
+}
+
+a {
+    color: #ffd700;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    border-bottom: 1px solid #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+.tagline {
+    font-size: 1.2em;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+    border-top: 1px solid #ffd700;
+    opacity: 0.7;
+}
+
+.back-link {
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.ascii-art {
+    font-size: 0.55em;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    text-align: center;
+    white-space: pre;
+    color: #ffd700;
+    opacity: 0.8;
+    overflow-x: auto;
+    padding: 5px;
+}
+
+.code-block {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-left: 2px solid #ffd700;
+    padding: 10px 15px;
+    margin: 15px 20px;
+    font-size: 0.9em;
+    overflow-x: auto;
+    color: #e6be00;
+}
+
+.highlight {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+        letter-spacing: 1px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+        margin-left: 15px;
+    }
+
+    h3 {
+        font-size: 1.1em;
+        margin-left: 15px;
+    }
+
+    .ascii-art {
+        font-size: 0.45em;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+
+    .terminal-header {
+        padding: 6px;
+        margin-bottom: 15px;
+    }
+
+    .terminal-title {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+    }
+
+    p,
+    li {
+        font-size: 0.95em;
+        margin-left: 15px;
+    }
+
+    section {
+        margin-bottom: 25px;
+        padding: 12px;
+    }
+
+    .tagline {
+        font-size: 1em;
+    }
+
+    .cursor {
+        width: 8px;
+        height: 16px;
+        margin-left: 3px;
+    }
+
+    .code-block {
+        margin: 15px 10px;
+        font-size: 0.85em;
+    }
+
+    .back-link {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.6em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+
+    .ascii-art {
+        font-size: 0.5em;
+    }
+}
