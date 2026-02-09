@@ -11,9 +11,20 @@
         type="image/svg+xml">
     <style>
         @font-face {
-  font-family: "OCR A";
-  src: url("OCRAExtended.woff2") format("woff2");
-}
+            font-family: "OCR A";
+            src: url("OCRAExtended.woff2") format("woff2");
+        }
+
+        @font-face {
+            font-family: "SF Mono Regular";
+            src: url("sf-mono-regular.woff2") format("woff2");
+        }
+
+        @font-face {
+            font-family: "SF Pro Display Bold";
+            src: url("sf-pro-display-bold.woff2") format("woff2");
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -22,8 +33,9 @@
 
         body {
             background-color: #0a0a0a;
-            color: #ffd700;
-            font-family: 'OCR A', monospace;
+            /* color: #ffd700; */
+            color: #fff;
+            font-family: 'SF Mono Regular', monospace;
             font-display: swap;
             line-height: 1.6;
             padding: 10px;
@@ -36,19 +48,25 @@
         }
 
         .terminal-header {
-            border: 2px solid #ffd700;
+            /* border: 2px solid #ffd700; */
+            border: 2px solid #fff;
             padding: 8px;
             margin-bottom: 20px;
-            background-color: #000;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3),
+                        inset 0 0 20px rgba(255, 215, 0, 0.05);
         }
 
         .terminal-title {
+            font-family: 'SF Pro Display Bold', sans-serif;
             display: flex;
             align-items: center;
             margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #ffd700;
+            /* border-bottom: 1px solid #ffd700; */
+            border-bottom: 1px solid #fff;
         }
 
         .terminal-buttons {
@@ -79,11 +97,11 @@
         h1 {
             font-size: 1.8em;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            animation: glow 2s ease-in-out infinite alternate;
+            /* text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); */
+            /* animation: glow 2s ease-in-out infinite alternate; */
         }
 
-        @keyframes glow {
+        /* @keyframes glow {
             from {
                 text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
             }
@@ -91,7 +109,7 @@
             to {
                 text-shadow: 0 0 20px rgba(255, 215, 0, 1);
             }
-        }
+        } */
 
         .prompt {
             color: #ffd700;
@@ -117,7 +135,11 @@
             margin-bottom: 40px;
             padding: 20px;
             border: 1px solid #ffd700;
-            background-color: rgba(255, 215, 0, 0.03);
+            background: rgba(255, 215, 0, 0.06);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(255, 215, 0, 0.15),
+                        inset 0 0 20px rgba(255, 215, 0, 0.05);
             position: relative;
         }
 
@@ -271,7 +293,7 @@
                     <div class="btn"></div>
                     <div class="btn"></div>
                 </div>
-                <span>TERMINAL - ARCHANGEL-LABORATORIES</span>
+                <span>Terminal - Archangel Laboratories</span>
             </div>
             <h1>ARCHANGEL LABORATORIES</h1>
             <p class="tagline"><span class="prompt">$</span> TECHNOLOGY WITH TELOS<span class="cursor"></span></p>
@@ -299,7 +321,7 @@
                     style="opacity: 0.7; font-size: 0.85em;">[IN PROGRESS]</span><br>
             </p>
             <h2>Past Work</h2>
-            <p>
+            <p><!--
                 <span class="prompt">></span> <a href="projects/nsfm.html" target="_blank">National Sci-Fi Museum:
                     iOS Design and Development</a><br>
                 <span class="prompt">></span> <a href="projects/lwt.html" target="_blank">Long Walk Technologies:
@@ -317,7 +339,7 @@
                 <span class="prompt">></span> <a href="projects/soundwriting.html" target="_blank">SOUNDWRITING:
                     A revolutionary interface for audio content</a><br>
                 <span class="prompt">></span> <a href="projects/all-aboard.html" target="_blank">ALL ABOARD:
-                    A prototype for a game to learn about accessibility</a><br>
+                    A prototype for a game to learn about accessibility</a><br>-->
                 <span class="prompt">></span> <a href="https://ryanrclewis.family" target="_blank">PORTFOLIO:
                     The legacy portfolio of work from Ryan R. C. Lewis</a><br>
             </p>
