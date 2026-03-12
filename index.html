@@ -639,8 +639,8 @@
         <!-- Toolbar -->
         <div class="xcode-toolbar">
             <div class="toolbar-nav-btns">
-                <button class="toolbar-nav-btn" onclick="navigateBack()" title="Back">&#8249;</button>
-                <button class="toolbar-nav-btn" onclick="navigateForward()" title="Forward">&#8250;</button>
+                <button class="toolbar-nav-btn" onclick="navigateBack()" title="Back" aria-label="Navigate back">&#8249;</button>
+                <button class="toolbar-nav-btn" onclick="navigateForward()" title="Forward" aria-label="Navigate forward">&#8250;</button>
             </div>
             <div class="toolbar-divider"></div>
             <div class="toolbar-breadcrumb">
@@ -1007,7 +1007,15 @@
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function safeUrl(u) {
+        if (!u) return '';
+        var lower = String(u).toLowerCase().replace(/\s/g, '');
+        if (lower.indexOf('javascript:') === 0) return '';
+        return u;
     }
 
     function statusCls(s) {
@@ -1017,15 +1025,20 @@
     }
 
     function projectIcon(p) {
+        var TYPE_ICONS = {
+            ios:           '&#128241;',
+            docker:        '&#128051;',
+            game:          '&#127918;',
+            visualization: '&#127757;',
+            product:       '&#9881;',
+            interface:     '&#9835;',
+            portfolio:     '&#10064;',
+            info:          '&#9993;'
+        };
         var t = (p.type || '').toLowerCase();
-        if (t.indexOf('ios')           !== -1) return '&#128241;';
-        if (t.indexOf('docker')        !== -1) return '&#128051;';
-        if (t.indexOf('game')          !== -1) return '&#127918;';
-        if (t.indexOf('visualization') !== -1) return '&#127757;';
-        if (t.indexOf('product')       !== -1) return '&#9881;';
-        if (t.indexOf('interface')     !== -1) return '&#9835;';
-        if (t.indexOf('portfolio')     !== -1) return '&#10064;';
-        if (t.indexOf('info')          !== -1) return '&#9993;';
+        for (var key in TYPE_ICONS) {
+            if (t.indexOf(key) !== -1) return TYPE_ICONS[key];
+        }
         return '&#11042;';
     }
 
@@ -1131,9 +1144,10 @@
     }
 
     function buildProjectLines(p) {
-        var lines = [];
-        var sc    = statusCls(p.status);
-        var cname = p.name.replace(/[^A-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        var lines     = [];
+        var sc        = statusCls(p.status);
+        var rawName   = p.name.replace(/[^A-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        var constName = /^[0-9]/.test(rawName) ? 'PROJECT_' + rawName : rawName;
 
         lines.push('<span class="ed-comment">/**</span>');
         lines.push('<span class="ed-comment"> * ' + esc(p.name) + '</span>');
@@ -1142,11 +1156,14 @@
         lines.push('<span class="ed-comment"> * @type    ' + esc(p.type) + '</span>');
         lines.push('<span class="ed-comment"> * @status  <span class="ed-' + sc + '">' + esc(p.status) + '</span></span>');
         if (p.url) {
-            lines.push('<span class="ed-comment"> * @link    <a href=\'' + esc(p.url) + '\' target=\'_blank\' rel=\'noopener\' class=\'ed-link\'>' + esc(p.url) + '</a></span>');
+            var safeLink = safeUrl(p.url);
+            if (safeLink) {
+                lines.push('<span class="ed-comment"> * @link    <a href=\'' + esc(safeLink) + '\' target=\'_blank\' rel=\'noopener\' class=\'ed-link\'>' + esc(safeLink) + '</a></span>');
+            }
         }
         lines.push('<span class="ed-comment"> */</span>');
         lines.push('');
-        lines.push('<span class="ed-keyword">const</span> <span class="ed-varname">' + cname + '</span> <span class="ed-bracket">= {</span>');
+        lines.push('<span class="ed-keyword">const</span> <span class="ed-varname">' + constName + '</span> <span class="ed-bracket">= {</span>');
         lines.push('  <span class="ed-prop">name</span><span class="ed-bracket">:</span>   <span class="ed-string">"' + esc(p.name) + '"</span><span class="ed-bracket">,</span>');
         lines.push('  <span class="ed-prop">type</span><span class="ed-bracket">:</span>   <span class="ed-string">"' + esc(p.type) + '"</span><span class="ed-bracket">,</span>');
         lines.push('  <span class="ed-prop">folder</span><span class="ed-bracket">:</span> <span class="ed-string">"' + esc(p.folder) + '"</span><span class="ed-bracket">,</span>');
@@ -1220,10 +1237,13 @@
         h += '<div class="preview-name">' + esc(p.name) + '</div>';
         h += '<div class="preview-badge ' + sc + '">' + esc(p.status) + '</div>';
         if (p.url) {
-            var isMailto = p.url.indexOf('mailto:') === 0;
-            var pLabel   = isMailto ? 'Send Email &#8250;' : 'Visit Project &#8250;';
-            var pTarget  = isMailto ? '' : ' target="_blank" rel="noopener"';
-            h += '<a href="' + esc(p.url) + '"' + pTarget + ' class="preview-visit">' + pLabel + '</a>';
+            var safeHref = safeUrl(p.url);
+            if (safeHref) {
+                var isMailto = safeHref.indexOf('mailto:') === 0;
+                var pLabel   = isMailto ? 'Send Email &#8250;' : 'Visit Project &#8250;';
+                var pTarget  = isMailto ? '' : ' target="_blank" rel="noopener"';
+                h += '<a href="' + esc(safeHref) + '"' + pTarget + ' class="preview-visit">' + pLabel + '</a>';
+            }
         }
         h += '</div>';
 
@@ -1298,6 +1318,23 @@
             gutter += '<span class="gutter-num">' + (i + 1) + '</span>';
         }
         document.getElementById('editor-gutter').innerHTML = gutter;
+
+        // Keyboard accessibility: make all tree-folder and tree-item divs
+        // focusable and activatable with Enter / Space
+        var clickables = document.querySelectorAll(
+            '.tree-folder[onclick], .tree-item[onclick]'
+        );
+        for (var j = 0; j < clickables.length; j++) {
+            var el = clickables[j];
+            el.setAttribute('role', 'button');
+            el.setAttribute('tabindex', '0');
+            el.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.currentTarget.click();
+                }
+            });
+        }
     });
     </script>
 
