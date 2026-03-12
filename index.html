@@ -38,30 +38,94 @@
         html, body {
             height: 100%;
             overflow: hidden;
-            background: #0a0a0a;
-            color: #ffd700;
+            background: var(--bg-body);
+            color: var(--gold);
         }
 
         /* -- Design Tokens --------------------------------- */
         :root {
-            --gold:         #ffd700;
-            --gold-dim:     #e6be00;
-            --gold-dark:    #a88800;
-            --gold-muted:   rgba(255,215,0,0.3);
-            --bg-body:      #0a0a0a;
-            --bg-editor:    #0d0d0d;
-            --bg-sidebar:   #141414;
-            --bg-preview:   #121212;
-            --bg-chrome:    #1a1a1a;
-            --bg-sel:       rgba(255,215,0,0.11);
-            --border:       #252525;
-            --border-gold:  rgba(255,215,0,0.2);
-            --muted:        #555;
-            --green:        #27c93f;
-            --amber:        #ffbd2e;
-            --red:          #ff5f56;
-            --font-ui:      'OCR A','Courier New',monospace;
-            --font-code:    'SF Mono Regular','OCR A','Courier New',monospace;
+            /* Traffic lights — consistent across modes */
+            --green:    #27c93f;
+            --amber:    #ffbd2e;
+            --red:      #ff5f56;
+
+            /* Fonts — SF Mono throughout */
+            --font-ui:   'SF Mono Regular','Menlo','Courier New',monospace;
+            --font-code: 'SF Mono Regular','Menlo','Courier New',monospace;
+
+            /* === LIGHT MODE (default) — Xcode Light palette === */
+            --gold:         #B8860B;
+            --gold-dim:     #9A7209;
+            --gold-dark:    #7A5A08;
+            --gold-muted:   rgba(184,134,11,0.3);
+            --bg-body:      #ECECEC;
+            --bg-editor:    #FFFFFF;
+            --bg-sidebar:   #F2F2F2;
+            --bg-preview:   #F2F2F2;
+            --bg-chrome:    #ECECEC;
+            --bg-sel:       rgba(0,122,255,0.12);
+            --border:       #D1D1D1;
+            --border-gold:  rgba(184,134,11,0.25);
+            --muted:        #8A8A8A;
+            --bg-hover:     rgba(0,0,0,0.04);
+            --bg-hover2:    rgba(0,0,0,0.06);
+            --ph-color:     rgba(184,134,11,0.15);
+            --scrollbar:    rgba(0,0,0,0.2);
+            --scrollbar-h:  rgba(0,0,0,0.35);
+            --sb-sep:       #AAAAAA;
+            --glow-from:    rgba(184,134,11,0.3);
+            --glow-to:      rgba(184,134,11,0.75);
+
+            /* Syntax — Xcode Default (light) */
+            --syn-comment:  #5D6C79;
+            --syn-keyword:  #AD3DA4;
+            --syn-varname:  #1A1A1A;
+            --syn-string:   #D12F1B;
+            --syn-prop:     #703DAA;
+            --syn-bracket:  #4A4A4A;
+            --syn-null:     #272AD8;
+            --syn-done:     #888888;
+            --syn-link:     #0645AD;
+            --syn-link-h:   #B8860B;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* === DARK MODE — Xcode Dark palette === */
+                --gold:         #ffd700;
+                --gold-dim:     #e6be00;
+                --gold-dark:    #a88800;
+                --gold-muted:   rgba(255,215,0,0.3);
+                --bg-body:      #1E1E1E;
+                --bg-editor:    #1E1E1E;
+                --bg-sidebar:   #252525;
+                --bg-preview:   #252525;
+                --bg-chrome:    #3B3B3B;
+                --bg-sel:       rgba(255,215,0,0.11);
+                --border:       #404040;
+                --border-gold:  rgba(255,215,0,0.2);
+                --muted:        #6E6E6E;
+                --bg-hover:     rgba(255,215,0,0.05);
+                --bg-hover2:    rgba(255,215,0,0.07);
+                --ph-color:     rgba(255,215,0,0.10);
+                --scrollbar:    #2a2a2a;
+                --scrollbar-h:  rgba(255,215,0,0.25);
+                --sb-sep:       #333333;
+                --glow-from:    rgba(255,215,0,0.35);
+                --glow-to:      rgba(255,215,0,0.85);
+
+                /* Syntax — Xcode Dark */
+                --syn-comment:  #6C7986;
+                --syn-keyword:  #FC5FA3;
+                --syn-varname:  #DDDDDD;
+                --syn-string:   #FC6A5D;
+                --syn-prop:     #5DD8FF;
+                --syn-bracket:  #DDDDDD;
+                --syn-null:     #D9C97C;
+                --syn-done:     #6E6E6E;
+                --syn-link:     #5DD8FF;
+                --syn-link-h:   #ffd700;
+            }
         }
 
         /* -- App Shell ------------------------------------- */
@@ -115,7 +179,7 @@
         /* -- Toolbar --------------------------------------- */
         .xcode-toolbar {
             height: 40px;
-            background: #111;
+            background: var(--bg-chrome);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -228,7 +292,7 @@
             transition: background 0.15s;
         }
 
-        .tree-folder:hover { background: rgba(255,215,0,0.05); }
+        .tree-folder:hover { background: var(--bg-hover); }
 
         .folder-arrow {
             font-size: 0.6em;
@@ -263,7 +327,7 @@
         }
 
         .tree-item:hover {
-            background: rgba(255,215,0,0.07);
+            background: var(--bg-hover2);
             color: var(--gold);
         }
 
@@ -302,7 +366,7 @@
 
         .editor-tabbar {
             height: 33px;
-            background: #0f0f0f;
+            background: var(--bg-chrome);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: flex-end;
@@ -342,8 +406,8 @@
         .editor-gutter {
             width: 50px;
             min-width: 50px;
-            background: #0a0a0a;
-            border-right: 1px solid #181818;
+            background: var(--bg-body);
+            border-right: 1px solid var(--border);
             padding: 18px 0;
             text-align: right;
             font-family: var(--font-code);
@@ -373,22 +437,22 @@
         }
 
         /* Syntax colours */
-        .ed-comment  { color: #527a22; }
-        .ed-keyword  { color: #d4a017; }
-        .ed-varname  { color: #ffd700; }
-        .ed-string   { color: #c88040; }
-        .ed-prop     { color: #a09060; }
-        .ed-bracket  { color: #777; }
-        .ed-null     { color: #888; }
+        .ed-comment  { color: var(--syn-comment); }
+        .ed-keyword  { color: var(--syn-keyword); }
+        .ed-varname  { color: var(--syn-varname); }
+        .ed-string   { color: var(--syn-string); }
+        .ed-prop     { color: var(--syn-prop); }
+        .ed-bracket  { color: var(--syn-bracket); }
+        .ed-null     { color: var(--syn-null); }
         .ed-live     { color: var(--green); }
         .ed-progress { color: var(--amber); }
-        .ed-done     { color: #666; }
+        .ed-done     { color: var(--syn-done); }
         .ed-link     {
-            color: #c88040;
+            color: var(--syn-link);
             text-decoration: underline;
             cursor: pointer;
         }
-        .ed-link:hover { color: var(--gold); }
+        .ed-link:hover { color: var(--syn-link-h); }
 
         /* -- Preview (Right) ------------------------------- */
         .xcode-preview {
@@ -554,7 +618,7 @@
             letter-spacing: 1px;
         }
 
-        .ph-icon { font-size: 2.5em; color: rgba(255,215,0,0.1); }
+        .ph-icon { font-size: 2.5em; color: var(--ph-color); }
 
         /* -- Status Bar ------------------------------------ */
         .xcode-statusbar {
@@ -586,18 +650,18 @@
         }
 
         .sb-a:hover { color: var(--gold); }
-        .sb-sep     { color: #333; }
+        .sb-sep     { color: var(--sb-sep); }
 
         /* -- Scrollbars ------------------------------------ */
         ::-webkit-scrollbar          { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track    { background: transparent; }
-        ::-webkit-scrollbar-thumb    { background: #2a2a2a; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,215,0,0.25); }
+        ::-webkit-scrollbar-thumb    { background: var(--scrollbar); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-h); }
 
         /* -- Animations ------------------------------------ */
         @keyframes glow {
-            from { text-shadow: 0 0 8px rgba(255,215,0,0.35); }
-            to   { text-shadow: 0 0 16px rgba(255,215,0,0.85); }
+            from { text-shadow: 0 0 8px var(--glow-from); }
+            to   { text-shadow: 0 0 16px var(--glow-to); }
         }
 
         @keyframes blink { 50% { opacity: 0; } }
