@@ -39,92 +39,92 @@
             height: 100%;
             overflow: hidden;
             background: var(--bg-body);
-            color: var(--gold);
+            color: var(--fg-primary);
         }
 
         /* -- Design Tokens --------------------------------- */
         :root {
             /* Traffic lights — consistent across modes */
-            --green:    #27c93f;
-            --amber:    #ffbd2e;
-            --red:      #ff5f56;
+            --green:  #27c93f;
+            --amber:  #ffbd2e;
+            --red:    #ff5f56;
 
             /* Fonts — SF Mono throughout */
             --font-ui:   'SF Mono Regular','Menlo','Courier New',monospace;
             --font-code: 'SF Mono Regular','Menlo','Courier New',monospace;
 
-            /* === LIGHT MODE (default) — Xcode Light palette === */
-            --gold:         #B8860B;
-            --gold-dim:     #9A7209;
-            --gold-dark:    #7A5A08;
-            --gold-muted:   rgba(184,134,11,0.3);
-            --bg-body:      #ECECEC;
-            --bg-editor:    #FFFFFF;
-            --bg-sidebar:   #F2F2F2;
-            --bg-preview:   #F2F2F2;
-            --bg-chrome:    #ECECEC;
-            --bg-sel:       rgba(0,122,255,0.12);
-            --border:       #D1D1D1;
-            --border-gold:  rgba(184,134,11,0.25);
-            --muted:        #8A8A8A;
-            --bg-hover:     rgba(0,0,0,0.04);
-            --bg-hover2:    rgba(0,0,0,0.06);
-            --ph-color:     rgba(184,134,11,0.15);
-            --scrollbar:    rgba(0,0,0,0.2);
-            --scrollbar-h:  rgba(0,0,0,0.35);
-            --sb-sep:       #AAAAAA;
-            --glow-from:    rgba(184,134,11,0.3);
-            --glow-to:      rgba(184,134,11,0.75);
+            /* Brand gold — used ONLY for site title + cursor */
+            --brand:      #B8860B;
+            --brand-glow: rgba(184,134,11,0.6);
+
+            /* === LIGHT MODE — exact Xcode palette === */
+            --bg-body:     #E8E8E8;
+            --bg-editor:   #FFFFFF;
+            --bg-sidebar:  #EBEBEB;
+            --bg-preview:  #EBEBEB;
+            --bg-chrome:   #E8E8E8;
+            --fg-primary:  #000000;
+            --fg-secondary:#4D4D4D;
+            --fg-muted:    #9D9D9D;
+            --border:      #C8C8C8;
+            --accent:      #0064D1;
+            --bg-sel:      rgba(0,100,209,0.12);
+            --bg-hover:    rgba(0,0,0,0.04);
+            --bg-hover2:   rgba(0,0,0,0.07);
+            --ph-color:    rgba(0,0,0,0.12);
+            --scrollbar:   rgba(0,0,0,0.2);
+            --scrollbar-h: rgba(0,0,0,0.35);
+            --sb-sep:      #BEBEBE;
 
             /* Syntax — Xcode Default (light) */
-            --syn-comment:  #5D6C79;
-            --syn-keyword:  #AD3DA4;
-            --syn-varname:  #1A1A1A;
-            --syn-string:   #D12F1B;
-            --syn-prop:     #703DAA;
-            --syn-bracket:  #4A4A4A;
-            --syn-null:     #272AD8;
-            --syn-done:     #888888;
-            --syn-link:     #0645AD;
-            --syn-link-h:   #B8860B;
+            --syn-comment: #5D6C79;
+            --syn-keyword: #AD3DA4;
+            --syn-varname: #000000;
+            --syn-string:  #D12F1B;
+            --syn-prop:    #703DAA;
+            --syn-bracket: #000000;
+            --syn-null:    #272AD8;
+            --syn-done:    #888888;
+            --syn-link:    #0645AD;
+            --syn-link-h:  #0064D1;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                /* === DARK MODE — Xcode Dark palette === */
-                --gold:         #ffd700;
-                --gold-dim:     #e6be00;
-                --gold-dark:    #a88800;
-                --gold-muted:   rgba(255,215,0,0.3);
-                --bg-body:      #1E1E1E;
-                --bg-editor:    #1E1E1E;
-                --bg-sidebar:   #252525;
-                --bg-preview:   #252525;
-                --bg-chrome:    #3B3B3B;
-                --bg-sel:       rgba(255,215,0,0.11);
-                --border:       #404040;
-                --border-gold:  rgba(255,215,0,0.2);
-                --muted:        #6E6E6E;
-                --bg-hover:     rgba(255,215,0,0.05);
-                --bg-hover2:    rgba(255,215,0,0.07);
-                --ph-color:     rgba(255,215,0,0.10);
-                --scrollbar:    #2a2a2a;
-                --scrollbar-h:  rgba(255,215,0,0.25);
-                --sb-sep:       #333333;
-                --glow-from:    rgba(255,215,0,0.35);
-                --glow-to:      rgba(255,215,0,0.85);
+                /* Brand adjusts to bright gold on dark bg */
+                --brand:      #ffd700;
+                --brand-glow: rgba(255,215,0,0.6);
+
+                /* === DARK MODE — exact Xcode palette === */
+                --bg-body:     #2B2B2B;
+                --bg-editor:   #1E1E1E;
+                --bg-sidebar:  #252525;
+                --bg-preview:  #252525;
+                --bg-chrome:   #383838;
+                --fg-primary:  #FFFFFF;
+                --fg-secondary:#9A9A9A;
+                --fg-muted:    #6E6E6E;
+                --border:      #3D3D3D;
+                --accent:      #5E9BF0;
+                --bg-sel:      rgba(52,101,189,0.3);
+                --bg-hover:    rgba(255,255,255,0.06);
+                --bg-hover2:   rgba(255,255,255,0.09);
+                --ph-color:    rgba(255,255,255,0.12);
+                --scrollbar:   rgba(255,255,255,0.15);
+                --scrollbar-h: rgba(255,255,255,0.3);
+                --sb-sep:      #4A4A4A;
 
                 /* Syntax — Xcode Dark */
-                --syn-comment:  #6C7986;
-                --syn-keyword:  #FC5FA3;
-                --syn-varname:  #DDDDDD;
-                --syn-string:   #FC6A5D;
-                --syn-prop:     #5DD8FF;
-                --syn-bracket:  #DDDDDD;
-                --syn-null:     #D9C97C;
-                --syn-done:     #6E6E6E;
-                --syn-link:     #5DD8FF;
-                --syn-link-h:   #ffd700;
+                --syn-comment: #6C7986;
+                --syn-keyword: #FC5FA3;
+                --syn-varname: #FFFFFF;
+                --syn-string:  #FC6A5D;
+                --syn-prop:    #5DD8FF;
+                --syn-bracket: #FFFFFF;
+                --syn-null:    #D9C97C;
+                --syn-done:    #6E6E6E;
+                --syn-link:    #5DD8FF;
+                --syn-link-h:  #FFFFFF;
             }
         }
 
@@ -171,7 +171,7 @@
             text-align: center;
             font-size: 0.72em;
             letter-spacing: 2px;
-            color: var(--gold);
+            color: var(--brand);
             pointer-events: none;
             animation: glow 2s ease-in-out infinite alternate;
         }
@@ -192,8 +192,8 @@
 
         .toolbar-nav-btn {
             background: transparent;
-            border: 1px solid var(--border-gold);
-            color: var(--gold-dark);
+            border: 1px solid var(--border);
+            color: var(--fg-secondary);
             width: 26px;
             height: 22px;
             cursor: pointer;
@@ -207,15 +207,15 @@
         }
 
         .toolbar-nav-btn:hover {
-            background: var(--bg-sel);
-            color: var(--gold);
-            border-color: var(--gold-muted);
+            background: var(--bg-hover2);
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
         .toolbar-divider {
             width: 1px;
             height: 18px;
-            background: var(--border-gold);
+            background: var(--border);
             flex-shrink: 0;
         }
 
@@ -224,14 +224,14 @@
             align-items: center;
             gap: 5px;
             font-size: 0.75em;
-            color: var(--gold-dark);
+            color: var(--fg-secondary);
             flex: 1;
             overflow: hidden;
             white-space: nowrap;
         }
 
-        .bc-sep    { color: var(--muted); }
-        .bc-active { color: var(--gold); }
+        .bc-sep    { color: var(--fg-muted); }
+        .bc-active { color: var(--fg-primary); }
 
         .toolbar-online {
             font-size: 0.7em;
@@ -266,7 +266,7 @@
             border-bottom: 1px solid var(--border);
             font-size: 0.63em;
             letter-spacing: 2px;
-            color: var(--muted);
+            color: var(--fg-muted);
             text-transform: uppercase;
             flex-shrink: 0;
         }
@@ -286,7 +286,7 @@
             padding: 5px 10px;
             cursor: pointer;
             font-size: 0.78em;
-            color: var(--gold);
+            color: var(--fg-primary);
             letter-spacing: 1px;
             user-select: none;
             transition: background 0.15s;
@@ -296,7 +296,7 @@
 
         .folder-arrow {
             font-size: 0.6em;
-            color: var(--gold-dark);
+            color: var(--fg-muted);
             width: 10px;
             display: inline-block;
             transition: transform 0.2s;
@@ -319,7 +319,7 @@
             padding: 4px 10px 4px 28px;
             cursor: pointer;
             font-size: 0.74em;
-            color: var(--gold-dark);
+            color: var(--fg-secondary);
             letter-spacing: 0.5px;
             user-select: none;
             transition: background 0.12s, color 0.12s;
@@ -328,31 +328,31 @@
 
         .tree-item:hover {
             background: var(--bg-hover2);
-            color: var(--gold);
+            color: var(--fg-primary);
         }
 
         .tree-item.active {
             background: var(--bg-sel);
-            color: var(--gold);
-            border-left: 2px solid var(--gold);
+            color: var(--accent);
+            border-left: 2px solid var(--accent);
             padding-left: 26px;
         }
         .tree-folder.active {
             background: var(--bg-sel);
-            color: var(--gold);
-            border-left: 2px solid var(--gold);
+            color: var(--accent);
+            border-left: 2px solid var(--accent);
         }
 
         .tree-item.active,
         .tree-folder.active {
             background: var(--bg-sel);
-            color: var(--gold);
-            border-left: 2px solid var(--gold);
+            color: var(--accent);
+            border-left: 2px solid var(--accent);
         }
         .file-dot          { font-size: 0.7em; }
         .file-dot.live     { color: var(--green); }
         .file-dot.progress { color: var(--amber); }
-        .file-dot.done     { color: var(--muted); }
+        .file-dot.done     { color: var(--fg-muted); }
 
         /* -- Editor (Center) ------------------------------- */
         .xcode-editor {
@@ -381,9 +381,9 @@
             align-items: center;
             gap: 8px;
             font-size: 0.72em;
-            color: var(--gold-dim);
+            color: var(--fg-secondary);
             border-right: 1px solid var(--border);
-            border-top: 2px solid var(--gold);
+            border-top: 2px solid var(--accent);
             background: var(--bg-editor);
             letter-spacing: 1px;
             white-space: nowrap;
@@ -393,7 +393,7 @@
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: var(--gold-dark);
+            background: var(--accent);
             flex-shrink: 0;
         }
 
@@ -413,7 +413,7 @@
             font-family: var(--font-code);
             font-size: 0.72em;
             line-height: 1.75;
-            color: var(--muted);
+            color: var(--fg-muted);
             user-select: none;
             flex-shrink: 0;
             overflow: hidden;
@@ -432,7 +432,7 @@
             font-size: 0.82em;
             line-height: 1.75;
             white-space: pre;
-            color: var(--gold-dim);
+            color: var(--fg-primary);
             min-width: max-content;
         }
 
@@ -478,8 +478,8 @@
             width: 60px;
             height: 60px;
             margin: 0 auto 14px;
-            border: 1px solid var(--border-gold);
-            background: rgba(255,215,0,0.04);
+            border: 1px solid var(--border);
+            background: var(--bg-hover);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -489,7 +489,7 @@
         .preview-name {
             font-size: 0.78em;
             letter-spacing: 2px;
-            color: var(--gold);
+            color: var(--fg-primary);
             text-transform: uppercase;
             margin-bottom: 8px;
             word-break: break-word;
@@ -507,15 +507,15 @@
 
         .preview-badge.live     { color: var(--green); border-color: var(--green); }
         .preview-badge.progress { color: var(--amber); border-color: var(--amber); }
-        .preview-badge.done     { color: var(--muted); border-color: var(--muted); }
+        .preview-badge.done     { color: var(--fg-muted); border-color: var(--fg-muted); }
 
         .preview-visit {
             display: block;
             margin: 12px 0 0;
             padding: 7px;
             background: transparent;
-            border: 1px solid var(--border-gold);
-            color: var(--gold-dark);
+            border: 1px solid var(--border);
+            color: var(--accent);
             font-family: var(--font-ui);
             font-size: 0.67em;
             letter-spacing: 2px;
@@ -528,8 +528,8 @@
 
         .preview-visit:hover {
             background: var(--bg-sel);
-            border-color: var(--gold-muted);
-            color: var(--gold);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .preview-section {
@@ -540,14 +540,14 @@
         .preview-label {
             font-size: 0.6em;
             letter-spacing: 2px;
-            color: var(--muted);
+            color: var(--fg-muted);
             text-transform: uppercase;
             margin-bottom: 7px;
         }
 
         .preview-text {
             font-size: 0.72em;
-            color: var(--gold-dark);
+            color: var(--fg-secondary);
             line-height: 1.6;
             font-family: var(--font-code);
         }
@@ -557,14 +557,14 @@
         .preview-tag {
             font-size: 0.62em;
             padding: 2px 7px;
-            border: 1px solid var(--border-gold);
-            color: var(--gold-dark);
+            border: 1px solid var(--border);
+            color: var(--fg-secondary);
             letter-spacing: 1px;
         }
 
         .preview-feature {
             font-size: 0.7em;
-            color: var(--gold-dark);
+            color: var(--fg-secondary);
             padding: 2px 0;
             line-height: 1.5;
             font-family: var(--font-code);
@@ -572,7 +572,7 @@
 
         .preview-feature::before {
             content: '\25B8 ';
-            color: var(--gold-dark);
+            color: var(--accent);
         }
 
         .preview-media-wrap { padding: 10px 14px 14px; }
@@ -580,7 +580,7 @@
         .preview-label-media {
             font-size: 0.6em;
             letter-spacing: 2px;
-            color: var(--muted);
+            color: var(--fg-muted);
             text-transform: uppercase;
             margin-bottom: 7px;
         }
@@ -588,7 +588,7 @@
         .preview-media-empty {
             padding: 16px;
             text-align: center;
-            color: var(--muted);
+            color: var(--fg-muted);
             font-size: 0.63em;
             letter-spacing: 1px;
             border: 1px dashed var(--border);
@@ -610,7 +610,7 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: var(--muted);
+            color: var(--fg-muted);
             font-size: 0.75em;
             gap: 12px;
             padding: 40px 20px;
@@ -630,7 +630,7 @@
             padding: 0 14px;
             font-size: 0.63em;
             letter-spacing: 1px;
-            color: var(--muted);
+            color: var(--fg-muted);
             flex-shrink: 0;
         }
 
@@ -644,12 +644,12 @@
         .sb-online { color: var(--green); }
 
         .sb-a {
-            color: var(--muted);
+            color: var(--fg-muted);
             text-decoration: none;
             transition: color 0.2s;
         }
 
-        .sb-a:hover { color: var(--gold); }
+        .sb-a:hover { color: var(--fg-primary); }
         .sb-sep     { color: var(--sb-sep); }
 
         /* -- Scrollbars ------------------------------------ */
@@ -660,8 +660,8 @@
 
         /* -- Animations ------------------------------------ */
         @keyframes glow {
-            from { text-shadow: 0 0 8px var(--glow-from); }
-            to   { text-shadow: 0 0 16px var(--glow-to); }
+            from { text-shadow: 0 0 8px var(--brand-glow); }
+            to   { text-shadow: 0 0 18px var(--brand-glow); }
         }
 
         @keyframes blink { 50% { opacity: 0; } }
@@ -670,7 +670,7 @@
             display: inline-block;
             width: 7px;
             height: 13px;
-            background: var(--gold);
+            background: var(--brand);
             animation: blink 1s step-end infinite;
             vertical-align: middle;
             margin-left: 3px;
