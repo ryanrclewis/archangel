@@ -18,16 +18,14 @@ export default function Home() {
           <p className="text-xs tracking-[0.35em] text-[var(--gold-dim)]">ARCHANGEL LABORATORIES</p>
           <h1 className="mt-3 text-3xl tracking-[0.08em] sm:text-5xl">PROJECT SUITE</h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--gold-dim)] sm:text-base">
-            Portfolio content migrated into a vinext + App Router foundation. Legacy pages are preserved while
-            project metadata now renders natively in React.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-xs tracking-[0.2em]">
-            <a className="arch-btn" href="/ide">
+           {/*  <a className="arch-btn" href="/ide">
               OPEN IDE VIEW
             </a>
             <a className="arch-btn" href="/legacy/index.html" target="_blank" rel="noreferrer">
               OPEN LEGACY INDEX
-            </a>
+            </a> */}
             <a className="arch-btn" href="mailto:contact@archangel-labs.com">
               CONTACT
             </a>
@@ -53,9 +51,9 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="mt-4 flex gap-4">
-                  <a href={`/projects/${project.id}`} className="text-xs link-inline">
+                  {/* <a href={`/projects/${project.id}`} className="text-xs link-inline">
                     VIEW ROUTE
-                  </a>
+                  </a> */}
                   {project.url ? (
                     <a href={project.url} target="_blank" rel="noreferrer" className="text-xs link-inline">
                       VISIT PROJECT
