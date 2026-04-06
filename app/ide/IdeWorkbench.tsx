@@ -263,9 +263,6 @@ export function IdeWorkbench() {
           <Link href="/" className={styles.previewText}>
             HOME
           </Link>
-          <a href="/legacy/index.html" className={styles.previewText} target="_blank" rel="noreferrer">
-            LEGACY
-          </a>
         </div>
       </div>
     </div>

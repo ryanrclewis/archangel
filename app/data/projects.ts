@@ -10,7 +10,6 @@ export type Project = {
   url?: string;
   tags?: string[];
   features?: string[];
-  legacyPath?: string;
 };
 
 export const projects: Project[] = [
@@ -82,6 +81,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "iOS Application",
     status: "COMPLETED",
+    url: "https://www.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&starting-point-node-id=1%3A854&t=S4vZQfH4qJKE4kb5-1",
     description:
       "Crafted iOS app concept for the National Sci-Fi Museum focused on approachable navigation, inclusive interactions, and genre-inspired visual identity.",
     features: [
@@ -90,7 +90,6 @@ export const projects: Project[] = [
       "Inclusive features such as icon-supported exhibit media discovery",
       "Persona-driven design decisions for diverse museum audiences",
     ],
-    legacyPath: "/legacy/projects/nsfm.html",
   },
   {
     id: "lwt",
@@ -98,6 +97,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Development",
     status: "COMPLETED",
+    url: "https://www.lwt.com",
     description: "Website project for Long Walk Technologies.",
     features: [
       "Creative direction and strategy",
@@ -105,7 +105,6 @@ export const projects: Project[] = [
       "Technical consulting",
       "Brand implementation",
     ],
-    legacyPath: "/legacy/projects/lwt.html",
   },
   {
     id: "coetic",
@@ -121,7 +120,6 @@ export const projects: Project[] = [
       "Cross-functional collaboration with product and design teammates",
       "Improved UX clarity for navigation and feature communication",
     ],
-    legacyPath: "/legacy/projects/coetic.html",
   },
   {
     id: "people-science",
@@ -165,7 +163,6 @@ export const projects: Project[] = [
       "Psychology-based productivity",
       "Custom reporting",
     ],
-    legacyPath: "/legacy/projects/woether.html",
   },
   {
     id: "finer-dining",
@@ -182,7 +179,6 @@ export const projects: Project[] = [
       "Enhanced dining information",
       "User experience research",
     ],
-    legacyPath: "/legacy/projects/finer-dining.html",
   },
   {
     id: "dsl",
@@ -198,7 +194,6 @@ export const projects: Project[] = [
       "Improved navigation",
       "Accessibility improvements",
     ],
-    legacyPath: "/legacy/projects/dsl.html",
   },
   {
     id: "h2home",
@@ -213,7 +208,6 @@ export const projects: Project[] = [
       "Product prototyping",
       "Environmental impact analysis",
     ],
-    legacyPath: "/legacy/projects/h2home.html",
   },
   {
     id: "soundwriting",
@@ -229,7 +223,6 @@ export const projects: Project[] = [
       "Accessibility considerations",
       "Cross-platform implementation",
     ],
-    legacyPath: "/legacy/projects/soundwriting.html",
   },
   {
     id: "all-aboard",
@@ -246,7 +239,6 @@ export const projects: Project[] = [
       "Interactive prototype",
       "User testing",
     ],
-    legacyPath: "/legacy/projects/all-aboard.html",
   },
   {
     id: "coetic-3",
@@ -480,7 +472,6 @@ export const projects: Project[] = [
     url: "http://ryanrclewis.family",
     description: "Professional portfolio created to present work and capabilities to employers and collaborators.",
     tags: ["Portfolio", "Design", "Development"],
-    legacyPath: "/legacy/index.html",
   },
   {
     id: "contact",

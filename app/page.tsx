@@ -20,12 +20,6 @@ export default function Home() {
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--gold-dim)] sm:text-base">
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-xs tracking-[0.2em]">
-           {/*  <a className="arch-btn" href="/ide">
-              OPEN IDE VIEW
-            </a>
-            <a className="arch-btn" href="/legacy/index.html" target="_blank" rel="noreferrer">
-              OPEN LEGACY INDEX
-            </a> */}
             <a className="arch-btn" href="mailto:contact@archangel-labs.com">
               CONTACT
             </a>
@@ -82,17 +76,12 @@ export default function Home() {
                   ))}
                 </ul>
                 <div className="mt-4 flex gap-4">
-                  <a href={`/projects/${project.id}`} className="text-xs link-inline">
+                  {/* <a href={`/projects/${project.id}`} className="text-xs link-inline">
                     VIEW ROUTE
-                  </a>
-                  {project.legacyPath ? (
-                    <a href={project.legacyPath} target="_blank" rel="noreferrer" className="text-xs link-inline">
-                      LEGACY PAGE
-                    </a>
-                  ) : null}
+                  </a> */}
                   {project.url ? (
                     <a href={project.url} target="_blank" rel="noreferrer" className="text-xs link-inline">
-                      LIVE URL
+                      VIEW
                     </a>
                   ) : null}
                 </div>
