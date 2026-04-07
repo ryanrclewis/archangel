@@ -84,9 +84,6 @@ export default async function ProjectPage({ params }: RouteProps) {
             <a href="/" className="arch-btn">
               BACK TO SUITE
             </a>
-            <a href="/ide" className="arch-btn">
-              OPEN IDE VIEW
-            </a>
             {project.url ? (
               <a href={project.url} className="arch-btn" target="_blank" rel="noreferrer">
                 LIVE URL
