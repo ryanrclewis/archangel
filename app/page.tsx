@@ -2,6 +2,7 @@ import { projects } from "./data/projects";
 
 const ourWork = projects.filter((project) => project.folder === "Our Work");
 const pastWork = projects.filter((project) => project.folder === "Past Work");
+void pastWork;
 
 function statusClass(status: string) {
   if (status === "LIVE" || status === "ONLINE") return "status-live";
@@ -15,9 +16,11 @@ export default function Home() {
       <div className="arch-backdrop" />
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
         <header className="arch-panel rounded-xl border p-6">
-          <p className="text-xs tracking-[0.35em] text-[var(--gold-dim)]">ARCHANGEL LABORATORIES</p>
-          <h1 className="mt-3 text-3xl tracking-[0.08em] sm:text-5xl">PROJECT SUITE</h1>
+         
+          <h1 className="mt-3 text-3xl tracking-[0.08em] sm:text-5xl">ARCHANGEL LABORATORIES</h1>
+           <p className="text-xs tracking-[0.35em] text-[var(--gold-dim)]">TECHNOLOGY WITH TELOS</p>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--gold-dim)] sm:text-base">
+            Archangel Laboratories builds technology in the service of human dignity. Please contact us if you have a project in mind or want to learn more about our work.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-xs tracking-[0.2em]">
             <a className="arch-btn" href="mailto:contact@archangel-labs.com">
@@ -59,6 +62,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/*
         <section className="arch-panel rounded-xl border p-6">
           <h2 className="section-title">Past Work</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -76,9 +80,9 @@ export default function Home() {
                   ))}
                 </ul>
                 <div className="mt-4 flex gap-4">
-                  {/* <a href={`/projects/${project.id}`} className="text-xs link-inline">
+                  <a href={`/projects/${project.id}`} className="text-xs link-inline">
                     VIEW ROUTE
-                  </a> */}
+                  </a>
                   {project.url ? (
                     <a href={project.url} target="_blank" rel="noreferrer" className="text-xs link-inline">
                       VIEW
@@ -89,6 +93,7 @@ export default function Home() {
             ))}
           </div>
         </section>
+        */}
       </div>
     </main>
   );
