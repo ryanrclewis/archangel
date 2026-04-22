@@ -1,11 +1,11 @@
 # archangel-vinext
 
-Tailwind-enabled Next.js scaffold migrated to `vinext` for Cloudflare-oriented deployment.
+Next.js App Router site redeveloped with BlueprintJS components and configured for `vinext` deployment targets.
 
 ## Current status
 
 - Next.js App Router project created in this workspace
-- Tailwind CSS configured
+- BlueprintJS configured for UI components and theming
 - `vinext` initialized and validated with a production build
 - Ready for porting content from `ryanrclewis/archangel`
 
