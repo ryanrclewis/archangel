@@ -15,7 +15,7 @@ export default function PortfolioHome({ projects }: PortfolioHomeProps) {
       <div className="arch-content">
         <Card elevation={Elevation.TWO}>
           <H1 className="arch-heading">ARCHANGEL LABORATORIES</H1>
-          <p className="arch-kicker">TECHNOLOGY WITH TELOS</p>
+          <H2 className="arch-subheading">TECHNOLOGY WITH TELOS</H2>
           <p className="arch-copy">
             Archangel Laboratories builds technology in the service of human dignity. Please contact us if you have
             a project in mind or want to learn more about our work.

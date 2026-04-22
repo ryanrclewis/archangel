@@ -1,7 +1,6 @@
 "use client";
 
-import { AnchorButton, Card, Classes, Elevation, H1, H2, Tag } from "@blueprintjs/core";
-import Link from "next/link";
+import { AnchorButton, Card, Elevation, H1, H2, Tag } from "@blueprintjs/core";
 import type { Project } from "../data/projects";
 import { statusIntent } from "../lib/project-status";
 
@@ -10,13 +9,19 @@ type ProjectDetailProps = {
 };
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
+  const kickerId = `${project.id}-folder`;
+
   return (
     <main className="arch-page">
       <div className="arch-backdrop" />
       <div className="arch-content arch-content-narrow">
         <Card elevation={Elevation.TWO}>
-          <p className="arch-kicker">{project.folder.toUpperCase()}</p>
-          <H1 className="arch-heading">{project.name}</H1>
+          <H1 className="arch-heading" aria-describedby={kickerId}>
+            {project.name}
+          </H1>
+          <p className="arch-kicker" id={kickerId}>
+            {project.folder.toUpperCase()}
+          </p>
           <div className="arch-tags">
             <Tag>{project.type}</Tag>
             <Tag minimal intent={statusIntent(project.status)}>
@@ -51,9 +56,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <Card elevation={Elevation.ONE}>
           <H2 className="arch-section-title">Resources</H2>
           <div className="arch-actions">
-            <Link href="/" className={Classes.BUTTON}>
-              BACK TO SUITE
-            </Link>
+            <AnchorButton icon="arrow-left" text="BACK TO SUITE" href="/" />
             {project.url ? (
               <AnchorButton icon="share" text="LIVE URL" href={project.url} target="_blank" rel="noreferrer" />
             ) : null}
