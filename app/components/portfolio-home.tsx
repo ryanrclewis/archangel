@@ -1,17 +1,12 @@
 "use client";
 
-import { Button, Card, Elevation, H1, H2, H3, Tag } from "@blueprintjs/core";
+import { AnchorButton, Card, Elevation, H1, H2, H3, Tag } from "@blueprintjs/core";
 import type { Project } from "../data/projects";
+import { statusIntent } from "../lib/project-status";
 
 type PortfolioHomeProps = {
   projects: Project[];
 };
-
-function statusIntent(status: Project["status"]): "success" | "warning" | "none" {
-  if (status === "LIVE" || status === "ONLINE") return "success";
-  if (status === "IN PROGRESS") return "warning";
-  return "none";
-}
 
 export default function PortfolioHome({ projects }: PortfolioHomeProps) {
   return (
@@ -25,7 +20,7 @@ export default function PortfolioHome({ projects }: PortfolioHomeProps) {
             Archangel Laboratories builds technology in the service of human dignity. Please contact us if you have
             a project in mind or want to learn more about our work.
           </p>
-          <Button icon="envelope" text="CONTACT" tagName="a" href="mailto:contact@archangel-labs.com" />
+          <AnchorButton icon="envelope" text="CONTACT" href="mailto:contact@archangel-labs.com" />
         </Card>
 
         <Card elevation={Elevation.ONE}>
@@ -49,11 +44,10 @@ export default function PortfolioHome({ projects }: PortfolioHomeProps) {
                   </div>
                 ) : null}
                 {project.url ? (
-                  <Button
+                  <AnchorButton
                     minimal
                     icon="share"
                     text="VISIT PROJECT"
-                    tagName="a"
                     href={project.url}
                     target="_blank"
                     rel="noreferrer"

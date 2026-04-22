@@ -1,18 +1,13 @@
 "use client";
 
-import { Button, Card, Classes, Elevation, H1, H2, Tag } from "@blueprintjs/core";
+import { AnchorButton, Card, Classes, Elevation, H1, H2, Tag } from "@blueprintjs/core";
 import Link from "next/link";
 import type { Project } from "../data/projects";
+import { statusIntent } from "../lib/project-status";
 
 type ProjectDetailProps = {
   project: Project;
 };
-
-function statusIntent(status: Project["status"]): "success" | "warning" | "none" {
-  if (status === "LIVE" || status === "ONLINE") return "success";
-  if (status === "IN PROGRESS") return "warning";
-  return "none";
-}
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   return (
@@ -60,7 +55,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               BACK TO SUITE
             </Link>
             {project.url ? (
-              <Button icon="share" text="LIVE URL" tagName="a" href={project.url} target="_blank" rel="noreferrer" />
+              <AnchorButton icon="share" text="LIVE URL" href={project.url} target="_blank" rel="noreferrer" />
             ) : null}
           </div>
         </Card>
