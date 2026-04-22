@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="bp6-dark antialiased">{children}</body>
     </html>
   );
 }
