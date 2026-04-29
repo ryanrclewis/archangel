@@ -17,9 +17,9 @@ export default function Home() {
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
         <header className="arch-panel rounded-xl border p-6">
          
-          <h1 className="mt-3 text-3xl tracking-[0.08em] sm:text-5xl">ARCHANGEL LABORATORIES</h1>
-           <p className="text-xs tracking-[0.35em] text-[var(--gold-dim)]">TECHNOLOGY WITH TELOS</p>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--gold-dim)] sm:text-base">
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">ARCHANGEL LABORATORIES</h1>
+           <p className="text-xs font-medium tracking-[0.2em] uppercase text-[var(--color-secondary)]">TECHNOLOGY WITH TELOS</p>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-on-surface)] opacity-70 sm:text-base">
             Archangel Laboratories builds technology in the service of human dignity. Please contact us if you have a project in mind or want to learn more about our work.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-xs tracking-[0.2em]">
@@ -35,11 +35,11 @@ export default function Home() {
             {ourWork.map((project) => (
               <article key={project.id} className="arch-card rounded-lg border p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-sm tracking-[0.15em] text-[var(--gold)]">{project.name}</h3>
+                  <h3 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)]">{project.name}</h3>
                   <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
                 </div>
-                <p className="mt-2 text-xs text-[var(--gold-dim)]">{project.type}</p>
-                <p className="mt-3 text-sm leading-6 text-[var(--gold-soft)]">{project.description}</p>
+                <p className="mt-2 text-xs text-[var(--color-secondary)]">{project.type}</p>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-on-surface)] opacity-80">{project.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.tags?.map((tag) => (
                     <span key={tag} className="tag-chip">
@@ -69,12 +69,12 @@ export default function Home() {
             {pastWork.map((project) => (
               <article key={project.id} className="arch-card rounded-lg border p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-sm tracking-[0.15em] text-[var(--gold)]">{project.name}</h3>
+                  <h3 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)]">{project.name}</h3>
                   <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
                 </div>
-                <p className="mt-2 text-xs text-[var(--gold-dim)]">{project.type}</p>
-                <p className="mt-3 text-sm leading-6 text-[var(--gold-soft)]">{project.description}</p>
-                <ul className="mt-4 space-y-1 text-xs text-[var(--gold-dim)]">
+                <p className="mt-2 text-xs text-[var(--color-secondary)]">{project.type}</p>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-on-surface)] opacity-80">{project.description}</p>
+                <ul className="mt-4 space-y-1 text-xs text-[var(--color-secondary)]">
                   {project.features?.slice(0, 3).map((feature) => (
                     <li key={feature}>- {feature}</li>
                   ))}
