@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
 :root {
   /* DevFocus Dark — design tokens */
@@ -93,8 +92,8 @@ body {
 }
 
 .arch-btn:hover {
-  background: color-mix(in srgb, var(--color-primary) 85%, white);
-  border-color: color-mix(in srgb, var(--color-primary) 85%, white);
+  background: #4577fd;
+  border-color: #4577fd;
 }
 
 /* ── Section title ───────────────────────────────────────────── */
