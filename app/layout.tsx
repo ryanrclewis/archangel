@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Archangel Laboratories",
-  description: "Portfolio rebuilt on vinext with Tailwind and App Router.",
+  description: "Technology in service of human dignity.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
