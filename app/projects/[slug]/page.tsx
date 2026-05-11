@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SiteHeader } from "@/app/components/SiteHeader";
 import { getProjectById, getProjectIds } from "../../data/projects";
 
 type RouteProps = {
@@ -41,57 +43,67 @@ export default async function ProjectPage({ params }: RouteProps) {
   }
 
   return (
-    <main className="arch-shell min-h-screen">
-      <div className="arch-backdrop" />
-      <div className="relative mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-        <header className="arch-panel rounded-xl border p-6">
-          <p className="text-xs tracking-[0.3em] text-[var(--gold-dim)]">{project.folder.toUpperCase()}</p>
-          <h1 className="mt-3 text-2xl tracking-[0.08em] sm:text-4xl">{project.name}</h1>
-          <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
-            <span className="tag-chip">{project.type}</span>
+    <main className="site-shell min-h-screen">
+      <SiteHeader />
+
+      <article className="project-detail">
+        <header className="detail-hero">
+          <p className="eyebrow">{project.folder}</p>
+          <h1>{project.name}</h1>
+          <div className="detail-meta">
+            <span>{project.type}</span>
             <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
           </div>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--gold-soft)] sm:text-base">{project.description}</p>
+          <p className="lede">{project.description}</p>
         </header>
 
-        {project.features?.length ? (
-          <section className="arch-panel rounded-xl border p-6">
-            <h2 className="section-title">Highlights</h2>
-            <ul className="mt-4 space-y-2 text-sm text-[var(--gold-soft)]">
-              {project.features.map((feature) => (
-                <li key={feature}>- {feature}</li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
+        <div className="detail-grid">
+          {project.features?.length ? (
+            <section className="detail-section" aria-labelledby="highlights-title">
+              <div className="section-heading compact">
+                <p className="eyebrow">Project record</p>
+                <h2 id="highlights-title">Highlights</h2>
+              </div>
+              <ul className="feature-list">
+                {project.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-        {project.tags?.length ? (
-          <section className="arch-panel rounded-xl border p-6">
-            <h2 className="section-title">Tags</h2>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span key={tag} className="tag-chip">
-                  {tag}
-                </span>
-              ))}
+          {project.tags?.length ? (
+            <section className="detail-section" aria-labelledby="tags-title">
+              <div className="section-heading compact">
+                <p className="eyebrow">Index terms</p>
+                <h2 id="tags-title">Tags</h2>
+              </div>
+              <ul className="tag-list spacious">
+                {project.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section className="detail-section" aria-labelledby="resources-title">
+            <div className="section-heading compact">
+              <p className="eyebrow">Resources</p>
+              <h2 id="resources-title">Links</h2>
+            </div>
+            <div className="action-row">
+              <Link href="/" className="button-secondary">
+                Back to archive
+              </Link>
+              {project.url ? (
+                <a href={project.url} className="button-primary" target="_blank" rel="noreferrer">
+                  Open project
+                </a>
+              ) : null}
             </div>
           </section>
-        ) : null}
-
-        <section className="arch-panel rounded-xl border p-6">
-          <h2 className="section-title">Resources</h2>
-          <div className="mt-4 flex flex-wrap gap-3 text-xs tracking-[0.16em]">
-            <a href="/" className="arch-btn">
-              BACK TO SUITE
-            </a>
-            {project.url ? (
-              <a href={project.url} className="arch-btn" target="_blank" rel="noreferrer">
-                LIVE URL
-              </a>
-            ) : null}
-          </div>
-        </section>
-      </div>
+        </div>
+      </article>
     </main>
   );
 }
