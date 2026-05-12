@@ -411,6 +411,92 @@ h3 {
   letter-spacing: 0.08em;
 }
 
+.client-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.client-list li {
+  margin: 0;
+}
+
+.client-chip {
+  display: inline-flex;
+  min-height: 1.55rem;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.22rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.client-chip[data-tone="muted"] {
+  background: rgba(94, 91, 85, 0.09);
+  border-color: rgba(94, 91, 85, 0.18);
+  color: var(--muted);
+}
+
+.client-chip[data-tone="ink"] {
+  background: rgba(16, 16, 16, 0.08);
+  border-color: rgba(16, 16, 16, 0.15);
+  color: var(--ink);
+}
+
+.client-chip[data-tone="blue"] {
+  background: rgba(0, 94, 168, 0.1);
+  border-color: rgba(0, 94, 168, 0.17);
+  color: var(--blue-dark);
+}
+
+.client-chip[data-tone="green"] {
+  background: rgba(46, 112, 68, 0.1);
+  border-color: rgba(46, 112, 68, 0.17);
+  color: var(--green);
+}
+
+.client-chip[data-tone="amber"] {
+  background: rgba(143, 95, 0, 0.12);
+  border-color: rgba(143, 95, 0, 0.18);
+  color: var(--amber);
+}
+
+.client-chip[data-tone="red"] {
+  background: rgba(179, 25, 66, 0.09);
+  border-color: rgba(179, 25, 66, 0.17);
+  color: var(--red);
+}
+
+.project-card-clients {
+  margin-bottom: 0.75rem;
+}
+
+.detail-clients {
+  margin: 0 0 1rem;
+}
+
+.row-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.row-clients .client-chip {
+  min-height: 1.25rem;
+  padding: 0.16rem 0.42rem;
+  font-size: 0.56rem;
+}
+
 .project-card h3 {
   margin: auto 0 1rem;
   font-family: var(--font-serif);

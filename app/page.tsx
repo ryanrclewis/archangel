@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { SiteHeader } from "@/app/components/SiteHeader";
-import Typewriter from "@/app/components/Typewriter";
-import { projects, type Project } from "./data/projects";
+import { ProjectClients } from "@/app/components/ProjectClients";
+import Typewriter from "./components/Typewriter";
+import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
 
 const ourWork = projects.filter((project) => project.folder === "Our Work");
 const pastWork = projects.filter((project) => project.folder === "Past Work");
@@ -15,9 +15,6 @@ const universityProjects =
     ? pastWork.slice(finerIndex, alloIndex + 1).filter((p) => p.id !== "coetic-3")
     : [];
 const universityIds = universityProjects.map((p) => p.id);
-const activeWork = projects.filter(
-  (project) => project.status === "LIVE" || project.status === "ONLINE" || project.status === "IN PROGRESS",
-);
 
 const principles = [
   {
@@ -25,7 +22,7 @@ const principles = [
     text: "Systems should respect the time, attention, and judgment of the people who depend on them.",
   },
   {
-    title: "Craft at service scale",
+    title: "Craft at service",
     text: "Small details matter most when the work has to survive repeated use, public scrutiny, and real constraints.",
   },
   {
@@ -61,9 +58,14 @@ export default function Home() {
             <Typewriter
               phrases={[
                 "human dignity.",
+                "life",
+                "liberty.",
                 "the pursuit of happiness.",
                 "the common defense.",
                 "the general welfare.",
+                "domestic tranquility.",
+                "our posterity.",
+                "the United States of America.",
               ]}
             />
           </h1>
@@ -85,7 +87,7 @@ export default function Home() {
       <section className="work-band" id="work" aria-labelledby="work-title">
         <div className="section-heading">
           <p className="eyebrow">Current work</p>
-          <h2 id="work-title">Useful systems, plainly named and built for real life.</h2>
+          <h2 id="work-title">Our focus</h2>
         </div>
 
         <div className="project-grid">
@@ -101,13 +103,17 @@ export default function Home() {
                 <span>{project.type}</span>
                 <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
               </div>
+              <ProjectClients
+                clients={project.clients ?? []}
+                className="project-card-clients"
+                ariaLabel={`${project.name} clients`}
+              />
               <h3>{project.name}</h3>
               <p>{project.description}</p>
-              {project.status === "COMPLETED" ? (
-                <div className="launch-date">
-                  <span>Completed:</span> {project.launchDate}
-                </div>
-              ) : project.tags?.length ? (
+              <div className="launch-date">
+                <span>Launch:</span> {getProjectLaunchLabel(project)}
+              </div>
+              {project.tags?.length ? (
                 <ul className="tag-list" aria-label={`${project.name} tags`}>
                   {project.tags.slice(0, 4).map((tag) => (
                     <li key={tag}>{tag}</li>
@@ -122,7 +128,7 @@ export default function Home() {
       <section className="principles-band" id="principles" aria-labelledby="principles-title">
         <div className="section-heading">
           <p className="eyebrow">Operating principles</p>
-          <h2 id="principles-title">A studio posture for civic-grade software.</h2>
+          <h2 id="principles-title">Our foundational values</h2>
         </div>
 
         <div className="principles-grid">
@@ -139,14 +145,21 @@ export default function Home() {
       <section className="systems-band" aria-labelledby="systems-title">
         <div className="section-heading">
           <p className="eyebrow">Public service work</p>
-          <h2 id="systems-title">Modernization experience across government workflows.</h2>
+          <h2 id="systems-title">Our public service</h2>
         </div>
 
         <div className="systems-list">
           {publicSystems.slice(0, 8).map((project) => (
             <a className="system-row" href={`/projects/${project.id}`} key={project.id}>
               <span>{project.status}</span>
-              <strong>{project.name}</strong>
+              <div className="row-copy">
+                <strong>{project.name}</strong>
+                <ProjectClients
+                  clients={project.clients ?? []}
+                  className="row-clients"
+                  ariaLabel={`${project.name} clients`}
+                />
+              </div>
               <em>{project.type}</em>
             </a>
           ))}
@@ -156,7 +169,7 @@ export default function Home() {
       <section className="archive-band" id="archive" aria-labelledby="archive-title">
         <div className="section-heading">
           <p className="eyebrow">Studio archive</p>
-          <h2 id="archive-title">Selected work, experiments, and shipped projects.</h2>
+          <h2 id="archive-title">Our work with previous clients</h2>
         </div>
 
         <div className="archive-list">
@@ -169,8 +182,15 @@ export default function Home() {
             )
             .map((project) => (
               <a className="archive-row" href={`/projects/${project.id}`} key={project.id}>
-                <span className={`status-text ${statusClass(project.status)}`}>{project.launchDate || project.status}</span>
-                <span className="archive-name">{project.name}</span>
+                <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
+                <div className="row-copy">
+                  <span className="archive-name">{project.name}</span>
+                  <ProjectClients
+                    clients={project.clients ?? []}
+                    className="row-clients"
+                    ariaLabel={`${project.name} clients`}
+                  />
+                </div>
                 <span className="archive-type">{project.type}</span>
               </a>
             ))}
@@ -180,14 +200,21 @@ export default function Home() {
       <section className="university-band" aria-labelledby="university-title">
         <div className="section-heading">
           <p className="eyebrow">University Projects</p>
-          <h2 id="university-title">Selected university and research work.</h2>
+          <h2 id="university-title">Our research and experiments</h2>
         </div>
 
         <div className="university-list">
           {universityProjects.map((project) => (
             <a className="archive-row" href={`/projects/${project.id}`} key={project.id}>
-              <span className={`status-text ${statusClass(project.status)}`}>{project.launchDate || project.status}</span>
-              <span className="archive-name">{project.name}</span>
+              <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
+              <div className="row-copy">
+                <span className="archive-name">{project.name}</span>
+                <ProjectClients
+                  clients={project.clients ?? []}
+                  className="row-clients"
+                  ariaLabel={`${project.name} clients`}
+                />
+              </div>
               <span className="archive-type">{project.type}</span>
             </a>
           ))}

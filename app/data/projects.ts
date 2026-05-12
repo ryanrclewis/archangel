@@ -1,5 +1,12 @@
 export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "ONLINE";
 
+export type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red";
+
+export type ProjectClient = {
+  name: string;
+  tone?: ProjectClientTone;
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -8,10 +15,16 @@ export type Project = {
   status: ProjectStatus;
   description: string;
   url?: string;
+  clients?: ProjectClient[];
   tags?: string[];
   features?: string[];
   launchDate?: string;
 };
+
+const client = (name: string, tone: ProjectClientTone = "muted"): ProjectClient => ({
+  name,
+  tone,
+});
 
 export const projects: Project[] = [
   {
@@ -23,6 +36,7 @@ export const projects: Project[] = [
     url: "https://saintstombs.com",
     description:
       "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
+    clients: [client("BKO", "blue")],
     tags: ["Catholic", "History", "Geography", "Web"],
   },
   {
@@ -34,6 +48,7 @@ export const projects: Project[] = [
     url: "https://github.com/ryanrclewis/mithril",
     description:
       "Docker-based DNS filtering solution that blocks NSFW content across your network.",
+    clients: [client("Self-directed")],
     tags: ["Docker", "DNS", "Networking", "Security"],
   },
   {
@@ -44,6 +59,7 @@ export const projects: Project[] = [
     status: "IN PROGRESS",
     url: "https://heirloom-two.vercel.app/login",
     description: "A digital keepsake for your family's history.",
+    clients: [client("Self-directed")],
     tags: ["Family", "History", "Digital Preservation"],
   },
   {
@@ -54,6 +70,7 @@ export const projects: Project[] = [
     status: "IN PROGRESS",
     url: "https://crisis-catalog.pages.dev/",
     description: "A checklist for emergency preparedness for Catholic families.",
+    clients: [client("Self-directed")],
     tags: ["Catholic", "Preparedness", "Checklist", "Emergency"],
   },
   {
@@ -64,6 +81,7 @@ export const projects: Project[] = [
     status: "IN PROGRESS",
     url: "https://github.com/ryanrclewis/psalm113-3",
     description: "A visualization of Earth, reactive to the Consecration of the Eucharist.",
+    clients: [client("Self-directed")],
     tags: ["Catholic", "Visualization", "Interactive", "Spiritual"],
   },
   {
@@ -74,7 +92,21 @@ export const projects: Project[] = [
     status: "IN PROGRESS",
     url: "https://github.com/ryanrclewis/pantrie",
     description: "Docker utility to catalog what is in your pantry and when it expires.",
+    clients: [client("Self-directed")],
     tags: ["Docker", "Home", "Inventory", "CLI"],
+  },
+    {
+    id: "gm",
+    name: "General Motors",
+    folder: "Past Work",
+    type: "Experience Architecture",
+    status: "COMPLETED",
+    launchDate: "May 2025",
+    url: "",
+    description: "",
+    clients: [client("General Motors", "blue")],
+    features: [
+    ],
   },
   {
     id: "nsfm",
@@ -86,6 +118,7 @@ export const projects: Project[] = [
     url: "https://www.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&starting-point-node-id=1%3A854&t=S4vZQfH4qJKE4kb5-1",
     description:
       "Crafted iOS app concept for the National Sci-Fi Museum focused on approachable navigation, inclusive interactions, and genre-inspired visual identity.",
+    clients: [client("National Sci-Fi Museum", "blue"), client("Michigan State University", "green")],
     features: [
       "Avenir Next-led visual system for a futuristic but legible UI",
       "Accessibility-conscious interaction patterns and color contrast",
@@ -102,6 +135,7 @@ export const projects: Project[] = [
     launchDate: "Dec 2024",
     url: "https://www.lwt.com",
     description: "Website project for Long Walk Technologies.",
+    clients: [client("Long Walk Technologies", "red")],
     features: [
       "Creative direction and strategy",
       "Web application development",
@@ -110,14 +144,28 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "stellantis",
+    name: "STELLANTIS",
+    folder: "Past Work",
+    type: "Experience Architecture",
+    status: "COMPLETED",
+    launchDate: "Jan 2022",
+    url: "",
+    description: "",
+    clients: [client("Stellantis", "blue")],
+    features: [
+    ],
+  },
+  {
     id: "coetic",
     name: "COETICHR",
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Oct 2020",
     url: "https://coetichr.com/",
     description: "Coetic Website 4.0 redesign and architecture refresh for CoeticHR.",
+    clients: [client("CoeticHR", "blue")],
     features: [
       "Website architecture redesign",
       "Platform showcase for CoeticHR offerings",
@@ -131,9 +179,10 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Experience",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Oct 2020",
     url: "https://coetichr.com/people-science",
     description: "Companion experience within the Coetic ecosystem focused on people science content.",
+    clients: [client("CoeticHR", "blue")],
     features: [
       "Content-forward experience design",
       "Information architecture aligned with Coetic products",
@@ -147,8 +196,9 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Product Experience",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Oct 2020",
     description: "Collaborative project focused on product and experience strategy for ministry operations.",
+    clients: [client("CoeticHR", "blue")],
     features: [
       "Product and UX planning",
       "Cross-functional creator collaboration",
@@ -162,8 +212,9 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Application",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Oct 2020",
     description: "Project management application founded on organizational psychology.",
+   clients: [client("CoeticHR", "blue")],
     features: [
       "Organizational psychology framework",
       "Team workflow management",
@@ -177,10 +228,11 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "UX / Product Design",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "May 2019",
     url: "https://www.figma.com/file/eUZ07Ey7U74UHdyJOMAa7RAR/Finer-Dining",
     description:
       "Value-centered design exploration for improving the dining discovery experience with research-backed prototyping.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Apple Maps integration design",
       "Restaurant discovery features",
@@ -194,9 +246,10 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Dec 2018",
     description:
       "Research and redesign initiative delivering data and concepts to improve the Digital Scholarship Lab website experience.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "User research and analysis",
       "Complete visual redesign",
@@ -212,6 +265,7 @@ export const projects: Project[] = [
     status: "COMPLETED",
     launchDate: "Mon YYYY",
     description: "Sustainable product design, centered on water conservation.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Sustainable design principles",
       "Water conservation focus",
@@ -225,9 +279,10 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Interface Design",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Aug 2018",
     description:
       "Experimental audio interface for publishing and interacting with scholarly sound content.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Audio content navigation",
       "Innovative interface design",
@@ -241,10 +296,11 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Game Prototype",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Jun 2018",
     url: "https://www.figma.com/file/WZDUSUHeqSbW7HArjMvHe97k/All-Aboard",
     description:
       "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Educational game design",
       "Accessibility awareness training",
@@ -258,8 +314,9 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Aug 2019",
     description: "Earlier Coetic website redesign iteration produced in a rapid collaborative cycle.",
+    clients: [client("CoeticHR", "blue")],
     features: [
       "Rapid website iteration and redesign",
       "Cross-functional creator collaboration",
@@ -273,9 +330,10 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Human-Centered Research",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "May 2019",
     description:
       "Collaboration with the Michigan Avenue Corridor Improvement Authority and Michigan State University to provide human-centered research for proposed corridor developments.",
+    clients: [client("Michigan Avenue Corridor Improvement Authority", "blue"), client("Michigan State University", "green")],
     features: [
       "Community-centered research planning",
       "Stakeholder collaboration with public institutions",
@@ -289,8 +347,9 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Research Project",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Apr 2019",
     description: "Investigation into online payments and the underlying technology stack that enables them.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Payments ecosystem research",
       "Technology stack analysis",
@@ -308,6 +367,7 @@ export const projects: Project[] = [
     url: "https://www.figma.com/file/L5vtCesfaLYyz8LVorePmjQx/Jane-the-Brain-Presents-Mental-Health-Awareness",
     description:
       "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Rhetorical and campaign design strategy",
       "Student-focused mental health education",
@@ -324,6 +384,7 @@ export const projects: Project[] = [
     launchDate: "Mon YYYY",
     description:
       "UX concept exploring the future of Google Material Design through an Allo redesign before platform sunset.",
+    clients: [client("Michigan State University", "green")],
     features: [
       "Material Design exploration",
       "Conversation-focused interaction redesign",
@@ -332,43 +393,28 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: "casual-grey-logo",
-    name: "CASUAL GREY LOGO DESIGN",
-    folder: "Past Work",
-    type: "Brand Design",
-    status: "COMPLETED",
-    launchDate: "Mon YYYY",
-    description: "Logo design for an outerwear brand blending class-forward identity with modern styling.",
-    features: [
-      "Brand identity exploration",
-      "Logo concept and refinement",
-      "Modern-classic visual balance",
-      "Client-guided design iteration",
-    ],
-  },
-  {
-    id: "wur-modernization",
-    name: "WATER USE REPORTING MODERNIZATION",
+    id: "burn-permits-modernization",
+    name: "Burn Permits",
     folder: "Past Work",
     type: "Government Modernization",
-    status: "IN PROGRESS",
+    status: "COMPLETED",
+    launchDate: "Apr 2025",
     description:
-      "Modernization effort for Michigan's Water Use Reporting program to improve usability, reliability, and long-term maintainability.",
+      "Modernized the legacy Burn Permits system used to meet ADA guidelines and align with the One State, One Brand initiative.",
+    clients: [client("Michigan Department of Natural Resources", "green")],
     features: [
-      "Legacy workflow modernization",
-      "Service design for agency and public users",
-      "Improved performance and platform maintainability",
-      "Alignment to State of Michigan digital standards",
+
     ],
   },
   {
     id: "icdb-modernization",
-    name: "MDARD ICDB MODERNIZATION",
+    name: "Intentional Conversation Database (ICDB)",
     folder: "Past Work",
     type: "Government Modernization",
     status: "IN PROGRESS",
     description:
       "Modernized the legacy Intentional Conversation Database used to track performance conversations and policy adherence at MDARD.",
+    clients: [client("Michigan Department of Agriculture and Rural Development", "blue")],
     features: [
       "Legacy database modernization",
       "Lower-cost architecture and improved sustainability",
@@ -378,12 +424,13 @@ export const projects: Project[] = [
   },
   {
     id: "fish-modernization",
-    name: "FISH PROGRAM MODERNIZATION",
+    name: "Fisheries Information System Hub (FISH)",
     folder: "Past Work",
     type: "Government Modernization",
     status: "IN PROGRESS",
     description:
       "Supported modernization of the Fisheries Information System Hub to strengthen data quality and collaboration for fisheries management.",
+    clients: [client("Michigan Department of Natural Resources", "green")],
     features: [
       "Data-heavy system modernization",
       "Cross-agency collaboration support",
@@ -393,12 +440,14 @@ export const projects: Project[] = [
   },
   {
     id: "wwat-modernization",
-    name: "WWAT MODERNIZATION",
+    name: "Water Withdrawal Assessment Tool (WWAT)",
     folder: "Past Work",
     type: "Government Modernization",
-    status: "IN PROGRESS",
+    status: "COMPLETED",
+    launchDate: "Apr 2025",
     description:
       "Modernization of the Water Withdrawal Assessment Tool to support required pre-installation impact checks for large quantity withdrawals.",
+    clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
     features: [
       "Modernization of a critical statewide assessment tool",
       "Continuity after transfer from Michigan State University",
@@ -408,12 +457,13 @@ export const projects: Project[] = [
   },
   {
     id: "mif-modernization",
-    name: "MICHIGAN FOREST INVENTORY",
+    name: "Michigan Forest Inventory (MiFI)",
     folder: "Past Work",
     type: "Government Digital Platform",
     status: "IN PROGRESS",
     description:
       "Web platform work supporting Michigan Forest Inventory workflows for conservation, treatment planning, and timber sale execution.",
+    clients: [client("Michigan Department of Natural Resources", "green")],
     features: [
       "Forestry operations workflow support",
       "Inventory and treatment planning enablement",
@@ -429,6 +479,7 @@ export const projects: Project[] = [
     status: "IN PROGRESS",
     description:
       "Delivered platform improvements for MiEHDWIS, the regulated-entity workspace for monitoring results, permits, and program documentation.",
+    clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
     features: [
       "Regulated-entity submission experience",
       "Permit and licensing workflow support",
@@ -438,12 +489,13 @@ export const projects: Project[] = [
   },
   {
     id: "digital-standards",
-    name: "DIGITAL STANDARDS",
+    name: "Digtial Standards",
     folder: "Past Work",
-    type: "Design System / Standards",
+    type: "Design System",
     status: "IN PROGRESS",
     description:
       "Contributed to statewide digital standards focused on consistent, trustworthy, and seamless citizen experiences across agencies.",
+    clients: [client("State of Michigan", "blue")],
     features: [
       "Cross-channel consistency framework",
       "Guidance for websites, apps, and digital communication",
@@ -453,12 +505,13 @@ export const projects: Project[] = [
   },
   {
     id: "digital-guidelines",
-    name: "DIGITAL GUIDELINES",
+    name: "Digital Guidelines",
     folder: "Past Work",
-    type: "Design System / Guidelines",
+    type: "Design System",
     status: "IN PROGRESS",
     description:
       "Helped shape practical digital guidelines that enable teams to kickstart app design and development with user-trusted patterns.",
+    clients: [client("State of Michigan", "blue")],
     features: [
       "Developer and designer onboarding support",
       "Pattern guidance for trusted digital experiences",
@@ -468,12 +521,13 @@ export const projects: Project[] = [
   },
   {
     id: "one-state-one-brand",
-    name: "ONE STATE, ONE BRAND",
+    name: "One State, One Brand",
     folder: "Past Work",
-    type: "Government Experience Strategy",
+    type: "GovernmentExperience Architecture",
     status: "IN PROGRESS",
     description:
       "Experience strategy work advancing consistent service experiences across Michigan digital properties for residents, businesses, and visitors.",
+    clients: [client("State of Michigan", "blue")],
     features: [
       "Human-centered strategy alignment",
       "Cross-agency digital experience consistency",
@@ -489,6 +543,7 @@ export const projects: Project[] = [
     status: "LIVE",
     url: "http://ryanrclewis.family",
     description: "Professional portfolio created to present work and capabilities to employers and collaborators.",
+    clients: [client("Self-directed")],
     tags: ["Portfolio", "Design", "Development"],
   },
   {
@@ -499,6 +554,7 @@ export const projects: Project[] = [
     status: "ONLINE",
     url: "mailto:contact@archangel-labs.com",
     description: "Get in touch with Archangel Laboratories.",
+    clients: [client("Archangel Laboratories", "red")],
   },
 ];
 
@@ -508,4 +564,8 @@ export function getProjectById(id: string) {
 
 export function getProjectIds() {
   return projects.map((project) => project.id);
+}
+
+export function getProjectLaunchLabel(project: Project) {
+  return project.launchDate ?? (project.status === "IN PROGRESS" ? "IN PROGRESS" : project.status);
 }

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/app/components/SiteHeader";
-import { getProjectById, getProjectIds } from "../../data/projects";
+import { ProjectClients } from "@/app/components/ProjectClients";
+import { getProjectById, getProjectIds, getProjectLaunchLabel } from "../../data/projects";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -52,8 +53,10 @@ export default async function ProjectPage({ params }: RouteProps) {
           <h1>{project.name}</h1>
           <div className="detail-meta">
             <span>{project.type}</span>
+            <span>{getProjectLaunchLabel(project)}</span>
             <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
           </div>
+          <ProjectClients clients={project.clients ?? []} className="detail-clients" ariaLabel={`${project.name} clients`} />
           <p className="lede">{project.description}</p>
         </header>
 
