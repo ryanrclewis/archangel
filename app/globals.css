@@ -397,10 +397,11 @@ h3 {
 .project-card[data-tone="green"]:hover { background: rgba(46, 112, 68, 0.14); }
 .project-card[data-tone="amber"]:hover { background: rgba(143, 95, 0, 0.16); }
 .project-card[data-tone="red"]:hover { background: rgba(179, 25, 66, 0.14); }
+.project-card[data-tone="purple"]:hover { background: rgba(92, 57, 155, 0.14); }
 
 /* Make row-style links use client tone on hover */
 .system-row[data-tone="muted"]:hover,
-.archive-row[data-tone="muted"]:hover { color: var(--muted); }
+.archive-row[data-tone="muted"]:hover { color: var(--amber); }
 .system-row[data-tone="ink"]:hover,
 .archive-row[data-tone="ink"]:hover { color: var(--ink); }
 .system-row[data-tone="blue"]:hover,
@@ -411,6 +412,8 @@ h3 {
 .archive-row[data-tone="amber"]:hover { color: var(--amber); }
 .system-row[data-tone="red"]:hover,
 .archive-row[data-tone="red"]:hover { color: var(--red); }
+.system-row[data-tone="purple"]:hover,
+.archive-row[data-tone="purple"]:hover { color: #5c399b; }
 
 .project-card-topline,
 .detail-meta {
@@ -489,6 +492,12 @@ h3 {
   background: rgba(179, 25, 66, 0.09);
   border-color: rgba(179, 25, 66, 0.17);
   color: var(--red);
+}
+
+.client-chip[data-tone="purple"] {
+  background: rgba(92, 57, 155, 0.1);
+  border-color: rgba(92, 57, 155, 0.18);
+  color: #5c399b;
 }
 
 .project-card-clients {

@@ -1,6 +1,6 @@
 export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "ONLINE";
 
-export type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red";
+export type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
 
 export type ProjectClient = {
   name: string;
@@ -29,7 +29,7 @@ const client = (name: string, tone: ProjectClientTone = "muted"): ProjectClient 
 export const projects: Project[] = [
   {
     id: "saintstombs",
-    name: "Saintstombs",
+    name: "SaintsTombs",
     folder: "Our Work",
     type: "Web Application",
     status: "LIVE",
