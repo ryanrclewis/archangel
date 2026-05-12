@@ -9,9 +9,9 @@ export function SiteHeader() {
         <span>Archangel Laboratories</span>
       </Link>
       <nav className="site-nav" aria-label="Primary navigation">
-        <Link href="/#work">Work</Link>
+{/*         <Link href="/#work">Work</Link>
         <Link href="/#principles">Principles</Link>
-        <Link href="/#archive">Archive</Link>
+        <Link href="/#archive">Archive</Link> */}
         <a href="mailto:contact@archangel-labs.com">Contact</a>
       </nav>
     </header>

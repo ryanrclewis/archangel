@@ -10,6 +10,7 @@ export type Project = {
   url?: string;
   tags?: string[];
   features?: string[];
+  launchDate?: string;
 };
 
 export const projects: Project[] = [
@@ -81,6 +82,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "iOS Application",
     status: "COMPLETED",
+    launchDate: "Feb 2025",
     url: "https://www.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&starting-point-node-id=1%3A854&t=S4vZQfH4qJKE4kb5-1",
     description:
       "Crafted iOS app concept for the National Sci-Fi Museum focused on approachable navigation, inclusive interactions, and genre-inspired visual identity.",
@@ -97,6 +99,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Development",
     status: "COMPLETED",
+    launchDate: "Dec 2024",
     url: "https://www.lwt.com",
     description: "Website project for Long Walk Technologies.",
     features: [
@@ -112,6 +115,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     url: "https://coetichr.com/",
     description: "Coetic Website 4.0 redesign and architecture refresh for CoeticHR.",
     features: [
@@ -127,6 +131,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Experience",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     url: "https://coetichr.com/people-science",
     description: "Companion experience within the Coetic ecosystem focused on people science content.",
     features: [
@@ -142,6 +147,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Product Experience",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Collaborative project focused on product and experience strategy for ministry operations.",
     features: [
       "Product and UX planning",
@@ -156,6 +162,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Application",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Project management application founded on organizational psychology.",
     features: [
       "Organizational psychology framework",
@@ -170,6 +177,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "UX / Product Design",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     url: "https://www.figma.com/file/eUZ07Ey7U74UHdyJOMAa7RAR/Finer-Dining",
     description:
       "Value-centered design exploration for improving the dining discovery experience with research-backed prototyping.",
@@ -186,6 +194,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description:
       "Research and redesign initiative delivering data and concepts to improve the Digital Scholarship Lab website experience.",
     features: [
@@ -201,6 +210,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Product Design",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Sustainable product design, centered on water conservation.",
     features: [
       "Sustainable design principles",
@@ -215,6 +225,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Interface Design",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description:
       "Experimental audio interface for publishing and interacting with scholarly sound content.",
     features: [
@@ -230,6 +241,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Game Prototype",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     url: "https://www.figma.com/file/WZDUSUHeqSbW7HArjMvHe97k/All-Aboard",
     description:
       "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
@@ -246,6 +258,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Earlier Coetic website redesign iteration produced in a rapid collaborative cycle.",
     features: [
       "Rapid website iteration and redesign",
@@ -260,6 +273,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Human-Centered Research",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description:
       "Collaboration with the Michigan Avenue Corridor Improvement Authority and Michigan State University to provide human-centered research for proposed corridor developments.",
     features: [
@@ -275,6 +289,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Research Project",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Investigation into online payments and the underlying technology stack that enables them.",
     features: [
       "Payments ecosystem research",
@@ -289,6 +304,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Campaign Design",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     url: "https://www.figma.com/file/L5vtCesfaLYyz8LVorePmjQx/Jane-the-Brain-Presents-Mental-Health-Awareness",
     description:
       "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
@@ -305,6 +321,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "UX Concept",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description:
       "UX concept exploring the future of Google Material Design through an Allo redesign before platform sunset.",
     features: [
@@ -320,6 +337,7 @@ export const projects: Project[] = [
     folder: "Past Work",
     type: "Brand Design",
     status: "COMPLETED",
+    launchDate: "Mon YYYY",
     description: "Logo design for an outerwear brand blending class-forward identity with modern styling.",
     features: [
       "Brand identity exploration",

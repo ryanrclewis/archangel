@@ -7,16 +7,88 @@
   --muted: #5e5b55;
   --hairline: #c9c2b4;
   --blue: #005ea8;
+  --blue-dark: #003a6b;
   --red: #b31942;
   --green: #2e7044;
   --amber: #8f5f00;
   --white: #ffffff;
+  --font-sans: "SF Pro Display", "SF Pro Text", "SF Pro", "San Francisco", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-serif: "New York", "Iowan Old Style", "Palatino", "Palatino Linotype", Georgia, serif;
 }
 
 
 @font-face {
   font-family: "OCR-A Std";
   src: local("OCR-A Std"), url("/OCRAExtended.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src:
+    url("/fonts/SF-Pro-Display-Regular.woff2") format("woff2"),
+    local("SF Pro Display"),
+    local("SFProDisplay-Regular"),
+    local("San Francisco");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src:
+    url("/fonts/SF-Pro-Display-Semibold.woff2") format("woff2"),
+    local("SF Pro Display Semibold"),
+    local("SFProDisplay-Semibold"),
+    local("San Francisco");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Mono";
+  src:
+    url("/fonts/SF-Mono-Regular.woff2") format("woff2"),
+    local("SF Mono"),
+    local("SFMono-Regular");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Mono";
+  src:
+    url("/fonts/SF-Mono-Semibold.woff2") format("woff2"),
+    local("SF Mono Semibold"),
+    local("SFMono-Semibold");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "New York";
+  src:
+    url("/fonts/NewYork.woff2") format("woff2"),
+    local("New York"),
+    local("NewYork-Regular");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "New York";
+  src:
+    url("/fonts/NewYorkMedium-Medium.woff2") format("woff2"),
+    local("New York Medium"),
+    local("NewYork-Medium");
+  font-style: normal;
+  font-weight: 500;
   font-display: swap;
 }
 
@@ -28,7 +100,7 @@ body {
     var(--paper);
   background-size: 64px 64px;
   color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 a {
@@ -68,7 +140,7 @@ a {
   gap: 0.75rem;
   padding: 0 1.25rem;
   border-right: 1px solid var(--hairline);
-  font-family: "OCR-A Std", monospace;
+  font-family: var(--font-mono);
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -109,6 +181,7 @@ a {
 .principles-band,
 .systems-band,
 .archive-band,
+.university-band,
 .project-detail {
   padding: clamp(2rem, 5vw, 5.5rem) clamp(1rem, 4vw, 4rem);
   border-bottom: 1px solid var(--ink);
@@ -116,9 +189,8 @@ a {
 
 .hero-band {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: end;
+  grid-template-columns: 1fr;
+  align-items: center;
   min-height: min(720px, 82vh);
 }
 
@@ -128,11 +200,20 @@ a {
 
 .eyebrow {
   margin: 0 0 1rem;
-  color: var(--blue);
-  font-family: "OCR-A Std", monospace;
-  font-size: 0.72rem;
+  color: var(--blue-dark);
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+  line-height: 1.2;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Provide visible focus outline when eyebrow appears in an interactive context (links, buttons) */
+.eyebrow:focus-visible {
+  outline: 2px solid var(--blue-dark);
+  outline-offset: 2px;
 }
 
 h1,
@@ -144,7 +225,7 @@ p {
 
 h1,
 h2 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   letter-spacing: 0;
 }
@@ -153,7 +234,7 @@ h1 {
   max-width: 14ch;
   margin-bottom: 1.5rem;
   font-size: clamp(3rem, 8vw, 7.8rem);
-  line-height: 0.94;
+  line-height: .99;
 }
 
 h2 {
@@ -253,7 +334,6 @@ h3 {
 
 .civic-ledger div:last-child {
   border-bottom: 0;
-  display: block;
 }
 
 .civic-ledger dt {
@@ -266,18 +346,13 @@ h3 {
 
 .civic-ledger dd {
   margin: 0;
-  font-family: "OCR-A Std", monospace;
+  font-family: var(--font-mono);
   font-size: clamp(0.8rem, 2vw, 1.6rem);
   overflow-wrap: anywhere;
   text-align: right;
 }
 
-.civic-ledger div:last-child dd {
-  margin-top: 0.65rem;
-  font-size: 1rem;
-  line-height: 1.35;
-  text-align: left;
-}
+/* keep dd sizing consistent for all civic-ledger items */
 
 .section-heading {
   display: grid;
@@ -337,7 +412,7 @@ h3 {
 
 .project-card h3 {
   margin: auto 0 1rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-size: clamp(1.65rem, 3vw, 3rem);
   font-weight: 500;
   line-height: 0.98;
@@ -375,13 +450,27 @@ h3 {
   padding: 0.55rem 0.7rem;
 }
 
+.launch-date {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+}
+
+.launch-date span {
+  display: inline;
+}
+
 .status-chip {
   display: inline-flex;
   min-height: 1.65rem;
   align-items: center;
   border: 1px solid currentColor;
   padding: 0.2rem 0.45rem;
-  font-family: "OCR-A Std", monospace;
+  font-family: var(--font-mono);
   font-size: 0.62rem;
   line-height: 1;
   white-space: nowrap;
@@ -417,13 +506,13 @@ h3 {
   display: block;
   margin-bottom: 4rem;
   color: var(--red);
-  font-family: "OCR-A Std", monospace;
+  font-family: var(--font-mono);
   font-size: 0.86rem;
 }
 
 .principle-item h3 {
   margin-bottom: 0.75rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 500;
 }
@@ -435,7 +524,8 @@ h3 {
 }
 
 .systems-list,
-.archive-list {
+.archive-list,
+.university-list {
   border-top: 1px solid var(--ink);
 }
 
@@ -462,7 +552,8 @@ h3 {
 
 .system-row span,
 .system-row em,
-.archive-type {
+.archive-type,
+.status-text {
   color: var(--muted);
   font-size: 0.74rem;
   font-style: normal;
@@ -473,14 +564,14 @@ h3 {
 
 .system-row strong,
 .archive-name {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-size: clamp(1.35rem, 2.6vw, 2.65rem);
   font-weight: 500;
   line-height: 1;
 }
 
 .archive-row {
-  grid-template-columns: 1rem minmax(0, 1fr) minmax(12rem, 0.36fr);
+  grid-template-columns: 9rem minmax(0, 1fr) minmax(12rem, 0.35fr);
 }
 
 .status-dot {
@@ -623,17 +714,6 @@ h3 {
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
-
-  .archive-row {
-    position: relative;
-    padding-left: 1.25rem;
-  }
-
-  .archive-row .status-dot {
-    position: absolute;
-    top: 1.15rem;
-    left: 0;
-  }
 }
 
 @media (max-width: 430px) {
@@ -650,3 +730,25 @@ h3 {
     width: 100%;
   }
 }
+
+/* Typewriter: keep changing phrase on one line and animate caret */
+.typewriter-phrase {
+  display: block; /* force the changing phrase onto its own line */
+  white-space: nowrap; /* never wrap the phrase */
+  overflow: visible; /* allow overflow if it exceeds container width */
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 0.14em;
+  height: 1em;
+  background: currentColor;
+  margin-left: 0.12em;
+  vertical-align: text-bottom;
+  animation: _typewriter_blink 1s steps(1) infinite;
+}
+
+@keyframes _typewriter_blink {
+  50% { opacity: 0; }
+}
+

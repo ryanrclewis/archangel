@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SiteHeader } from "@/app/components/SiteHeader";
+import Typewriter from "@/app/components/Typewriter";
 import { projects, type Project } from "./data/projects";
 
 const ourWork = projects.filter((project) => project.folder === "Our Work");
@@ -7,6 +8,13 @@ const pastWork = projects.filter((project) => project.folder === "Past Work");
 const publicSystems = pastWork.filter(
   (project) => project.type.includes("Government") || project.type.includes("Design System"),
 );
+const finerIndex = pastWork.findIndex((p) => p.id === "finer-dining");
+const alloIndex = pastWork.findIndex((p) => p.id === "allo-redesign");
+const universityProjects =
+  finerIndex >= 0 && alloIndex >= 0 && alloIndex >= finerIndex
+    ? pastWork.slice(finerIndex, alloIndex + 1).filter((p) => p.id !== "coetic-3")
+    : [];
+const universityIds = universityProjects.map((p) => p.id);
 const activeWork = projects.filter(
   (project) => project.status === "LIVE" || project.status === "ONLINE" || project.status === "IN PROGRESS",
 );
@@ -47,11 +55,20 @@ export default function Home() {
 
       <section className="hero-band" aria-labelledby="home-title">
         <div className="hero-copy">
-          <p className="eyebrow">Technology with telos</p>
-          <h1 id="home-title">Digital infrastructure in service of human dignity.</h1>
+          <p className="eyebrow">Technology with Telos</p>
+          <h1 id="home-title">
+            Technology in service of{'\u00A0'}<br />
+            <Typewriter
+              phrases={[
+                "human dignity.",
+                "the pursuit of happiness.",
+                "the common defense.",
+                "the general welfare.",
+              ]}
+            />
+          </h1>
           <p className="lede">
-            Archangel Laboratories designs and builds practical software for families, communities, public institutions,
-            and teams that need durable tools more than noise.
+            Archangel Laboratories designs and builds technology for families, communities, teams, and public institutions that seek tools ordered to human flourishing and the common good.
           </p>
           <div className="action-row">
             <a className="button-primary" href="mailto:contact@archangel-labs.com">
@@ -63,25 +80,6 @@ export default function Home() {
           </div>
         </div>
 
-        <aside className="civic-ledger" aria-label="Studio summary">
-          <div className="ledger-seal">
-            <Image src="/icon.svg" alt="" width={72} height={72} priority />
-          </div>
-          <dl>
-            <div>
-              <dt>Active initiatives</dt>
-              <dd>{activeWork.length.toString().padStart(2, "0")}</dd>
-            </div>
-            <div>
-              <dt>Public systems</dt>
-              <dd>{publicSystems.length.toString().padStart(2, "0")}</dd>
-            </div>
-            <div>
-              <dt>Studio channel</dt>
-              <dd>Direct email</dd>
-            </div>
-          </dl>
-        </aside>
       </section>
 
       <section className="work-band" id="work" aria-labelledby="work-title">
@@ -105,7 +103,11 @@ export default function Home() {
               </div>
               <h3>{project.name}</h3>
               <p>{project.description}</p>
-              {project.tags?.length ? (
+              {project.status === "COMPLETED" ? (
+                <div className="launch-date">
+                  <span>Completed:</span> {project.launchDate}
+                </div>
+              ) : project.tags?.length ? (
                 <ul className="tag-list" aria-label={`${project.name} tags`}>
                   {project.tags.slice(0, 4).map((tag) => (
                     <li key={tag}>{tag}</li>
@@ -158,9 +160,33 @@ export default function Home() {
         </div>
 
         <div className="archive-list">
-          {pastWork.map((project) => (
+          {pastWork
+            .filter((project) =>
+              !project.type.includes("Government") &&
+              project.id !== "digital-standards" &&
+              project.id !== "digital-guidelines" &&
+              !universityIds.includes(project.id)
+            )
+            .map((project) => (
+              <a className="archive-row" href={`/projects/${project.id}`} key={project.id}>
+                <span className={`status-text ${statusClass(project.status)}`}>{project.launchDate || project.status}</span>
+                <span className="archive-name">{project.name}</span>
+                <span className="archive-type">{project.type}</span>
+              </a>
+            ))}
+        </div>
+      </section>
+
+      <section className="university-band" aria-labelledby="university-title">
+        <div className="section-heading">
+          <p className="eyebrow">University Projects</p>
+          <h2 id="university-title">Selected university and research work.</h2>
+        </div>
+
+        <div className="university-list">
+          {universityProjects.map((project) => (
             <a className="archive-row" href={`/projects/${project.id}`} key={project.id}>
-              <span className={`status-dot ${statusClass(project.status)}`} aria-hidden="true" />
+              <span className={`status-text ${statusClass(project.status)}`}>{project.launchDate || project.status}</span>
               <span className="archive-name">{project.name}</span>
               <span className="archive-type">{project.type}</span>
             </a>
