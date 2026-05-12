@@ -233,7 +233,8 @@ h2 {
 h1 {
   max-width: 14ch;
   margin-bottom: 1.5rem;
-  font-size: clamp(3rem, 8vw, 7.8rem);
+  /* slightly reduced maximum to prevent overflowing the layout */
+  font-size: clamp(3rem, 6.5vw, 6rem);
   line-height: .99;
 }
 
