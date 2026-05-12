@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/app/components/SiteHeader";
+import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
@@ -47,9 +48,7 @@ function projectTarget(project: Project) {
 
 export default function Home() {
   return (
-    <main className="site-shell min-h-screen">
-      <SiteHeader />
-
+    <PageLayout>
       <section className="hero-band" aria-labelledby="home-title">
         <div className="hero-copy">
           <p className="eyebrow">Technology with Telos</p>
@@ -236,6 +235,6 @@ export default function Home() {
         <p>Designed and engineered by Archangel Laboratories.</p>
         <a href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a>
       </footer>
-    </main>
+    </PageLayout>
   );
 }
