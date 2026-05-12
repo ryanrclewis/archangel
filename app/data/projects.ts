@@ -29,7 +29,7 @@ const client = (name: string, tone: ProjectClientTone = "muted"): ProjectClient 
 export const projects: Project[] = [
   {
     id: "saintstombs",
-    name: "SAINTSTOMBS",
+    name: "Saintstombs",
     folder: "Our Work",
     type: "Web Application",
     status: "LIVE",
@@ -41,7 +41,7 @@ export const projects: Project[] = [
   },
   {
     id: "mithril",
-    name: "MITHRIL",
+    name: "Mithril",
     folder: "Our Work",
     type: "Docker / Networking",
     status: "LIVE",
@@ -53,7 +53,7 @@ export const projects: Project[] = [
   },
   {
     id: "heirloom",
-    name: "HEIRLOOM",
+    name: "Heirloom",
     folder: "Our Work",
     type: "Web Application",
     status: "IN PROGRESS",
@@ -64,7 +64,7 @@ export const projects: Project[] = [
   },
   {
     id: "crisis-catalog",
-    name: "CRISIS CATALOG",
+    name: "Crisis Catalog",
     folder: "Our Work",
     type: "Web Application",
     status: "IN PROGRESS",
@@ -75,7 +75,7 @@ export const projects: Project[] = [
   },
   {
     id: "psalm113-3",
-    name: "PSALM 113:3",
+    name: "Psalm 113:3",
     folder: "Our Work",
     type: "Web Visualization",
     status: "IN PROGRESS",
@@ -86,7 +86,7 @@ export const projects: Project[] = [
   },
   {
     id: "pantrie",
-    name: "PANTRIE",
+    name: "Pantrie",
     folder: "Our Work",
     type: "Docker / CLI Tool",
     status: "IN PROGRESS",
@@ -110,7 +110,7 @@ export const projects: Project[] = [
   },
   {
     id: "nsfm",
-    name: "NATIONAL SCI-FI MUSEUM",
+    name: "National Sci-Fi Museum",
     folder: "Past Work",
     type: "iOS Application",
     status: "COMPLETED",
@@ -118,7 +118,7 @@ export const projects: Project[] = [
     url: "https://www.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&starting-point-node-id=1%3A854&t=S4vZQfH4qJKE4kb5-1",
     description:
       "Crafted iOS app concept for the National Sci-Fi Museum focused on approachable navigation, inclusive interactions, and genre-inspired visual identity.",
-    clients: [client("National Sci-Fi Museum", "blue"), client("Michigan State University", "green")],
+    clients: [client("National Sci-Fi Museum", "purple"), client("Michigan State University", "green")],
     features: [
       "Avenir Next-led visual system for a futuristic but legible UI",
       "Accessibility-conscious interaction patterns and color contrast",
@@ -128,7 +128,7 @@ export const projects: Project[] = [
   },
   {
     id: "lwt",
-    name: "LONG WALK TECHNOLOGIES",
+    name: "Long Walk Technologies",
     folder: "Past Work",
     type: "Web Development",
     status: "COMPLETED",
@@ -145,7 +145,7 @@ export const projects: Project[] = [
   },
   {
     id: "stellantis",
-    name: "STELLANTIS",
+    name: "Stellantis",
     folder: "Past Work",
     type: "Experience Architecture",
     status: "COMPLETED",
@@ -158,7 +158,7 @@ export const projects: Project[] = [
   },
   {
     id: "coetic",
-    name: "COETICHR",
+    name: "CoeticHR",
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
@@ -175,7 +175,7 @@ export const projects: Project[] = [
   },
   {
     id: "people-science",
-    name: "PEOPLE SCIENCE",
+    name: "People Science",
     folder: "Past Work",
     type: "Web Experience",
     status: "COMPLETED",
@@ -192,7 +192,7 @@ export const projects: Project[] = [
   },
   {
     id: "effective-ministry-360",
-    name: "EFFECTIVE MINISTRY 360",
+    name: "Effective Ministry 360",
     folder: "Past Work",
     type: "Product Experience",
     status: "COMPLETED",
@@ -208,7 +208,7 @@ export const projects: Project[] = [
   },
   {
     id: "woether",
-    name: "WOETHER",
+    name: "Woether",
     folder: "Past Work",
     type: "Web Application",
     status: "COMPLETED",
@@ -224,7 +224,7 @@ export const projects: Project[] = [
   },
   {
     id: "finer-dining",
-    name: "FINER DINING",
+    name: "Finer Dining",
     folder: "Past Work",
     type: "UX / Product Design",
     status: "COMPLETED",
@@ -242,7 +242,7 @@ export const projects: Project[] = [
   },
   {
     id: "dsl",
-    name: "DIGITAL SCHOLARSHIP LAB",
+    name: "Digital Scholarship Lab",
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
@@ -259,7 +259,7 @@ export const projects: Project[] = [
   },
   {
     id: "h2home",
-    name: "H2HOME",
+    name: "H2home",
     folder: "Past Work",
     type: "Product Design",
     status: "COMPLETED",
@@ -275,7 +275,7 @@ export const projects: Project[] = [
   },
   {
     id: "soundwriting",
-    name: "SOUNDWRITING",
+    name: "Soundwriting",
     folder: "Past Work",
     type: "Interface Design",
     status: "COMPLETED",
@@ -292,7 +292,7 @@ export const projects: Project[] = [
   },
   {
     id: "all-aboard",
-    name: "ALL ABOARD",
+    name: "All Aboard",
     folder: "Past Work",
     type: "Game Prototype",
     status: "COMPLETED",
@@ -310,7 +310,7 @@ export const projects: Project[] = [
   },
   {
     id: "coetic-3",
-    name: "COETIC WEBSITE 3.0",
+    name: "Coetic Website 3.0",
     folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
@@ -326,7 +326,7 @@ export const projects: Project[] = [
   },
   {
     id: "michigan-avenue-2030",
-    name: "MICHIGAN AVENUE 2030",
+    name: "Michigan Avenue 2030",
     folder: "Past Work",
     type: "Human-Centered Research",
     status: "COMPLETED",
@@ -343,7 +343,7 @@ export const projects: Project[] = [
   },
   {
     id: "global-payment-network",
-    name: "GLOBAL PAYMENT NETWORK",
+    name: "Global Payment Network",
     folder: "Past Work",
     type: "Research Project",
     status: "COMPLETED",
@@ -359,7 +359,7 @@ export const projects: Project[] = [
   },
   {
     id: "jane-the-brain",
-    name: "JANE THE BRAIN",
+    name: "Jane The Brain",
     folder: "Past Work",
     type: "Campaign Design",
     status: "COMPLETED",
@@ -377,7 +377,7 @@ export const projects: Project[] = [
   },
   {
     id: "allo-redesign",
-    name: "ALLO REDESIGN",
+    name: "Allo Redesign",
     folder: "Past Work",
     type: "UX Concept",
     status: "COMPLETED",
@@ -537,7 +537,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio",
-    name: "PORTFOLIO",
+    name: "Portfolio",
     folder: "Past Work",
     type: "Portfolio Website",
     status: "LIVE",
@@ -548,7 +548,7 @@ export const projects: Project[] = [
   },
   {
     id: "contact",
-    name: "CONTACT",
+    name: "Contact",
     folder: "Archangel",
     type: "Info",
     status: "ONLINE",
