@@ -94,11 +94,7 @@
 
 body {
   margin: 0;
-  background:
-    linear-gradient(90deg, rgba(16, 16, 16, 0.035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(16, 16, 16, 0.035) 1px, transparent 1px),
-    var(--paper);
-  background-size: 64px 64px;
+  background: url("/background.webp") center/cover no-repeat fixed;
   color: var(--ink);
   font-family: var(--font-sans);
 }
@@ -356,10 +352,7 @@ h3 {
 /* keep dd sizing consistent for all civic-ledger items */
 
 .section-heading {
-  display: grid;
-  grid-template-columns: minmax(10rem, 0.36fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: start;
+  display: block;
   margin-bottom: clamp(1.75rem, 4vw, 3rem);
 }
 
@@ -396,6 +389,28 @@ h3 {
   outline: 0;
   transform: translateY(-2px);
 }
+
+/* Hover backgrounds per client tone (uses slightly stronger tints) */
+.project-card[data-tone="muted"]:hover { background: rgba(94, 91, 85, 0.12); }
+.project-card[data-tone="ink"]:hover { background: rgba(16, 16, 16, 0.12); }
+.project-card[data-tone="blue"]:hover { background: rgba(0, 94, 168, 0.14); }
+.project-card[data-tone="green"]:hover { background: rgba(46, 112, 68, 0.14); }
+.project-card[data-tone="amber"]:hover { background: rgba(143, 95, 0, 0.16); }
+.project-card[data-tone="red"]:hover { background: rgba(179, 25, 66, 0.14); }
+
+/* Make row-style links use client tone on hover */
+.system-row[data-tone="muted"]:hover,
+.archive-row[data-tone="muted"]:hover { color: var(--muted); }
+.system-row[data-tone="ink"]:hover,
+.archive-row[data-tone="ink"]:hover { color: var(--ink); }
+.system-row[data-tone="blue"]:hover,
+.archive-row[data-tone="blue"]:hover { color: var(--blue-dark); }
+.system-row[data-tone="green"]:hover,
+.archive-row[data-tone="green"]:hover { color: var(--green); }
+.system-row[data-tone="amber"]:hover,
+.archive-row[data-tone="amber"]:hover { color: var(--amber); }
+.system-row[data-tone="red"]:hover,
+.archive-row[data-tone="red"]:hover { color: var(--red); }
 
 .project-card-topline,
 .detail-meta {
@@ -535,20 +550,6 @@ h3 {
 
 .tag-list.spacious li {
   padding: 0.55rem 0.7rem;
-}
-
-.launch-date {
-  display: block;
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-family: var(--font-mono);
-}
-
-.launch-date span {
-  display: inline;
 }
 
 .status-chip {
