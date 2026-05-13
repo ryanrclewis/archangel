@@ -95,7 +95,7 @@ export const projects: Project[] = [
     clients: [client("Self-directed")],
     tags: ["Docker", "Home", "Inventory", "CLI"],
   },
-    {
+  {
     id: "gm",
     name: "General Motors",
     folder: "Past Work",
@@ -214,7 +214,7 @@ export const projects: Project[] = [
     status: "COMPLETED",
     launchDate: "Oct 2020",
     description: "Project management application founded on organizational psychology.",
-   clients: [client("CoeticHR", "blue")],
+    clients: [client("CoeticHR", "blue")],
     features: [
       "Organizational psychology framework",
       "Team workflow management",
@@ -390,6 +390,47 @@ export const projects: Project[] = [
       "Conversation-focused interaction redesign",
       "Concept validation through UX principles",
       "Product narrative for emerging interface patterns",
+    ],
+  },
+  {
+    id: "fiop-modernization",
+    name: "Food Inspections Online Postings",
+    folder: "Past Work",
+    type: "Government Modernization",
+    status: "COMPLETED",
+    launchDate: "Apr 2025",
+    description:
+      "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Food Inspections Online Postings in accordance with the One Stand, One Brand initiative.",
+    clients: [client("Michigan Department of Agriculture, and Rural Development", "muted")],
+    features: [
+
+    ],
+  }, 
+  {
+    id: "wrrs-modernization",
+    name: "Well Record Retrieval System",
+    folder: "Past Work",
+    type: "Government Modernization",
+    status: "COMPLETED",
+    launchDate: "Apr 2025",
+    description:
+      "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Well Record Retrieval System in accordance with the One Stand, One Brand initiative.",
+    clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
+    features: [
+
+    ],
+  }, {
+    id: "opcert-modernization",
+    name: "Operator Training and Certification Information System (OTCIS / OpCert)",
+    folder: "Past Work",
+    type: "Government Modernization",
+    status: "IN PROGRESS",
+    launchDate: "",
+    description:
+      "This website provides the ability to look up certified drinking water operators, certified drinking water operators by a Water Supply Serial Number (WSSN), and Advisory Board approved courses that count towards continuing education. The modernization effort is focused on providing this service using modern technology and making sure it meets industry standards for user experience and accessibility.",
+    clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
+    features: [
+
     ],
   },
   {
