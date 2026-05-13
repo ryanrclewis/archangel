@@ -2,10 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export function SiteHeader() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleOpenCommandPalette = () => {
     window.dispatchEvent(new Event("command-palette-open"));
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleNavItemClick = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -14,13 +22,38 @@ export function SiteHeader() {
         <Image src="/icon.svg" alt="" width={32} height={32} priority />
         <span>Archangel Laboratories</span>
       </Link>
-      <nav className="site-nav" aria-label="Primary navigation">
-        <Link href="/#principles">Principles</Link>
-        <Link href="/#bespoke">Bespoke</Link>
-        <Link href="/#government">Government</Link>
-        <Link href="/#industry">Industry</Link>
-        <Link href="/#research">Research</Link>
-        <a href="mailto:contact@archangel-labs.com">Contact</a>
+      <button
+        className="site-nav-toggle"
+        type="button"
+        aria-expanded={isMobileMenuOpen}
+        aria-controls="site-nav"
+        onClick={() => setIsMobileMenuOpen((open) => !open)}
+      >
+        Menu
+      </button>
+      <nav
+        id="site-nav"
+        className={`site-nav${isMobileMenuOpen ? " is-open" : ""}`}
+        aria-label="Primary navigation"
+      >
+        <Link href="/#principles" onClick={handleNavItemClick}>
+          Principles
+        </Link>
+        <Link href="/#bespoke" onClick={handleNavItemClick}>
+          Bespoke
+        </Link>
+        <Link href="/#government" onClick={handleNavItemClick}>
+          Government
+        </Link>
+        <Link href="/#industry" onClick={handleNavItemClick}>
+          Industry
+        </Link>
+        <Link href="/#research" onClick={handleNavItemClick}>
+          Research
+        </Link>
+        <a href="mailto:contact@archangel-labs.com" onClick={handleNavItemClick}>
+          Contact
+        </a>
         <button
           onClick={handleOpenCommandPalette}
           className="command-palette-trigger"
