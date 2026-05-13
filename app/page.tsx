@@ -4,8 +4,9 @@ import { ProjectClients } from "@/app/components/ProjectClients";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
 
-const ourWork = projects.filter((project) => project.folder === "Our Work");
-const pastWork = projects.filter((project) => project.folder === "Past Work");
+const firstCompletedIndex = projects.findIndex((project) => project.status === "COMPLETED");
+const ourWork = firstCompletedIndex >= 0 ? projects.slice(0, firstCompletedIndex) : projects;
+const pastWork = firstCompletedIndex >= 0 ? projects.slice(firstCompletedIndex).filter((project) => project.id !== "contact") : [];
 const publicSystems = pastWork.filter(
   (project) => project.type.includes("Government") || project.type.includes("Design System"),
 );

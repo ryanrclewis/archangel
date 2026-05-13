@@ -49,7 +49,7 @@ export default async function ProjectPage({ params }: RouteProps) {
 
       <article className="project-detail">
         <header className="detail-hero">
-          <p className="eyebrow">{project.folder}</p>
+          <p className="eyebrow">Project</p>
           <h1>{project.name}</h1>
           <div className="detail-meta">
             <span>{project.type}</span>

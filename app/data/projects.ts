@@ -10,7 +10,6 @@ export type ProjectClient = {
 export type Project = {
   id: string;
   name: string;
-  folder: "Our Work" | "Past Work" | "Archangel";
   type: string;
   status: ProjectStatus;
   description: string;
@@ -30,7 +29,6 @@ export const projects: Project[] = [
   {
     id: "saintstombs",
     name: "SaintsTombs",
-    folder: "Our Work",
     type: "Web Application",
     status: "LIVE",
     url: "https://saintstombs.com",
@@ -42,7 +40,6 @@ export const projects: Project[] = [
   {
     id: "mithril",
     name: "Mithril",
-    folder: "Our Work",
     type: "Docker / Networking",
     status: "LIVE",
     url: "https://github.com/ryanrclewis/mithril",
@@ -54,7 +51,6 @@ export const projects: Project[] = [
   {
     id: "heirloom",
     name: "Heirloom",
-    folder: "Our Work",
     type: "Web Application",
     status: "IN PROGRESS",
     url: "https://heirloom-two.vercel.app/login",
@@ -65,7 +61,6 @@ export const projects: Project[] = [
   {
     id: "crisis-catalog",
     name: "Crisis Catalog",
-    folder: "Our Work",
     type: "Web Application",
     status: "IN PROGRESS",
     url: "https://crisis-catalog.pages.dev/",
@@ -76,7 +71,6 @@ export const projects: Project[] = [
   {
     id: "psalm113-3",
     name: "Psalm 113:3",
-    folder: "Our Work",
     type: "Web Visualization",
     status: "IN PROGRESS",
     url: "https://github.com/ryanrclewis/psalm113-3",
@@ -87,7 +81,6 @@ export const projects: Project[] = [
   {
     id: "pantrie",
     name: "Pantrie",
-    folder: "Our Work",
     type: "Docker / CLI Tool",
     status: "IN PROGRESS",
     url: "https://github.com/ryanrclewis/pantrie",
@@ -98,7 +91,6 @@ export const projects: Project[] = [
   {
     id: "gm",
     name: "General Motors",
-    folder: "Past Work",
     type: "Experience Architecture",
     status: "COMPLETED",
     launchDate: "May 2025",
@@ -111,7 +103,6 @@ export const projects: Project[] = [
   {
     id: "nsfm",
     name: "National Sci-Fi Museum",
-    folder: "Past Work",
     type: "iOS Application",
     status: "COMPLETED",
     launchDate: "Feb 2025",
@@ -129,7 +120,6 @@ export const projects: Project[] = [
   {
     id: "lwt",
     name: "Long Walk Technologies",
-    folder: "Past Work",
     type: "Web Development",
     status: "COMPLETED",
     launchDate: "Dec 2024",
@@ -146,7 +136,6 @@ export const projects: Project[] = [
   {
     id: "stellantis",
     name: "Stellantis",
-    folder: "Past Work",
     type: "Experience Architecture",
     status: "COMPLETED",
     launchDate: "Jan 2022",
@@ -159,7 +148,6 @@ export const projects: Project[] = [
   {
     id: "coetic",
     name: "CoeticHR",
-    folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
     launchDate: "Oct 2020",
@@ -176,7 +164,6 @@ export const projects: Project[] = [
   {
     id: "people-science",
     name: "People Science",
-    folder: "Past Work",
     type: "Web Experience",
     status: "COMPLETED",
     launchDate: "Oct 2020",
@@ -193,7 +180,6 @@ export const projects: Project[] = [
   {
     id: "effective-ministry-360",
     name: "Effective Ministry 360",
-    folder: "Past Work",
     type: "Product Experience",
     status: "COMPLETED",
     launchDate: "Oct 2020",
@@ -209,7 +195,6 @@ export const projects: Project[] = [
   {
     id: "woether",
     name: "Woether",
-    folder: "Past Work",
     type: "Web Application",
     status: "COMPLETED",
     launchDate: "Oct 2020",
@@ -225,7 +210,6 @@ export const projects: Project[] = [
   {
     id: "finer-dining",
     name: "Finer Dining",
-    folder: "Past Work",
     type: "UX / Product Design",
     status: "COMPLETED",
     launchDate: "May 2019",
@@ -243,7 +227,6 @@ export const projects: Project[] = [
   {
     id: "dsl",
     name: "Digital Scholarship Lab",
-    folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
     launchDate: "Dec 2018",
@@ -260,7 +243,6 @@ export const projects: Project[] = [
   {
     id: "h2home",
     name: "H2home",
-    folder: "Past Work",
     type: "Product Design",
     status: "COMPLETED",
     launchDate: "Mon YYYY",
@@ -276,7 +258,6 @@ export const projects: Project[] = [
   {
     id: "soundwriting",
     name: "Soundwriting",
-    folder: "Past Work",
     type: "Interface Design",
     status: "COMPLETED",
     launchDate: "Aug 2018",
@@ -293,7 +274,6 @@ export const projects: Project[] = [
   {
     id: "all-aboard",
     name: "All Aboard",
-    folder: "Past Work",
     type: "Game Prototype",
     status: "COMPLETED",
     launchDate: "Jun 2018",
@@ -311,7 +291,6 @@ export const projects: Project[] = [
   {
     id: "coetic-3",
     name: "Coetic Website 3.0",
-    folder: "Past Work",
     type: "Web Redesign",
     status: "COMPLETED",
     launchDate: "Aug 2019",
@@ -327,7 +306,6 @@ export const projects: Project[] = [
   {
     id: "michigan-avenue-2030",
     name: "Michigan Avenue 2030",
-    folder: "Past Work",
     type: "Human-Centered Research",
     status: "COMPLETED",
     launchDate: "May 2019",
@@ -344,7 +322,6 @@ export const projects: Project[] = [
   {
     id: "global-payment-network",
     name: "Global Payment Network",
-    folder: "Past Work",
     type: "Research Project",
     status: "COMPLETED",
     launchDate: "Apr 2019",
@@ -360,7 +337,6 @@ export const projects: Project[] = [
   {
     id: "jane-the-brain",
     name: "Jane The Brain",
-    folder: "Past Work",
     type: "Campaign Design",
     status: "COMPLETED",
     launchDate: "Mon YYYY",
@@ -378,7 +354,6 @@ export const projects: Project[] = [
   {
     id: "allo-redesign",
     name: "Allo Redesign",
-    folder: "Past Work",
     type: "UX Concept",
     status: "COMPLETED",
     launchDate: "Mon YYYY",
@@ -395,7 +370,6 @@ export const projects: Project[] = [
   {
     id: "fiop-modernization",
     name: "Food Inspections Online Postings",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "COMPLETED",
     launchDate: "Apr 2025",
@@ -409,7 +383,6 @@ export const projects: Project[] = [
   {
     id: "wrrs-modernization",
     name: "Well Record Retrieval System",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "COMPLETED",
     launchDate: "Apr 2025",
@@ -422,7 +395,6 @@ export const projects: Project[] = [
   }, {
     id: "opcert-modernization",
     name: "Operator Training and Certification Information System (OTCIS / OpCert)",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "IN PROGRESS",
     launchDate: "",
@@ -436,7 +408,6 @@ export const projects: Project[] = [
   {
     id: "burn-permits-modernization",
     name: "Burn Permits",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "COMPLETED",
     launchDate: "Apr 2025",
@@ -450,7 +421,6 @@ export const projects: Project[] = [
   {
     id: "icdb-modernization",
     name: "Intentional Conversation Database (ICDB)",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "IN PROGRESS",
     description:
@@ -466,7 +436,6 @@ export const projects: Project[] = [
   {
     id: "fish-modernization",
     name: "Fisheries Information System Hub (FISH)",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "IN PROGRESS",
     description:
@@ -482,7 +451,6 @@ export const projects: Project[] = [
   {
     id: "wwat-modernization",
     name: "Water Withdrawal Assessment Tool (WWAT)",
-    folder: "Past Work",
     type: "Government Modernization",
     status: "COMPLETED",
     launchDate: "Apr 2025",
@@ -499,7 +467,6 @@ export const projects: Project[] = [
   {
     id: "mif-modernization",
     name: "Michigan Forest Inventory (MiFI)",
-    folder: "Past Work",
     type: "Government Digital Platform",
     status: "IN PROGRESS",
     description:
@@ -515,7 +482,6 @@ export const projects: Project[] = [
   {
     id: "miehdwis",
     name: "MIEHDWIS",
-    folder: "Past Work",
     type: "Government Digital Platform",
     status: "IN PROGRESS",
     description:
@@ -531,7 +497,6 @@ export const projects: Project[] = [
   {
     id: "digital-standards",
     name: "Digtial Standards",
-    folder: "Past Work",
     type: "Design System",
     status: "IN PROGRESS",
     description:
@@ -547,7 +512,6 @@ export const projects: Project[] = [
   {
     id: "digital-guidelines",
     name: "Digital Guidelines",
-    folder: "Past Work",
     type: "Design System",
     status: "IN PROGRESS",
     description:
@@ -563,7 +527,6 @@ export const projects: Project[] = [
   {
     id: "one-state-one-brand",
     name: "One State, One Brand",
-    folder: "Past Work",
     type: "GovernmentExperience Architecture",
     status: "IN PROGRESS",
     description:
@@ -579,7 +542,6 @@ export const projects: Project[] = [
   {
     id: "portfolio",
     name: "Portfolio",
-    folder: "Past Work",
     type: "Portfolio Website",
     status: "LIVE",
     url: "http://ryanrclewis.family",
@@ -590,7 +552,6 @@ export const projects: Project[] = [
   {
     id: "contact",
     name: "Contact",
-    folder: "Archangel",
     type: "Info",
     status: "ONLINE",
     url: "mailto:contact@archangel-labs.com",
