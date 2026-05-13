@@ -52,7 +52,7 @@ export function SiteHeader() {
         <Link href="/#research" onClick={handleNavItemClick}>
           Research
         </Link>
-        <a href="mailto:contact@archangel-labs.com">
+        <a href="mailto:contact@archangel-labs.com" onClick={handleNavItemClick}>
           Contact
         </a>
         <button
