@@ -26,6 +26,7 @@ export function SiteHeader() {
         className="site-nav-toggle"
         type="button"
         aria-expanded={isMobileMenuOpen}
+        aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-controls="site-nav"
         onClick={() => setIsMobileMenuOpen((open) => !open)}
       >
@@ -51,7 +52,7 @@ export function SiteHeader() {
         <Link href="/#research" onClick={handleNavItemClick}>
           Research
         </Link>
-        <a href="mailto:contact@archangel-labs.com" onClick={handleNavItemClick}>
+        <a href="mailto:contact@archangel-labs.com">
           Contact
         </a>
         <button
