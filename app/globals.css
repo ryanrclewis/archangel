@@ -884,6 +884,13 @@ h3 {
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
+
+  .typewriter-phrase {
+    white-space: normal;
+    word-break: break-word;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
 }
 
 @media (max-width: 430px) {
