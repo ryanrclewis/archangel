@@ -31,6 +31,7 @@ export const projects: Project[] = [
     name: "SaintsTombs",
     type: "Web Application",
     status: "LIVE",
+    launchDate: "Jan 2026",
     url: "https://saintstombs.com",
     description:
       "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
@@ -245,7 +246,7 @@ export const projects: Project[] = [
     name: "H2home",
     type: "Product Design",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "May 2018",
     description: "Sustainable product design, centered on water conservation.",
     clients: [client("Michigan State University", "green")],
     features: [
@@ -280,7 +281,7 @@ export const projects: Project[] = [
     url: "https://www.figma.com/file/WZDUSUHeqSbW7HArjMvHe97k/All-Aboard",
     description:
       "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
-    clients: [client("Michigan State University", "green")],
+    clients: [client("Michigan State University", "green"), client("Stanford University", "red"), client("Teach Access", "muted")],
     features: [
       "Educational game design",
       "Accessibility awareness training",
@@ -339,7 +340,7 @@ export const projects: Project[] = [
     name: "Jane The Brain",
     type: "Campaign Design",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "DEC 2018",
     url: "https://www.figma.com/file/L5vtCesfaLYyz8LVorePmjQx/Jane-the-Brain-Presents-Mental-Health-Awareness",
     description:
       "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
@@ -356,7 +357,7 @@ export const projects: Project[] = [
     name: "Allo Redesign",
     type: "UX Concept",
     status: "COMPLETED",
-    launchDate: "Mon YYYY",
+    launchDate: "Sep 2018",
     description:
       "UX concept exploring the future of Google Material Design through an Allo redesign before platform sunset.",
     clients: [client("Michigan State University", "green")],

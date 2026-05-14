@@ -24,7 +24,7 @@ const principles = [
     text: "Tools should respect the people that use them. We don't build what we wouldn't use.",
   },
   {
-    title: "Craft for customers",
+    title: "Craft with clients",
     text: "Small details matter. We value your vision and work with you to implement it.",
   },
   {
