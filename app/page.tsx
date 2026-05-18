@@ -47,6 +47,11 @@ function projectTarget(project: Project) {
   return project.url?.startsWith("http") ? "_blank" : undefined;
 }
 
+function projectTitleHoverStyle(project: Project): React.CSSProperties {
+  const valueColor = project.values?.[0]?.color;
+  return valueColor ? ({ ["--value-hover-color"]: valueColor } as React.CSSProperties) : {};
+}
+
 export default function Home() {
   return (
     <PageLayout>
@@ -100,7 +105,7 @@ export default function Home() {
       <section className="principles-band" id="principles" aria-labelledby="principles-title">
         <div className="section-heading">
           <p className="eyebrow">Principles</p>
-          <h2 id="principles-title">Our foundational values</h2>
+          <h2 id="principles-title">Our foundation</h2>
         </div>
 
         <div className="principles-grid">
@@ -131,25 +136,19 @@ export default function Home() {
                 href={projectHref(project)}
                 target={projectTarget(project)}
                 rel={projectTarget(project) ? "noreferrer" : undefined}
+                style={projectTitleHoverStyle(project)}
               >
                 <div className="project-card-topline">
                   <span>{project.type}</span>
                   <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
                 </div>
                 <ProjectClients
-                  clients={project.clients ?? []}
+                  values={project.values ?? []}
                   className="project-card-clients"
-                  ariaLabel={`${project.name} clients`}
+                  ariaLabel={`${project.name} phrases`}
                 />
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                {project.tags?.length ? (
-                  <ul className="tag-list" aria-label={`${project.name} tags`}>
-                    {project.tags.slice(0, 4).map((tag) => (
-                      <li key={tag}>{tag}</li>
-                    ))}
-                  </ul>
-                ) : null}
               </a>
             );
           })}
@@ -166,14 +165,20 @@ export default function Home() {
           {publicSystems.slice(0, 8).map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
-              <a className="system-row" data-tone={tone} href={`/projects/${project.id}`} key={project.id}>
+              <a
+                className="system-row"
+                data-tone={tone}
+                href={`/projects/${project.id}`}
+                key={project.id}
+                style={projectTitleHoverStyle(project)}
+              >
                 <span>{project.status}</span>
                 <div className="row-copy">
                   <strong>{project.name}</strong>
                   <ProjectClients
-                    clients={project.clients ?? []}
+                    values={project.values ?? []}
                     className="row-clients"
-                    ariaLabel={`${project.name} clients`}
+                    ariaLabel={`${project.name} phrases`}
                   />
                 </div>
                 <em>{project.type}</em>
@@ -200,14 +205,20 @@ export default function Home() {
             .map((project) => {
               const tone = project.clients?.[0]?.tone ?? "muted";
               return (
-                <a className="archive-row" data-tone={tone} href={`/projects/${project.id}`} key={project.id}>
+                <a
+                  className="archive-row"
+                  data-tone={tone}
+                  href={`/projects/${project.id}`}
+                  key={project.id}
+                  style={projectTitleHoverStyle(project)}
+                >
                   <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                   <div className="row-copy">
                     <span className="archive-name">{project.name}</span>
                     <ProjectClients
-                      clients={project.clients ?? []}
+                      values={project.values ?? []}
                       className="row-clients"
-                      ariaLabel={`${project.name} clients`}
+                      ariaLabel={`${project.name} phrases`}
                     />
                   </div>
                   <span className="archive-type">{project.type}</span>
@@ -227,14 +238,20 @@ export default function Home() {
           {universityProjects.map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
-              <a className="archive-row" data-tone={tone} href={`/projects/${project.id}`} key={project.id}>
+              <a
+                className="archive-row"
+                data-tone={tone}
+                href={`/projects/${project.id}`}
+                key={project.id}
+                style={projectTitleHoverStyle(project)}
+              >
                 <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                 <div className="row-copy">
                   <span className="archive-name">{project.name}</span>
                   <ProjectClients
-                    clients={project.clients ?? []}
+                    values={project.values ?? []}
                     className="row-clients"
-                    ariaLabel={`${project.name} clients`}
+                    ariaLabel={`${project.name} phrases`}
                   />
                 </div>
                 <span className="archive-type">{project.type}</span>

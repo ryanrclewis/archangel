@@ -94,7 +94,8 @@
 
 body {
   margin: 0;
-  background: url("/background.webp") center/cover no-repeat fixed;
+  /* background: url("/background.webp") center/cover no-repeat fixed; */
+  background: url("/background.jpeg") left/cover no-repeat fixed;
   color: var(--ink);
   font-family: var(--font-sans);
 }
@@ -456,6 +457,7 @@ h3 {
   background: rgba(255, 255, 255, 0.28);
   padding: 1.25rem;
   transition: background 160ms ease, transform 160ms ease;
+  --value-hover-color: currentColor;
 }
 
 .project-card:hover,
@@ -604,6 +606,12 @@ h3 {
   line-height: 0.98;
   letter-spacing: 0;
   text-transform: none;
+  transition: color 160ms ease;
+}
+
+.project-card:hover h3,
+.project-card:focus-visible h3 {
+  color: var(--value-hover-color);
 }
 
 .project-card p {
@@ -708,6 +716,7 @@ h3 {
   align-items: center;
   border-bottom: 1px solid var(--hairline);
   padding: 0.9rem 0;
+  --value-hover-color: currentColor;
 }
 
 .system-row {
@@ -720,6 +729,18 @@ h3 {
 .archive-row:focus-visible {
   color: var(--blue);
   outline: 0;
+}
+
+.system-row strong,
+.archive-name {
+  transition: color 160ms ease;
+}
+
+.system-row:hover strong,
+.system-row:focus-visible strong,
+.archive-row:hover .archive-name,
+.archive-row:focus-visible .archive-name {
+  color: var(--value-hover-color);
 }
 
 .system-row span,
@@ -936,12 +957,18 @@ h3 {
   text-decoration-color: currentColor;
   text-underline-offset: 0.15em;
   text-decoration-thickness: 1px;
-  transition: opacity 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
   cursor: pointer;
 }
 
 .typewriter-link:hover {
-  opacity: 0.7;
+  color: var(--typewriter-hover-color);
+  opacity: 0.95;
+}
+
+.typewriter-link:focus-visible {
+  color: var(--typewriter-hover-color);
+  outline: 0;
 }
 
 /* Command Palette */

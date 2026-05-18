@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { searchProjects } from "@/app/utils/searchProjects";
+import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 import { type Project } from "@/app/data/projects";
 
 type CommandPaletteProps = {
@@ -103,7 +104,7 @@ export function CommandPalette({ isOpen: controlledIsOpen, onOpenChange }: Comma
             <input
               ref={inputRef}
               type="text"
-              placeholder="Search projects by name, type, tags..."
+              placeholder="Search projects by name, type, phrases..."
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -133,11 +134,11 @@ export function CommandPalette({ isOpen: controlledIsOpen, onOpenChange }: Comma
                   >
                     <div className="result-name">{project.name}</div>
                     <div className="result-type">{project.type}</div>
-                    {project.tags && project.tags.length > 0 && (
+                    {project.values && project.values.length > 0 && (
                       <div className="result-tags">
-                        {project.tags.slice(0, 2).map((tag) => (
-                          <span key={tag} className="tag">
-                            {tag}
+                        {project.values.slice(0, 2).map((val) => (
+                          <span key={val.text} className="tag" style={getPhraseChipStyle(val.text, val.color)}>
+                            {val.text}
                           </span>
                         ))}
                       </div>

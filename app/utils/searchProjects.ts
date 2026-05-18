@@ -24,6 +24,9 @@ export function searchProjects(query: string): Project[] {
     if (project.clients?.some((client) => client.name.toLowerCase().includes(lowerQuery)))
       return true;
 
+    // Search in project values
+    if (project.values?.some((val) => val.text.toLowerCase().includes(lowerQuery))) return true;
+
     return false;
   });
 }

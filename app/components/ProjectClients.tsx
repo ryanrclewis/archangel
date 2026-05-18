@@ -1,24 +1,23 @@
-import type { ProjectClient } from "@/app/data/projects";
+import type { ProjectValue } from "@/app/data/projects";
+import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 
 type ProjectClientsProps = {
-  clients: ProjectClient[];
+  values: ProjectValue[];
   className?: string;
   ariaLabel?: string;
 };
 
-export function ProjectClients({ clients, className, ariaLabel = "Clients" }: ProjectClientsProps) {
-  const visibleClients = clients.filter((client) => client.name.trim().toLowerCase() !== "self-directed");
+export function ProjectClients({ values, className, ariaLabel = "Associated phrases" }: ProjectClientsProps) {
+  const visible = values.filter((v) => v.text?.trim());
 
-  if (!visibleClients.length) {
-    return null;
-  }
+  if (!visible.length) return null;
 
   return (
     <ul className={className ? `client-list ${className}` : "client-list"} aria-label={ariaLabel}>
-      {visibleClients.map((client) => (
-        <li key={`${client.name}-${client.tone ?? "muted"}`}>
-          <span className="client-chip" data-tone={client.tone ?? "muted"}>
-            {client.name}
+      {visible.map((val, index) => (
+        <li key={`${val.text}-${index}-${val.tone ?? "muted"}`}>
+          <span className="client-chip" data-tone={val.tone ?? "muted"} style={getPhraseChipStyle(val.text, val.color)}>
+            {val.text}
           </span>
         </li>
       ))}

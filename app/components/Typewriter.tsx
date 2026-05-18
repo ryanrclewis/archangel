@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { valueColors } from "@/app/data/projects";
+import { getPhraseChipColor } from "@/app/utils/phraseStyles";
 
 export type TypewriterPhrase = {
   text: string;
@@ -23,6 +25,7 @@ export default function Typewriter({
   const [index, setIndex] = useState(0);
   const [display, setDisplay] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
@@ -54,6 +57,9 @@ export default function Typewriter({
 
   const phraseObj = phrases[index % phrases.length];
   const currentLink = typeof phraseObj === "string" ? undefined : phraseObj.link;
+  const currentText = typeof phraseObj === "string" ? phraseObj : phraseObj.text;
+  const valueColor = valueColors[currentText] ?? undefined;
+  const hoverColor = getPhraseChipColor(currentText, valueColor);
   const inner = (
     <>
       {display}
@@ -64,7 +70,17 @@ export default function Typewriter({
   return (
     <span className="typewriter-phrase" aria-live="polite">
       {currentLink ? (
-        <a href={currentLink} target="_blank" rel="noopener noreferrer" className="typewriter-link">
+        <a
+          href={currentLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="typewriter-link"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
+          style={{ color: isHovered ? hoverColor : undefined } as React.CSSProperties}
+        >
           {inner}
         </a>
       ) : (

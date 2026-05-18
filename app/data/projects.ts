@@ -7,6 +7,17 @@ export type ProjectClient = {
   tone?: ProjectClientTone;
 };
 
+export type ProjectPhraseChip = {
+  text: string;
+  tone?: ProjectClientTone;
+};
+
+export type ProjectValue = {
+  text: string;
+  color?: string;
+  tone?: ProjectClientTone;
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -15,6 +26,8 @@ export type Project = {
   description: string;
   url?: string;
   clients?: ProjectClient[];
+  // `values` are the new project-associated phrases.
+  values?: ProjectValue[];
   tags?: string[];
   features?: string[];
   launchDate?: string;
@@ -25,7 +38,48 @@ const client = (name: string, tone: ProjectClientTone = "muted"): ProjectClient 
   tone,
 });
 
-export const projects: Project[] = [
+// helper: normalize a text or ProjectValue into a ProjectValue, using explicit colors map
+const normalizeValueItem = (item: string | ProjectValue, tone?: ProjectClientTone): ProjectValue => {
+  if (typeof item === "string") {
+    const text = item;
+    return { text, color: valueColors[text], tone };
+  }
+  return { text: item.text, color: item.color ?? valueColors[item.text], tone: item.tone ?? tone };
+};
+
+// Direct value-to-color map. Edit to assign explicit colors to specific values.
+export const valueColors: Partial<Record<string, string>> = {
+  "faith": "#2C4A8C",
+  "reason": "#E07A2F",
+  "the human heart": "#B33B4D",
+  "dignity": "#9C2A2A",
+  "love": "#C84B7E",
+  "magnificent humanity": "#D97757",
+  "capital": "#2E7D9C",
+  "prosperity": "#E8B923",
+  "light": "#F4D03F",
+  "truth": "#0F766E",
+  "hope": "#60A5FA",
+  "fraternity": "#4F9C6B",
+  "labor": "#C15E1F",
+  "subsidiarity": "#9C6644",
+  "our common home": "#2E8B6E"
+};
+
+// Direct value-to-project associations. Edit here to tune which values are linked to each project.
+// values are mostly inlined on each `baseProjects` entry and normalized below.
+
+function resolveProjectValues(project: Project) {
+  const tone = project.clients?.[0]?.tone ?? "muted";
+  if (project.values && project.values.length) {
+    return project.values.map((v) => normalizeValueItem(v, tone));
+  }
+
+  const fallback = ["magnificent humanity"];
+  return fallback.map((text) => normalizeValueItem(text, tone));
+}
+
+const baseProjects: Project[] = [
   {
     id: "saintstombs",
     name: "SaintsTombs",
@@ -36,6 +90,7 @@ export const projects: Project[] = [
     description:
       "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
     clients: [client("BKO", "blue")],
+    values: [{ text: "faith" }, { text: "reason" }],
     tags: ["Catholic", "History", "Geography", "Web"],
   },
   {
@@ -47,6 +102,7 @@ export const projects: Project[] = [
     description:
       "Docker-based DNS filtering solution that blocks NSFW content across your network.",
     clients: [client("Self-directed")],
+    values: [{ text: "the human heart" }, { text: "dignity" }, { text: "love" }],
     tags: ["Docker", "DNS", "Networking", "Security"],
   },
   {
@@ -57,6 +113,7 @@ export const projects: Project[] = [
     url: "https://heirloom-two.vercel.app/login",
     description: "A digital keepsake for your family's history.",
     clients: [client("Self-directed")],
+    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
     tags: ["Family", "History", "Digital Preservation"],
   },
   {
@@ -67,6 +124,7 @@ export const projects: Project[] = [
     url: "https://crisis-catalog.pages.dev/",
     description: "A checklist for emergency preparedness for Catholic families.",
     clients: [client("Self-directed")],
+    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
     tags: ["Catholic", "Preparedness", "Checklist", "Emergency"],
   },
   {
@@ -77,6 +135,7 @@ export const projects: Project[] = [
     url: "https://github.com/ryanrclewis/psalm113-3",
     description: "A visualization of Earth, reactive to the Consecration of the Eucharist.",
     clients: [client("Self-directed")],
+    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
     tags: ["Catholic", "Visualization", "Interactive", "Spiritual"],
   },
   {
@@ -87,6 +146,7 @@ export const projects: Project[] = [
     url: "https://github.com/ryanrclewis/pantrie",
     description: "Docker utility to catalog what is in your pantry and when it expires.",
     clients: [client("Self-directed")],
+    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
     tags: ["Docker", "Home", "Inventory", "CLI"],
   },
   {
@@ -98,6 +158,7 @@ export const projects: Project[] = [
     url: "",
     description: "",
     clients: [client("General Motors", "blue")],
+    values: [{ text: "capital" }, { text: "prosperity" }],
     features: [
     ],
   },
@@ -111,6 +172,7 @@ export const projects: Project[] = [
     description:
       "I approached the problem by trying to understand the primary interactions users would have with a museum app. For true Sci-Fi fans like Dan, Harry, and Tay, this could become a favorite app, so it needed to be a catered experience. For visitors less interested in Sci-Fi like Lori, the app had to be accessible and avoid jarring flows or interaction methods. To build a crafted experience, I opted for an alternative typeface. I used Avenir Next for its futuristic feel over the more neutral SF Pro or the serif New York, which might have felt too old-fashioned or stuffy. Other Sci-Fi fonts like Orbitron were considered but ultimately rejected to ensure legibility for a diverse audience. Purple was chosen as the primary theme color to stand out from the common blue, red, yellow, and green in apps. It makes the app noticeable, recognizable, and connects with the mystery and unknown that is essential to the genre. I relied on many Apple-designed components for accessibility and familiarity, especially for users who might not use the app daily. These tried-and-true elements ensure usability isn’t a barrier to enjoying the museum. One assumption I made was that a public museum would handle most accessibility needs. If not, I would have added more detail to activity and map views to show experiences were accessible. Lori’s persona, and her son Daniel, made me consider icons denoting accessibility features to help users make the best use of their time. The most important accessibility aspect I followed was embracing iOS best practices, along with attention to color contrast and font legibility. Inclusivity was central to the app’s design. Profiles and a community chat feature allow users to personalize their experience and feel part of the museum community. Tay’s persona made me think about using iconography to denote media types in exhibits, helping users engage with content they truly care about.",
     clients: [client("National Sci-Fi Museum", "purple"), client("Michigan State University", "green")],
+    values: [{ text: "light" }, { text: "truth" }],
     features: [
       "Avenir Next-led visual system for a futuristic but legible UI",
       "Accessibility-conscious interaction patterns and color contrast",
@@ -127,6 +189,7 @@ export const projects: Project[] = [
     url: "https://www.lwt.com",
     description: "Website project for Long Walk Technologies.",
     clients: [client("Long Walk Technologies", "red")],
+    values: [{ text: "capital" }],
     features: [
       "Creative direction and strategy",
       "Web application development",
@@ -143,6 +206,7 @@ export const projects: Project[] = [
     url: "",
     description: "",
     clients: [client("Stellantis", "blue")],
+    values: [{ text: "capital" }, { text: "prosperity" }],
     features: [
     ],
   },
@@ -155,6 +219,7 @@ export const projects: Project[] = [
     url: "https://coetichr.com/",
     description: "Coetic Website 4.0 redesign and architecture refresh for CoeticHR.",
     clients: [client("CoeticHR", "blue")],
+    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
     features: [
       "Website architecture redesign",
       "Platform showcase for CoeticHR offerings",
@@ -171,6 +236,7 @@ export const projects: Project[] = [
     url: "https://coetichr.com/people-science",
     description: "Companion experience within the Coetic ecosystem focused on people science content.",
     clients: [client("CoeticHR", "blue")],
+    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
     features: [
       "Content-forward experience design",
       "Information architecture aligned with Coetic products",
@@ -186,6 +252,7 @@ export const projects: Project[] = [
     launchDate: "Oct 2020",
     description: "Collaborative project focused on product and experience strategy for ministry operations.",
     clients: [client("CoeticHR", "blue")],
+    values: [{ text: "capital" }, { text: "fraternity" }, { text: "faith" }],
     features: [
       "Product and UX planning",
       "Cross-functional creator collaboration",
@@ -201,6 +268,7 @@ export const projects: Project[] = [
     launchDate: "Oct 2020",
     description: "Project management application founded on organizational psychology.",
     clients: [client("CoeticHR", "blue")],
+    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
     features: [
       "Organizational psychology framework",
       "Team workflow management",
@@ -218,6 +286,7 @@ export const projects: Project[] = [
     description:
       "Value-centered design exploration for improving the dining discovery experience with research-backed prototyping.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }],
     features: [
       "Apple Maps integration design",
       "Restaurant discovery features",
@@ -234,6 +303,7 @@ export const projects: Project[] = [
     description:
       "Research and redesign initiative delivering data and concepts to improve the Digital Scholarship Lab website experience.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }],
     features: [
       "User research and analysis",
       "Complete visual redesign",
@@ -249,6 +319,7 @@ export const projects: Project[] = [
     launchDate: "May 2018",
     description: "Sustainable product design, centered on water conservation.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }, { text: "our common home" }],
     features: [
       "Sustainable design principles",
       "Water conservation focus",
@@ -265,6 +336,7 @@ export const projects: Project[] = [
     description:
       "Experimental audio interface for publishing and interacting with scholarly sound content.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }, { text: "dignity" }],
     features: [
       "Audio content navigation",
       "Innovative interface design",
@@ -282,6 +354,7 @@ export const projects: Project[] = [
     description:
       "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
     clients: [client("Michigan State University", "green"), client("Stanford University", "red"), client("Teach Access", "muted")],
+    values: [{ text: "dignity" }, { text: "reason" }],
     features: [
       "Educational game design",
       "Accessibility awareness training",
@@ -297,6 +370,7 @@ export const projects: Project[] = [
     launchDate: "Aug 2019",
     description: "Earlier Coetic website redesign iteration produced in a rapid collaborative cycle.",
     clients: [client("CoeticHR", "blue")],
+    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
     features: [
       "Rapid website iteration and redesign",
       "Cross-functional creator collaboration",
@@ -313,6 +387,7 @@ export const projects: Project[] = [
     description:
       "Collaboration with the Michigan Avenue Corridor Improvement Authority and Michigan State University to provide human-centered research for proposed corridor developments.",
     clients: [client("Michigan Avenue Corridor Improvement Authority", "blue"), client("Michigan State University", "green")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
       "Community-centered research planning",
       "Stakeholder collaboration with public institutions",
@@ -328,6 +403,7 @@ export const projects: Project[] = [
     launchDate: "Apr 2019",
     description: "Investigation into online payments and the underlying technology stack that enables them.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "labor" }, { text: "fraternity" }, { text: "subsidiarity" }, { text: "dignity" }],
     features: [
       "Payments ecosystem research",
       "Technology stack analysis",
@@ -345,6 +421,7 @@ export const projects: Project[] = [
     description:
       "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }, { text: "the human heart" }],
     features: [
       "Rhetorical and campaign design strategy",
       "Student-focused mental health education",
@@ -361,6 +438,7 @@ export const projects: Project[] = [
     description:
       "UX concept exploring the future of Google Material Design through an Allo redesign before platform sunset.",
     clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }],
     features: [
       "Material Design exploration",
       "Conversation-focused interaction redesign",
@@ -377,6 +455,7 @@ export const projects: Project[] = [
     description:
       "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Food Inspections Online Postings in accordance with the One Stand, One Brand initiative.",
     clients: [client("Michigan Department of Agriculture, and Rural Development", "muted")],
+    values: [{ text: "subsidiarity" }, { text: "our common home" }],
     features: [
 
     ],
@@ -390,6 +469,7 @@ export const projects: Project[] = [
     description:
       "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Well Record Retrieval System in accordance with the One Stand, One Brand initiative.",
     clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
 
     ],
@@ -402,6 +482,7 @@ export const projects: Project[] = [
     description:
       "This website provides the ability to look up certified drinking water operators, certified drinking water operators by a Water Supply Serial Number (WSSN), and Advisory Board approved courses that count towards continuing education. The modernization effort is focused on providing this service using modern technology and making sure it meets industry standards for user experience and accessibility.",
     clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
 
     ],
@@ -415,6 +496,7 @@ export const projects: Project[] = [
     description:
       "Modernized the legacy Burn Permits system used to meet ADA guidelines and align with the One State, One Brand initiative.",
     clients: [client("Michigan Department of Natural Resources", "green")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
 
     ],
@@ -427,6 +509,7 @@ export const projects: Project[] = [
     description:
       "Modernized the legacy Intentional Conversation Database used to track performance conversations and policy adherence at MDARD.",
     clients: [client("Michigan Department of Agriculture and Rural Development", "blue")],
+    values: [{ text: "subsidiarity" }, { text: "our common home" }],
     features: [
       "Legacy database modernization",
       "Lower-cost architecture and improved sustainability",
@@ -442,6 +525,7 @@ export const projects: Project[] = [
     description:
       "Supported modernization of the Fisheries Information System Hub to strengthen data quality and collaboration for fisheries management.",
     clients: [client("Michigan Department of Natural Resources", "green")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
       "Data-heavy system modernization",
       "Cross-agency collaboration support",
@@ -458,6 +542,7 @@ export const projects: Project[] = [
     description:
       "Modernization of the Water Withdrawal Assessment Tool to support required pre-installation impact checks for large quantity withdrawals.",
     clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
       "Modernization of a critical statewide assessment tool",
       "Continuity after transfer from Michigan State University",
@@ -473,6 +558,7 @@ export const projects: Project[] = [
     description:
       "Web platform work supporting Michigan Forest Inventory workflows for conservation, treatment planning, and timber sale execution.",
     clients: [client("Michigan Department of Natural Resources", "green")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
       "Forestry operations workflow support",
       "Inventory and treatment planning enablement",
@@ -488,6 +574,7 @@ export const projects: Project[] = [
     description:
       "Delivered platform improvements for MiEHDWIS, the regulated-entity workspace for monitoring results, permits, and program documentation.",
     clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
+    values: [{ text: "our common home" }, { text: "subsidiarity" }],
     features: [
       "Regulated-entity submission experience",
       "Permit and licensing workflow support",
@@ -503,6 +590,7 @@ export const projects: Project[] = [
     description:
       "Contributed to statewide digital standards focused on consistent, trustworthy, and seamless citizen experiences across agencies.",
     clients: [client("State of Michigan", "blue")],
+    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
     features: [
       "Cross-channel consistency framework",
       "Guidance for websites, apps, and digital communication",
@@ -518,6 +606,7 @@ export const projects: Project[] = [
     description:
       "Helped shape practical digital guidelines that enable teams to kickstart app design and development with user-trusted patterns.",
     clients: [client("State of Michigan", "blue")],
+    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
     features: [
       "Developer and designer onboarding support",
       "Pattern guidance for trusted digital experiences",
@@ -533,33 +622,20 @@ export const projects: Project[] = [
     description:
       "Experience strategy work advancing consistent service experiences across Michigan digital properties for residents, businesses, and visitors.",
     clients: [client("State of Michigan", "blue")],
+    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
     features: [
       "Human-centered strategy alignment",
       "Cross-agency digital experience consistency",
       "Support for strategic IT and service objectives",
       "Design-led modernization advocacy",
     ],
-  },
-  {
-    id: "portfolio",
-    name: "Portfolio",
-    type: "Portfolio Website",
-    status: "LIVE",
-    url: "http://ryanrclewis.family",
-    description: "Professional portfolio created to present work and capabilities to employers and collaborators.",
-    clients: [client("Self-directed")],
-    tags: ["Portfolio", "Design", "Development"],
-  },
-  {
-    id: "contact",
-    name: "Contact",
-    type: "Info",
-    status: "ONLINE",
-    url: "mailto:contact@archangel-labs.com",
-    description: "Get in touch with Archangel Laboratories.",
-    clients: [client("Archangel Laboratories", "red")],
-  },
+  }
 ];
+
+export const projects: Project[] = baseProjects.map((project) => ({
+  ...project,
+  values: resolveProjectValues(project),
+}));
 
 export function getProjectById(id: string) {
   return projects.find((project) => project.id === id);
