@@ -58,7 +58,19 @@ export default function Home() {
             <br />
             <Typewriter
               phrases={[
-                "human dignity.",
+                "magnificent humanity.",
+                "our common home.",
+                "a successful life.",
+                "a fruitful life.",
+                "fraternity.", 
+                "love.",
+                "hope.",
+                "charity.",
+                "truth.",
+                "labor.",
+                "capital.",
+                "faith.",
+                "reason.",
                 "life.",
                 "liberty.",
                 "the pursuit of happiness.",
