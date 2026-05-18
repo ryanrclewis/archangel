@@ -929,6 +929,21 @@ h3 {
   50% { opacity: 0; }
 }
 
+.typewriter-link {
+  display: inline;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.typewriter-link:hover {
+  opacity: 0.7;
+}
+
 /* Command Palette */
 .command-palette-trigger {
   display: flex;
@@ -1161,5 +1176,14 @@ h3 {
 
 .command-palette-results::-webkit-scrollbar-thumb:hover {
   background: var(--muted);
+}
+
+/* Mobile: override typewriter to allow wrapping instead of overflow */
+@media (max-width: 760px) {
+  .typewriter-phrase {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
 }
 

@@ -2,8 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 
+export type TypewriterPhrase = {
+  text: string;
+  link?: string; // optional link for the phrase
+};
+
 type Props = {
-  phrases: string[];
+  phrases: (string | TypewriterPhrase)[];
   typingSpeed?: number; // ms per char
   deletingSpeed?: number; // ms per char when deleting
   pause?: number; // pause after full phrase
@@ -22,7 +27,8 @@ export default function Typewriter({
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
 
-    const current = phrases[index % phrases.length];
+    const phraseObj = phrases[index % phrases.length];
+    const current = typeof phraseObj === "string" ? phraseObj : phraseObj.text;
 
     let timeout: number;
 
@@ -46,10 +52,24 @@ export default function Typewriter({
     return () => clearTimeout(timeout);
   }, [display, isDeleting, index, phrases, typingSpeed, deletingSpeed, pause]);
 
-  return (
-    <span className="typewriter-phrase" aria-live="polite">
+  const phraseObj = phrases[index % phrases.length];
+  const currentLink = typeof phraseObj === "string" ? undefined : phraseObj.link;
+  const inner = (
+    <>
       {display}
       <span className="typewriter-caret" aria-hidden="true">&nbsp;</span>
+    </>
+  );
+
+  return (
+    <span className="typewriter-phrase" aria-live="polite">
+      {currentLink ? (
+        <a href={currentLink} target="_blank" rel="noopener noreferrer" className="typewriter-link">
+          {inner}
+        </a>
+      ) : (
+        inner
+      )}
     </span>
   );
 }
