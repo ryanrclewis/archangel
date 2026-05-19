@@ -17,9 +17,6 @@ export function searchProjects(query: string): Project[] {
     // Search in type
     if (project.type.toLowerCase().includes(lowerQuery)) return true;
 
-    // Search in tags
-    if (project.tags?.some((tag) => tag.toLowerCase().includes(lowerQuery))) return true;
-
     // Search in client names
     if (project.clients?.some((client) => client.name.toLowerCase().includes(lowerQuery)))
       return true;

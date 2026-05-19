@@ -825,6 +825,17 @@ h3 {
   margin-bottom: 1.5rem;
 }
 
+.detail-hero-embed-float {
+  float: right;
+  width: min(46vw, 390px);
+  min-width: 280px;
+  margin: 0 0 1rem clamp(1rem, 2vw, 2rem);
+}
+
+.detail-hero-embed-float iframe {
+  display: block;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
@@ -906,6 +917,13 @@ h3 {
   .principles-grid,
   .detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .detail-hero-embed-float {
+    float: none;
+    width: 100%;
+    min-width: 0;
+    margin: 1rem 0;
   }
 
   .project-card {

@@ -18,6 +18,13 @@ export type ProjectValue = {
   tone?: ProjectClientTone;
 };
 
+export type ProjectEmbed = {
+  src: string;
+  title?: string;
+  width?: number;
+  height?: number;
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -28,9 +35,9 @@ export type Project = {
   clients?: ProjectClient[];
   // `values` are the new project-associated phrases.
   values?: ProjectValue[];
-  tags?: string[];
   features?: string[];
   launchDate?: string;
+  embed?: ProjectEmbed;
 };
 
 const client = (name: string, tone: ProjectClientTone = "muted"): ProjectClient => ({
@@ -91,7 +98,6 @@ const baseProjects: Project[] = [
       "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
     clients: [client("BKO", "blue")],
     values: [{ text: "faith" }, { text: "hope" }, { text: "evangelization" }],
-    tags: ["Catholic", "History", "Geography", "Web"],
   },
   {
     id: "mithril",
@@ -103,7 +109,6 @@ const baseProjects: Project[] = [
       "Docker-based DNS filtering solution that blocks NSFW content across your network.",
     clients: [client("Self-directed")],
     values: [{ text: "the human heart" }, { text: "dignity" }, { text: "love" }],
-    tags: ["Docker", "DNS", "Networking", "Security"],
   },
   {
     id: "heirloom",
@@ -114,7 +119,6 @@ const baseProjects: Project[] = [
     description: "A digital keepsake for your family's history.",
     clients: [client("Self-directed")],
     values: [{ text: "the human heart" }, { text: "our posterity" }, { text: "hope" }],
-    tags: ["Family", "History", "Digital Preservation"],
   },
   {
     id: "crisis-catalog",
@@ -125,7 +129,6 @@ const baseProjects: Project[] = [
     description: "A checklist for emergency preparedness for Catholic families.",
     clients: [client("Self-directed")],
     values: [{ text: "our posterity" }],
-    tags: ["Catholic", "Preparedness", "Checklist", "Emergency"],
   },
   {
     id: "psalm113-3",
@@ -136,7 +139,6 @@ const baseProjects: Project[] = [
     description: "A visualization of Earth, reactive to the Consecration of the Eucharist.",
     clients: [client("Self-directed")],
     values: [{ text: "faith" }, { text: "hope" }, { text: "evangelization" }],
-    tags: ["Catholic", "Visualization", "Interactive", "Spiritual"],
   },
   {
     id: "pantrie",
@@ -147,7 +149,6 @@ const baseProjects: Project[] = [
     description: "Docker utility to catalog what is in your pantry and when it expires.",
     clients: [client("Self-directed")],
     values: [{ text: "prosperity" }],
-    tags: ["Docker", "Home", "Inventory", "CLI"],
   },
   {
     id: "gm",
@@ -173,6 +174,12 @@ const baseProjects: Project[] = [
       "I approached the problem by trying to understand the primary interactions users would have with a museum app. For true Sci-Fi fans like Dan, Harry, and Tay, this could become a favorite app, so it needed to be a catered experience. For visitors less interested in Sci-Fi like Lori, the app had to be accessible and avoid jarring flows or interaction methods. To build a crafted experience, I opted for an alternative typeface. I used Avenir Next for its futuristic feel over the more neutral SF Pro or the serif New York, which might have felt too old-fashioned or stuffy. Other Sci-Fi fonts like Orbitron were considered but ultimately rejected to ensure legibility for a diverse audience. Purple was chosen as the primary theme color to stand out from the common blue, red, yellow, and green in apps. It makes the app noticeable, recognizable, and connects with the mystery and unknown that is essential to the genre. I relied on many Apple-designed components for accessibility and familiarity, especially for users who might not use the app daily. These tried-and-true elements ensure usability isn’t a barrier to enjoying the museum. One assumption I made was that a public museum would handle most accessibility needs. If not, I would have added more detail to activity and map views to show experiences were accessible. Lori’s persona, and her son Daniel, made me consider icons denoting accessibility features to help users make the best use of their time. The most important accessibility aspect I followed was embracing iOS best practices, along with attention to color contrast and font legibility. Inclusivity was central to the app’s design. Profiles and a community chat feature allow users to personalize their experience and feel part of the museum community. Tay’s persona made me think about using iconography to denote media types in exhibits, helping users engage with content they truly care about.",
     clients: [client("National Sci-Fi Museum", "purple"), client("Michigan State University", "green")],
     values: [{ text: "hope" }],
+    embed: {
+      src: "https://embed.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A854&embed-host=share",
+      title: "National Sci-Fi Museum prototype",
+      width: 390,
+      height: 870,
+    },
     features: [
       "Avenir Next-led visual system for a futuristic but legible UI",
       "Accessibility-conscious interaction patterns and color contrast",

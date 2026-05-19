@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
@@ -43,22 +42,50 @@ export default async function ProjectPage({ params }: RouteProps) {
     notFound();
   }
 
+  const heroContent = (
+    <>
+      <p className="eyebrow">Project</p>
+      <h1>{project.name}</h1>
+      <div className="detail-meta">
+        <span>{project.type}</span>
+        <span>{getProjectLaunchLabel(project)}</span>
+        <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>{project.status}</span>
+      </div>
+      <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
+      {project.embed ? (
+        <div
+          className="detail-hero-embed-float"
+          style={{
+            float: "right",
+            width: project.embed.width ? `${project.embed.width}px` : "390px",
+            maxWidth: "46vw",
+            minWidth: "280px",
+            margin: "0 0 1rem clamp(1rem, 2vw, 2rem)",
+          }}
+        >
+          <iframe
+            src={project.embed.src}
+            title={project.embed.title ?? `${project.name} embed`}
+            style={{
+              border: "1px solid rgba(0, 0, 0, 0.1)",
+              width: "100%",
+              maxWidth: project.embed.width ? `${project.embed.width}px` : undefined,
+              height: project.embed.height ? `${project.embed.height}px` : "450px",
+            }}
+            allowFullScreen
+          />
+        </div>
+      ) : null}
+      <p className="lede">{project.description}</p>
+    </>
+  );
+
   return (
     <main className="site-shell min-h-screen">
       <SiteHeader />
 
       <article className="project-detail">
-        <header className="detail-hero">
-          <p className="eyebrow">Project</p>
-          <h1>{project.name}</h1>
-          <div className="detail-meta">
-            <span>{project.type}</span>
-            <span>{getProjectLaunchLabel(project)}</span>
-            <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>{project.status}</span>
-          </div>
-          <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
-          <p className="lede">{project.description}</p>
-        </header>
+        <header className="detail-hero">{heroContent}</header>
 
         <div className="detail-grid">
           {project.features?.length ? (
@@ -75,29 +102,12 @@ export default async function ProjectPage({ params }: RouteProps) {
             </section>
           ) : null}
 
-          {project.tags?.length ? (
-            <section className="detail-section" aria-labelledby="tags-title">
-              <div className="section-heading compact">
-                <p className="eyebrow">Index terms</p>
-                <h2 id="tags-title">Tags</h2>
-              </div>
-              <ul className="tag-list spacious">
-                {project.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
           <section className="detail-section" aria-labelledby="resources-title">
             <div className="section-heading compact">
               <p className="eyebrow">Resources</p>
               <h2 id="resources-title">Links</h2>
             </div>
             <div className="action-row">
-              <Link href="/" className="button-secondary">
-                Back to archive
-              </Link>
               {project.url ? (
                 <a href={project.url} className="button-primary" target="_blank" rel="noreferrer">
                   Open project
