@@ -54,7 +54,7 @@ export default async function ProjectPage({ params }: RouteProps) {
           <div className="detail-meta">
             <span>{project.type}</span>
             <span>{getProjectLaunchLabel(project)}</span>
-            <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
+            <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>{project.status}</span>
           </div>
           <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
           <p className="lede">{project.description}</p>

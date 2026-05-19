@@ -90,7 +90,7 @@ const baseProjects: Project[] = [
     description:
       "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
     clients: [client("BKO", "blue")],
-    values: [{ text: "faith" }, { text: "reason" }],
+    values: [{ text: "faith" }, { text: "hope" }, { text: "evangelization" }],
     tags: ["Catholic", "History", "Geography", "Web"],
   },
   {
@@ -113,7 +113,7 @@ const baseProjects: Project[] = [
     url: "https://heirloom-two.vercel.app/login",
     description: "A digital keepsake for your family's history.",
     clients: [client("Self-directed")],
-    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
+    values: [{ text: "the human heart" }, { text: "our posterity" }, { text: "hope" }],
     tags: ["Family", "History", "Digital Preservation"],
   },
   {
@@ -124,7 +124,7 @@ const baseProjects: Project[] = [
     url: "https://crisis-catalog.pages.dev/",
     description: "A checklist for emergency preparedness for Catholic families.",
     clients: [client("Self-directed")],
-    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
+    values: [{ text: "our posterity" }],
     tags: ["Catholic", "Preparedness", "Checklist", "Emergency"],
   },
   {
@@ -135,7 +135,7 @@ const baseProjects: Project[] = [
     url: "https://github.com/ryanrclewis/psalm113-3",
     description: "A visualization of Earth, reactive to the Consecration of the Eucharist.",
     clients: [client("Self-directed")],
-    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
+    values: [{ text: "faith" }, { text: "hope" }, { text: "evangelization" }],
     tags: ["Catholic", "Visualization", "Interactive", "Spiritual"],
   },
   {
@@ -146,7 +146,7 @@ const baseProjects: Project[] = [
     url: "https://github.com/ryanrclewis/pantrie",
     description: "Docker utility to catalog what is in your pantry and when it expires.",
     clients: [client("Self-directed")],
-    values: [{ text: "magnificent humanity" }, { text: "the human heart" }],
+    values: [{ text: "prosperity" }],
     tags: ["Docker", "Home", "Inventory", "CLI"],
   },
   {
@@ -172,7 +172,7 @@ const baseProjects: Project[] = [
     description:
       "I approached the problem by trying to understand the primary interactions users would have with a museum app. For true Sci-Fi fans like Dan, Harry, and Tay, this could become a favorite app, so it needed to be a catered experience. For visitors less interested in Sci-Fi like Lori, the app had to be accessible and avoid jarring flows or interaction methods. To build a crafted experience, I opted for an alternative typeface. I used Avenir Next for its futuristic feel over the more neutral SF Pro or the serif New York, which might have felt too old-fashioned or stuffy. Other Sci-Fi fonts like Orbitron were considered but ultimately rejected to ensure legibility for a diverse audience. Purple was chosen as the primary theme color to stand out from the common blue, red, yellow, and green in apps. It makes the app noticeable, recognizable, and connects with the mystery and unknown that is essential to the genre. I relied on many Apple-designed components for accessibility and familiarity, especially for users who might not use the app daily. These tried-and-true elements ensure usability isn’t a barrier to enjoying the museum. One assumption I made was that a public museum would handle most accessibility needs. If not, I would have added more detail to activity and map views to show experiences were accessible. Lori’s persona, and her son Daniel, made me consider icons denoting accessibility features to help users make the best use of their time. The most important accessibility aspect I followed was embracing iOS best practices, along with attention to color contrast and font legibility. Inclusivity was central to the app’s design. Profiles and a community chat feature allow users to personalize their experience and feel part of the museum community. Tay’s persona made me think about using iconography to denote media types in exhibits, helping users engage with content they truly care about.",
     clients: [client("National Sci-Fi Museum", "purple"), client("Michigan State University", "green")],
-    values: [{ text: "light" }, { text: "truth" }],
+    values: [{ text: "hope" }],
     features: [
       "Avenir Next-led visual system for a futuristic but legible UI",
       "Accessibility-conscious interaction patterns and color contrast",
@@ -189,7 +189,7 @@ const baseProjects: Project[] = [
     url: "https://www.lwt.com",
     description: "Website project for Long Walk Technologies.",
     clients: [client("Long Walk Technologies", "red")],
-    values: [{ text: "capital" }],
+    values: [{ text: "capital" }, {text: "peace on Earth"},],
     features: [
       "Creative direction and strategy",
       "Web application development",
@@ -219,7 +219,7 @@ const baseProjects: Project[] = [
     url: "https://coetichr.com/",
     description: "Coetic Website 4.0 redesign and architecture refresh for CoeticHR.",
     clients: [client("CoeticHR", "blue")],
-    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
+    values: [{ text: "capital" }, {text: "labor"}, { text: "fraternity" }],
     features: [
       "Website architecture redesign",
       "Platform showcase for CoeticHR offerings",
@@ -236,7 +236,7 @@ const baseProjects: Project[] = [
     url: "https://coetichr.com/people-science",
     description: "Companion experience within the Coetic ecosystem focused on people science content.",
     clients: [client("CoeticHR", "blue")],
-    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
+    values: [{ text: "capital" }, {text: "labor"}, { text: "fraternity" }],
     features: [
       "Content-forward experience design",
       "Information architecture aligned with Coetic products",
@@ -252,7 +252,7 @@ const baseProjects: Project[] = [
     launchDate: "Oct 2020",
     description: "Collaborative project focused on product and experience strategy for ministry operations.",
     clients: [client("CoeticHR", "blue")],
-    values: [{ text: "capital" }, { text: "fraternity" }, { text: "faith" }],
+    values: [{ text: "capital" }, {text: "labor"}, { text: "fraternity" }, { text: "faith" }, {text: "evangelization"}],
     features: [
       "Product and UX planning",
       "Cross-functional creator collaboration",
@@ -268,7 +268,7 @@ const baseProjects: Project[] = [
     launchDate: "Oct 2020",
     description: "Project management application founded on organizational psychology.",
     clients: [client("CoeticHR", "blue")],
-    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
+    values: [{ text: "capital" }, {text: "labor"}, { text: "fraternity" }],
     features: [
       "Organizational psychology framework",
       "Team workflow management",
@@ -370,7 +370,7 @@ const baseProjects: Project[] = [
     launchDate: "Aug 2019",
     description: "Earlier Coetic website redesign iteration produced in a rapid collaborative cycle.",
     clients: [client("CoeticHR", "blue")],
-    values: [{ text: "capital" }, { text: "fraternity" }, { text: "hope" }],
+    values: [{ text: "capital" }, { text: "fraternity" }],
     features: [
       "Rapid website iteration and redesign",
       "Cross-functional creator collaboration",
@@ -387,7 +387,7 @@ const baseProjects: Project[] = [
     description:
       "Collaboration with the Michigan Avenue Corridor Improvement Authority and Michigan State University to provide human-centered research for proposed corridor developments.",
     clients: [client("Michigan Avenue Corridor Improvement Authority", "blue"), client("Michigan State University", "green")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "fraternity" }, { text: "dignity" }, { text: "our common home" }],
     features: [
       "Community-centered research planning",
       "Stakeholder collaboration with public institutions",
@@ -455,7 +455,7 @@ const baseProjects: Project[] = [
     description:
       "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Food Inspections Online Postings in accordance with the One Stand, One Brand initiative.",
     clients: [client("Michigan Department of Agriculture, and Rural Development", "muted")],
-    values: [{ text: "subsidiarity" }, { text: "our common home" }],
+    values: [{ text: "dignity" }],
     features: [
 
     ],
@@ -469,7 +469,7 @@ const baseProjects: Project[] = [
     description:
       "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Well Record Retrieval System in accordance with the One Stand, One Brand initiative.",
     clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }],
     features: [
 
     ],
@@ -482,7 +482,7 @@ const baseProjects: Project[] = [
     description:
       "This website provides the ability to look up certified drinking water operators, certified drinking water operators by a Water Supply Serial Number (WSSN), and Advisory Board approved courses that count towards continuing education. The modernization effort is focused on providing this service using modern technology and making sure it meets industry standards for user experience and accessibility.",
     clients: [client("Michigan Department of Enivronment, Great Lakes, and Energy", "blue")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }, { text: "labor" }],
     features: [
 
     ],
@@ -496,7 +496,7 @@ const baseProjects: Project[] = [
     description:
       "Modernized the legacy Burn Permits system used to meet ADA guidelines and align with the One State, One Brand initiative.",
     clients: [client("Michigan Department of Natural Resources", "green")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }],
     features: [
 
     ],
@@ -509,7 +509,7 @@ const baseProjects: Project[] = [
     description:
       "Modernized the legacy Intentional Conversation Database used to track performance conversations and policy adherence at MDARD.",
     clients: [client("Michigan Department of Agriculture and Rural Development", "blue")],
-    values: [{ text: "subsidiarity" }, { text: "our common home" }],
+    values: [{ text: "labor" }, { text: "dignity" }],
     features: [
       "Legacy database modernization",
       "Lower-cost architecture and improved sustainability",
@@ -525,7 +525,7 @@ const baseProjects: Project[] = [
     description:
       "Supported modernization of the Fisheries Information System Hub to strengthen data quality and collaboration for fisheries management.",
     clients: [client("Michigan Department of Natural Resources", "green")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }],
     features: [
       "Data-heavy system modernization",
       "Cross-agency collaboration support",
@@ -542,7 +542,7 @@ const baseProjects: Project[] = [
     description:
       "Modernization of the Water Withdrawal Assessment Tool to support required pre-installation impact checks for large quantity withdrawals.",
     clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }],
     features: [
       "Modernization of a critical statewide assessment tool",
       "Continuity after transfer from Michigan State University",
@@ -558,7 +558,7 @@ const baseProjects: Project[] = [
     description:
       "Web platform work supporting Michigan Forest Inventory workflows for conservation, treatment planning, and timber sale execution.",
     clients: [client("Michigan Department of Natural Resources", "green")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "our common home" }],
     features: [
       "Forestry operations workflow support",
       "Inventory and treatment planning enablement",
@@ -574,7 +574,7 @@ const baseProjects: Project[] = [
     description:
       "Delivered platform improvements for MiEHDWIS, the regulated-entity workspace for monitoring results, permits, and program documentation.",
     clients: [client("Michigan Department of Environment, Great Lakes, and Energy", "blue")],
-    values: [{ text: "our common home" }, { text: "subsidiarity" }],
+    values: [{ text: "dignity" }, { text: "our posterity" }],
     features: [
       "Regulated-entity submission experience",
       "Permit and licensing workflow support",
@@ -590,7 +590,7 @@ const baseProjects: Project[] = [
     description:
       "Contributed to statewide digital standards focused on consistent, trustworthy, and seamless citizen experiences across agencies.",
     clients: [client("State of Michigan", "blue")],
-    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
+    values: [{ text: "dignity" }],
     features: [
       "Cross-channel consistency framework",
       "Guidance for websites, apps, and digital communication",
@@ -606,7 +606,7 @@ const baseProjects: Project[] = [
     description:
       "Helped shape practical digital guidelines that enable teams to kickstart app design and development with user-trusted patterns.",
     clients: [client("State of Michigan", "blue")],
-    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
+    values: [{ text: "dignity" }],
     features: [
       "Developer and designer onboarding support",
       "Pattern guidance for trusted digital experiences",
@@ -622,7 +622,7 @@ const baseProjects: Project[] = [
     description:
       "Experience strategy work advancing consistent service experiences across Michigan digital properties for residents, businesses, and visitors.",
     clients: [client("State of Michigan", "blue")],
-    values: [{ text: "subsidiarity" }, { text: "fraternity" }],
+    values: [{ text: "dignity" }],
     features: [
       "Human-centered strategy alignment",
       "Cross-agency digital experience consistency",

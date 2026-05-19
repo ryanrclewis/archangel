@@ -40,11 +40,7 @@ function statusClass(status: string) {
 }
 
 function projectHref(project: Project) {
-  return project.url ?? `/projects/${project.id}`;
-}
-
-function projectTarget(project: Project) {
-  return project.url?.startsWith("http") ? "_blank" : undefined;
+  return `/projects/${project.id}`;
 }
 
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
@@ -134,21 +130,19 @@ export default function Home() {
                 className="project-card"
                 data-tone={tone}
                 href={projectHref(project)}
-                target={projectTarget(project)}
-                rel={projectTarget(project) ? "noreferrer" : undefined}
                 style={projectTitleHoverStyle(project)}
               >
                 <div className="project-card-topline">
                   <span>{project.type}</span>
-                  <span className={`status-chip ${statusClass(project.status)}`}>{project.status}</span>
+                  <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                 </div>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
                 <ProjectClients
                   values={project.values ?? []}
                   className="project-card-clients"
                   ariaLabel={`${project.name} phrases`}
                 />
-                <h3>{project.name}</h3>
-                <p>{project.description}</p>
               </a>
             );
           })}

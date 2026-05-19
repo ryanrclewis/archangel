@@ -506,6 +506,14 @@ h3 {
   letter-spacing: 0.08em;
 }
 
+.project-card-topline {
+  row-gap: 0.4rem;
+}
+
+.project-card-topline .status-text {
+  color: var(--blue-dark);
+}
+
 .client-list {
   display: flex;
   flex-wrap: wrap;
@@ -521,13 +529,13 @@ h3 {
 
 .client-chip {
   display: inline-flex;
-  min-height: 1.55rem;
+  min-height: 2rem;
   align-items: center;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 0.22rem 0.5rem;
+  padding: 0.3rem 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   line-height: 1;
   font-weight: 700;
   text-transform: uppercase;
@@ -536,44 +544,44 @@ h3 {
 }
 
 .client-chip[data-tone="muted"] {
-  background: rgba(94, 91, 85, 0.09);
-  border-color: rgba(94, 91, 85, 0.18);
+  background: rgba(94, 91, 85, 0.18);
+  border-color: rgba(94, 91, 85, 0.28);
   color: var(--muted);
 }
 
 .client-chip[data-tone="ink"] {
-  background: rgba(16, 16, 16, 0.08);
-  border-color: rgba(16, 16, 16, 0.15);
+  background: rgba(16, 16, 16, 0.16);
+  border-color: rgba(16, 16, 16, 0.25);
   color: var(--ink);
 }
 
 .client-chip[data-tone="blue"] {
-  background: rgba(0, 94, 168, 0.1);
-  border-color: rgba(0, 94, 168, 0.17);
+  background: rgba(0, 94, 168, 0.2);
+  border-color: rgba(0, 94, 168, 0.28);
   color: var(--blue-dark);
 }
 
 .client-chip[data-tone="green"] {
-  background: rgba(46, 112, 68, 0.1);
-  border-color: rgba(46, 112, 68, 0.17);
+  background: rgba(46, 112, 68, 0.2);
+  border-color: rgba(46, 112, 68, 0.28);
   color: var(--green);
 }
 
 .client-chip[data-tone="amber"] {
-  background: rgba(143, 95, 0, 0.12);
-  border-color: rgba(143, 95, 0, 0.18);
+  background: rgba(143, 95, 0, 0.22);
+  border-color: rgba(143, 95, 0, 0.32);
   color: var(--amber);
 }
 
 .client-chip[data-tone="red"] {
-  background: rgba(179, 25, 66, 0.09);
-  border-color: rgba(179, 25, 66, 0.17);
+  background: rgba(179, 25, 66, 0.18);
+  border-color: rgba(179, 25, 66, 0.28);
   color: var(--red);
 }
 
 .client-chip[data-tone="purple"] {
-  background: rgba(92, 57, 155, 0.1);
-  border-color: rgba(92, 57, 155, 0.18);
+  background: rgba(92, 57, 155, 0.2);
+  border-color: rgba(92, 57, 155, 0.28);
   color: #5c399b;
 }
 
@@ -593,9 +601,9 @@ h3 {
 }
 
 .row-clients .client-chip {
-  min-height: 1.25rem;
-  padding: 0.16rem 0.42rem;
-  font-size: 0.56rem;
+  min-height: 1.6rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
 }
 
 .project-card h3 {
@@ -618,6 +626,10 @@ h3 {
   margin-bottom: 1rem;
   color: var(--muted);
   line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tag-list {
@@ -646,12 +658,12 @@ h3 {
 
 .status-chip {
   display: inline-flex;
-  min-height: 1.65rem;
+  min-height: 2rem;
   align-items: center;
   border: 1px solid currentColor;
-  padding: 0.2rem 0.45rem;
+  padding: 0.28rem 0.55rem;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   line-height: 1;
   white-space: nowrap;
 }
