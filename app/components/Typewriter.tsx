@@ -79,7 +79,7 @@ export default function Typewriter({
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
           onBlur={() => setIsHovered(false)}
-          style={{ color: isHovered ? hoverColor : undefined } as React.CSSProperties}
+          style={{ color: isHovered ? undefined : hoverColor } as React.CSSProperties}
         >
           {inner}
         </a>
