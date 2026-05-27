@@ -276,6 +276,12 @@ const baseProjects: Project[] = [
     description: "Project management application founded on organizational psychology.",
     clients: [client("CoeticHR", "blue")],
     values: [{ text: "capital" }, {text: "labor"}, { text: "fraternity" }],
+    embed: {
+      src: "https://embed.figma.com/proto/9EiuFXr6vw57nzwTuzAytQ/Woether?content-scaling=fixed&kind=proto&node-id=266-490&page-id=0%3A1&scaling=contain&starting-point-node-id=268%3A0&embed-host=share",
+      title: "Woether prototype",
+      width: 800,
+      height: 450,
+    },
     features: [
       "Organizational psychology framework",
       "Team workflow management",
@@ -294,6 +300,12 @@ const baseProjects: Project[] = [
       "Value-centered design exploration for improving the dining discovery experience with research-backed prototyping.",
     clients: [client("Michigan State University", "green")],
     values: [{ text: "reason" }],
+    embed: {
+      src: "https://embed.figma.com/proto/WHJqnITQYDY27kd0QTk7kkyi/Finer-Dining?content-scaling=fixed&kind=proto&node-id=0-45&page-id=0%3A1&scaling=scale-down&embed-host=share",
+      title: "Finer Dining prototype",
+      width: 800,
+      height: 450,
+    },
     features: [
       "Apple Maps integration design",
       "Restaurant discovery features",
@@ -311,6 +323,12 @@ const baseProjects: Project[] = [
       "Research and redesign initiative delivering data and concepts to improve the Digital Scholarship Lab website experience.",
     clients: [client("Michigan State University", "green")],
     values: [{ text: "reason" }],
+    embed: {
+      src: "https://embed.figma.com/proto/Qmxd4FQy87KkFEwWiXwp6Wn8/Digital-Scholarship-Lab?node-id=0-2&embed-host=share",
+      title: "Digital Scholarship Lab prototype",
+      width: 800,
+      height: 450,
+    },
     features: [
       "User research and analysis",
       "Complete visual redesign",
@@ -344,6 +362,12 @@ const baseProjects: Project[] = [
       "Experimental audio interface for publishing and interacting with scholarly sound content.",
     clients: [client("Michigan State University", "green")],
     values: [{ text: "reason" }, { text: "dignity" }],
+    embed: {
+      src: "https://embed.figma.com/proto/x8RJbWV0TjjAo00KTDRHQw/Sound-Writing?node-id=0-1431&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=0%3A1431&show-proto-sidebar=1&embed-host=share",
+      title: "Soundwriting prototype",
+      width: 800,
+      height: 450,
+    },
     features: [
       "Audio content navigation",
       "Innovative interface design",
@@ -362,6 +386,12 @@ const baseProjects: Project[] = [
       "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
     clients: [client("Michigan State University", "green"), client("Stanford University", "red"), client("Teach Access", "muted")],
     values: [{ text: "dignity" }, { text: "reason" }],
+    embed: {
+      src: "https://embed.figma.com/proto/HWlfLJObTuIAcmiSl8PTh1EC/All-Aboard?content-scaling=fixed&kind=proto&node-id=0-100&page-id=0%3A1&scaling=min-zoom&embed-host=share",
+      title: "All Aboard prototype",
+      width: 800,
+      height: 450,
+    },
     features: [
       "Educational game design",
       "Accessibility awareness training",
@@ -451,6 +481,25 @@ const baseProjects: Project[] = [
       "Conversation-focused interaction redesign",
       "Concept validation through UX principles",
       "Product narrative for emerging interface patterns",
+    ],
+  },
+  {
+    id: "google-assistant-accessibility",
+    name: "Google Assistant Redesign for the Blind",
+    type: "UX Concept",
+    status: "COMPLETED",
+    launchDate: "Mar 2018",
+    description:
+      "This project was to improve the Google Assistant interface for people who have problems with sight. This project involved user research, user testing, accessibility practices, wire-frames, prototypes, and mock-ups along with a presentation.",
+    clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }],
+    embed: {
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vTgDOygXp-gwtTyY7_Dr1iroXnaxi5i_bOgEbBTL4FXsOLxQfGCuUbu2NheKf1zMiMauSceyuCFKtf2/pubembed?start=false&loop=false&delayms=3000",
+      title: "Google Assistant Redesign for the Blind presentation",
+      width: 960,
+      height: 569,
+    },
+    features: [
     ],
   },
   {
