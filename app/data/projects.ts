@@ -314,6 +314,29 @@ const baseProjects: Project[] = [
     ],
   },
   {
+    id: "bento-box",
+    name: "Bento Box",
+    type: "Web Redesign",
+    status: "COMPLETED",
+    launchDate: "Dec 2018",
+    description:
+      "I worked on a redesign for Michigan State's Library Search with a UX team. We did user testing and research to make informed design choices. Our process and deliverable were presented to the client and library staff.",
+    clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }],
+    embed: {
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vSkOnG69z2TEquPvkU07X8l3BG0qYYVJT0G80WYDwtdAEIeG5OnAZTAhQJekscwOA/pubembed?start=false&loop=false&delayms=3000",
+      title: "Bento Box presentation",
+      width: 800,
+      height: 450,
+    },
+    features: [
+      "User research and analysis",
+      "Complete visual redesign",
+      "Improved navigation",
+      "Accessibility improvements",
+    ],
+  },
+  {
     id: "dsl",
     name: "Digital Scholarship Lab",
     type: "Web Redesign",
@@ -446,6 +469,24 @@ const baseProjects: Project[] = [
       "Technology stack analysis",
       "User and system flow mapping",
       "Findings documentation and presentation",
+    ],
+  },
+  {
+    id: "freedom-of-speech-msu",
+    name: "Freedom of Speech at MSU",
+    type: "Research Project",
+    status: "COMPLETED",
+    launchDate: "Jun 2018",
+    description: "Research focused on the importance of debate and discussion in society as a whole and how this societal ideal has recently came under fire from individuals and groups inside of and related to academic organizations.",
+    clients: [client("Michigan State University", "green")],
+    values: [{ text: "reason" }, { text: "fraternity" }, { text: "dignity" }],
+    embed: {
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vTMZGUYJctcmjZXcKKihEZrte97e6Jsv_idq3OaqehIYZtEpYpRnbHJPCrG78woYYpzZsJt0D1SbPL1/pubembed?start=false&loop=false&delayms=3000",
+      title: "Freedom of Speech at MSU presentation",
+      width: 960,
+      height: 569,
+    },
+    features: [
     ],
   },
   {
