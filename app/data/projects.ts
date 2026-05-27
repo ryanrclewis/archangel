@@ -25,6 +25,11 @@ export type ProjectEmbed = {
   height?: number;
 };
 
+export type ProjectLink = {
+  label: string;
+  href: string;
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -32,6 +37,7 @@ export type Project = {
   status: ProjectStatus;
   description: string;
   url?: string;
+  externalLinks?: ProjectLink[];
   clients?: ProjectClient[];
   // `values` are the new project-associated phrases.
   values?: ProjectValue[];
@@ -700,6 +706,7 @@ const baseProjects: Project[] = [
     name: "Digital Guidelines",
     type: "Design System",
     status: "IN PROGRESS",
+    externalLinks: [{ label: "Digital Guidelines", href: "https://digitalguidelines.michigan.gov/" }],
     description:
       "Helped shape practical digital guidelines that enable teams to kickstart app design and development with user-trusted patterns.",
     clients: [client("State of Michigan", "blue")],

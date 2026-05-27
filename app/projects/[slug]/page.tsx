@@ -42,6 +42,11 @@ export default async function ProjectPage({ params }: RouteProps) {
     notFound();
   }
 
+  const projectLinks = [
+    ...(project.url ? [{ label: "Open project", href: project.url }] : []),
+    ...(project.externalLinks ?? []),
+  ];
+
   const heroContent = (
     <>
       <p className="eyebrow">Project</p>
@@ -108,11 +113,11 @@ export default async function ProjectPage({ params }: RouteProps) {
               <h2 id="resources-title">Links</h2>
             </div>
             <div className="action-row">
-              {project.url ? (
-                <a href={project.url} className="button-primary" target="_blank" rel="noreferrer">
-                  Open project
+              {projectLinks.map((link) => (
+                <a key={link.href} href={link.href} className="button-primary" target="_blank" rel="noreferrer">
+                  {link.label}
                 </a>
-              ) : null}
+              ))}
             </div>
           </section>
         </div>
