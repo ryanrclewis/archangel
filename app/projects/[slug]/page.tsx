@@ -47,6 +47,25 @@ export default async function ProjectPage({ params }: RouteProps) {
     ...(project.externalLinks ?? []),
   ];
 
+  const isPortraitEmbed = Boolean(
+    project.embed?.width && project.embed?.height && project.embed.width < project.embed.height,
+  );
+
+  const landscapeEmbed = project.embed && !isPortraitEmbed ? (
+    <section className="detail-embed detail-embed-landscape" aria-label={`${project.name} embed`}>
+      <iframe
+        src={project.embed.src}
+        title={project.embed.title ?? `${project.name} embed`}
+        style={{
+          border: "1px solid rgba(0, 0, 0, 0.1)",
+          width: "100%",
+          height: project.embed.height ? `${project.embed.height}px` : "450px",
+        }}
+        allowFullScreen
+      />
+    </section>
+  ) : null;
+
   const heroContent = (
     <>
       <p className="eyebrow">Project</p>
@@ -57,14 +76,11 @@ export default async function ProjectPage({ params }: RouteProps) {
         <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>{project.status}</span>
       </div>
       <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
-      {project.embed ? (
+      {project.embed && isPortraitEmbed ? (
         <div
-          className="detail-hero-embed-float"
+          className="detail-embed detail-embed-portrait"
           style={{
             float: "right",
-            width: project.embed.width ? `${project.embed.width}px` : "390px",
-            maxWidth: "46vw",
-            minWidth: "280px",
             margin: "0 0 1rem clamp(1rem, 2vw, 2rem)",
           }}
         >
@@ -74,7 +90,6 @@ export default async function ProjectPage({ params }: RouteProps) {
             style={{
               border: "1px solid rgba(0, 0, 0, 0.1)",
               width: "100%",
-              maxWidth: project.embed.width ? `${project.embed.width}px` : undefined,
               height: project.embed.height ? `${project.embed.height}px` : "450px",
             }}
             allowFullScreen
@@ -91,6 +106,8 @@ export default async function ProjectPage({ params }: RouteProps) {
 
       <article className="project-detail">
         <header className="detail-hero">{heroContent}</header>
+
+        {landscapeEmbed}
 
         <div className="detail-grid">
           {project.features?.length ? (

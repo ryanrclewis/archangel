@@ -688,7 +688,7 @@ const baseProjects: Project[] = [
   {
     id: "digital-standards",
     name: "Digtial Standards",
-    type: "Design System",
+    type: "Government Modernization",
     status: "IN PROGRESS",
     description:
       "Contributed to statewide digital standards focused on consistent, trustworthy, and seamless citizen experiences across agencies.",
@@ -704,7 +704,7 @@ const baseProjects: Project[] = [
   {
     id: "digital-guidelines",
     name: "Digital Guidelines",
-    type: "Design System",
+    type: "Government Modernization",
     status: "IN PROGRESS",
     externalLinks: [{ label: "Digital Guidelines", href: "https://digitalguidelines.michigan.gov/" }],
     description:
@@ -721,7 +721,7 @@ const baseProjects: Project[] = [
   {
     id: "one-state-one-brand",
     name: "One State, One Brand",
-    type: "GovernmentExperience Architecture",
+    type: "Government Modernization",
     status: "IN PROGRESS",
     description:
       "Experience strategy work advancing consistent service experiences across Michigan digital properties for residents, businesses, and visitors.",

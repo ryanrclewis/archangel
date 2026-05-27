@@ -7,16 +7,63 @@ import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
 const firstCompletedIndex = projects.findIndex((project) => project.status === "COMPLETED");
 const ourWork = firstCompletedIndex >= 0 ? projects.slice(0, firstCompletedIndex) : projects;
 const pastWork = firstCompletedIndex >= 0 ? projects.slice(firstCompletedIndex).filter((project) => project.id !== "contact") : [];
-const publicSystems = pastWork.filter(
-  (project) => project.type.includes("Government") || project.type.includes("Design System"),
+
+const MONTH_INDEX: Record<string, number> = {
+  jan: 0,
+  feb: 1,
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
+};
+
+function launchDateToTimestamp(launchDate?: string) {
+  if (!launchDate?.trim()) return Number.NEGATIVE_INFINITY;
+
+  const parts = launchDate.trim().split(/\s+/);
+  if (parts.length !== 2) return Number.NEGATIVE_INFINITY;
+
+  const monthToken = parts[0].slice(0, 3).toLowerCase();
+  const year = Number(parts[1]);
+  const month = MONTH_INDEX[monthToken];
+
+  if (Number.isNaN(year) || month === undefined) return Number.NEGATIVE_INFINITY;
+
+  return Date.UTC(year, month, 1);
+}
+
+function sortProjectsByLaunchDateDesc(projectList: Project[]) {
+  return [...projectList].sort(
+    (a, b) => launchDateToTimestamp(b.launchDate) - launchDateToTimestamp(a.launchDate),
+  );
+}
+
+const publicSystems = sortProjectsByLaunchDateDesc(
+  pastWork.filter((project) => project.type.includes("Government") || project.type.includes("Design System")),
 );
 const finerIndex = pastWork.findIndex((p) => p.id === "finer-dining");
 const alloIndex = pastWork.findIndex((p) => p.id === "allo-redesign");
 const universityProjects =
   finerIndex >= 0 && alloIndex >= 0 && alloIndex >= finerIndex
-    ? pastWork.slice(finerIndex, alloIndex + 1).filter((p) => p.id !== "coetic-3")
+    ? sortProjectsByLaunchDateDesc(pastWork.slice(finerIndex, alloIndex + 1).filter((p) => p.id !== "coetic-3"))
     : [];
 const universityIds = universityProjects.map((p) => p.id);
+const ourWorkSorted = sortProjectsByLaunchDateDesc(ourWork);
+const industryProjects = sortProjectsByLaunchDateDesc(
+  pastWork.filter(
+    (project) =>
+      !project.type.includes("Government") &&
+      project.id !== "digital-standards" &&
+      project.id !== "digital-guidelines" &&
+      !universityIds.includes(project.id),
+  ),
+);
 
 const principles = [
   {
@@ -122,7 +169,7 @@ export default function Home() {
         </div>
 
         <div className="project-grid">
-          {ourWork.map((project) => {
+          {ourWorkSorted.map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
               <a
@@ -189,14 +236,7 @@ export default function Home() {
         </div>
 
         <div className="archive-list">
-          {pastWork
-            .filter((project) =>
-              !project.type.includes("Government") &&
-              project.id !== "digital-standards" &&
-              project.id !== "digital-guidelines" &&
-              !universityIds.includes(project.id)
-            )
-            .map((project) => {
+          {industryProjects.map((project) => {
               const tone = project.clients?.[0]?.tone ?? "muted";
               return (
                 <a
