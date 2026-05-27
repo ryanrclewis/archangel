@@ -67,23 +67,23 @@ export default async function ProjectPage({ params }: RouteProps) {
   ) : null;
 
   const heroContent = (
-    <>
-      <p className="eyebrow">Project</p>
-      <h1>{project.name}</h1>
-      <div className="detail-meta">
-        <span>{project.type}</span>
-        <span>{getProjectLaunchLabel(project)}</span>
-        <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>{project.status}</span>
+    <div className={`detail-hero-content ${project.embed && isPortraitEmbed ? "detail-hero-content--portrait" : ""}`}>
+      <div className="detail-hero-copy">
+        <p className="eyebrow">Project</p>
+        <h1>{project.name}</h1>
+        <div className="detail-meta">
+          <span>{project.type}</span>
+          <span>{getProjectLaunchLabel(project)}</span>
+          <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>
+            {project.status}
+          </span>
+        </div>
+        <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
+        <p className="lede">{project.description}</p>
       </div>
-      <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
+
       {project.embed && isPortraitEmbed ? (
-        <div
-          className="detail-embed detail-embed-portrait"
-          style={{
-            float: "right",
-            margin: "0 0 1rem clamp(1rem, 2vw, 2rem)",
-          }}
-        >
+        <section className="detail-embed detail-embed-portrait" aria-label={`${project.name} embed`}>
           <iframe
             src={project.embed.src}
             title={project.embed.title ?? `${project.name} embed`}
@@ -94,10 +94,9 @@ export default async function ProjectPage({ params }: RouteProps) {
             }}
             allowFullScreen
           />
-        </div>
+        </section>
       ) : null}
-      <p className="lede">{project.description}</p>
-    </>
+    </div>
   );
 
   return (

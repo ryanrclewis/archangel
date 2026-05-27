@@ -816,6 +816,22 @@ h3 {
   margin-bottom: clamp(2rem, 6vw, 5rem);
 }
 
+.detail-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.detail-hero-content--portrait {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.detail-hero-copy {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
 .detail-hero h1 {
   max-width: 16ch;
 }
@@ -835,13 +851,14 @@ h3 {
 }
 
 .detail-embed-portrait {
-  float: right;
+  flex: 0 0 min(50%, 390px);
   width: min(50%, 390px);
   min-width: 280px;
-  margin: 0 0 1rem clamp(1rem, 2vw, 2rem);
+  margin: 0;
 }
 
 .detail-embed-landscape {
+  width: 100%;
   margin-bottom: clamp(2rem, 5vw, 4rem);
 }
 
@@ -929,10 +946,13 @@ h3 {
   }
 
   .detail-embed-portrait {
-    float: none;
     width: 100%;
     min-width: 0;
     margin: 1rem 0;
+  }
+
+  .detail-hero-content--portrait {
+    flex-direction: column;
   }
 
   .detail-embed-landscape {
