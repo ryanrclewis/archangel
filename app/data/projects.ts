@@ -309,8 +309,8 @@ const baseProjects: Project[] = [
     embed: {
       src: "https://embed.figma.com/proto/WHJqnITQYDY27kd0QTk7kkyi/Finer-Dining?content-scaling=fixed&kind=proto&node-id=0-45&page-id=0%3A1&scaling=scale-down&embed-host=share",
       title: "Finer Dining prototype",
-      width: 800,
-      height: 450,
+      width: 375,
+      height: 812,
     },
     features: [
       "Apple Maps integration design",
@@ -394,8 +394,8 @@ const baseProjects: Project[] = [
     embed: {
       src: "https://embed.figma.com/proto/x8RJbWV0TjjAo00KTDRHQw/Sound-Writing?node-id=0-1431&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=0%3A1431&show-proto-sidebar=1&embed-host=share",
       title: "Soundwriting prototype",
-      width: 800,
-      height: 450,
+      width: 375,
+      height: 667,
     },
     features: [
       "Audio content navigation",
@@ -418,8 +418,8 @@ const baseProjects: Project[] = [
     embed: {
       src: "https://embed.figma.com/proto/HWlfLJObTuIAcmiSl8PTh1EC/All-Aboard?content-scaling=fixed&kind=proto&node-id=0-100&page-id=0%3A1&scaling=min-zoom&embed-host=share",
       title: "All Aboard prototype",
-      width: 800,
-      height: 450,
+      width: 375,
+      height: 812,
     },
     features: [
       "Educational game design",
