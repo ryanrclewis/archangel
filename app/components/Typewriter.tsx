@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { valueColors } from "@/app/data/projects";
 import { getPhraseChipColor } from "@/app/utils/phraseStyles";
 
 export type TypewriterPhrase = {
@@ -26,6 +25,14 @@ export default function Typewriter({
   const [display, setDisplay] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [valueColors, setValueColors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch("/api/admin/value-colors")
+      .then((r) => r.json())
+      .then(setValueColors)
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
@@ -58,7 +65,8 @@ export default function Typewriter({
   const phraseObj = phrases[index % phrases.length];
   const currentLink = typeof phraseObj === "string" ? undefined : phraseObj.link;
   const currentText = typeof phraseObj === "string" ? phraseObj : phraseObj.text;
-  const valueColor = valueColors[currentText] ?? undefined;
+  const lookupText = currentText.replace(/[.,!?;:]+$/, "");
+  const valueColor = valueColors[lookupText] ?? undefined;
   const hoverColor = getPhraseChipColor(currentText, valueColor);
   const inner = (
     <>

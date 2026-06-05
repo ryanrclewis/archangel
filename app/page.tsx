@@ -3,6 +3,7 @@ import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
+import typewriterPhrases from "./data/typewriter-phrases.json";
 
 const firstCompletedIndex = projects.findIndex((project) => project.status === "COMPLETED");
 const ourWork = firstCompletedIndex >= 0 ? projects.slice(0, firstCompletedIndex) : projects;
@@ -104,31 +105,7 @@ export default function Home() {
           <h1 id="home-title">
             Technology in service of{"\u00A0"}
             <br />
-            <Typewriter
-              phrases={[
-                { text: "magnificent humanity.", link: "https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-first-encyclical-magnifica-humanitas.html" },
-                { text: "the human heart.", link: "https://www.vatican.va/content/francesco/en/encyclicals/documents/20241024-enciclica-dilexit-nos.html" },
-                { text: "fraternity.", link: "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20201003_enciclica-fratelli-tutti.html" },
-                { text: "our common home.", link: "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20150524_enciclica-laudato-si.html" },
-                { text: "light.", link: "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20130629_enciclica-lumen-fidei.html" },
-                { text: "truth.", link: "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20090629_caritas-in-veritate.html" },
-                { text: "hope.", link: "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20071130_spe-salvi.html" },
-                { text: "love.", link: "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20051225_deus-caritas-est.html" },
-                { text: "faith.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html" },
-                { text: "reason.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html" },
-                { text: "unity.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25051995_ut-unum-sint.html" },
-                { text: "life.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25031995_evangelium-vitae.html" },
-                { text: "labor.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_01051991_centesimus-annus.html" },
-                { text: "capital.", link: "https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html" },
-                { text: "evangelization.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_07121990_redemptoris-missio.html" },
-                { text: "charity.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_30121987_sollicitudo-rei-socialis.html" },
-                { text: "dignity.", link: "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091981_laborem-exercens.html"},
-                { text: "our posterity.", link: "https://www.vatican.va/content/paul-vi/en/encyclicals/documents/hf_p-vi_enc_25071968_humanae-vitae.html" },
-                { text: "prosperity.", link: "https://www.vatican.va/content/paul-vi/en/encyclicals/documents/hf_p-vi_enc_26031967_populorum.html" },
-                { text: "peace on Earth.", link: "https://www.vatican.va/content/john-xxiii/en/encyclicals/documents/hf_j-xxiii_enc_11041963_pacem.html" },
-                { text: "subsidiarity.", link: "https://www.vatican.va/content/pius-xi/en/encyclicals/documents/hf_p-xi_enc_19310515_quadragesimo-anno.html" },
-              ]}
-            />
+            <Typewriter phrases={typewriterPhrases} />
           </h1>
           <p className="lede">
             Archangel Laboratories designs and builds technology for families, communities, teams, and public
@@ -298,6 +275,7 @@ export default function Home() {
       <footer className="site-footer">
         <p>Designed and engineered by Archangel Laboratories.</p>
         <a href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a>
+        <a href="https://x.com/ArchangelLabs" target="_blank" rel="noopener noreferrer">@ArchangelLabs</a>
       </footer>
     </PageLayout>
   );

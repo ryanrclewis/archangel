@@ -31,6 +31,7 @@
     "typescript": "^5",
     "vinext": "^0.0.30",
     "vite": "^7.3.1",
+    "workerd": "^1.20260602.1",
     "wrangler": "^4.73.0"
   },
   "type": "module"
