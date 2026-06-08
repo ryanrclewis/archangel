@@ -1277,3 +1277,23 @@ h3 {
   }
 }
 
+
+/* ── Project preview card ─────────────────────────────────────────────────── */
+
+.project-preview-popup {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity 150ms ease,
+    scale 150ms ease;
+}
+
+.project-preview-popup[data-starting-style],
+.project-preview-popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.95;
+}

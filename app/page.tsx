@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
+import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
 import typewriterPhrases from "./data/typewriter-phrases.json";
@@ -149,11 +150,11 @@ export default function Home() {
           {ourWorkSorted.map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
-              <a
+              <ProjectPreviewCard
                 key={project.id}
+                project={project}
                 className="project-card"
                 data-tone={tone}
-                href={projectHref(project)}
                 style={projectTitleHoverStyle(project)}
               >
                 <div className="project-card-topline">
@@ -167,7 +168,7 @@ export default function Home() {
                   className="project-card-clients"
                   ariaLabel={`${project.name} phrases`}
                 />
-              </a>
+              </ProjectPreviewCard>
             );
           })}
         </div>
@@ -183,11 +184,11 @@ export default function Home() {
           {publicSystems.slice(0, 8).map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
-              <a
+              <ProjectPreviewCard
+                key={project.id}
+                project={project}
                 className="system-row"
                 data-tone={tone}
-                href={`/projects/${project.id}`}
-                key={project.id}
                 style={projectTitleHoverStyle(project)}
               >
                 <span>{project.status}</span>
@@ -200,7 +201,7 @@ export default function Home() {
                   />
                 </div>
                 <em>{project.type}</em>
-              </a>
+              </ProjectPreviewCard>
             );
           })}
         </div>
@@ -216,11 +217,11 @@ export default function Home() {
           {industryProjects.map((project) => {
               const tone = project.clients?.[0]?.tone ?? "muted";
               return (
-                <a
+                <ProjectPreviewCard
+                  key={project.id}
+                  project={project}
                   className="archive-row"
                   data-tone={tone}
-                  href={`/projects/${project.id}`}
-                  key={project.id}
                   style={projectTitleHoverStyle(project)}
                 >
                   <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
@@ -233,7 +234,7 @@ export default function Home() {
                     />
                   </div>
                   <span className="archive-type">{project.type}</span>
-                </a>
+                </ProjectPreviewCard>
               );
             })}
         </div>
@@ -249,11 +250,11 @@ export default function Home() {
           {universityProjects.map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
-              <a
+              <ProjectPreviewCard
+                key={project.id}
+                project={project}
                 className="archive-row"
                 data-tone={tone}
-                href={`/projects/${project.id}`}
-                key={project.id}
                 style={projectTitleHoverStyle(project)}
               >
                 <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
@@ -266,7 +267,7 @@ export default function Home() {
                   />
                 </div>
                 <span className="archive-type">{project.type}</span>
-              </a>
+              </ProjectPreviewCard>
             );
           })}
         </div>
