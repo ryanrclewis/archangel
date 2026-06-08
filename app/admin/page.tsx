@@ -675,6 +675,8 @@ export default function AdminPage() {
   const [saved, setSaved] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isNew, setIsNew] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/colors").then((r) => r.json()).then(setColors);
@@ -712,6 +714,29 @@ export default function AdminPage() {
       persistValueColors(valueColors),
     ]);
     flashSaved();
+  };
+
+  const publish = async () => {
+    setPublishing(true);
+    setPublishStatus(null);
+    try {
+      const res = await fetch("/api/admin/git-push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "admin: update content" }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setPublishStatus(data.skipped ? "Nothing to publish" : `Published (${data.sha})`);
+      } else {
+        setPublishStatus(`Error: ${data.error}`);
+      }
+    } catch {
+      setPublishStatus("Network error");
+    } finally {
+      setPublishing(false);
+      setTimeout(() => setPublishStatus(null), 4000);
+    }
   };
 
   const removeValueColor = (key: string) => {
@@ -767,11 +792,33 @@ export default function AdminPage() {
       <SaveBanner saved={saved} />
 
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ marginBottom: 32 }}>
-          <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0, marginBottom: 4 }}>Admin</h1>
-          <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
-            Archangel Laboratories — site editor
-          </p>
+        <div style={{ marginBottom: 32, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div>
+            <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0, marginBottom: 4 }}>Admin</h1>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              Archangel Laboratories — site editor
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+            <button
+              onClick={publish}
+              disabled={publishing}
+              style={{
+                ...btnStyle,
+                background: publishing ? "var(--muted)" : "var(--blue)",
+                opacity: publishing ? 0.7 : 1,
+                cursor: publishing ? "not-allowed" : "pointer",
+                minWidth: 110,
+              }}
+            >
+              {publishing ? "Publishing…" : "↑ Publish"}
+            </button>
+            {publishStatus && (
+              <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: publishStatus.startsWith("Error") ? "var(--red)" : "var(--muted)" }}>
+                {publishStatus}
+              </span>
+            )}
+          </div>
         </div>
 
         {editingProject ? (
