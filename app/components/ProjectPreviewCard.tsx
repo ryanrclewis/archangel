@@ -44,7 +44,7 @@ export function ProjectPreviewCard({ project, children, className, style, ...res
         {children}
       </PreviewCard.Trigger>
 
-      <PreviewCard.Portal>
+      <PreviewCard.Portal keepMounted>
         <PreviewCard.Positioner side="top" align="center" sideOffset={12}>
           <PreviewCard.Popup className="project-preview-popup">
             <iframe
@@ -53,7 +53,6 @@ export function ProjectPreviewCard({ project, children, className, style, ...res
               width={previewWidth}
               height={previewHeight}
               style={{ border: "none", display: "block", borderRadius: 6 }}
-              loading="lazy"
             />
           </PreviewCard.Popup>
         </PreviewCard.Positioner>
