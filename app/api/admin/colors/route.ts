@@ -1,8 +1,4 @@
 import { NextResponse } from "next/server";
-import { readFileSync, writeFileSync } from "fs";
-import path from "path";
-
-const CSS_PATH = path.join(process.cwd(), "app/globals.css");
 
 const COLOR_VARS = [
   "--paper",
@@ -28,13 +24,18 @@ function parseColors(css: string): Record<string, string> {
 }
 
 export async function GET() {
-  const css = readFileSync(CSS_PATH, "utf-8");
+  const { readFileSync } = await import("fs");
+  const { join } = await import("path");
+  const css = readFileSync(join(process.cwd(), "app/globals.css"), "utf-8");
   return NextResponse.json(parseColors(css));
 }
 
 export async function POST(req: Request) {
+  const { readFileSync, writeFileSync } = await import("fs");
+  const { join } = await import("path");
+  const cssPath = join(process.cwd(), "app/globals.css");
   const updates: Record<string, string> = await req.json();
-  let css = readFileSync(CSS_PATH, "utf-8");
+  let css = readFileSync(cssPath, "utf-8");
 
   for (const [varName, value] of Object.entries(updates)) {
     if (!COLOR_VARS.includes(varName)) continue;
@@ -44,6 +45,6 @@ export async function POST(req: Request) {
     );
   }
 
-  writeFileSync(CSS_PATH, css, "utf-8");
+  writeFileSync(cssPath, css, "utf-8");
   return NextResponse.json({ ok: true });
 }

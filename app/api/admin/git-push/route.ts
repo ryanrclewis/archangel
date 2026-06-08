@@ -1,8 +1,4 @@
 import { NextResponse } from "next/server";
-import { execSync } from "child_process";
-import path from "path";
-
-const ROOT = process.cwd();
 
 const MANAGED_FILES = [
   "app/data/projects-data.json",
@@ -11,18 +7,18 @@ const MANAGED_FILES = [
   "app/globals.css",
 ];
 
-function run(cmd: string) {
-  return execSync(cmd, { cwd: ROOT, encoding: "utf-8" }).trim();
-}
-
 export async function POST(req: Request) {
+  const { execSync } = await import("child_process");
   const { message = "admin: update content" } = await req.json().catch(() => ({}));
+  const ROOT = process.cwd();
+
+  function run(cmd: string) {
+    return execSync(cmd, { cwd: ROOT, encoding: "utf-8" }).trim();
+  }
 
   try {
-    // Stage only the managed files
     run(`git add ${MANAGED_FILES.join(" ")}`);
 
-    // Check if there's actually anything to commit
     const status = run("git status --porcelain");
     if (!status) {
       return NextResponse.json({ ok: true, skipped: true, message: "Nothing to commit" });
