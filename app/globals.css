@@ -1053,42 +1053,50 @@ h3 {
   outline: 0;
 }
 
-/* Command Palette */
+/* Command Palette trigger — styled identically to .site-nav a */
 .command-palette-trigger {
-  display: flex;
+  display: inline-flex;
+  min-height: 72px;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0 1rem;
   border-left: 1px solid var(--hairline);
+  padding: 0 0.75rem;
   background: transparent;
-  border: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
   cursor: pointer;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
-  color: var(--muted);
+  font-weight: 700;
+  color: inherit;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  transition: all 0.2s ease;
-  min-height: 72px;
+  transition: background 0.2s ease, color 0.2s ease;
+  position: relative;
 }
 
-.command-palette-trigger:hover {
+.command-palette-trigger:hover,
+.command-palette-trigger:focus-visible {
   background: var(--ink);
   color: var(--paper);
+  outline: 0;
 }
 
+/* "Search" label: always visible, fades out on hover */
 .command-palette-trigger .search-label {
+  opacity: 1;
   transition: opacity 0.15s ease;
 }
 
-.command-palette-trigger:hover .search-label {
+.command-palette-trigger:hover .search-label,
+.command-palette-trigger:focus-visible .search-label {
   opacity: 0;
-  max-width: 0;
-  overflow: hidden;
-  margin: 0;
+  position: absolute;
+  pointer-events: none;
 }
 
+/* 🔍 icon + ⌘K: hidden by default, slide in on hover */
 .command-palette-trigger .search-icon {
   font-size: 1rem;
   line-height: 1;
@@ -1100,7 +1108,8 @@ h3 {
   margin-right: 0;
 }
 
-.command-palette-trigger:hover .search-icon {
+.command-palette-trigger:hover .search-icon,
+.command-palette-trigger:focus-visible .search-icon {
   max-width: 2rem;
   opacity: 1;
   margin-right: 0.25rem;
