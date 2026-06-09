@@ -64,7 +64,7 @@ export function SiteHeader() {
             aria-label="Search projects (Cmd+K)"
             title="Press Cmd+K to search projects"
           >
-            <span className="nav-emoji">🔍</span>Search
+            <span className="nav-emoji">🔍</span>Search<kbd className="search-hint">⌘K</kbd>
           </button>
         </nav>
       )}
