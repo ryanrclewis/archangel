@@ -33,8 +33,11 @@ export type ProjectLink = {
   href: string;
 };
 
+export type ProjectSection = "bespoke" | "government" | "industry" | "research";
+
 export type Project = {
   id: string;
+  section?: ProjectSection;
   name: string;
   type: string;
   status: ProjectStatus;

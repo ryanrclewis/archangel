@@ -1,6 +1,7 @@
 [
   {
     "id": "saintstombs",
+    "section": "bespoke",
     "name": "SaintsTombs",
     "type": "Web Application",
     "status": "LIVE",
@@ -12,6 +13,7 @@
   },
   {
     "id": "mithril",
+    "section": "bespoke",
     "name": "Mithril",
     "type": "Docker / Networking",
     "status": "LIVE",
@@ -22,6 +24,7 @@
   },
   {
     "id": "heirloom",
+    "section": "bespoke",
     "name": "Heirloom",
     "type": "Web Application",
     "status": "IN PROGRESS",
@@ -32,6 +35,7 @@
   },
   {
     "id": "crisis-catalog",
+    "section": "bespoke",
     "name": "Crisis Catalog",
     "type": "Web Application",
     "status": "IN PROGRESS",
@@ -42,6 +46,7 @@
   },
   {
     "id": "psalm113-3",
+    "section": "bespoke",
     "name": "Psalm 113:3",
     "type": "Web Visualization",
     "status": "IN PROGRESS",
@@ -52,6 +57,7 @@
   },
   {
     "id": "pantrie",
+    "section": "bespoke",
     "name": "Pantrie",
     "type": "Docker / CLI Tool",
     "status": "IN PROGRESS",
@@ -62,6 +68,7 @@
   },
   {
     "id": "gm",
+    "section": "industry",
     "name": "General Motors",
     "type": "Experience Architecture",
     "status": "COMPLETED",
@@ -74,6 +81,7 @@
   },
   {
     "id": "nsfm",
+    "section": "industry",
     "name": "National Sci-Fi Museum",
     "type": "iOS Application",
     "status": "COMPLETED",
@@ -100,6 +108,7 @@
   },
   {
     "id": "lwt",
+    "section": "industry",
     "name": "Long Walk Technologies",
     "type": "Web Development",
     "status": "COMPLETED",
@@ -117,6 +126,7 @@
   },
   {
     "id": "stellantis",
+    "section": "industry",
     "name": "Stellantis",
     "type": "Experience Architecture",
     "status": "COMPLETED",
@@ -129,6 +139,7 @@
   },
   {
     "id": "coetic",
+    "section": "industry",
     "name": "CoeticHR",
     "type": "Web Redesign",
     "status": "COMPLETED",
@@ -146,6 +157,7 @@
   },
   {
     "id": "people-science",
+    "section": "industry",
     "name": "People Science",
     "type": "Web Experience",
     "status": "COMPLETED",
@@ -163,6 +175,7 @@
   },
   {
     "id": "effective-ministry-360",
+    "section": "industry",
     "name": "Effective Ministry 360",
     "type": "Product Experience",
     "status": "COMPLETED",
@@ -179,6 +192,7 @@
   },
   {
     "id": "woether",
+    "section": "industry",
     "name": "Woether",
     "type": "Web Application",
     "status": "COMPLETED",
@@ -201,6 +215,7 @@
   },
   {
     "id": "listening-to-users",
+    "section": "industry",
     "name": "Listening to Our Users",
     "type": "User Research",
     "status": "COMPLETED",
@@ -211,6 +226,7 @@
   },
   {
     "id": "finer-dining",
+    "section": "research",
     "name": "Finer Dining",
     "type": "UX / Product Design",
     "status": "COMPLETED",
@@ -234,6 +250,7 @@
   },
   {
     "id": "bento-box",
+    "section": "research",
     "name": "Bento Box",
     "type": "Web Redesign",
     "status": "COMPLETED",
@@ -256,6 +273,7 @@
   },
   {
     "id": "dsl",
+    "section": "research",
     "name": "Digital Scholarship Lab",
     "type": "Web Redesign",
     "status": "COMPLETED",
@@ -278,6 +296,7 @@
   },
   {
     "id": "h2home",
+    "section": "research",
     "name": "H2home",
     "type": "Product Design",
     "status": "COMPLETED",
@@ -300,6 +319,7 @@
   },
   {
     "id": "soundwriting",
+    "section": "research",
     "name": "Soundwriting",
     "type": "Interface Design",
     "status": "COMPLETED",
@@ -322,6 +342,7 @@
   },
   {
     "id": "all-aboard",
+    "section": "research",
     "name": "All Aboard",
     "type": "Game Prototype",
     "status": "COMPLETED",
@@ -349,6 +370,7 @@
   },
   {
     "id": "coetic-3",
+    "section": "industry",
     "name": "Coetic Website 3.0",
     "type": "Web Redesign",
     "status": "COMPLETED",
@@ -366,6 +388,7 @@
   },
   {
     "id": "michigan-avenue-2030",
+    "section": "research",
     "name": "Michigan Avenue 2030",
     "type": "Human-Centered Research",
     "status": "COMPLETED",
@@ -385,6 +408,7 @@
   },
   {
     "id": "global-payment-network",
+    "section": "research",
     "name": "Global Payment Network",
     "type": "Research Project",
     "status": "COMPLETED",
@@ -401,6 +425,7 @@
   },
   {
     "id": "freedom-of-speech-msu",
+    "section": "research",
     "name": "Freedom of Speech at MSU",
     "type": "Research Project",
     "status": "COMPLETED",
@@ -418,6 +443,7 @@
   },
   {
     "id": "jane-the-brain",
+    "section": "research",
     "name": "Jane The Brain",
     "type": "Campaign Design",
     "status": "COMPLETED",
@@ -435,6 +461,7 @@
   },
   {
     "id": "allo-redesign",
+    "section": "research",
     "name": "Allo Redesign",
     "type": "UX Concept",
     "status": "COMPLETED",
@@ -451,6 +478,7 @@
   },
   {
     "id": "google-assistant-accessibility",
+    "section": "industry",
     "name": "Google Assistant Redesign for the Blind",
     "type": "UX Concept",
     "status": "COMPLETED",
@@ -468,6 +496,7 @@
   },
   {
     "id": "fiop-modernization",
+    "section": "government",
     "name": "Food Inspections Online Postings",
     "type": "Government Modernization",
     "externalLinks": [{ "label": "MiSAFE", "href": "https://www2.mda.state.mi.us/MiSafe/Default" }],
@@ -480,6 +509,7 @@
   },
   {
     "id": "wrrs-modernization",
+    "section": "government",
     "name": "Well Record Retrieval System",
     "type": "Government Modernization",
     "externalLinks": [{ "label": "Well Logs", "href": "https://www.egle.state.mi.us/well-logs/" }],
@@ -492,6 +522,7 @@
   },
   {
     "id": "opcert-modernization",
+    "section": "government",
     "name": "Operator Training and Certification Information System (OTCIS / OpCert)",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
@@ -503,6 +534,7 @@
   },
   {
     "id": "burn-permits-modernization",
+    "section": "government",
     "name": "Burn Permits",
     "type": "Government Modernization",
     "externalLinks": [{ "label": "Burn Permits", "href": "https://www.dnr.state.mi.us/burnpermits/" }],
@@ -515,6 +547,7 @@
   },
   {
     "id": "icdb-modernization",
+    "section": "government",
     "name": "Intentional Conversation Database (ICDB)",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
@@ -530,6 +563,7 @@
   },
   {
     "id": "fish-modernization",
+    "section": "government",
     "name": "Fisheries Information System Hub (FISH)",
     "type": "Government Modernization",
     "externalLinks": [{ "label": "FISH", "href": "https://www.michigandnr.com/fish" }],
@@ -546,6 +580,7 @@
   },
   {
     "id": "wwat-modernization",
+    "section": "government",
     "name": "Water Withdrawal Assessment Tool (WWAT)",
     "type": "Government Modernization",
     "externalLinks": [{ "label": "WWAT", "href": "https://egle.state.mi.us/wwat/home" }],
@@ -563,6 +598,7 @@
   },
   {
     "id": "mif-modernization",
+    "section": "government",
     "name": "Michigan Forest Inventory (MiFI)",
     "type": "Government Digital Platform",
     "status": "IN PROGRESS",
@@ -579,6 +615,7 @@
   },
   {
     "id": "miehdwis",
+    "section": "government",
     "name": "MIEHDWIS",
     "type": "Government Digital Platform",
     "status": "IN PROGRESS",
@@ -595,6 +632,7 @@
   },
   {
     "id": "digital-standards",
+    "section": "government",
     "name": "Digtial Standards",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
@@ -611,6 +649,7 @@
   },
   {
     "id": "digital-guidelines",
+    "section": "government",
     "name": "Digital Guidelines",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
@@ -627,6 +666,7 @@
   },
   {
     "id": "one-state-one-brand",
+    "section": "government",
     "name": "One State, One Brand",
     "type": "Government Modernization",
     "url": "https://www.nascio.org/wp-content/uploads/2023/08/MI_Digital-Services_Government-to-Citizen.pdf",
