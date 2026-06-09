@@ -57,13 +57,14 @@ export function SiteHeader() {
           <Link href="/#government"><span className="nav-emoji">🏛️</span>Government</Link>
           <Link href="/#industry"><span className="nav-emoji">🏭</span>Industry</Link>
           <Link href="/#research"><span className="nav-emoji">📚</span>Research</Link>
-          <a href="mailto:contact@archangel-labs.com">Contact</a>
+          <a href="mailto:contact@archangel-labs.com"><span className="nav-emoji">📧</span>Contact</a>
           <button
             onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
             aria-label="Search projects (Cmd+K)"
             title="Press Cmd+K to search projects"
           >
+            <span className="search-label">Search</span>
             <span className="search-icon">🔍</span>
             <kbd className="search-hint">⌘K</kbd>
           </button>

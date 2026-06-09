@@ -1078,10 +1078,32 @@ h3 {
   color: var(--paper);
 }
 
+.command-palette-trigger .search-label {
+  transition: opacity 0.15s ease;
+}
+
+.command-palette-trigger:hover .search-label {
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  margin: 0;
+}
+
 .command-palette-trigger .search-icon {
   font-size: 1rem;
   line-height: 1;
-  transition: opacity 0.15s ease;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease;
+  margin-right: 0;
+}
+
+.command-palette-trigger:hover .search-icon {
+  max-width: 2rem;
+  opacity: 1;
+  margin-right: 0.25rem;
 }
 
 .command-palette-trigger .search-hint {
@@ -1094,7 +1116,7 @@ h3 {
   max-width: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, margin 0.2s ease;
+  transition: max-width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
   white-space: nowrap;
   padding-left: 0;
   padding-right: 0;
@@ -1104,10 +1126,6 @@ h3 {
   max-width: 3rem;
   opacity: 1;
   padding: 0.25rem 0.5rem;
-}
-
-.command-palette-trigger:hover .search-icon {
-  opacity: 0.8;
 }
 
 /* Overlay */
