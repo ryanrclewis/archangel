@@ -44,8 +44,8 @@ export function getPhraseChipStyle(text: string, explicitHex?: string): React.CS
 
   const hue = hashPhrase(text) % 360;
   return {
-    color: `hsl(${hue} 62% 26%)`,
-    backgroundColor: `hsl(${hue} 70% 48% / 0.13)`,
-    borderColor: `hsl(${hue} 64% 42% / 0.28)`,
+    color: `hsl(${hue} 62% 22%)`,
+    backgroundColor: `hsl(${hue} 70% 44% / 0.13)`,
+    borderColor: `hsl(${hue} 64% 36% / 0.28)`,
   };
 }
