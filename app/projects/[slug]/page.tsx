@@ -8,6 +8,18 @@ type RouteProps = {
   params: Promise<{ slug: string }>;
 };
 
+function formatDegree(degree: string): { abbr: string; institution: string } {
+  const abbrMap: Record<string, string> = {
+    "Bachelor of Arts in Experience Architecture": "B.A., Experience Architecture",
+    "Master of Science in User Experience": "M.S., User Experience",
+  };
+  const [program, institution] = degree.split(", Michigan State University");
+  return {
+    abbr: abbrMap[program.trim()] ?? program.trim(),
+    institution: institution ? "Michigan State University" : "",
+  };
+}
+
 function statusClass(status: string) {
   if (status === "LIVE" || status === "ONLINE") return "status-live";
   if (status === "IN PROGRESS") return "status-progress";
@@ -77,6 +89,14 @@ export default async function ProjectPage({ params }: RouteProps) {
           <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>
             {project.status}
           </span>
+          {project.degree && (() => {
+            const { abbr, institution } = formatDegree(project.degree);
+            return (
+              <span className="degree-meta" title={project.degree}>
+                {abbr} · {institution}
+              </span>
+            );
+          })()}
         </div>
         <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
         <p className="lede">{project.description}</p>

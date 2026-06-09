@@ -837,6 +837,16 @@ h3 {
   margin-bottom: clamp(2rem, 6vw, 5rem);
 }
 
+.degree-meta {
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  width: 100%;
+}
+
 .detail-hero-content {
   display: flex;
   flex-direction: column;
