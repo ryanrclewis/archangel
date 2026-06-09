@@ -35,9 +35,14 @@ export type ProjectLink = {
 
 export type ProjectSection = "bespoke" | "government" | "industry" | "research";
 
+export type ProjectDegree =
+  | "Bachelor of Arts in Experience Architecture, Michigan State University"
+  | "Master of Science in User Experience, Michigan State University";
+
 export type Project = {
   id: string;
   section?: ProjectSection;
+  degree?: ProjectDegree;
   name: string;
   type: string;
   status: ProjectStatus;

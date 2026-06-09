@@ -216,6 +216,7 @@
   {
     "id": "listening-to-users",
     "section": "research",
+    "degree": "Master of Science in User Experience, Michigan State University",
     "name": "Listening to Our Users",
     "type": "User Research",
     "status": "COMPLETED",
@@ -227,7 +228,8 @@
   {
     "id": "finer-dining",
     "section": "research",
-    "name": "Finer Dining",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Finer Dining",
     "type": "UX / Product Design",
     "status": "COMPLETED",
     "launchDate": "May 2019",
@@ -251,7 +253,8 @@
   {
     "id": "bento-box",
     "section": "research",
-    "name": "Bento Box",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Bento Box",
     "type": "Web Redesign",
     "status": "COMPLETED",
     "launchDate": "Dec 2018",
@@ -274,7 +277,8 @@
   {
     "id": "dsl",
     "section": "research",
-    "name": "Digital Scholarship Lab",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Digital Scholarship Lab",
     "type": "Web Redesign",
     "status": "COMPLETED",
     "launchDate": "Dec 2018",
@@ -297,7 +301,8 @@
   {
     "id": "h2home",
     "section": "research",
-    "name": "H2home",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"H2home",
     "type": "Product Design",
     "status": "COMPLETED",
     "launchDate": "May 2018",
@@ -320,7 +325,8 @@
   {
     "id": "soundwriting",
     "section": "research",
-    "name": "Soundwriting",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Soundwriting",
     "type": "Interface Design",
     "status": "COMPLETED",
     "launchDate": "Aug 2018",
@@ -343,7 +349,8 @@
   {
     "id": "all-aboard",
     "section": "research",
-    "name": "All Aboard",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"All Aboard",
     "type": "Game Prototype",
     "status": "COMPLETED",
     "launchDate": "Jun 2018",
@@ -389,7 +396,8 @@
   {
     "id": "michigan-avenue-2030",
     "section": "research",
-    "name": "Michigan Avenue 2030",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Michigan Avenue 2030",
     "type": "Human-Centered Research",
     "status": "COMPLETED",
     "launchDate": "May 2019",
@@ -409,7 +417,8 @@
   {
     "id": "global-payment-network",
     "section": "research",
-    "name": "Global Payment Network",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Global Payment Network",
     "type": "Research Project",
     "status": "COMPLETED",
     "launchDate": "Apr 2019",
@@ -426,7 +435,8 @@
   {
     "id": "freedom-of-speech-msu",
     "section": "research",
-    "name": "Freedom of Speech at MSU",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Freedom of Speech at MSU",
     "type": "Research Project",
     "status": "COMPLETED",
     "launchDate": "Jun 2018",
@@ -444,7 +454,8 @@
   {
     "id": "jane-the-brain",
     "section": "research",
-    "name": "Jane The Brain",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Jane The Brain",
     "type": "Campaign Design",
     "status": "COMPLETED",
     "launchDate": "DEC 2018",
@@ -462,7 +473,8 @@
   {
     "id": "allo-redesign",
     "section": "research",
-    "name": "Allo Redesign",
+    "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
+    "name":"Allo Redesign",
     "type": "UX Concept",
     "status": "COMPLETED",
     "launchDate": "Sep 2018",
