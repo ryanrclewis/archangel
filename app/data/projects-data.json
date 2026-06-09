@@ -200,6 +200,16 @@
     ]
   },
   {
+    "id": "listening-to-users",
+    "name": "Listening to Our Users",
+    "type": "User Research",
+    "status": "COMPLETED",
+    "launchDate": "Dec 2023",
+    "description": "User research project trying to discover the link between music listening habits and self-reported mood.",
+    "clients": [{ "name": "Michigan State University", "tone": "green" }],
+    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+  },
+  {
     "id": "finer-dining",
     "name": "Finer Dining",
     "type": "UX / Product Design",
