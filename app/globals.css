@@ -1059,18 +1059,36 @@ h3 {
   color: var(--paper);
 }
 
-.command-palette-trigger kbd {
+.command-palette-trigger .search-icon {
+  font-size: 1rem;
+  line-height: 1;
+  transition: opacity 0.15s ease;
+}
+
+.command-palette-trigger .search-hint {
   padding: 0.25rem 0.5rem;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   border-radius: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.65rem;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, margin 0.2s ease;
+  white-space: nowrap;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.command-palette-trigger:hover kbd {
-  background: var(--paper);
-  color: var(--ink);
+.command-palette-trigger:hover .search-hint {
+  max-width: 3rem;
+  opacity: 1;
+  padding: 0.25rem 0.5rem;
+}
+
+.command-palette-trigger:hover .search-icon {
+  opacity: 0.8;
 }
 
 /* Overlay */
