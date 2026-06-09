@@ -226,6 +226,30 @@
     "values": [{ "text": "reason" }, { "text": "the human heart" }]
   },
   {
+    "id": "healthy-habits",
+    "section": "research",
+    "degree": "Master of Science in User Experience, Michigan State University",
+    "name": "Heathy Habits",
+    "type": "User Research",
+    "status": "COMPLETED",
+    "launchDate": "Nov 2023",
+    "description": "User research project trying to understand mental health, motivation, and habit tracking and to build an eveidence-based habit tracking app.",
+    "clients": [{ "name": "Michigan State University", "tone": "green" }],
+    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+  },
+  {
+    "id": "style-co",
+    "section": "research",
+    "degree": "Master of Science in User Experience, Michigan State University",
+    "name": "Style Co",
+    "type": "User Research",
+    "status": "COMPLETED",
+    "launchDate": "Nov 2023",
+    "description": "User research project to understand the emotional relationship between users and trying on clothing and building an evidence-based AR app.",
+    "clients": [{ "name": "Michigan State University", "tone": "green" }],
+    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+  },
+  {
     "id": "finer-dining",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
