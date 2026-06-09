@@ -251,7 +251,6 @@ a {
 .site-nav a .nav-emoji,
 .command-palette-trigger .nav-emoji {
   font-size: 1rem;
-  line-height: 1;
   max-width: 0;
   overflow: hidden;
   opacity: 0;
