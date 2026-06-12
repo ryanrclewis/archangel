@@ -147,7 +147,7 @@ export default function Home() {
         </div>
 
         <div className="systems-list">
-          {publicSystems.slice(0, 8).map((project) => {
+          {publicSystems.map((project) => {
             const tone = project.clients?.[0]?.tone ?? "muted";
             return (
               <ProjectPreviewCard
