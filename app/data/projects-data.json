@@ -538,10 +538,15 @@
     "externalLinks": [{ "label": "MiSAFE", "href": "https://www2.mda.state.mi.us/MiSafe/Default" }],
     "status": "COMPLETED",
     "launchDate": "Apr 2025",
-    "description": "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Food Inspections Online Postings in accordance with the One Stand, One Brand initiative.",
+    "description": "MiSAFE is the Michigan Department of Agriculture and Rural Development's public-facing system for food establishment inspection reports — covering grocery stores, food processors, food warehouses, and convenience stores across the state. Inspection data is available from April 2022 forward and is searchable by establishment name, address, and city. I redeveloped the system to meet WCAG 2.1 AA accessibility requirements ahead of federal enforcement deadlines and aligned the experience with the One State, One Brand design initiative, ensuring the interface is consistent with the broader Michigan.gov ecosystem.",
     "clients": [{ "name": "Michigan Department of Agriculture, and Rural Development", "tone": "muted" }],
     "values": [{ "text": "dignity" }],
-    "features": []
+    "features": [
+      "WCAG 2.1 AA compliance for federal ADA enforcement deadline",
+      "Alignment with One State, One Brand visual and UX standards",
+      "Public search by establishment name, address, and city",
+      "Covers grocery stores, food processors, warehouses, and convenience stores"
+    ]
   },
   {
     "id": "wrrs-modernization",
@@ -551,10 +556,15 @@
     "externalLinks": [{ "label": "Well Logs", "href": "https://www.egle.state.mi.us/well-logs/" }],
     "status": "COMPLETED",
     "launchDate": "Apr 2026",
-    "description": "In order to comply with federal legislation on accessibility and in service of improving the user experience, I redeveloped the Well Record Retrieval System in accordance with the One Stand, One Brand initiative.",
+    "description": "The Well Record Retrieval System provides public access to over one million water well, pump, and abandoned well plugging records filed electronically in the Wellogic system since 2000. The data feeds into critical downstream systems including Michigan's Water Well Viewer, Drinking Water GIS, and the Water Withdrawal Assessment Tool. I redeveloped the public-facing retrieval interface to meet WCAG 2.1 AA requirements ahead of federal enforcement and aligned it with the One State, One Brand design standards to provide a consistent experience across Michigan.gov.",
     "clients": [{ "name": "Michigan Department of Enivronment, Great Lakes, and Energy", "tone": "blue" }],
     "values": [{ "text": "our common home" }],
-    "features": []
+    "features": [
+      "WCAG 2.1 AA compliance for federal ADA enforcement deadline",
+      "Alignment with One State, One Brand visual and UX standards",
+      "Public access to over one million well and pump records statewide",
+      "Supports downstream tools including Water Well Viewer and WWAT"
+    ]
   },
   {
     "id": "opcert-modernization",
@@ -563,10 +573,15 @@
     "type": "Government Modernization",
     "status": "IN PROGRESS",
     "launchDate": "",
-    "description": "This website provides the ability to look up certified drinking water operators, certified drinking water operators by a Water Supply Serial Number (WSSN), and Advisory Board approved courses that count towards continuing education. The modernization effort is focused on providing this service using modern technology and making sure it meets industry standards for user experience and accessibility.",
+    "description": "OTCIS is EGLE's public-facing system for Michigan's drinking water operator certification program, which oversees nearly 5,000 certified operators serving water supplies across the state. The system allows the public to look up certified operators, search by Water Supply Serial Number (WSSN), and find Advisory Board-approved continuing education courses. EGLE's Operator Training and Certification Unit uses the underlying data to process over 1,000 certification renewals annually and administer biannual exams across four license classifications. The modernization effort is rebuilding the system with current technology to meet WCAG 2.1 AA accessibility standards and align with One State, One Brand design guidelines.",
     "clients": [{ "name": "Michigan Department of Enivronment, Great Lakes, and Energy", "tone": "blue" }],
     "values": [{ "text": "our common home" }, { "text": "labor" }],
-    "features": []
+    "features": [
+      "Public lookup of ~5,000 certified drinking water operators statewide",
+      "Search by Water Supply Serial Number (WSSN) and operator name",
+      "Advisory Board-approved continuing education course directory",
+      "WCAG 2.1 AA compliance and One State, One Brand alignment"
+    ]
   },
   {
     "id": "burn-permits-modernization",
@@ -576,10 +591,15 @@
     "externalLinks": [{ "label": "Burn Permits", "href": "https://www.dnr.state.mi.us/burnpermits/" }],
     "status": "COMPLETED",
     "launchDate": "Apr 2025",
-    "description": "Modernized the legacy Burn Permits system used to meet ADA guidelines and align with the One State, One Brand initiative.",
+    "description": "Michigan's Burn Permits system lets residents check whether open burning is permitted on a given day in their county and township before burning yard waste or debris. The DNR announced the updated system in April 2026, highlighting the replacement of an outdated clickable map with streamlined county and township dropdown menus, a mobile-friendly \"Can I burn today?\" flow, and improved clarity around the different burn regulations for northern and southern Lower Peninsula regions. I rebuilt the system to meet WCAG 2.1 AA requirements and align it with the One State, One Brand design initiative.",
     "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
     "values": [{ "text": "our common home" }],
-    "features": []
+    "features": [
+      "Replaced legacy clickable map with accessible county and township dropdowns",
+      "Mobile-friendly \"Can I burn today?\" flow for quick status checks",
+      "WCAG 2.1 AA compliance for federal ADA enforcement deadline",
+      "Alignment with One State, One Brand visual and UX standards"
+    ]
   },
   {
     "id": "icdb-modernization",
@@ -587,14 +607,14 @@
     "name": "Intentional Conversation Database (ICDB)",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
-    "description": "Modernized the legacy Intentional Conversation Database used to track performance conversations and policy adherence at MDARD.",
+    "description": "The Intentional Conversation Database is MDARD's internal HR tool for tracking structured performance conversations between supervisors and employees — capturing check-ins, goal reviews, policy adherence discussions, and pay-period documentation. The legacy system was built on aging infrastructure with mounting maintenance costs. The modernization effort rebuilds it on a more sustainable, lower-cost architecture while updating the experience to align with state UX and accessibility standards, and improving the workflows supervisors rely on throughout the performance review cycle.",
     "clients": [{ "name": "Michigan Department of Agriculture and Rural Development", "tone": "blue" }],
     "values": [{ "text": "labor" }, { "text": "dignity" }],
     "features": [
-      "Legacy database modernization",
-      "Lower-cost architecture and improved sustainability",
-      "Updated UX aligned to state guidelines",
-      "Support for performance and pay-period workflows"
+      "Tracks structured performance conversations across the review cycle",
+      "Rebuilt on sustainable, lower-cost architecture",
+      "Updated UX aligned with state accessibility and design standards",
+      "Supports supervisor workflows for check-ins, goals, and pay-period documentation"
     ]
   },
   {
@@ -604,14 +624,14 @@
     "type": "Government Modernization",
     "externalLinks": [{ "label": "FISH", "href": "https://www.michigandnr.com/fish" }],
     "status": "IN PROGRESS",
-    "description": "Supported modernization of the Fisheries Information System Hub to strengthen data quality and collaboration for fisheries management.",
+    "description": "The Fisheries Information System Hub is the Michigan DNR's central platform for managing commercial fisheries data — supporting electronic reporting, harvest verification, and data management across the state's commercial, charter, and wholesale fishing sectors. The DNR has been moving from paper-based to electronic reporting to improve efficiency, accuracy, timeliness, and enforcement capabilities. I supported platform modernization work to improve the usability of these data workflows for both internal DNR staff and the fisheries operators who rely on the system to report activity and meet regulatory requirements.",
     "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
     "values": [{ "text": "our common home" }],
     "features": [
-      "Data-heavy system modernization",
-      "Cross-agency collaboration support",
-      "Improved usability for science and policy workflows",
-      "Platform updates for long-term program resilience"
+      "Electronic reporting for commercial, charter, and wholesale fisheries",
+      "Harvest verification and real-time data management workflows",
+      "Improved usability for DNR staff and regulated fishing operators",
+      "Platform modernization supporting enforcement and policy decisions"
     ]
   },
   {
@@ -622,14 +642,14 @@
     "externalLinks": [{ "label": "WWAT", "href": "https://egle.state.mi.us/wwat/home" }],
     "status": "COMPLETED",
     "launchDate": "Apr 2025",
-    "description": "Modernization of the Water Withdrawal Assessment Tool to support required pre-installation impact checks for large quantity withdrawals.",
+    "description": "The Water Withdrawal Assessment Tool is the central component of Michigan's Water Withdrawal Assessment Process — the mechanism by which the state fulfills its Great Lakes Compact obligations and regulates large-quantity water withdrawals before installation. EGLE launched an updated version in September 2025 with MiLogin authentication, improved transparency into watershed allocation data, support for site-specific parameters like transmissivity and storativity, and visibility into the same assessment tools used by EGLE staff. I delivered the initial modernization of the system after its transfer from Michigan State University, ensuring continuity of this critical regulatory tool and improving its digital experience.",
     "clients": [{ "name": "Michigan Department of Environment, Great Lakes, and Energy", "tone": "blue" }],
     "values": [{ "text": "our common home" }],
     "features": [
-      "Modernization of a critical statewide assessment tool",
-      "Continuity after transfer from Michigan State University",
-      "Improved digital experience and system reliability",
-      "Policy-aligned workflows for water resource protection"
+      "Central regulatory tool for Great Lakes Compact water withdrawal compliance",
+      "Modernization and continuity after transfer from Michigan State University",
+      "Improved transparency into watershed allocations and neighboring withdrawals",
+      "Support for site-specific assessment parameters and MiLogin authentication"
     ]
   },
   {
@@ -639,48 +659,48 @@
     "type": "Government Digital Platform",
     "status": "IN PROGRESS",
     "externalLinks": [{ "label": "MiFI", "href": "https://gis-midnr.opendata.arcgis.com/datasets/michigan-forest-inventory-compartments/explore?showTable=true" }],
-    "description": "Web platform work supporting Michigan Forest Inventory workflows for conservation, treatment planning, and timber sale execution.",
+    "description": "MiFI is the Michigan DNR's web-based system for managing the state forest — supporting inventory of every acre, prescription of forest treatments, and execution of commercial timber sales. Originally launched in 2015 after a NASCIO award-winning transformation from a paper-based process, the system enables foresters to complete all field work with a mobile device and attribute data for every acre in the state forest, allowing staff to measure 30% more area per site visit and finalize timber sale forecasts two months earlier than before. I contributed platform work to sustain and extend the system's core business functions for the DNR's Forest Resources Division.",
     "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
     "values": [{ "text": "our common home" }],
     "features": [
-      "Forestry operations workflow support",
-      "Inventory and treatment planning enablement",
-      "Business function continuity for MDNR teams",
-      "Improved digital tooling for forest management"
+      "Manages inventory, treatment planning, and timber sales across Michigan state forest",
+      "Mobile-enabled field workflows covering attribute data for every forested acre",
+      "Platform improvements supporting 80 DNR foresters measuring 400,000 acres annually",
+      "Sustains a NASCIO award-winning system critical to forest conservation operations"
     ]
   },
   {
     "id": "miehdwis",
     "section": "government",
-    "name": "MIEHDWIS",
+    "name": "MiEHDWIS",
     "type": "Government Digital Platform",
     "status": "IN PROGRESS",
     "externalLinks": [{ "label": "MiEHDWIS", "href": "https://miehdwis.michigan.gov/" }],
-    "description": "Delivered platform improvements for MiEHDWIS, the regulated-entity workspace for monitoring results, permits, and program documentation.",
+    "description": "MiEHDWIS is a multi-year initiative to consolidate EGLE's Drinking Water and Environmental Health Division's permitting, licensing, and compliance information systems into a single web-based platform. The system serves as the primary workspace for regulated entities — including public water supplies, campgrounds, public swimming pools, and septage handlers — to submit monitoring results, reports, permit and licensing applications, and other documentation directly to EGLE. It also streamlines communication between EGLE and local health department staff. I delivered platform improvements supporting these regulated-entity workflows and the DWEHD teams responsible for program oversight.",
     "clients": [{ "name": "Michigan Department of Environment, Great Lakes, and Energy", "tone": "blue" }],
     "values": [{ "text": "dignity" }, { "text": "our posterity" }],
     "features": [
-      "Regulated-entity submission experience",
-      "Permit and licensing workflow support",
-      "Documentation and monitoring result intake",
-      "Program operations enablement for DWEHD teams"
+      "Unified portal for permits, licenses, monitoring results, and compliance documentation",
+      "Serves public water supplies, campgrounds, pools, and septage handlers statewide",
+      "Submission tracking, review progress visibility, and EGLE staff messaging",
+      "Part of a multi-year DWEHD systems consolidation effort"
     ]
   },
   {
     "id": "digital-standards",
     "section": "government",
-    "name": "Digtial Standards",
+    "name": "Digital Standards",
     "type": "Government Modernization",
     "status": "IN PROGRESS",
     "url": "https://www.michigan.gov/som/digitalstandards",
-    "description": "Contributed to statewide digital standards focused on consistent, trustworthy, and seamless citizen experiences across agencies.",
+    "description": "The State of Michigan's Digital Standards for Websites and Applications define the baseline requirements all state departments and agencies must meet — covering state-built sites and apps, custom mobile applications, and vendor-supplied software. Version 2.0 adopted WCAG 2.1 Level AA as the state's accessibility standard, with a compliance deadline tied to federal enforcement. The standards are administered by the Department of Technology, Management and Budget and support the broader One State, One Brand initiative to ensure that Michigan's 38 million monthly website users experience consistent, trustworthy interactions across every agency. I contributed experience design and implementation work that informed and aligned with these standards.",
     "clients": [{ "name": "State of Michigan", "tone": "blue" }],
     "values": [{ "text": "dignity" }],
     "features": [
-      "Cross-channel consistency framework",
-      "Guidance for websites, apps, and digital communication",
-      "Trust-centered user experience principles",
-      "Scalable standards for multi-agency implementation"
+      "WCAG 2.1 AA as the statewide accessibility standard across all agencies",
+      "Applies to state-built sites, mobile apps, and vendor-supplied software",
+      "Supports One State, One Brand consistency for 38M monthly website users",
+      "Administered by DTMB as part of Michigan's human-centered digital strategy"
     ]
   },
   {
@@ -690,14 +710,14 @@
     "type": "Government Modernization",
     "status": "IN PROGRESS",
     "externalLinks": [{ "label": "Digital Guidelines", "href": "https://digitalguidelines.michigan.gov/" }],
-    "description": "Helped shape practical digital guidelines that enable teams to kickstart app design and development with user-trusted patterns.",
+    "description": "Michigan's Digital Guidelines is the state's official design system — a single source of truth providing a common visual and experiential language for building citizen-facing applications. The system ships WCAG 2.1 AA-compliant components out of the box, along with a Figma design kit for prototyping and a prebuilt component library to accelerate app development. It serves as the implementation layer beneath the Digital Standards, giving agency development teams the concrete patterns, colors, typography, and interaction models they need to build consistent, accessible Michigan.gov experiences. I contributed design and implementation work aligned with the guidelines across multiple agency modernization projects.",
     "clients": [{ "name": "State of Michigan", "tone": "blue" }],
     "values": [{ "text": "dignity" }],
     "features": [
-      "Developer and designer onboarding support",
-      "Pattern guidance for trusted digital experiences",
-      "Usability-first implementation recommendations",
-      "Alignment with broader One State, One Brand direction"
+      "WCAG 2.1 AA-compliant component library with accessible focus states by default",
+      "Figma design kit for prototyping and design-to-dev handoff",
+      "Implementation layer for One State, One Brand visual and interaction standards",
+      "Used across multiple agency modernization projects to ensure consistency"
     ]
   },
   {
@@ -707,14 +727,14 @@
     "type": "Government Modernization",
     "url": "https://www.nascio.org/wp-content/uploads/2023/08/MI_Digital-Services_Government-to-Citizen.pdf",
     "status": "IN PROGRESS",
-    "description": "Experience strategy work advancing consistent service experiences across Michigan digital properties for residents, businesses, and visitors.",
+    "description": "One State, One Brand is Michigan DTMB's strategic initiative to align branding, experience, and accessibility across all state websites, applications, and digital communications — so that residents, businesses, and visitors encounter a seamless, trustworthy experience no matter which agency they're interacting with. The initiative encompasses human-centered design, legacy technology replacement, expanded MiLogin single sign-on, centralized social media strategy, and statewide digital accessibility standards. It has helped Michigan place in the top five states for overall digital government experience five years running, including fourth in the nation. All of my state agency modernization work is executed within and in service of this initiative.",
     "clients": [{ "name": "State of Michigan", "tone": "blue" }],
     "values": [{ "text": "dignity" }],
     "features": [
-      "Human-centered strategy alignment",
-      "Cross-agency digital experience consistency",
-      "Support for strategic IT and service objectives",
-      "Design-led modernization advocacy"
+      "Unified visual identity and UX standards across all Michigan state digital properties",
+      "Human-centered design approach serving 38M monthly website users",
+      "Encompasses accessibility compliance, MiLogin SSO, and legacy modernization",
+      "Michigan ranked top five nationally for digital government experience five years running"
     ]
   }
 ]
