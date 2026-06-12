@@ -21,7 +21,7 @@ function formatDegree(degree: string): { abbr: string; institution: string } {
 }
 
 function statusClass(status: string) {
-  if (status === "LIVE" || status === "ONLINE") return "status-live";
+  if (status === "LIVE") return "status-live";
   if (status === "IN PROGRESS") return "status-progress";
   return "status-complete";
 }

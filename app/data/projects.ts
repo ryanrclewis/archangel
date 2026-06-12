@@ -1,7 +1,7 @@
 import projectsData from "./projects-data.json";
 import valueColorsData from "./value-colors.json";
 
-export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "ONLINE";
+export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED";
 
 export type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
 
@@ -43,6 +43,7 @@ export type Project = {
   id: string;
   section?: ProjectSection;
   degree?: ProjectDegree;
+  version?: string;
   name: string;
   type: string;
   status: ProjectStatus;

@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 
 type TypewriterPhrase = { text: string; link?: string };
 
-type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "ONLINE";
+type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED";
 type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
 
 type ProjectClient = { name: string; tone?: ProjectClientTone };
@@ -43,7 +43,7 @@ const COLOR_LABELS: Record<string, string> = {
   "--white": "White",
 };
 
-const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED", "ONLINE"];
+const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED"];
 const TONE_OPTIONS: ProjectClientTone[] = ["ink", "muted", "blue", "green", "amber", "red", "purple"];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
