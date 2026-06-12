@@ -82,7 +82,7 @@ export default function Home() {
             <a className="button-primary" href="mailto:contact@archangel-labs.com">
               Start a project
             </a>
-            <a className="button-secondary" href="#work">
+            <a className="button-secondary" href="#bespoke">
               View work
             </a>
           </div>
