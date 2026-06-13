@@ -4,7 +4,9 @@ const MANAGED_FILES = [
   "app/data/projects-data.json",
   "app/data/value-colors.json",
   "app/data/typewriter-phrases.json",
+  "app/data/site-config.json",
   "app/globals.css",
+  "public",
 ];
 
 export async function POST(req: Request) {
