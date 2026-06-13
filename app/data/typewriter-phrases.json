@@ -2,106 +2,113 @@
   {
     "text": "magnificent humanity.",
     "link": "https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-first-encyclical-magnifica-humanitas.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "the human heart.",
     "link": "https://www.vatican.va/content/francesco/en/encyclicals/documents/20241024-enciclica-dilexit-nos.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "fraternity.",
     "link": "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20201003_enciclica-fratelli-tutti.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "our common home.",
     "link": "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20150524_enciclica-laudato-si.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "light.",
     "link": "https://www.vatican.va/content/francesco/en/encyclicals/documents/papa-francesco_20130629_enciclica-lumen-fidei.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "truth.",
     "link": "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20090629_caritas-in-veritate.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "hope.",
     "link": "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20071130_spe-salvi.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "love.",
     "link": "https://www.vatican.va/content/benedict-xvi/en/encyclicals/documents/hf_ben-xvi_enc_20051225_deus-caritas-est.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "faith.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "reason.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091998_fides-et-ratio.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "unity.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25051995_ut-unum-sint.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "life.",
-    "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25031995_evangelium-vitae.html",
-    "enabled": true
+    "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25031995_evangelium-vitae.html"
+  },
+  {
+    "text": "liberty.",
+    "link": ""
+  },
+  {
+    "text": "the pursuit of happiness.",
+    "link": ""
   },
   {
     "text": "labor.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_01051991_centesimus-annus.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "capital.",
     "link": "https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "evangelization.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_07121990_redemptoris-missio.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "charity.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_30121987_sollicitudo-rei-socialis.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "dignity.",
     "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_14091981_laborem-exercens.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "our posterity.",
     "link": "https://www.vatican.va/content/paul-vi/en/encyclicals/documents/hf_p-vi_enc_25071968_humanae-vitae.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "prosperity.",
     "link": "https://www.vatican.va/content/paul-vi/en/encyclicals/documents/hf_p-vi_enc_26031967_populorum.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "peace on Earth.",
     "link": "https://www.vatican.va/content/john-xxiii/en/encyclicals/documents/hf_j-xxiii_enc_11041963_pacem.html",
-    "enabled": true
+    "enabled": false
   },
   {
     "text": "subsidiarity.",
     "link": "https://www.vatican.va/content/pius-xi/en/encyclicals/documents/hf_p-xi_enc_19310515_quadragesimo-anno.html",
-    "enabled": true
+    "enabled": false
   }
 ]

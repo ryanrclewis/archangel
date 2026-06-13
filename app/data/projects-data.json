@@ -8,8 +8,23 @@
     "launchDate": "Jan 2026",
     "url": "https://saintstombs.com",
     "description": "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
-    "clients": [{ "name": "BKO", "tone": "blue" }],
-    "values": [{ "text": "faith" }, { "text": "hope" }, { "text": "evangelization" }]
+    "clients": [
+      {
+        "name": "BKO",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "faith"
+      },
+      {
+        "text": "hope"
+      },
+      {
+        "text": "evangelization"
+      }
+    ]
   },
   {
     "id": "mithril",
@@ -19,8 +34,23 @@
     "status": "LIVE",
     "url": "https://github.com/ryanrclewis/mithril",
     "description": "Docker-based DNS filtering solution that blocks NSFW content across your network.",
-    "clients": [{ "name": "Self-directed", "tone": "muted" }],
-    "values": [{ "text": "the human heart" }, { "text": "dignity" }, { "text": "love" }]
+    "clients": [
+      {
+        "name": "Self-directed",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "the human heart"
+      },
+      {
+        "text": "dignity"
+      },
+      {
+        "text": "love"
+      }
+    ]
   },
   {
     "id": "heirloom",
@@ -30,8 +60,23 @@
     "status": "IN PROGRESS",
     "url": "https://heirloom-two.vercel.app/login",
     "description": "A digital keepsake for your family's history.",
-    "clients": [{ "name": "Self-directed", "tone": "muted" }],
-    "values": [{ "text": "the human heart" }, { "text": "our posterity" }, { "text": "hope" }]
+    "clients": [
+      {
+        "name": "Self-directed",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "the human heart"
+      },
+      {
+        "text": "our posterity"
+      },
+      {
+        "text": "hope"
+      }
+    ]
   },
   {
     "id": "crisis-catalog",
@@ -41,8 +86,17 @@
     "status": "IN PROGRESS",
     "url": "https://crisis-catalog.pages.dev/",
     "description": "A checklist for emergency preparedness for Catholic families.",
-    "clients": [{ "name": "Self-directed", "tone": "muted" }],
-    "values": [{ "text": "our posterity" }]
+    "clients": [
+      {
+        "name": "Self-directed",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "our posterity"
+      }
+    ]
   },
   {
     "id": "psalm113-3",
@@ -52,8 +106,23 @@
     "status": "IN PROGRESS",
     "url": "https://github.com/ryanrclewis/psalm113-3",
     "description": "A visualization of Earth, reactive to the Consecration of the Eucharist.",
-    "clients": [{ "name": "Self-directed", "tone": "muted" }],
-    "values": [{ "text": "faith" }, { "text": "hope" }, { "text": "evangelization" }]
+    "clients": [
+      {
+        "name": "Self-directed",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "faith"
+      },
+      {
+        "text": "hope"
+      },
+      {
+        "text": "evangelization"
+      }
+    ]
   },
   {
     "id": "pantrie",
@@ -63,8 +132,17 @@
     "status": "IN PROGRESS",
     "url": "https://github.com/ryanrclewis/pantrie",
     "description": "Docker utility to catalog what is in your pantry and when it expires.",
-    "clients": [{ "name": "Self-directed", "tone": "muted" }],
-    "values": [{ "text": "prosperity" }]
+    "clients": [
+      {
+        "name": "Self-directed",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "prosperity"
+      }
+    ]
   },
   {
     "id": "gm",
@@ -75,8 +153,20 @@
     "launchDate": "May 2025",
     "url": "https://www.gm.com/",
     "description": "Designed human-centered experiences for AI-powered features, balancing cutting-edge technology with intuitive interfaces that prioritized safety and user trust. Identified and solved critical UX gaps, proposing innovative design patterns that bridged technical capabilities with real-world user needs. Collaborated with cross-functional teams (engineering, product, data science) to interpret user analytics and behavioral data, iterating designs that increased feature adoption by 40%. Drove process standardization initiatives that reduced design-to-development handoff time by 34% and improved team efficiency",
-    "clients": [{ "name": "General Motors", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "prosperity" }],
+    "clients": [
+      {
+        "name": "General Motors",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "prosperity"
+      }
+    ],
     "features": []
   },
   {
@@ -89,10 +179,20 @@
     "url": "https://www.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&starting-point-node-id=1%3A854&t=S4vZQfH4qJKE4kb5-1",
     "description": "I approached the problem by trying to understand the primary interactions users would have with a museum app. For true Sci-Fi fans like Dan, Harry, and Tay, this could become a favorite app, so it needed to be a catered experience. For visitors less interested in Sci-Fi like Lori, the app had to be accessible and avoid jarring flows or interaction methods. To build a crafted experience, I opted for an alternative typeface. I used Avenir Next for its futuristic feel over the more neutral SF Pro or the serif New York, which might have felt too old-fashioned or stuffy. Other Sci-Fi fonts like Orbitron were considered but ultimately rejected to ensure legibility for a diverse audience. Purple was chosen as the primary theme color to stand out from the common blue, red, yellow, and green in apps. It makes the app noticeable, recognizable, and connects with the mystery and unknown that is essential to the genre. I relied on many Apple-designed components for accessibility and familiarity, especially for users who might not use the app daily. These tried-and-true elements ensure usability isn't a barrier to enjoying the museum. One assumption I made was that a public museum would handle most accessibility needs. If not, I would have added more detail to activity and map views to show experiences were accessible. Lori's persona, and her son Daniel, made me consider icons denoting accessibility features to help users make the best use of their time. The most important accessibility aspect I followed was embracing iOS best practices, along with attention to color contrast and font legibility. Inclusivity was central to the app's design. Profiles and a community chat feature allow users to personalize their experience and feel part of the museum community. Tay's persona made me think about using iconography to denote media types in exhibits, helping users engage with content they truly care about.",
     "clients": [
-      { "name": "National Sci-Fi Museum", "tone": "purple" },
-      { "name": "Michigan State University", "tone": "green" }
+      {
+        "name": "National Sci-Fi Museum",
+        "tone": "purple"
+      },
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
     ],
-    "values": [{ "text": "hope" }],
+    "values": [
+      {
+        "text": "hope"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/GdY0LPiZM0vdwgDAXdW5r6/National-Sci-Fi-Museum?node-id=1-854&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A854&embed-host=share",
       "title": "National Sci-Fi Museum prototype",
@@ -115,8 +215,20 @@
     "launchDate": "Dec 2024",
     "url": "https://www.lwt.com",
     "description": "Website project for Long Walk Technologies.",
-    "clients": [{ "name": "Long Walk Technologies", "tone": "red" }],
-    "values": [{ "text": "capital" }, { "text": "peace on Earth" }],
+    "clients": [
+      {
+        "name": "Long Walk Technologies",
+        "tone": "red"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "peace on Earth"
+      }
+    ],
     "features": [
       "Creative direction and strategy",
       "Web application development",
@@ -133,8 +245,20 @@
     "launchDate": "Jan 2022",
     "url": "https://www.stellantis.com/en",
     "description": "Led agile design sprints for a global team, prioritizing feature development based on user feedback and legacy NPS data, improving end-user scores by 15 points. Designed and validated new interaction patterns leveraging emerging technology paradigms, conducting usability testing that informed product roadmap decisions. Owned end-to-end design process from research through prototyping to implementation, ensuring cohesive experiences across web and mobile touchpoints. Collaborated globally with engineers to deliver pixel-perfect implementations, establishing design-development workflows that maintained quality at scale",
-    "clients": [{ "name": "Stellantis", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "prosperity" }],
+    "clients": [
+      {
+        "name": "Stellantis",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "prosperity"
+      }
+    ],
     "features": []
   },
   {
@@ -146,8 +270,23 @@
     "launchDate": "Oct 2020",
     "url": "https://web.archive.org/web/20210125165527/https://coetichr.com/",
     "description": "Coetic Website 4.0 redesign and architecture refresh for CoeticHR.",
-    "clients": [{ "name": "CoeticHR", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "labor" }, { "text": "fraternity" }],
+    "clients": [
+      {
+        "name": "CoeticHR",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "labor"
+      },
+      {
+        "text": "fraternity"
+      }
+    ],
     "features": [
       "Website architecture redesign",
       "Platform showcase for CoeticHR offerings",
@@ -164,8 +303,23 @@
     "launchDate": "Oct 2020",
     "url": "https://coetichr.com/people-science",
     "description": "Companion experience within the Coetic ecosystem focused on people science content.",
-    "clients": [{ "name": "CoeticHR", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "labor" }, { "text": "fraternity" }],
+    "clients": [
+      {
+        "name": "CoeticHR",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "labor"
+      },
+      {
+        "text": "fraternity"
+      }
+    ],
     "features": [
       "Content-forward experience design",
       "Information architecture aligned with Coetic products",
@@ -181,8 +335,29 @@
     "status": "COMPLETED",
     "launchDate": "Oct 2020",
     "description": "Collaborative project focused on product and experience strategy for ministry operations.",
-    "clients": [{ "name": "CoeticHR", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "labor" }, { "text": "fraternity" }, { "text": "faith" }, { "text": "evangelization" }],
+    "clients": [
+      {
+        "name": "CoeticHR",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "labor"
+      },
+      {
+        "text": "fraternity"
+      },
+      {
+        "text": "faith"
+      },
+      {
+        "text": "evangelization"
+      }
+    ],
     "features": [
       "Product and UX planning",
       "Cross-functional creator collaboration",
@@ -198,8 +373,23 @@
     "status": "COMPLETED",
     "launchDate": "Oct 2020",
     "description": "Project management application founded on organizational psychology.",
-    "clients": [{ "name": "CoeticHR", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "labor" }, { "text": "fraternity" }],
+    "clients": [
+      {
+        "name": "CoeticHR",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "labor"
+      },
+      {
+        "text": "fraternity"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/9EiuFXr6vw57nzwTuzAytQ/Woether?content-scaling=fixed&kind=proto&node-id=266-490&page-id=0%3A1&scaling=contain&starting-point-node-id=268%3A0&embed-host=share",
       "title": "Woether prototype",
@@ -222,8 +412,20 @@
     "status": "COMPLETED",
     "launchDate": "Dec 2023",
     "description": "User research project trying to discover the link between music listening habits and self-reported mood.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "the human heart"
+      }
+    ]
   },
   {
     "id": "healthy-habits",
@@ -234,8 +436,20 @@
     "status": "COMPLETED",
     "launchDate": "Nov 2023",
     "description": "User research project trying to understand mental health, motivation, and habit tracking and to build an eveidence-based habit tracking app.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "the human heart"
+      }
+    ]
   },
   {
     "id": "style-co",
@@ -246,21 +460,42 @@
     "status": "COMPLETED",
     "launchDate": "Nov 2023",
     "description": "User research project to understand the emotional relationship between users and trying on clothing and building an evidence-based AR app.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "the human heart" }]
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "the human heart"
+      }
+    ]
   },
   {
     "id": "finer-dining",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Finer Dining",
+    "name": "Finer Dining",
     "type": "UX / Product Design",
     "status": "COMPLETED",
     "launchDate": "May 2019",
     "url": "https://www.figma.com/file/eUZ07Ey7U74UHdyJOMAa7RAR/Finer-Dining",
     "description": "Value-centered design exploration for improving the dining discovery experience with research-backed prototyping.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/WHJqnITQYDY27kd0QTk7kkyi/Finer-Dining?content-scaling=fixed&kind=proto&node-id=0-45&page-id=0%3A1&scaling=scale-down&embed-host=share",
       "title": "Finer Dining prototype",
@@ -278,13 +513,22 @@
     "id": "bento-box",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Bento Box",
+    "name": "Bento Box",
     "type": "Web Redesign",
     "status": "COMPLETED",
     "launchDate": "Dec 2018",
     "description": "I worked on a redesign for Michigan State's Library Search with a UX team. We did user testing and research to make informed design choices. Our process and deliverable were presented to the client and library staff.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      }
+    ],
     "embed": {
       "src": "https://docs.google.com/presentation/d/e/2PACX-1vSkOnG69z2TEquPvkU07X8l3BG0qYYVJT0G80WYDwtdAEIeG5OnAZTAhQJekscwOA/pubembed?start=false&loop=false&delayms=3000",
       "title": "Bento Box presentation",
@@ -302,13 +546,22 @@
     "id": "dsl",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Digital Scholarship Lab",
+    "name": "Digital Scholarship Lab",
     "type": "Web Redesign",
     "status": "COMPLETED",
     "launchDate": "Dec 2018",
     "description": "Research and redesign initiative delivering data and concepts to improve the Digital Scholarship Lab website experience.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/Qmxd4FQy87KkFEwWiXwp6Wn8/Digital-Scholarship-Lab?node-id=0-2&embed-host=share",
       "title": "Digital Scholarship Lab prototype",
@@ -326,13 +579,25 @@
     "id": "h2home",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"H2home",
+    "name": "H2home",
     "type": "Product Design",
     "status": "COMPLETED",
     "launchDate": "May 2018",
     "description": "Sustainable product design, centered on water conservation.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "our common home"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/VEuNFNQaoIufcLy5renlB4As/H2Home?node-id=0-2&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=0%3A2&embed-host=share",
       "title": "H2home prototype",
@@ -350,13 +615,25 @@
     "id": "soundwriting",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Soundwriting",
+    "name": "Soundwriting",
     "type": "Interface Design",
     "status": "COMPLETED",
     "launchDate": "Aug 2018",
     "description": "Experimental audio interface for publishing and interacting with scholarly sound content.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "dignity" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "dignity"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/x8RJbWV0TjjAo00KTDRHQw/Sound-Writing?node-id=0-1431&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=0%3A1431&show-proto-sidebar=1&embed-host=share",
       "title": "Soundwriting prototype",
@@ -374,18 +651,34 @@
     "id": "all-aboard",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"All Aboard",
+    "name": "All Aboard",
     "type": "Game Prototype",
     "status": "COMPLETED",
     "launchDate": "Jun 2018",
     "url": "https://www.figma.com/file/WZDUSUHeqSbW7HArjMvHe97k/All-Aboard",
     "description": "Participatory design game prototype built to teach accessibility, with an initial focus on visual disabilities.",
     "clients": [
-      { "name": "Michigan State University", "tone": "green" },
-      { "name": "Stanford University", "tone": "red" },
-      { "name": "Teach Access", "tone": "muted" }
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      },
+      {
+        "name": "Stanford University",
+        "tone": "red"
+      },
+      {
+        "name": "Teach Access",
+        "tone": "muted"
+      }
     ],
-    "values": [{ "text": "dignity" }, { "text": "reason" }],
+    "values": [
+      {
+        "text": "dignity"
+      },
+      {
+        "text": "reason"
+      }
+    ],
     "embed": {
       "src": "https://embed.figma.com/proto/HWlfLJObTuIAcmiSl8PTh1EC/All-Aboard?content-scaling=fixed&kind=proto&node-id=0-100&page-id=0%3A1&scaling=min-zoom&embed-host=share",
       "title": "All Aboard prototype",
@@ -405,11 +698,28 @@
     "name": "Coetic Website 3.0",
     "type": "Web Redesign",
     "status": "COMPLETED",
-     "externalLinks": [{ "label": "Coetic HR Website 3.0", "href": "https://web.archive.org/web/20191121220956/https://coetichr.com/" }],
+    "externalLinks": [
+      {
+        "label": "Coetic HR Website 3.0",
+        "href": "https://web.archive.org/web/20191121220956/https://coetichr.com/"
+      }
+    ],
     "launchDate": "Aug 2019",
     "description": "Earlier Coetic website redesign iteration produced in a rapid collaborative cycle.",
-    "clients": [{ "name": "CoeticHR", "tone": "blue" }],
-    "values": [{ "text": "capital" }, { "text": "fraternity" }],
+    "clients": [
+      {
+        "name": "CoeticHR",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "capital"
+      },
+      {
+        "text": "fraternity"
+      }
+    ],
     "features": [
       "Rapid website iteration and redesign",
       "Cross-functional creator collaboration",
@@ -421,16 +731,32 @@
     "id": "michigan-avenue-2030",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Michigan Avenue 2030",
+    "name": "Michigan Avenue 2030",
     "type": "Human-Centered Research",
     "status": "COMPLETED",
     "launchDate": "May 2019",
     "description": "Collaboration with the Michigan Avenue Corridor Improvement Authority and Michigan State University to provide human-centered research for proposed corridor developments.",
     "clients": [
-      { "name": "Michigan Avenue Corridor Improvement Authority", "tone": "blue" },
-      { "name": "Michigan State University", "tone": "green" }
+      {
+        "name": "Michigan Avenue Corridor Improvement Authority",
+        "tone": "blue"
+      },
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
     ],
-    "values": [{ "text": "fraternity" }, { "text": "dignity" }, { "text": "our common home" }],
+    "values": [
+      {
+        "text": "fraternity"
+      },
+      {
+        "text": "dignity"
+      },
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "Community-centered research planning",
       "Stakeholder collaboration with public institutions",
@@ -442,13 +768,31 @@
     "id": "global-payment-network",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Global Payment Network",
+    "name": "Global Payment Network",
     "type": "Research Project",
     "status": "COMPLETED",
     "launchDate": "Apr 2019",
     "description": "Investigation into online payments and the underlying technology stack that enables them.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "labor" }, { "text": "fraternity" }, { "text": "subsidiarity" }, { "text": "dignity" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "labor"
+      },
+      {
+        "text": "fraternity"
+      },
+      {
+        "text": "subsidiarity"
+      },
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "Payments ecosystem research",
       "Technology stack analysis",
@@ -460,13 +804,28 @@
     "id": "freedom-of-speech-msu",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Freedom of Speech at MSU",
+    "name": "Freedom of Speech at MSU",
     "type": "Research Project",
     "status": "COMPLETED",
     "launchDate": "Jun 2018",
     "description": "Research focused on the importance of debate and discussion in society as a whole and how this societal ideal has recently came under fire from individuals and groups inside of and related to academic organizations.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "fraternity" }, { "text": "dignity" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "fraternity"
+      },
+      {
+        "text": "dignity"
+      }
+    ],
     "embed": {
       "src": "https://docs.google.com/presentation/d/e/2PACX-1vTMZGUYJctcmjZXcKKihEZrte97e6Jsv_idq3OaqehIYZtEpYpRnbHJPCrG78woYYpzZsJt0D1SbPL1/pubembed?start=false&loop=false&delayms=3000",
       "title": "Freedom of Speech at MSU presentation",
@@ -479,14 +838,26 @@
     "id": "jane-the-brain",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Jane The Brain",
+    "name": "Jane The Brain",
     "type": "Campaign Design",
     "status": "COMPLETED",
     "launchDate": "DEC 2018",
     "url": "https://www.figma.com/file/L5vtCesfaLYyz8LVorePmjQx/Jane-the-Brain-Presents-Mental-Health-Awareness",
     "description": "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }, { "text": "the human heart" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      },
+      {
+        "text": "the human heart"
+      }
+    ],
     "features": [
       "Rhetorical and campaign design strategy",
       "Student-focused mental health education",
@@ -498,13 +869,22 @@
     "id": "allo-redesign",
     "section": "research",
     "degree": "Bachelor of Arts in Experience Architecture, Michigan State University",
-    "name":"Allo Redesign",
+    "name": "Allo Redesign",
     "type": "UX Concept",
     "status": "COMPLETED",
     "launchDate": "Sep 2018",
     "description": "UX concept exploring the future of Google Material Design through an Allo redesign before platform sunset.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      }
+    ],
     "features": [
       "Material Design exploration",
       "Conversation-focused interaction redesign",
@@ -520,8 +900,17 @@
     "status": "COMPLETED",
     "launchDate": "Mar 2018",
     "description": "This project was to improve the Google Assistant interface for people who have problems with sight. This project involved user research, user testing, accessibility practices, wire-frames, prototypes, and mock-ups along with a presentation.",
-    "clients": [{ "name": "Michigan State University", "tone": "green" }],
-    "values": [{ "text": "reason" }],
+    "clients": [
+      {
+        "name": "Michigan State University",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "reason"
+      }
+    ],
     "embed": {
       "src": "https://docs.google.com/presentation/d/e/2PACX-1vTgDOygXp-gwtTyY7_Dr1iroXnaxi5i_bOgEbBTL4FXsOLxQfGCuUbu2NheKf1zMiMauSceyuCFKtf2/pubembed?start=false&loop=false&delayms=3000",
       "title": "Google Assistant Redesign for the Blind presentation",
@@ -535,12 +924,26 @@
     "section": "government",
     "name": "Food Inspections Online Postings",
     "type": "Government Modernization",
-    "externalLinks": [{ "label": "MiSAFE", "href": "https://www2.mda.state.mi.us/MiSafe/Default" }],
-    "status": "COMPLETED",
+    "externalLinks": [
+      {
+        "label": "MiSAFE",
+        "href": "https://www2.mda.state.mi.us/MiSafe/Default"
+      }
+    ],
+    "status": "LIVE",
     "launchDate": "Apr 2025",
     "description": "MiSAFE is the Michigan Department of Agriculture and Rural Development's public-facing system for food establishment inspection reports — covering grocery stores, food processors, food warehouses, and convenience stores across the state. Inspection data is available from April 2022 forward and is searchable by establishment name, address, and city. I redeveloped the system to meet WCAG 2.1 AA accessibility requirements ahead of federal enforcement deadlines and aligned the experience with the One State, One Brand design initiative, ensuring the interface is consistent with the broader Michigan.gov ecosystem.",
-    "clients": [{ "name": "Michigan Department of Agriculture, and Rural Development", "tone": "muted" }],
-    "values": [{ "text": "dignity" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Agriculture, and Rural Development",
+        "tone": "muted"
+      }
+    ],
+    "values": [
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "WCAG 2.1 AA compliance for federal ADA enforcement deadline",
       "Alignment with One State, One Brand visual and UX standards",
@@ -553,12 +956,26 @@
     "section": "government",
     "name": "Well Record Retrieval System",
     "type": "Government Modernization",
-    "externalLinks": [{ "label": "Well Logs", "href": "https://www.egle.state.mi.us/well-logs/" }],
-    "status": "COMPLETED",
+    "externalLinks": [
+      {
+        "label": "Well Logs",
+        "href": "https://www.egle.state.mi.us/well-logs/"
+      }
+    ],
+    "status": "LIVE",
     "launchDate": "Apr 2026",
     "description": "The Well Record Retrieval System provides public access to over one million water well, pump, and abandoned well plugging records filed electronically in the Wellogic system since 2000. The data feeds into critical downstream systems including Michigan's Water Well Viewer, Drinking Water GIS, and the Water Withdrawal Assessment Tool. I redeveloped the public-facing retrieval interface to meet WCAG 2.1 AA requirements ahead of federal enforcement and aligned it with the One State, One Brand design standards to provide a consistent experience across Michigan.gov.",
-    "clients": [{ "name": "Michigan Department of Enivronment, Great Lakes, and Energy", "tone": "blue" }],
-    "values": [{ "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Enivronment, Great Lakes, and Energy",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "WCAG 2.1 AA compliance for federal ADA enforcement deadline",
       "Alignment with One State, One Brand visual and UX standards",
@@ -574,8 +991,20 @@
     "status": "IN PROGRESS",
     "launchDate": "",
     "description": "OTCIS is EGLE's public-facing system for Michigan's drinking water operator certification program, which oversees nearly 5,000 certified operators serving water supplies across the state. The system allows the public to look up certified operators, search by Water Supply Serial Number (WSSN), and find Advisory Board-approved continuing education courses. EGLE's Operator Training and Certification Unit uses the underlying data to process over 1,000 certification renewals annually and administer biannual exams across four license classifications. The modernization effort is rebuilding the system with current technology to meet WCAG 2.1 AA accessibility standards and align with One State, One Brand design guidelines.",
-    "clients": [{ "name": "Michigan Department of Enivronment, Great Lakes, and Energy", "tone": "blue" }],
-    "values": [{ "text": "our common home" }, { "text": "labor" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Enivronment, Great Lakes, and Energy",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      },
+      {
+        "text": "labor"
+      }
+    ],
     "features": [
       "Public lookup of ~5,000 certified drinking water operators statewide",
       "Search by Water Supply Serial Number (WSSN) and operator name",
@@ -588,12 +1017,26 @@
     "section": "government",
     "name": "Burn Permits",
     "type": "Government Modernization",
-    "externalLinks": [{ "label": "Burn Permits", "href": "https://www.dnr.state.mi.us/burnpermits/" }],
-    "status": "COMPLETED",
+    "externalLinks": [
+      {
+        "label": "Burn Permits",
+        "href": "https://www.dnr.state.mi.us/burnpermits/"
+      }
+    ],
+    "status": "LIVE",
     "launchDate": "Apr 2025",
     "description": "Michigan's Burn Permits system lets residents check whether open burning is permitted on a given day in their county and township before burning yard waste or debris. The DNR announced the updated system in April 2026, highlighting the replacement of an outdated clickable map with streamlined county and township dropdown menus, a mobile-friendly \"Can I burn today?\" flow, and improved clarity around the different burn regulations for northern and southern Lower Peninsula regions. I rebuilt the system to meet WCAG 2.1 AA requirements and align it with the One State, One Brand design initiative.",
-    "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
-    "values": [{ "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Natural Resources",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "Replaced legacy clickable map with accessible county and township dropdowns",
       "Mobile-friendly \"Can I burn today?\" flow for quick status checks",
@@ -608,8 +1051,20 @@
     "type": "Government Modernization",
     "status": "IN PROGRESS",
     "description": "The Intentional Conversation Database is MDARD's internal HR tool for tracking structured performance conversations between supervisors and employees — capturing check-ins, goal reviews, policy adherence discussions, and pay-period documentation. The legacy system was built on aging infrastructure with mounting maintenance costs. The modernization effort rebuilds it on a more sustainable, lower-cost architecture while updating the experience to align with state UX and accessibility standards, and improving the workflows supervisors rely on throughout the performance review cycle.",
-    "clients": [{ "name": "Michigan Department of Agriculture and Rural Development", "tone": "blue" }],
-    "values": [{ "text": "labor" }, { "text": "dignity" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Agriculture and Rural Development",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "labor"
+      },
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "Tracks structured performance conversations across the review cycle",
       "Rebuilt on sustainable, lower-cost architecture",
@@ -622,11 +1077,25 @@
     "section": "government",
     "name": "Fisheries Information System Hub (FISH)",
     "type": "Government Modernization",
-    "externalLinks": [{ "label": "FISH", "href": "https://www.michigandnr.com/fish" }],
+    "externalLinks": [
+      {
+        "label": "FISH",
+        "href": "https://www.michigandnr.com/fish"
+      }
+    ],
     "status": "IN PROGRESS",
     "description": "The Fisheries Information System Hub is the Michigan DNR's central platform for managing commercial fisheries data — supporting electronic reporting, harvest verification, and data management across the state's commercial, charter, and wholesale fishing sectors. The DNR has been moving from paper-based to electronic reporting to improve efficiency, accuracy, timeliness, and enforcement capabilities. I supported platform modernization work to improve the usability of these data workflows for both internal DNR staff and the fisheries operators who rely on the system to report activity and meet regulatory requirements.",
-    "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
-    "values": [{ "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Natural Resources",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "Electronic reporting for commercial, charter, and wholesale fisheries",
       "Harvest verification and real-time data management workflows",
@@ -639,12 +1108,26 @@
     "section": "government",
     "name": "Water Withdrawal Assessment Tool (WWAT)",
     "type": "Government Modernization",
-    "externalLinks": [{ "label": "WWAT", "href": "https://egle.state.mi.us/wwat/home" }],
-    "status": "COMPLETED",
+    "externalLinks": [
+      {
+        "label": "WWAT",
+        "href": "https://egle.state.mi.us/wwat/home"
+      }
+    ],
+    "status": "LIVE",
     "launchDate": "Apr 2025",
     "description": "The Water Withdrawal Assessment Tool is the central component of Michigan's Water Withdrawal Assessment Process — the mechanism by which the state fulfills its Great Lakes Compact obligations and regulates large-quantity water withdrawals before installation. EGLE launched an updated version in September 2025 with MiLogin authentication, improved transparency into watershed allocation data, support for site-specific parameters like transmissivity and storativity, and visibility into the same assessment tools used by EGLE staff. I delivered the initial modernization of the system after its transfer from Michigan State University, ensuring continuity of this critical regulatory tool and improving its digital experience.",
-    "clients": [{ "name": "Michigan Department of Environment, Great Lakes, and Energy", "tone": "blue" }],
-    "values": [{ "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Environment, Great Lakes, and Energy",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "Central regulatory tool for Great Lakes Compact water withdrawal compliance",
       "Modernization and continuity after transfer from Michigan State University",
@@ -656,12 +1139,26 @@
     "id": "mif-modernization",
     "section": "government",
     "name": "Michigan Forest Inventory (MiFI)",
-    "type": "Government Digital Platform",
+    "type": "Government Modernization",
     "status": "IN PROGRESS",
-    "externalLinks": [{ "label": "MiFI", "href": "https://gis-midnr.opendata.arcgis.com/datasets/michigan-forest-inventory-compartments/explore?showTable=true" }],
+    "externalLinks": [
+      {
+        "label": "MiFI",
+        "href": "https://gis-midnr.opendata.arcgis.com/datasets/michigan-forest-inventory-compartments/explore?showTable=true"
+      }
+    ],
     "description": "MiFI is the Michigan DNR's web-based system for managing the state forest — supporting inventory of every acre, prescription of forest treatments, and execution of commercial timber sales. Originally launched in 2015 after a NASCIO award-winning transformation from a paper-based process, the system enables foresters to complete all field work with a mobile device and attribute data for every acre in the state forest, allowing staff to measure 30% more area per site visit and finalize timber sale forecasts two months earlier than before. I contributed platform work to sustain and extend the system's core business functions for the DNR's Forest Resources Division.",
-    "clients": [{ "name": "Michigan Department of Natural Resources", "tone": "green" }],
-    "values": [{ "text": "our common home" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Natural Resources",
+        "tone": "green"
+      }
+    ],
+    "values": [
+      {
+        "text": "our common home"
+      }
+    ],
     "features": [
       "Manages inventory, treatment planning, and timber sales across Michigan state forest",
       "Mobile-enabled field workflows covering attribute data for every forested acre",
@@ -673,12 +1170,29 @@
     "id": "miehdwis",
     "section": "government",
     "name": "MiEHDWIS",
-    "type": "Government Digital Platform",
+    "type": "Government Modernization",
     "status": "IN PROGRESS",
-    "externalLinks": [{ "label": "MiEHDWIS", "href": "https://miehdwis.michigan.gov/" }],
+    "externalLinks": [
+      {
+        "label": "MiEHDWIS",
+        "href": "https://miehdwis.michigan.gov/"
+      }
+    ],
     "description": "MiEHDWIS is a multi-year initiative to consolidate EGLE's Drinking Water and Environmental Health Division's permitting, licensing, and compliance information systems into a single web-based platform. The system serves as the primary workspace for regulated entities — including public water supplies, campgrounds, public swimming pools, and septage handlers — to submit monitoring results, reports, permit and licensing applications, and other documentation directly to EGLE. It also streamlines communication between EGLE and local health department staff. I delivered platform improvements supporting these regulated-entity workflows and the DWEHD teams responsible for program oversight.",
-    "clients": [{ "name": "Michigan Department of Environment, Great Lakes, and Energy", "tone": "blue" }],
-    "values": [{ "text": "dignity" }, { "text": "our posterity" }],
+    "clients": [
+      {
+        "name": "Michigan Department of Environment, Great Lakes, and Energy",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "dignity"
+      },
+      {
+        "text": "our posterity"
+      }
+    ],
     "features": [
       "Unified portal for permits, licenses, monitoring results, and compliance documentation",
       "Serves public water supplies, campgrounds, pools, and septage handlers statewide",
@@ -690,12 +1204,21 @@
     "id": "digital-standards",
     "section": "government",
     "name": "Digital Standards",
-    "type": "Government Modernization",
-    "status": "IN PROGRESS",
+    "type": "Design Governance",
+    "status": "LIVE",
     "url": "https://www.michigan.gov/som/digitalstandards",
     "description": "The State of Michigan's Digital Standards for Websites and Applications define the baseline requirements all state departments and agencies must meet — covering state-built sites and apps, custom mobile applications, and vendor-supplied software. Version 2.0 adopted WCAG 2.1 Level AA as the state's accessibility standard, with a compliance deadline tied to federal enforcement. The standards are administered by the Department of Technology, Management and Budget and support the broader One State, One Brand initiative to ensure that Michigan's 38 million monthly website users experience consistent, trustworthy interactions across every agency. I contributed experience design and implementation work that informed and aligned with these standards.",
-    "clients": [{ "name": "State of Michigan", "tone": "blue" }],
-    "values": [{ "text": "dignity" }],
+    "clients": [
+      {
+        "name": "State of Michigan",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "WCAG 2.1 AA as the statewide accessibility standard across all agencies",
       "Applies to state-built sites, mobile apps, and vendor-supplied software",
@@ -707,12 +1230,26 @@
     "id": "digital-guidelines",
     "section": "government",
     "name": "Digital Guidelines",
-    "type": "Government Modernization",
-    "status": "IN PROGRESS",
-    "externalLinks": [{ "label": "Digital Guidelines", "href": "https://digitalguidelines.michigan.gov/" }],
+    "type": "Design System",
+    "status": "LIVE",
+    "externalLinks": [
+      {
+        "label": "Digital Guidelines",
+        "href": "https://digitalguidelines.michigan.gov/"
+      }
+    ],
     "description": "Michigan's Digital Guidelines is the state's official design system — a single source of truth providing a common visual and experiential language for building citizen-facing applications. The system ships WCAG 2.1 AA-compliant components out of the box, along with a Figma design kit for prototyping and a prebuilt component library to accelerate app development. It serves as the implementation layer beneath the Digital Standards, giving agency development teams the concrete patterns, colors, typography, and interaction models they need to build consistent, accessible Michigan.gov experiences. I contributed design and implementation work aligned with the guidelines across multiple agency modernization projects.",
-    "clients": [{ "name": "State of Michigan", "tone": "blue" }],
-    "values": [{ "text": "dignity" }],
+    "clients": [
+      {
+        "name": "State of Michigan",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "WCAG 2.1 AA-compliant component library with accessible focus states by default",
       "Figma design kit for prototyping and design-to-dev handoff",
@@ -724,12 +1261,21 @@
     "id": "one-state-one-brand",
     "section": "government",
     "name": "One State, One Brand",
-    "type": "Government Modernization",
+    "type": "Design System",
     "url": "https://www.nascio.org/wp-content/uploads/2023/08/MI_Digital-Services_Government-to-Citizen.pdf",
-    "status": "IN PROGRESS",
+    "status": "LIVE",
     "description": "One State, One Brand is Michigan DTMB's strategic initiative to align branding, experience, and accessibility across all state websites, applications, and digital communications — so that residents, businesses, and visitors encounter a seamless, trustworthy experience no matter which agency they're interacting with. The initiative encompasses human-centered design, legacy technology replacement, expanded MiLogin single sign-on, centralized social media strategy, and statewide digital accessibility standards. It has helped Michigan place in the top five states for overall digital government experience five years running, including fourth in the nation. All of my state agency modernization work is executed within and in service of this initiative.",
-    "clients": [{ "name": "State of Michigan", "tone": "blue" }],
-    "values": [{ "text": "dignity" }],
+    "clients": [
+      {
+        "name": "State of Michigan",
+        "tone": "blue"
+      }
+    ],
+    "values": [
+      {
+        "text": "dignity"
+      }
+    ],
     "features": [
       "Unified visual identity and UX standards across all Michigan state digital properties",
       "Human-centered design approach serving 38M monthly website users",
