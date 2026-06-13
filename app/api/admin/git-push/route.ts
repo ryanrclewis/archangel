@@ -28,6 +28,7 @@ export async function POST(req: Request) {
 
     run(`git commit -m "${message.replace(/"/g, '\\"')}"`);
     run("git push");
+    run("npm run deploy:vinext");
 
     const sha = run("git rev-parse --short HEAD");
     return NextResponse.json({ ok: true, sha });
