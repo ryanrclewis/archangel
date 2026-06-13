@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
-type TypewriterPhrase = { text: string; link?: string };
+type TypewriterPhrase = { text: string; link?: string; enabled?: boolean };
 
 type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED";
 type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
@@ -521,13 +521,13 @@ function TypewriterEditor({
   onValueColorChange: (key: string, val: string) => void;
   onSaveAll: () => void;
 }) {
-  const setPhrase = (i: number, key: keyof TypewriterPhrase, val: string) => {
+  const setPhrase = (i: number, key: keyof TypewriterPhrase, val: string | boolean) => {
     const next = [...phrases];
     next[i] = { ...next[i], [key]: val };
     onChange(next);
   };
 
-  const addPhrase = () => onChange([...phrases, { text: "", link: "" }]);
+  const addPhrase = () => onChange([...phrases, { text: "", link: "", enabled: true }]);
   const removePhrase = (i: number) => onChange(phrases.filter((_, idx) => idx !== i));
   const movePhrase = (i: number, dir: -1 | 1) => {
     const next = [...phrases];
@@ -542,7 +542,7 @@ function TypewriterEditor({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "38px 1fr 1fr auto auto auto",
+          gridTemplateColumns: "38px 1fr 1fr 32px auto auto auto",
           gap: 8,
           alignItems: "center",
           padding: "0 12px 8px",
@@ -556,23 +556,26 @@ function TypewriterEditor({
         <div>Color</div>
         <div>Text</div>
         <div>Link</div>
+        <div title="Show in typewriter">On</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
         {phrases.map((p, i) => {
           const lookupKey = p.text.replace(/[.,!?;:]+$/, "");
           const colorVal = valueColors[lookupKey] ?? "#888888";
+          const isEnabled = p.enabled !== false;
           return (
             <div
               key={i}
               style={{
                 display: "grid",
-                gridTemplateColumns: "38px 1fr 1fr auto auto auto",
+                gridTemplateColumns: "38px 1fr 1fr 32px auto auto auto",
                 gap: 8,
                 alignItems: "center",
                 padding: "8px 12px",
                 border: "1px solid var(--hairline)",
                 borderRadius: 4,
-                background: "var(--paper)",
+                background: isEnabled ? "var(--paper)" : "var(--paper-warm)",
+                opacity: isEnabled ? 1 : 0.6,
               }}
             >
               <input
@@ -593,6 +596,13 @@ function TypewriterEditor({
                 placeholder="Link URL (optional)"
                 value={p.link ?? ""}
                 onChange={(e) => setPhrase(i, "link", e.target.value)}
+              />
+              <input
+                type="checkbox"
+                checked={isEnabled}
+                title={isEnabled ? "Remove from typewriter" : "Add to typewriter"}
+                onChange={(e) => setPhrase(i, "enabled", e.target.checked)}
+                style={{ width: 18, height: 18, cursor: "pointer", accentColor: "var(--ink)", justifySelf: "center" }}
               />
               <button onClick={() => movePhrase(i, -1)} style={iconBtnStyle} title="Move up">↑</button>
               <button onClick={() => movePhrase(i, 1)} style={iconBtnStyle} title="Move down">↓</button>

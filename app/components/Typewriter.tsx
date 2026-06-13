@@ -5,7 +5,8 @@ import { getPhraseChipColor } from "@/app/utils/phraseStyles";
 
 export type TypewriterPhrase = {
   text: string;
-  link?: string; // optional link for the phrase
+  link?: string;
+  enabled?: boolean;
 };
 
 type Props = {

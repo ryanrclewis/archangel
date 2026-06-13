@@ -4,7 +4,9 @@ import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
-import typewriterPhrases from "./data/typewriter-phrases.json";
+import allTypewriterPhrases from "./data/typewriter-phrases.json";
+
+const typewriterPhrases = allTypewriterPhrases.filter((p) => p.enabled !== false);
 
 const MONTH_INDEX: Record<string, number> = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
