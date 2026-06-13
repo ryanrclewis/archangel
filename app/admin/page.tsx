@@ -674,10 +674,117 @@ const iconBtnStyle: React.CSSProperties = {
   fontFamily: "var(--font-mono)",
 };
 
+// ── Background Editor ──────────────────────────────────────────────────────
+
+function BackgroundEditor({ onSave }: { onSave: () => void }) {
+  const [current, setCurrent] = useState<string>("");
+  const [images, setImages] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/site-config").then((r) => r.json()).then((d) => setCurrent(d.backgroundImage ?? ""));
+    fetch("/api/admin/upload-image").then((r) => r.json()).then((d) => setImages(d.images ?? []));
+  }, []);
+
+  const select = async (filename: string) => {
+    setCurrent(filename);
+    await fetch("/api/admin/site-config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ backgroundImage: filename }),
+    });
+    onSave();
+  };
+
+  const upload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/admin/upload-image", { method: "POST", body: fd });
+    const data = await res.json();
+    if (data.ok) {
+      setImages(data.images ?? []);
+      await select(data.filename);
+    }
+    setUploading(false);
+    e.target.value = "";
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 20 }}>
+        <p style={{ margin: "0 0 12px", fontSize: 13, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+          Active: <strong style={{ color: "var(--ink)" }}>{current || "—"}</strong>
+        </p>
+        <label
+          style={{
+            display: "inline-block",
+            padding: "8px 18px",
+            background: "var(--ink)",
+            color: "var(--paper)",
+            borderRadius: 4,
+            fontSize: 13,
+            fontFamily: "var(--font-mono)",
+            cursor: uploading ? "not-allowed" : "pointer",
+            opacity: uploading ? 0.6 : 1,
+          }}
+        >
+          {uploading ? "Uploading…" : "+ Upload image"}
+          <input type="file" accept="image/*" onChange={upload} style={{ display: "none" }} disabled={uploading} />
+        </label>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12 }}>
+        {images.map((img) => (
+          <button
+            key={img}
+            onClick={() => select(img)}
+            title={img}
+            style={{
+              padding: 0,
+              border: img === current ? "3px solid var(--ink)" : "2px solid var(--hairline)",
+              borderRadius: 6,
+              cursor: "pointer",
+              overflow: "hidden",
+              background: "none",
+              position: "relative",
+            }}
+          >
+            <img
+              src={`/${img}`}
+              alt={img}
+              style={{ width: "100%", height: 110, objectFit: "cover", display: "block" }}
+            />
+            <div
+              style={{
+                padding: "4px 8px",
+                fontSize: 10,
+                fontFamily: "var(--font-mono)",
+                color: "var(--muted)",
+                textAlign: "left",
+                background: "var(--paper)",
+                borderTop: "1px solid var(--hairline)",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {img === current && "✓ "}
+              {img}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Main Page ──────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
-  const [tab, setTab] = useState<"colors" | "typewriter" | "projects">("colors");
+  const [tab, setTab] = useState<"colors" | "typewriter" | "projects" | "background">("colors");
   const [colors, setColors] = useState<Record<string, string>>({});
   const [valueColors, setValueColors] = useState<Record<string, string>>({});
   const [typewriterPhrases, setTypewriterPhrases] = useState<TypewriterPhrase[]>([]);
@@ -845,6 +952,7 @@ export default function AdminPage() {
               <button style={tabStyle(tab === "colors")} onClick={() => setTab("colors")}>Colors</button>
               <button style={tabStyle(tab === "typewriter")} onClick={() => setTab("typewriter")}>Typewriter</button>
               <button style={tabStyle(tab === "projects")} onClick={() => setTab("projects")}>Projects</button>
+              <button style={tabStyle(tab === "background")} onClick={() => setTab("background")}>Background</button>
             </div>
 
             <div style={{ background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: 6, padding: 28 }}>
@@ -875,6 +983,9 @@ export default function AdminPage() {
                   onNew={() => { setEditingProject(makeEmptyProject()); setIsNew(true); }}
                   onDelete={deleteProject}
                 />
+              )}
+              {tab === "background" && (
+                <BackgroundEditor onSave={flashSaved} />
               )}
             </div>
           </>
