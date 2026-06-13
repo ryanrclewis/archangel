@@ -94,8 +94,7 @@
 
 body {
   margin: 0;
-  /* background: url("/background.webp") center/cover no-repeat fixed; */
-  background: url("/background.jpeg") left/cover no-repeat fixed;
+  background: var(--bg-image, url("/background.jpeg")) left/cover no-repeat fixed;
   color: var(--ink);
   font-family: var(--font-sans);
 }

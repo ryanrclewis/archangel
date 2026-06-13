@@ -56,15 +56,21 @@
   },
   {
     "text": "life.",
-    "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25031995_evangelium-vitae.html"
+    "link": "https://www.vatican.va/content/john-paul-ii/en/encyclicals/documents/hf_jp-ii_enc_25031995_evangelium-vitae.html",
+    "enabled": false
+  },
+  {
+    "text": "life.",
+    "link": "https://www.archives.gov/founding-docs/declaration-transcript",
+    "enabled": true
   },
   {
     "text": "liberty.",
-    "link": ""
+    "link": "https://www.archives.gov/founding-docs/declaration-transcript"
   },
   {
     "text": "the pursuit of happiness.",
-    "link": ""
+    "link": "https://www.archives.gov/founding-docs/declaration-transcript"
   },
   {
     "text": "labor.",
