@@ -21,8 +21,8 @@ export async function POST(req: Request) {
   try {
     run(`git add ${MANAGED_FILES.join(" ")}`);
 
-    const status = run("git status --porcelain");
-    if (!status) {
+    const staged = run("git diff --cached --name-only");
+    if (!staged) {
       return NextResponse.json({ ok: true, skipped: true, message: "Nothing to commit" });
     }
 
