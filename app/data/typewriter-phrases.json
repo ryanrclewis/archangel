@@ -116,5 +116,35 @@
     "text": "subsidiarity.",
     "link": "https://www.vatican.va/content/pius-xi/en/encyclicals/documents/hf_p-xi_enc_19310515_quadragesimo-anno.html",
     "enabled": false
+  },
+  {
+    "text": "justice.",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
+  },
+  {
+    "text": "domestic tranquility.",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
+  },
+  {
+    "text": "the common defense.",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
+  },
+  {
+    "text": "the general welfare.",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
+  },
+  {
+    "text": "our posterity.",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
+  },
+  {
+    "text": "the United States of America",
+    "link": "https://www.senate.gov/about/origins-foundations/senate-and-constitution/constitution.htm",
+    "enabled": true
   }
 ]

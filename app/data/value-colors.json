@@ -18,8 +18,13 @@
   "life": "#b82334",
   "evangelization": "#8B5200",
   "charity": "#8B1A3E",
-  "our posterity": "#3A5E3A",
+  "our posterity": "#ffffff",
   "peace on Earth": "#1A5E85",
   "liberty": "#ffffff",
-  "the pursuit of happiness": "#3c3b6e"
+  "the pursuit of happiness": "#3c3b6e",
+  "the common defense": "#3c3b6e",
+  "justice": "#b82334",
+  "domestic tranquility": "#ffffff",
+  "the general welfare": "#b82334",
+  "the United States of America": "#3c3b6e"
 }
