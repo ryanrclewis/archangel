@@ -11,13 +11,15 @@ export type TypewriterPhrase = {
 
 type Props = {
   phrases: (string | TypewriterPhrase)[];
-  typingSpeed?: number; // ms per char
-  deletingSpeed?: number; // ms per char when deleting
-  pause?: number; // pause after full phrase
+  valueColors?: Partial<Record<string, string>>;
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  pause?: number;
 };
 
 export default function Typewriter({
   phrases,
+  valueColors = {} as Partial<Record<string, string>>,
   typingSpeed = 80,
   deletingSpeed = 40,
   pause = 1400,
@@ -26,14 +28,6 @@ export default function Typewriter({
   const [display, setDisplay] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [valueColors, setValueColors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    fetch("/api/admin/value-colors")
-      .then((r) => r.json())
-      .then(setValueColors)
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;

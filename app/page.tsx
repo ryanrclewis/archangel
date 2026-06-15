@@ -3,7 +3,7 @@ import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
-import { getProjectLaunchLabel, projects, type Project } from "./data/projects";
+import { getProjectLaunchLabel, projects, valueColors, type Project } from "./data/projects";
 import allTypewriterPhrases from "./data/typewriter-phrases.json";
 
 const typewriterPhrases = allTypewriterPhrases.filter((p) => p.enabled !== false);
@@ -74,7 +74,7 @@ export default function Home() {
           <h1 id="home-title">
             Technology in service of{"\u00A0"}
             <br />
-            <Typewriter phrases={typewriterPhrases} />
+            <Typewriter phrases={typewriterPhrases} valueColors={valueColors} />
           </h1>
           <p className="lede">
             Archangel Laboratories designs and builds technology for families, communities, teams, and public
