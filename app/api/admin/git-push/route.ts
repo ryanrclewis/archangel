@@ -5,6 +5,7 @@ const MANAGED_FILES = [
   "app/data/value-colors.json",
   "app/data/typewriter-phrases.json",
   "app/data/site-config.json",
+  "app/data/themes.json",
   "app/globals.css",
   "public",
 ];

@@ -41,6 +41,8 @@ export type ProjectDegree =
 
 export type Project = {
   id: string;
+  /** When true, the project is excluded from listings and has no detail page. */
+  hidden?: boolean;
   section?: ProjectSection;
   degree?: ProjectDegree;
   version?: string;
@@ -81,10 +83,12 @@ function resolveProjectValues(project: Project) {
 
 const baseProjects: Project[] = projectsData as Project[];
 
-export const projects: Project[] = baseProjects.map((project) => ({
-  ...project,
-  values: resolveProjectValues(project),
-}));
+export const projects: Project[] = baseProjects
+  .filter((project) => !project.hidden)
+  .map((project) => ({
+    ...project,
+    values: resolveProjectValues(project),
+  }));
 
 export function getProjectById(id: string) {
   return projects.find((project) => project.id === id);

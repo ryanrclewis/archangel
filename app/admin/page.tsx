@@ -674,6 +674,133 @@ const iconBtnStyle: React.CSSProperties = {
   fontFamily: "var(--font-mono)",
 };
 
+// ── Themes Editor ─────────────────────────────────────────────────────────
+
+type Theme = {
+  id: string;
+  name: string;
+  backgroundImage: string;
+  enabledPhrases: string[];
+};
+
+function ThemesEditor({ onSave }: { onSave: () => void }) {
+  const [themes, setThemes] = useState<Theme[]>([]);
+  const [activeTheme, setActiveTheme] = useState<string | null>(null);
+  const [newName, setNewName] = useState("");
+  const [allPhrases, setAllPhrases] = useState<TypewriterPhrase[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [editing, setEditing] = useState<Theme | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/themes").then((r) => r.json()).then((d) => {
+      setThemes(d.themes ?? []);
+      setActiveTheme(d.activeTheme ?? null);
+    });
+    fetch("/api/admin/typewriter-phrases").then((r) => r.json()).then(setAllPhrases);
+    fetch("/api/admin/upload-image").then((r) => r.json()).then((d) => setImages(d.images ?? []));
+  }, []);
+
+  const apply = async (id: string) => {
+    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "apply", id }) });
+    setActiveTheme(id);
+    onSave();
+  };
+
+  const saveTheme = async (theme: Theme) => {
+    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "save", theme }) });
+    setThemes((prev) => {
+      const idx = prev.findIndex((t) => t.id === theme.id);
+      return idx >= 0 ? prev.map((t) => t.id === theme.id ? theme : t) : [...prev, theme];
+    });
+    setEditing(null);
+    onSave();
+  };
+
+  const deleteTheme = async (id: string) => {
+    if (!confirm("Delete this theme?")) return;
+    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "delete", id }) });
+    setThemes((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const createNew = () => {
+    const id = newName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    if (!id) return;
+    setEditing({ id, name: newName, backgroundImage: images[0] ?? "", enabledPhrases: [] });
+    setNewName("");
+  };
+
+  if (editing) {
+    return (
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <button onClick={() => setEditing(null)} style={iconBtnStyle}>←</button>
+          <h3 style={{ margin: 0, fontSize: 16 }}>Editing: {editing.name}</h3>
+        </div>
+
+        <p style={{ margin: "0 0 8px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Background</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8, marginBottom: 20 }}>
+          {images.map((img) => (
+            <button key={img} onClick={() => setEditing({ ...editing, backgroundImage: img })}
+              style={{ padding: 0, border: img === editing.backgroundImage ? "3px solid var(--ink)" : "2px solid var(--hairline)", borderRadius: 6, cursor: "pointer", overflow: "hidden", background: "none" }}>
+              <img src={`/${img}`} alt={img} style={{ width: "100%", height: 80, objectFit: "cover", display: "block" }} />
+              <div style={{ padding: "3px 6px", fontSize: 9, fontFamily: "var(--font-mono)", color: "var(--muted)", background: "var(--paper)", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {img === editing.backgroundImage && "✓ "}{img}
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <p style={{ margin: "0 0 8px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Typewriter phrases</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 20 }}>
+          {allPhrases.map((p) => {
+            const on = editing.enabledPhrases.includes(p.text);
+            return (
+              <label key={p.text} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 10px", border: "1px solid var(--hairline)", borderRadius: 4, cursor: "pointer", background: on ? "var(--paper)" : "var(--paper-warm)", opacity: on ? 1 : 0.6 }}>
+                <input type="checkbox" checked={on} onChange={(e) => setEditing({
+                  ...editing,
+                  enabledPhrases: e.target.checked
+                    ? [...editing.enabledPhrases, p.text]
+                    : editing.enabledPhrases.filter((x) => x !== p.text),
+                })} style={{ accentColor: "var(--ink)" }} />
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 13 }}>{p.text}</span>
+              </label>
+            );
+          })}
+        </div>
+
+        <button onClick={() => saveTheme(editing)} style={btnStyle}>Save theme</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+        {themes.map((t) => (
+          <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", border: t.id === activeTheme ? "2px solid var(--ink)" : "1px solid var(--hairline)", borderRadius: 6, background: "var(--paper)" }}>
+            <img src={`/${t.backgroundImage}`} alt="" style={{ width: 56, height: 40, objectFit: "cover", borderRadius: 4, flexShrink: 0, border: "1px solid var(--hairline)" }} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 600, fontSize: 14 }}>{t.name}</div>
+              <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", marginTop: 2 }}>{t.enabledPhrases.length} phrases · {t.backgroundImage}</div>
+            </div>
+            <div style={{ display: "flex", gap: 6 }}>
+              {t.id !== activeTheme && <button onClick={() => apply(t.id)} style={btnStyle}>Apply</button>}
+              {t.id === activeTheme && <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", padding: "8px 12px" }}>✓ Active</span>}
+              <button onClick={() => setEditing(t)} style={addBtnStyle}>Edit</button>
+              <button onClick={() => deleteTheme(t.id)} style={{ ...iconBtnStyle, color: "var(--muted)" }}>×</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="New theme name…" style={{ ...inputStyle, width: 220 }} onKeyDown={(e) => e.key === "Enter" && createNew()} />
+        <button onClick={createNew} style={addBtnStyle} disabled={!newName.trim()}>+ Create theme</button>
+      </div>
+    </div>
+  );
+}
+
 // ── Background Editor ──────────────────────────────────────────────────────
 
 function BackgroundEditor({ onSave }: { onSave: () => void }) {
@@ -784,7 +911,7 @@ function BackgroundEditor({ onSave }: { onSave: () => void }) {
 // ── Main Page ──────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
-  const [tab, setTab] = useState<"colors" | "typewriter" | "projects" | "background">("colors");
+  const [tab, setTab] = useState<"colors" | "typewriter" | "projects" | "background" | "themes">("colors");
   const [colors, setColors] = useState<Record<string, string>>({});
   const [valueColors, setValueColors] = useState<Record<string, string>>({});
   const [typewriterPhrases, setTypewriterPhrases] = useState<TypewriterPhrase[]>([]);
@@ -953,6 +1080,7 @@ export default function AdminPage() {
               <button style={tabStyle(tab === "typewriter")} onClick={() => setTab("typewriter")}>Typewriter</button>
               <button style={tabStyle(tab === "projects")} onClick={() => setTab("projects")}>Projects</button>
               <button style={tabStyle(tab === "background")} onClick={() => setTab("background")}>Background</button>
+              <button style={tabStyle(tab === "themes")} onClick={() => setTab("themes")}>Themes</button>
             </div>
 
             <div style={{ background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: 6, padding: 28 }}>
@@ -986,6 +1114,9 @@ export default function AdminPage() {
               )}
               {tab === "background" && (
                 <BackgroundEditor onSave={flashSaved} />
+              )}
+              {tab === "themes" && (
+                <ThemesEditor onSave={flashSaved} />
               )}
             </div>
           </>

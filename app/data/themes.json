@@ -1,0 +1,46 @@
+[
+  {
+    "id": "america-250",
+    "name": "America 250",
+    "backgroundImage": "background.webp",
+    "enabledPhrases": [
+      "life.",
+      "liberty.",
+      "the pursuit of happiness.",
+      "justice.",
+      "domestic tranquility.",
+      "the common defense.",
+      "the general welfare.",
+      "our posterity.",
+      "the United States of America."
+    ]
+  },
+  {
+    "id": "standard",
+    "name": "Standard",
+    "backgroundImage": "background.jpeg",
+    "enabledPhrases": [
+      "magnificent humanity.",
+      "the human heart.",
+      "fraternity.",
+      "our common home.",
+      "light.",
+      "truth.",
+      "hope.",
+      "love.",
+      "faith.",
+      "reason.",
+      "unity.",
+      "life.",
+      "labor.",
+      "capital.",
+      "evangelization.",
+      "charity.",
+      "dignity.",
+      "our posterity.",
+      "prosperity.",
+      "peace on Earth.",
+      "subsidiarity."
+    ]
+  }
+]

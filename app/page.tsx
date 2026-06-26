@@ -5,8 +5,13 @@ import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
 import { getProjectLaunchLabel, projects, valueColors, type Project } from "./data/projects";
 import allTypewriterPhrases from "./data/typewriter-phrases.json";
+import themes from "./data/themes.json";
+import siteConfig from "./data/site-config.json";
 
-const typewriterPhrases = allTypewriterPhrases.filter((p) => p.enabled !== false);
+const activeTheme = themes.find((t) => t.id === siteConfig.activeTheme);
+const typewriterPhrases = activeTheme
+  ? allTypewriterPhrases.filter((p) => activeTheme.enabledPhrases.includes(p.text))
+  : allTypewriterPhrases.filter((p) => p.enabled !== false);
 
 const MONTH_INDEX: Record<string, number> = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,

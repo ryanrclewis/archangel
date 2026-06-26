@@ -28,6 +28,7 @@
   },
   {
     "id": "mithril",
+    "hidden": true,
     "section": "bespoke",
     "name": "Mithril",
     "type": "Docker / Networking",
@@ -80,6 +81,7 @@
   },
   {
     "id": "crisis-catalog",
+    "hidden": true,
     "section": "bespoke",
     "name": "Crisis Catalog",
     "type": "Web Application",
@@ -100,6 +102,7 @@
   },
   {
     "id": "psalm113-3",
+    "hidden": true,
     "section": "bespoke",
     "name": "Psalm 113:3",
     "type": "Web Visualization",
@@ -431,11 +434,11 @@
     "id": "healthy-habits",
     "section": "research",
     "degree": "Master of Science in User Experience, Michigan State University",
-    "name": "Heathy Habits",
+    "name": "Healthy Habits",
     "type": "User Research",
     "status": "COMPLETED",
     "launchDate": "Nov 2023",
-    "description": "User research project trying to understand mental health, motivation, and habit tracking and to build an eveidence-based habit tracking app.",
+    "description": "User research project trying to understand mental health, motivation, and habit tracking and to build an evidence-based habit tracking app.",
     "clients": [
       {
         "name": "Michigan State University",
@@ -808,7 +811,7 @@
     "type": "Research Project",
     "status": "COMPLETED",
     "launchDate": "Jun 2018",
-    "description": "Research focused on the importance of debate and discussion in society as a whole and how this societal ideal has recently came under fire from individuals and groups inside of and related to academic organizations.",
+    "description": "Research focused on the importance of debate and discussion in society as a whole and how this societal ideal has recently come under fire from individuals and groups inside of and related to academic organizations.",
     "clients": [
       {
         "name": "Michigan State University",
@@ -841,7 +844,7 @@
     "name": "Jane The Brain",
     "type": "Campaign Design",
     "status": "COMPLETED",
-    "launchDate": "DEC 2018",
+    "launchDate": "Dec 2018",
     "url": "https://www.figma.com/file/L5vtCesfaLYyz8LVorePmjQx/Jane-the-Brain-Presents-Mental-Health-Awareness",
     "description": "Mental health awareness campaign designed to educate Michigan State University students on available campus resources.",
     "clients": [
@@ -967,7 +970,7 @@
     "description": "The Well Record Retrieval System provides public access to over one million water well, pump, and abandoned well plugging records filed electronically in the Wellogic system since 2000. The data feeds into critical downstream systems including Michigan's Water Well Viewer, Drinking Water GIS, and the Water Withdrawal Assessment Tool. I redeveloped the public-facing retrieval interface to meet WCAG 2.1 AA requirements ahead of federal enforcement and aligned it with the One State, One Brand design standards to provide a consistent experience across Michigan.gov.",
     "clients": [
       {
-        "name": "Michigan Department of Enivronment, Great Lakes, and Energy",
+        "name": "Michigan Department of Environment, Great Lakes, and Energy",
         "tone": "blue"
       }
     ],
@@ -993,7 +996,7 @@
     "description": "OTCIS is EGLE's public-facing system for Michigan's drinking water operator certification program, which oversees nearly 5,000 certified operators serving water supplies across the state. The system allows the public to look up certified operators, search by Water Supply Serial Number (WSSN), and find Advisory Board-approved continuing education courses. EGLE's Operator Training and Certification Unit uses the underlying data to process over 1,000 certification renewals annually and administer biannual exams across four license classifications. The modernization effort is rebuilding the system with current technology to meet WCAG 2.1 AA accessibility standards and align with One State, One Brand design guidelines.",
     "clients": [
       {
-        "name": "Michigan Department of Enivronment, Great Lakes, and Energy",
+        "name": "Michigan Department of Environment, Great Lakes, and Energy",
         "tone": "blue"
       }
     ],
@@ -1024,7 +1027,7 @@
       }
     ],
     "status": "LIVE",
-    "launchDate": "Apr 2025",
+    "launchDate": "Apr 2026",
     "description": "Michigan's Burn Permits system lets residents check whether open burning is permitted on a given day in their county and township before burning yard waste or debris. The DNR announced the updated system in April 2026, highlighting the replacement of an outdated clickable map with streamlined county and township dropdown menus, a mobile-friendly \"Can I burn today?\" flow, and improved clarity around the different burn regulations for northern and southern Lower Peninsula regions. I rebuilt the system to meet WCAG 2.1 AA requirements and align it with the One State, One Brand design initiative.",
     "clients": [
       {
