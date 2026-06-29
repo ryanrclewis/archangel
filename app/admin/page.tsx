@@ -43,6 +43,53 @@ const COLOR_LABELS: Record<string, string> = {
   "--white": "White",
 };
 
+// ── Heritage Colors (Sherwin-Williams, 1820–1920) ───────────────────────────
+// Approximate hex values sampled from the printed Heritage Colors chart.
+type HeritageColor = { name: string; sw: string; hex: string };
+
+const HERITAGE_COLORS: HeritageColor[] = [
+  { name: "Rookwood Jade", sw: "94283", hex: "#7d9a7a" },
+  { name: "Renwick Olive", sw: "94150", hex: "#6e7349" },
+  { name: "Colonial Revival Yellow", sw: "94440", hex: "#d9c98e" },
+  { name: "Downing Cream", sw: "94028", hex: "#d6cba6" },
+  { name: "Colonial Revival Ivory", sw: "94432", hex: "#d9cfae" },
+  { name: "Rookwood Amber", sw: "94184", hex: "#c79a3f" },
+  { name: "Renwick Heather", sw: "94143", hex: "#9a958c" },
+  { name: "Colonial Revival Blue", sw: "94416", hex: "#91a3aa" },
+  { name: "Renwick Fence Green", sw: "94119", hex: "#5f7250" },
+  { name: "Tiffany Bronze", sw: "94366", hex: "#8a8741" },
+  { name: "Classical White", sw: "94408", hex: "#e2dcc8" },
+  { name: "Downing Straw", sw: "94077", hex: "#c4b079" },
+  { name: "Renwick Yellow", sw: "94176", hex: "#c9a94e" },
+  { name: "Rookwood Clay", sw: "94234", hex: "#b89b6e" },
+  { name: "Renwick Beige", sw: "94101", hex: "#c2b49a" },
+  { name: "Rookwood Red", sw: "94325", hex: "#7e2f23" },
+  { name: "Rookwood Dark Red", sw: "94275", hex: "#5a241c" },
+  { name: "Colonial Revival Gray", sw: "94424", hex: "#b6bdba" },
+  { name: "Rookwood Blue Green", sw: "94218", hex: "#4f6f63" },
+  { name: "Tiffany Olive", sw: "94382", hex: "#7c7d3e" },
+  { name: "Downing Yellow", sw: "94085", hex: "#c9b454" },
+  { name: "Rookwood Antique Gold", sw: "94192", hex: "#b29b5c" },
+  { name: "Downing Sand", sw: "94044", hex: "#c7b386" },
+  { name: "Rookwood Brown", sw: "94228", hex: "#8a6a45" },
+  { name: "Renwick Rose Beige", sw: "94168", hex: "#c2a48d" },
+  { name: "Rookwood Dark Brown", sw: "94242", hex: "#4a3a2c" },
+  { name: "Downing Slate", sw: "94051", hex: "#8f9794" },
+  { name: "Rookwood Sash Green", sw: "94333", hex: "#3f5642" },
+  { name: "Tiffany Palm Green", sw: "94390", hex: "#5f7141" },
+  { name: "Tiffany Moss Green", sw: "94374", hex: "#7b7d3f" },
+  { name: "Downing Stone", sw: "94069", hex: "#9d9171" },
+  { name: "Renwick Gold", sw: "94127", hex: "#b58f3e" },
+  { name: "Rookwood Terra Cotta", sw: "94358", hex: "#a85a32" },
+  { name: "Rookwood Medium Brown", sw: "94291", hex: "#6e5236" },
+  { name: "Rookwood Shutter Green", sw: "94341", hex: "#2f4032" },
+  { name: "Rookwood Dark Green", sw: "94259", hex: "#3a4a30" },
+  { name: "Rookwood Dark Olive", sw: "94267", hex: "#4a4a2c" },
+  { name: "Rookwood Olive", sw: "94317", hex: "#6a6238" },
+  { name: "Downing Earth", sw: "94036", hex: "#6f6149" },
+  { name: "Renwick Golden Oak", sw: "94135", hex: "#8a6e3c" },
+];
+
 const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED"];
 const TONE_OPTIONS: ProjectClientTone[] = ["ink", "muted", "blue", "green", "amber", "red", "purple"];
 
@@ -92,11 +139,15 @@ function ColorSwatch({
   sublabel,
   value,
   onChange,
+  onActivate,
+  active,
 }: {
   label: string;
   sublabel?: string;
   value: string;
   onChange: (val: string) => void;
+  onActivate?: () => void;
+  active?: boolean;
 }) {
   return (
     <div>
@@ -105,7 +156,7 @@ function ColorSwatch({
           display: "block",
           fontSize: 11,
           fontFamily: "var(--font-mono)",
-          color: "var(--muted)",
+          color: active ? "var(--ink)" : "var(--muted)",
           marginBottom: 6,
           textTransform: "uppercase",
           letterSpacing: "0.05em",
@@ -119,14 +170,72 @@ function ColorSwatch({
           type="color"
           value={value.startsWith("#") ? value : "#000000"}
           onChange={(e) => onChange(e.target.value)}
-          style={{ width: 44, height: 44, border: "1px solid var(--hairline)", cursor: "pointer", borderRadius: 4 }}
+          onFocus={onActivate}
+          style={{
+            width: 44,
+            height: 44,
+            border: active ? "2px solid var(--blue)" : "1px solid var(--hairline)",
+            cursor: "pointer",
+            borderRadius: 4,
+          }}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onFocus={onActivate}
           style={inputStyle}
         />
+      </div>
+    </div>
+  );
+}
+
+function HeritagePalette({ onPick, disabled }: { onPick: (hex: string) => void; disabled: boolean }) {
+  return (
+    <div style={{ borderTop: "1px solid var(--hairline)", paddingTop: 28, marginBottom: 32 }}>
+      <div style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>
+        Heritage Colors · 1820–1920
+      </div>
+      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", opacity: 0.8, marginBottom: 14 }}>
+        {disabled
+          ? "Click a color field above, then pick a Heritage color to apply it."
+          : "Click a swatch to apply it to the selected color field."}
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+          gap: 8,
+          opacity: disabled ? 0.45 : 1,
+          pointerEvents: disabled ? "none" : "auto",
+        }}
+      >
+        {HERITAGE_COLORS.map((c) => (
+          <button
+            key={c.sw}
+            type="button"
+            onClick={() => onPick(c.hex)}
+            title={`${c.name} · SW ${c.sw} · ${c.hex}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: 4,
+              background: "none",
+              border: "1px solid var(--hairline)",
+              borderRadius: 4,
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span style={{ width: 22, height: 22, flexShrink: 0, borderRadius: 3, background: c.hex, border: "1px solid var(--hairline)" }} />
+            <span style={{ minWidth: 0 }}>
+              <span style={{ display: "block", fontSize: 10, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</span>
+              <span style={{ display: "block", fontSize: 9, fontFamily: "var(--font-mono)", color: "var(--muted)" }}>SW {c.sw}</span>
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -149,6 +258,17 @@ function ColorEditor({
   onValueColorAdd: () => void;
   onValueColorRemove: (key: string) => void;
 }) {
+  // Tracks which color field a Heritage swatch should apply to.
+  // `site:<varName>` for the site palette, `value:<name>` for value colors.
+  const [activeField, setActiveField] = useState<string | null>(null);
+
+  const applyHeritage = (hex: string) => {
+    if (!activeField) return;
+    const [kind, key] = [activeField.slice(0, activeField.indexOf(":")), activeField.slice(activeField.indexOf(":") + 1)];
+    if (kind === "site") onChange(key, hex);
+    else if (kind === "value") onValueColorChange(key, hex);
+  };
+
   return (
     <div>
       {/* Site palette */}
@@ -170,6 +290,8 @@ function ColorEditor({
             sublabel={varName}
             value={colors[varName] ?? ""}
             onChange={(val) => onChange(varName, val)}
+            onActivate={() => setActiveField(`site:${varName}`)}
+            active={activeField === `site:${varName}`}
           />
         ))}
       </div>
@@ -211,12 +333,16 @@ function ColorEditor({
                 label={name}
                 value={hex}
                 onChange={(val) => onValueColorChange(name, val)}
+                onActivate={() => setActiveField(`value:${name}`)}
+                active={activeField === `value:${name}`}
               />
             </div>
           ))}
         </div>
         <button onClick={onValueColorAdd} style={{ ...addBtnStyle, marginBottom: 0 }}>+ New Value</button>
       </div>
+
+      <HeritagePalette onPick={applyHeritage} disabled={!activeField} />
 
       <button onClick={onSave} style={btnStyle}>Save Colors</button>
     </div>
