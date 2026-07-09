@@ -25,6 +25,11 @@ type Project = {
   features?: string[];
   launchDate?: string;
   embed?: ProjectEmbed;
+  hidden?: boolean;
+  section?: string;
+  degree?: string;
+  version?: string;
+  externalLinks?: { label: string; href: string }[];
 };
 
 // ── Color labels ───────────────────────────────────────────────────────────
@@ -107,6 +112,7 @@ function makeEmptyProject(): Project {
     values: [],
     features: [],
     launchDate: "",
+    hidden: true,
   };
 }
 
@@ -398,6 +404,20 @@ function ProjectList({
               >
                 {p.status}
               </span>
+              {p.hidden && (
+                <span
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 11,
+                    fontFamily: "var(--font-mono)",
+                    color: "var(--amber)",
+                    fontWeight: 600,
+                  }}
+                  title="Hidden from public"
+                >
+                  🔒 HIDDEN
+                </span>
+              )}
               <span style={{ marginLeft: 10, fontSize: 12, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
                 {p.type}
               </span>
@@ -498,6 +518,17 @@ function ProjectEditor({
         </Field>
         <Field label="Launch Date">
           <input style={inputStyle} value={p.launchDate ?? ""} onChange={(e) => set("launchDate", e.target.value)} />
+        </Field>
+        <Field label="Visibility" hint="Show/hide project publicly">
+          <label style={{ display: "flex", alignItems: "center", gap: 8, height: 38, cursor: "pointer" }}>
+            <input
+              type="checkbox"
+              checked={!!p.hidden}
+              onChange={(e) => set("hidden", e.target.checked)}
+              style={{ width: 18, height: 18, cursor: "pointer", accentColor: "var(--ink)" }}
+            />
+            <span style={{ fontSize: 13, fontFamily: "var(--font-mono)" }}>Keep project hidden</span>
+          </label>
         </Field>
       </div>
 
