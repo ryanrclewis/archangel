@@ -700,6 +700,19 @@ h3 {
   color: var(--muted);
 }
 
+.status-beta {
+  color: var(--blue);
+}
+
+.status-deprecated {
+  color: var(--red);
+}
+
+.status-unsupported {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
 .principles-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

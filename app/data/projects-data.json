@@ -64,9 +64,9 @@
     "id": "heirloom",
     "section": "bespoke",
     "name": "Heirloom",
-    "type": "Web Application",
+    "type": "iOS Application",
     "status": "IN PROGRESS",
-    "url": "https://heirloom-two.vercel.app/login",
+    "url": "",
     "description": "A digital keepsake for your family's history.",
     "clients": [
       {
@@ -84,7 +84,8 @@
       {
         "text": "hope"
       }
-    ]
+    ],
+    "hidden": false
   },
   {
     "id": "crisis-catalog",
@@ -112,7 +113,7 @@
     "hidden": true,
     "section": "bespoke",
     "name": "Psalm 113:3",
-    "type": "Web Visualization",
+    "type": "Web Application",
     "status": "IN PROGRESS",
     "url": "https://github.com/ryanrclewis/psalm113-3",
     "description": "A visualization of Earth, reactive to the Consecration of the Eucharist.",
@@ -144,7 +145,7 @@
     "description": "Docker utility to catalog what is in your pantry and when it expires.",
     "clients": [
       {
-        "name": "Self-directed",
+        "name": "JEL",
         "tone": "muted"
       }
     ],
@@ -1292,5 +1293,41 @@
       "Encompasses accessibility compliance, MiLogin SSO, and legacy modernization",
       "Michigan ranked top five nationally for digital government experience five years running"
     ]
+  },
+  {
+    "id": "fruitful",
+    "name": "Fruitful",
+    "type": "iOS Application",
+    "status": "IN PROGRESS",
+    "description": "",
+    "url": "",
+    "clients": [
+      {
+        "name": "MJGZL",
+        "tone": "muted"
+      }
+    ],
+    "values": [],
+    "features": [],
+    "launchDate": "",
+    "hidden": true
+  },
+  {
+    "id": "catholicbookchat",
+    "name": "Between the Lines",
+    "type": "Podcast",
+    "status": "IN PROGRESS",
+    "description": "",
+    "url": "catholicbookchat.com",
+    "clients": [
+      {
+        "name": "B. Shinkle",
+        "tone": "muted"
+      }
+    ],
+    "values": [],
+    "features": [],
+    "launchDate": "",
+    "hidden": true
   }
 ]
