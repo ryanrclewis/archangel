@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 
 type TypewriterPhrase = { text: string; link?: string; enabled?: boolean };
 
-type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED";
+type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "UNSUPPORTED" | "DEPRECATED" | "BETA";
 type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
 
 type ProjectClient = { name: string; tone?: ProjectClientTone };
@@ -95,7 +95,7 @@ const HERITAGE_COLORS: HeritageColor[] = [
   { name: "Renwick Golden Oak", sw: "94135", hex: "#8a6e3c" },
 ];
 
-const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED"];
+const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED", "UNSUPPORTED", "DEPRECATED", "BETA"];
 const TONE_OPTIONS: ProjectClientTone[] = ["ink", "muted", "blue", "green", "amber", "red", "purple"];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -355,26 +355,90 @@ function ColorEditor({
   );
 }
 
+function filterTabStyle(active: boolean): React.CSSProperties {
+  return {
+    padding: "6px 12px",
+    background: active ? "var(--ink)" : "none",
+    color: active ? "var(--paper)" : "var(--muted)",
+    border: "1px solid " + (active ? "var(--ink)" : "var(--hairline)"),
+    borderRadius: 4,
+    cursor: "pointer",
+    fontSize: 12,
+    fontFamily: "var(--font-mono)",
+  };
+}
+
+const SECTIONS = [
+  { id: "all", label: "All Sections" },
+  { id: "bespoke", label: "Bespoke" },
+  { id: "government", label: "Government" },
+  { id: "industry", label: "Industry" },
+  { id: "research", label: "Research" },
+];
+
 function ProjectList({
   projects,
   onSelect,
   onNew,
   onDelete,
+  onReorder,
 }: {
   projects: Project[];
   onSelect: (p: Project) => void;
   onNew: () => void;
   onDelete: (id: string) => void;
+  onReorder: (newProjects: Project[]) => void;
 }) {
+  const [filterSection, setFilterSection] = useState<string>("all");
+
+  const filtered = projects.filter((p) => filterSection === "all" || p.section === filterSection);
+
+  const moveProject = (index: number, direction: "up" | "down") => {
+    const bespokeProjects = projects.filter((p) => p.section === "bespoke");
+    const targetBespokeIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetBespokeIndex < 0 || targetBespokeIndex >= bespokeProjects.length) return;
+
+    // The two bespoke projects to swap
+    const projA = bespokeProjects[index];
+    const projB = bespokeProjects[targetBespokeIndex];
+
+    // Find their indices in the master projects array
+    const masterIdxA = projects.findIndex((p) => p.id === projA.id);
+    const masterIdxB = projects.findIndex((p) => p.id === projB.id);
+
+    if (masterIdxA === -1 || masterIdxB === -1) return;
+
+    // Swap them in the master array clone
+    const updated = [...projects];
+    const temp = updated[masterIdxA];
+    updated[masterIdxA] = updated[masterIdxB];
+    updated[masterIdxB] = temp;
+
+    onReorder(updated);
+  };
+
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          <span style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", marginRight: 4 }}>Filter:</span>
+          {SECTIONS.map((s) => (
+            <button
+              key={s.id}
+              style={filterTabStyle(filterSection === s.id)}
+              onClick={() => setFilterSection(s.id)}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
         <button onClick={onNew} style={btnStyle}>
           + New Project
         </button>
       </div>
+
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {projects.map((p) => (
+        {filtered.map((p, index) => (
           <div
             key={p.id}
             style={{
@@ -418,10 +482,66 @@ function ProjectList({
                   🔒 HIDDEN
                 </span>
               )}
+              {p.section && (
+                <span
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 11,
+                    fontFamily: "var(--font-mono)",
+                    color: "var(--blue)",
+                    textTransform: "uppercase",
+                  }}
+                  title="Section"
+                >
+                  📁 {p.section}
+                </span>
+              )}
               <span style={{ marginLeft: 10, fontSize: 12, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
                 {p.type}
               </span>
             </div>
+            {filterSection === "bespoke" && (
+              <div style={{ display: "flex", gap: 4 }}>
+                <button
+                  disabled={index === 0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveProject(index, "up");
+                  }}
+                  style={{
+                    ...btnStyle,
+                    padding: "4px 8px",
+                    fontSize: 12,
+                    background: "none",
+                    color: index === 0 ? "var(--hairline)" : "var(--muted)",
+                    border: "1px solid var(--hairline)",
+                    cursor: index === 0 ? "not-allowed" : "pointer"
+                  }}
+                  title="Move Up"
+                >
+                  ↑
+                </button>
+                <button
+                  disabled={index === filtered.length - 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveProject(index, "down");
+                  }}
+                  style={{
+                    ...btnStyle,
+                    padding: "4px 8px",
+                    fontSize: 12,
+                    background: "none",
+                    color: index === filtered.length - 1 ? "var(--hairline)" : "var(--muted)",
+                    border: "1px solid var(--hairline)",
+                    cursor: index === filtered.length - 1 ? "not-allowed" : "pointer"
+                  }}
+                  title="Move Down"
+                >
+                  ↓
+                </button>
+              </div>
+            )}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -511,6 +631,15 @@ function ProjectEditor({
         <Field label="Status">
           <select style={inputStyle} value={p.status} onChange={(e) => set("status", e.target.value as ProjectStatus)}>
             {STATUS_OPTIONS.map((s) => <option key={s}>{s}</option>)}
+          </select>
+        </Field>
+        <Field label="Section">
+          <select style={inputStyle} value={p.section ?? ""} onChange={(e) => set("section", e.target.value || undefined)}>
+            <option value="">(None)</option>
+            <option value="bespoke">Bespoke</option>
+            <option value="government">Government</option>
+            <option value="industry">Industry</option>
+            <option value="research">Research</option>
           </select>
         </Field>
         <Field label="URL">
@@ -1169,6 +1298,12 @@ export default function AdminPage() {
     flashSaved();
   };
 
+  const reorderProjects = async (updated: Project[]) => {
+    setProjects(updated);
+    await fetch("/api/admin/projects", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated) });
+    flashSaved();
+  };
+
   const tabStyle = (active: boolean): React.CSSProperties => ({
     padding: "8px 20px",
     cursor: "pointer",
@@ -1267,6 +1402,7 @@ export default function AdminPage() {
                   onSelect={(p) => { setEditingProject(p); setIsNew(false); }}
                   onNew={() => { setEditingProject(makeEmptyProject()); setIsNew(true); }}
                   onDelete={deleteProject}
+                  onReorder={reorderProjects}
                 />
               )}
               {tab === "background" && (

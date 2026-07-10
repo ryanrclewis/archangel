@@ -1,7 +1,7 @@
 import projectsData from "./projects-data.json";
 import valueColorsData from "./value-colors.json";
 
-export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED";
+export type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "UNSUPPORTED" | "DEPRECATED" | "BETA";
 
 export type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
 

@@ -35,7 +35,7 @@ function sortProjectsByLaunchDateDesc(projectList: Project[]) {
   );
 }
 
-const ourWorkSorted     = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "bespoke"));
+const ourWorkSorted     = projects.filter((p) => p.section === "bespoke");
 const publicSystems     = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "government"));
 const industryProjects  = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "industry"));
 const universityProjects = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "research"));
@@ -58,6 +58,9 @@ const principles = [
 function statusClass(status: string) {
   if (status === "LIVE") return "status-live";
   if (status === "IN PROGRESS") return "status-progress";
+  if (status === "BETA") return "status-beta";
+  if (status === "DEPRECATED") return "status-deprecated";
+  if (status === "UNSUPPORTED") return "status-unsupported";
   return "status-complete";
 }
 

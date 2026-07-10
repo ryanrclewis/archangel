@@ -35,13 +35,13 @@
   },
   {
     "id": "mithril",
-    "hidden": true,
+    "hidden": false,
     "section": "bespoke",
     "name": "Mithril",
     "type": "Docker / Networking",
-    "status": "LIVE",
+    "status": "DEPRECATED",
     "url": "https://github.com/ryanrclewis/mithril",
-    "description": "Docker-based DNS filtering solution that blocks NSFW content across your network.",
+    "description": "Docker-based DNS filtering solution that blocks NSFW content across your network. This has been deprecated as of June 2026 due to the introduction of more comprehensive Child Safety features in iOS and macOS 27.",
     "clients": [
       {
         "name": "Self-directed",
@@ -58,7 +58,8 @@
       {
         "text": "love"
       }
-    ]
+    ],
+    "launchDate": "JAN 2026"
   },
   {
     "id": "heirloom",
