@@ -1311,7 +1311,8 @@
     "values": [],
     "features": [],
     "launchDate": "",
-    "hidden": true
+    "hidden": false,
+    "section": "bespoke"
   },
   {
     "id": "catholicbookchat",
