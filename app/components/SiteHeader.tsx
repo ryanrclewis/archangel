@@ -57,7 +57,7 @@ export function SiteHeader() {
           <Link href="/#government"><span className="nav-emoji">🏛️</span>Government</Link>
           <Link href="/#industry"><span className="nav-emoji">🏭</span>Industry</Link>
           <Link href="/#research"><span className="nav-emoji">📚</span>Research</Link>
-          <a href="mailto:contact@archangel-labs.com"><span className="nav-emoji">📧</span>Contact</a>
+          <a href="mailto:contact@archangel-laboratories.com"><span className="nav-emoji">📧</span>Contact</a>
           <button
             onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
@@ -100,7 +100,7 @@ export function SiteHeader() {
                 <Link href="/#research" onClick={() => setDrawerOpen(false)}>
                   Research
                 </Link>
-                <a href="mailto:contact@archangel-labs.com" onClick={() => setDrawerOpen(false)}>
+                <a href="mailto:contact@archangel-laboratories.com" onClick={() => setDrawerOpen(false)}>
                   Contact
                 </a>
                 <button
