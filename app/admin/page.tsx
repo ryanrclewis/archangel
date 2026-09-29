@@ -479,7 +479,7 @@ function ProjectList({
                   }}
                   title="Hidden from public"
                 >
-                  🔒 HIDDEN
+                  [HIDDEN]
                 </span>
               )}
               {p.section && (
@@ -493,7 +493,7 @@ function ProjectList({
                   }}
                   title="Section"
                 >
-                  📁 {p.section}
+                  {p.section}
                 </span>
               )}
               <span style={{ marginLeft: 10, fontSize: 12, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>

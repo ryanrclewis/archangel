@@ -247,26 +247,6 @@ a {
   outline: 0;
 }
 
-.site-nav a .nav-emoji,
-.command-palette-trigger .nav-emoji {
-  font-size: 1rem;
-  max-width: 0;
-  overflow: hidden;
-  opacity: 0;
-  display: inline-block;
-  white-space: nowrap;
-  transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease;
-  margin-right: 0;
-}
-
-.site-nav a:hover .nav-emoji,
-.site-nav a:focus-visible .nav-emoji,
-.command-palette-trigger:hover .nav-emoji,
-.command-palette-trigger:focus-visible .nav-emoji {
-  max-width: 2rem;
-  opacity: 1;
-  margin-right: 0.35rem;
-}
 
 .hero-band,
 .work-band,

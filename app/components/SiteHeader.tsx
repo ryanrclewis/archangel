@@ -52,19 +52,19 @@ export function SiteHeader() {
 
       {!isMobile && (
         <nav className="site-nav" aria-label="Primary navigation">
-          <Link href="/#principles"><span className="nav-emoji">🪨</span>Principles</Link>
-          <Link href="/#bespoke"><span className="nav-emoji">🧵</span>Bespoke</Link>
-          <Link href="/#government"><span className="nav-emoji">🏛️</span>Government</Link>
-          <Link href="/#industry"><span className="nav-emoji">🏭</span>Industry</Link>
-          <Link href="/#research"><span className="nav-emoji">📚</span>Research</Link>
-          <a href="mailto:contact@archangel-labs.com"><span className="nav-emoji">📧</span>Contact</a>
+          <Link href="/#principles">Principles</Link>
+          <Link href="/#bespoke">Bespoke</Link>
+          <Link href="/#government">Government</Link>
+          <Link href="/#industry">Industry</Link>
+          <Link href="/#research">Research</Link>
+          <a href="mailto:contact@archangel-labs.com">Contact</a>
           <button
             onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
             aria-label="Search projects (Cmd+K)"
             title="Press Cmd+K to search projects"
           >
-            <span className="nav-emoji">🔍</span>Search<kbd className="search-hint">⌘K</kbd>
+            Search<kbd className="search-hint">⌘K</kbd>
           </button>
         </nav>
       )}

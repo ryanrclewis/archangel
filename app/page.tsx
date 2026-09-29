@@ -78,7 +78,7 @@ export default function Home() {
     <PageLayout>
       <section className="hero-band" aria-labelledby="home-title">
         <div className="hero-copy">
-          <p className="eyebrow">🖥️ Technology with Telos</p>
+          <p className="eyebrow">Technology with Telos</p>
           <h1 id="home-title">
             Technology in service of{"\u00A0"}
             <br />
@@ -101,7 +101,7 @@ export default function Home() {
 
       <section className="principles-band" id="principles" aria-labelledby="principles-title">
         <div className="section-heading">
-          <p className="eyebrow">🪨 Principles</p>
+          <p className="eyebrow">Principles</p>
           <h2 id="principles-title">Our foundation</h2>
         </div>
 
@@ -118,7 +118,7 @@ export default function Home() {
 
       <section className="work-band" id="bespoke" aria-labelledby="work-title">
         <div className="section-heading">
-          <p className="eyebrow">🧵 Bespoke</p>
+          <p className="eyebrow">Bespoke</p>
           <h2 id="work-title">Our tailored solutions for unique clients</h2>
         </div>
 
@@ -152,7 +152,7 @@ export default function Home() {
 
       <section className="systems-band" id="government" aria-labelledby="systems-title">
         <div className="section-heading">
-          <p className="eyebrow">🏛️ Government</p>
+          <p className="eyebrow">Government</p>
           <h2 id="systems-title">Our public service</h2>
         </div>
 
@@ -185,7 +185,7 @@ export default function Home() {
 
       <section className="archive-band" id="industry" aria-labelledby="archive-title">
         <div className="section-heading">
-          <p className="eyebrow">🏭 Industry</p>
+          <p className="eyebrow">Industry</p>
           <h2 id="archive-title">Our work with industrial partners</h2>
         </div>
 
@@ -218,7 +218,7 @@ export default function Home() {
 
       <section className="university-band" id="research" aria-labelledby="university-title">
         <div className="section-heading">
-          <p className="eyebrow">📚 Research</p>
+          <p className="eyebrow">Research</p>
           <h2 id="university-title">Our experiments and explorations</h2>
         </div>
 
