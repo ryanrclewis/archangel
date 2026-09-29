@@ -1074,7 +1074,9 @@ h3 {
 
 .typewriter-link:focus-visible {
   color: var(--typewriter-hover-color);
-  outline: 0;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Command Palette trigger — styled identically to .site-nav a */

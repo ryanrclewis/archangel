@@ -50,8 +50,10 @@ export default function Typewriter({
       timeout = window.setTimeout(() => setIsDeleting(true), pause);
     } else if (isDeleting && display.length === 0) {
       // move to next
-      setIsDeleting(false);
-      setIndex((i) => (i + 1) % phrases.length);
+      timeout = window.setTimeout(() => {
+        setIsDeleting(false);
+        setIndex((i) => (i + 1) % phrases.length);
+      }, typingSpeed);
     }
 
     return () => clearTimeout(timeout);
@@ -65,19 +67,18 @@ export default function Typewriter({
   const hoverColor = getPhraseChipColor(currentText, valueColor);
   const inner = (
     <>
-      {display}
+      <span aria-hidden="true">{display}</span>
       <span className="typewriter-caret" aria-hidden="true">&nbsp;</span>
     </>
   );
 
   return (
-    <span className="typewriter-phrase" aria-live="polite">
+    <span className="typewriter-phrase">
       {currentLink ? (
         <a
           href={currentLink}
-          target="_blank"
-          rel="noopener noreferrer"
           className="typewriter-link"
+          aria-label={currentText}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
@@ -87,7 +88,7 @@ export default function Typewriter({
           {inner}
         </a>
       ) : (
-        inner
+        <span aria-label={currentText}>{inner}</span>
       )}
     </span>
   );
