@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }: RouteProps) {
         <h1>{project.name}</h1>
         <div className="detail-meta">
           <span>{project.type}</span>
-          <span>{getProjectLaunchLabel(project)}</span>
+          {project.launchDate?.trim() ? <span>{project.launchDate.trim()}</span> : null}
           <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>
             {project.status}
           </span>

@@ -167,7 +167,7 @@ export default function Home() {
                 data-tone={tone}
                 style={projectTitleHoverStyle(project)}
               >
-                <span>{project.status}</span>
+                <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                 <div className="row-copy">
                   <strong>{project.name}</strong>
                   <ProjectClients
