@@ -89,7 +89,7 @@ export default function Home() {
             institutions that seek tools ordered to human flourishing and the common good.
           </p>
           <div className="action-row">
-            <a className="button-primary" href="mailto:contact@archangel-labs.com">
+            <a className="button-primary" href={`mailto:${siteConfig.contactEmail}`}>
               Start a project
             </a>
             <a className="button-secondary" href="#bespoke">
@@ -251,8 +251,8 @@ export default function Home() {
 
       <footer className="site-footer">
         <p>Designed and engineered by Archangel Laboratories.</p>
-        <a href="mailto:contact@archangel-labs.com">contact@archangel-labs.com</a>
-        <a href="https://x.com/ArchangelLabs" target="_blank" rel="noopener noreferrer">@ArchangelLabs</a>
+        <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+        <a href="https://x.com/ArchangelLabs" target="_blank" rel="noopener noreferrer">{siteConfig.twitterHandle ?? "@ArchangelLabs"}</a>
       </footer>
     </PageLayout>
   );

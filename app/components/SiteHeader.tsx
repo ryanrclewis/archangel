@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import siteConfig from "@/app/data/site-config.json";
 
 export function SiteHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -57,7 +58,7 @@ export function SiteHeader() {
           <Link href="/#government">Government</Link>
           <Link href="/#industry">Industry</Link>
           <Link href="/#research">Research</Link>
-          <a href="mailto:contact@archangel-labs.com">Contact</a>
+          <a href={`mailto:${siteConfig.contactEmail}`}>Contact</a>
           <button
             onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
@@ -100,7 +101,7 @@ export function SiteHeader() {
                 <Link href="/#research" onClick={() => setDrawerOpen(false)}>
                   Research
                 </Link>
-                <a href="mailto:contact@archangel-labs.com" onClick={() => setDrawerOpen(false)}>
+                <a href={`mailto:${siteConfig.contactEmail}`} onClick={() => setDrawerOpen(false)}>
                   Contact
                 </a>
                 <button

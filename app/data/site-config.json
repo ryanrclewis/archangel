@@ -1,4 +1,8 @@
 {
+  "domain": "archangel-laboratories.com",
+  "siteUrl": "https://archangel-laboratories.com",
+  "contactEmail": "contact@archangel-laboratories.com",
+  "twitterHandle": "@ArchangelLabs",
   "backgroundImage": "background.jpeg",
   "activeTheme": "standard"
 }
