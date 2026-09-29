@@ -43,6 +43,10 @@ export type Project = {
   id: string;
   /** When true, the project is excluded from listings and has no detail page. */
   hidden?: boolean;
+  featured?: boolean;
+  featuredOrder?: number;
+  whatItProves?: string;
+  archived?: boolean;
   section?: ProjectSection;
   degree?: ProjectDegree;
   version?: string;
@@ -89,6 +93,20 @@ export const projects: Project[] = baseProjects
     ...project,
     values: resolveProjectValues(project),
   }));
+
+export function getActiveProjects() {
+  return projects.filter((project) => !project.archived);
+}
+
+export function getFeaturedProjects() {
+  return projects
+    .filter((project) => !project.archived && project.featured)
+    .sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
+}
+
+export function getArchivedProjects() {
+  return projects.filter((project) => Boolean(project.archived));
+}
 
 export function getProjectById(id: string) {
   return projects.find((project) => project.id === id);

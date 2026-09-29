@@ -460,6 +460,88 @@ h3 {
   --value-hover-color: currentColor;
 }
 
+/* Featured Projects: Larger visual weight & prominent layout */
+.project-card--featured {
+  grid-column: span 3;
+  min-height: 18rem;
+  background: var(--paper-warm);
+  border: 2px solid var(--ink);
+  padding: 2rem;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+@media (max-width: 900px) {
+  .project-card--featured {
+    grid-column: span 1;
+  }
+}
+
+.project-card--featured h3 {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.featured-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue-dark);
+  border: 1px solid var(--blue-dark);
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+}
+
+.what-it-proves {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-left: 2px solid var(--hairline);
+  padding-left: 0.75rem;
+  line-height: 1.4;
+}
+
+.what-it-proves strong {
+  color: var(--ink);
+}
+
+/* Quieter, denser lists for non-featured projects */
+.denser-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ink);
+}
+
+.denser-list .archive-row {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.archive-footer-note {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archive-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.archive-link:hover {
+  color: var(--blue);
+}
+
 .project-card:hover,
 .project-card:focus-visible {
   background: var(--white);

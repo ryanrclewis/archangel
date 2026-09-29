@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
@@ -35,10 +36,13 @@ function sortProjectsByLaunchDateDesc(projectList: Project[]) {
   );
 }
 
-const ourWorkSorted     = projects.filter((p) => p.section === "bespoke");
-const publicSystems     = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "government"));
-const industryProjects  = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "industry"));
-const universityProjects = sortProjectsByLaunchDateDesc(projects.filter((p) => p.section === "research"));
+// Active non-archived projects for homepage
+const activeProjects     = projects.filter((p) => !p.archived);
+const featuredProjects   = activeProjects.filter((p) => p.featured).sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
+const ourWorkSorted      = activeProjects.filter((p) => p.section === "bespoke");
+const publicSystems      = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "government"));
+const industryProjects   = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "industry"));
+const universityProjects = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "research"));
 
 const principles = [
   {
@@ -64,13 +68,41 @@ function statusClass(status: string) {
   return "status-complete";
 }
 
-function projectHref(project: Project) {
-  return `/projects/${project.id}`;
-}
-
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
   const valueColor = project.values?.[0]?.color;
   return valueColor ? ({ ["--value-hover-color"]: valueColor } as React.CSSProperties) : {};
+}
+
+function renderProjectCard(project: Project) {
+  const tone = project.clients?.[0]?.tone ?? "muted";
+  const isFeatured = Boolean(project.featured);
+  return (
+    <ProjectPreviewCard
+      key={project.id}
+      project={project}
+      className={`project-card ${isFeatured ? "project-card--featured" : ""}`}
+      data-tone={tone}
+      style={projectTitleHoverStyle(project)}
+    >
+      <div className="project-card-topline">
+        <span>{project.type}</span>
+        {isFeatured && <span className="featured-badge">FEATURED</span>}
+        <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
+      </div>
+      <h3>{project.name}</h3>
+      <p>{project.description}</p>
+      {isFeatured && project.whatItProves && (
+        <p className="what-it-proves">
+          <strong>Proves:</strong> {project.whatItProves}
+        </p>
+      )}
+      <ProjectClients
+        values={project.values ?? []}
+        className="project-card-clients"
+        ariaLabel={`${project.name} phrases`}
+      />
+    </ProjectPreviewCard>
+  );
 }
 
 export default function Home() {
@@ -116,6 +148,18 @@ export default function Home() {
         </div>
       </section>
 
+      {featuredProjects.length > 0 && (
+        <section className="work-band" id="featured" aria-labelledby="featured-title">
+          <div className="section-heading">
+            <p className="eyebrow">Flagships</p>
+            <h2 id="featured-title">Featured Work</h2>
+          </div>
+          <div className="project-grid">
+            {featuredProjects.map(renderProjectCard)}
+          </div>
+        </section>
+      )}
+
       <section className="work-band" id="bespoke" aria-labelledby="work-title">
         <div className="section-heading">
           <p className="eyebrow">Bespoke</p>
@@ -123,30 +167,7 @@ export default function Home() {
         </div>
 
         <div className="project-grid">
-          {ourWorkSorted.map((project) => {
-            const tone = project.clients?.[0]?.tone ?? "muted";
-            return (
-              <ProjectPreviewCard
-                key={project.id}
-                project={project}
-                className="project-card"
-                data-tone={tone}
-                style={projectTitleHoverStyle(project)}
-              >
-                <div className="project-card-topline">
-                  <span>{project.type}</span>
-                  <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
-                </div>
-                <h3>{project.name}</h3>
-                <p>{project.description}</p>
-                <ProjectClients
-                  values={project.values ?? []}
-                  className="project-card-clients"
-                  ariaLabel={`${project.name} phrases`}
-                />
-              </ProjectPreviewCard>
-            );
-          })}
+          {ourWorkSorted.map(renderProjectCard)}
         </div>
       </section>
 
@@ -246,6 +267,13 @@ export default function Home() {
               </ProjectPreviewCard>
             );
           })}
+        </div>
+
+        <div className="archive-footer-note">
+          <span>Looking for older projects or legacy explorations?</span>
+          <Link href="/archive" className="archive-link">
+            View project archive →
+          </Link>
         </div>
       </section>
 
