@@ -58,14 +58,16 @@ export function SiteHeader() {
           <Link href="/#government">Government</Link>
           <Link href="/#industry">Industry</Link>
           <Link href="/#research">Research</Link>
+          <Link href="/about">About</Link>
+          <Link href="/writing">Writing</Link>
           <a href={`mailto:${siteConfig.contactEmail}`}>Contact</a>
           <button
             onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
-            aria-label="Search projects (Cmd+K)"
-            title="Press Cmd+K to search projects"
+            aria-label="Search projects (Cmd+K or Ctrl+K)"
+            title="Press Cmd+K or Ctrl+K to search projects"
           >
-            Search<kbd className="search-hint">⌘K</kbd>
+            Search<kbd className="search-hint">⌘K / Ctrl+K</kbd>
           </button>
         </nav>
       )}
@@ -101,6 +103,9 @@ export function SiteHeader() {
                 <Link href="/#research" onClick={() => setDrawerOpen(false)}>
                   Research
                 </Link>
+                <Link href="/about" onClick={() => setDrawerOpen(false)}>About</Link>
+                <Link href="/writing" onClick={() => setDrawerOpen(false)}>Writing</Link>
+                <Link href="/bespoke" onClick={() => setDrawerOpen(false)}>Engage</Link>
                 <a href={`mailto:${siteConfig.contactEmail}`} onClick={() => setDrawerOpen(false)}>
                   Contact
                 </a>
@@ -111,7 +116,7 @@ export function SiteHeader() {
                   }}
                   className="command-palette-trigger"
                 >
-                  <kbd>⌘K</kbd>
+                  <span>Search</span><kbd>⌘K / Ctrl+K</kbd>
                 </button>
               </nav>
             </div>

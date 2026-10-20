@@ -36,6 +36,7 @@
   },
   {
     "id": "heirloom",
+    "_todo_caseStudy": "TODO [NEEDS RYAN]: Supply iOS screen recordings, interaction/motion studies, and design rationale.",
     "section": "bespoke",
     "name": "Heirloom",
     "type": "iOS Application",
@@ -966,6 +967,7 @@
   },
   {
     "id": "wrrs-modernization",
+    "_todo_caseStudy": "TODO [NEEDS RYAN]: Map existing WRRS text into Summary, Problem, Users, Constraints, My Role, Key Decisions, Process, Outcome, and Reflection sections.",
     "section": "government",
     "name": "Well Record Retrieval System",
     "type": "Government Modernization",
@@ -978,6 +980,9 @@
     "status": "LIVE",
     "launchDate": "Apr 2026",
     "description": "The Well Record Retrieval System provides public access to over one million water well, pump, and abandoned well plugging records filed electronically in the Wellogic system since 2000. The data feeds into critical downstream systems including Michigan's Water Well Viewer, Drinking Water GIS, and the Water Withdrawal Assessment Tool. I redeveloped the public-facing retrieval interface to meet WCAG 2.1 AA requirements ahead of federal enforcement and aligned it with the One State, One Brand design standards to provide a consistent experience across Michigan.gov.",
+    "caseStudy": {
+      "summary": "The Well Record Retrieval System provides public access to over one million water well, pump, and abandoned well plugging records filed electronically in the Wellogic system since 2000. The data feeds into critical downstream systems including Michigan's Water Well Viewer, Drinking Water GIS, and the Water Withdrawal Assessment Tool. I redeveloped the public-facing retrieval interface to meet WCAG 2.1 AA requirements ahead of federal enforcement and aligned it with the One State, One Brand design standards to provide a consistent experience across Michigan.gov."
+    },
     "clients": [
       {
         "name": "Michigan Department of Environment, Great Lakes, and Energy",

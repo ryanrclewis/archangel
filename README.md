@@ -13,7 +13,8 @@ Tailwind-enabled Next.js scaffold migrated to `vinext` for Cloudflare-oriented d
 
 ```bash
 npm run dev            # Next.js dev server (default Next toolchain)
-npm run build          # Next.js production build
+npm run build          # Cloudflare/Workers production build (vinext)
+npm run build:next     # Next.js production build
 npm run start          # Next.js production server
 
 npm run dev:vinext     # vinext dev server on http://localhost:3001

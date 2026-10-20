@@ -28,6 +28,35 @@ export type ProjectEmbed = {
   height?: number;
 };
 
+export type CaseStudyMedia =
+  | {
+  type: "image";
+  src: string;
+  alt: string;
+  caption?: string;
+}
+  | {
+  type: "video";
+  src: string;
+  alt: string;
+  caption?: string;
+  poster: string;
+};
+
+export type CaseStudy = {
+  summary?: string;
+  problem?: string;
+  users?: string;
+  constraints?: string;
+  role?: string;
+  keyDecisions?: Array<{ title: string; rationale: string }>;
+  process?: string;
+  artifacts?: CaseStudyMedia[];
+  outcome?: string;
+  reflection?: string;
+  todo?: string;
+};
+
 export type ProjectLink = {
   label: string;
   href: string;
@@ -62,6 +91,7 @@ export type Project = {
   features?: string[];
   launchDate?: string;
   embed?: ProjectEmbed;
+  caseStudy?: CaseStudy;
 };
 
 // helper: normalize a text or ProjectValue into a ProjectValue, using explicit colors map
@@ -87,10 +117,41 @@ function resolveProjectValues(project: Project) {
 
 const baseProjects: Project[] = projectsData as Project[];
 
+function normalizeStudioVoice(text: string) {
+  return text
+    .replace(/\bI approached\b/g, "We approached")
+    .replace(/\bI worked\b/g, "We worked")
+    .replace(/\bI opted\b/g, "we opted")
+    .replace(/\bI used\b/g, "We used")
+    .replace(/\bI relied\b/g, "We relied")
+    .replace(/\bI made\b/g, "we made")
+    .replace(/\bI would have\b/g, "we would have")
+    .replace(/\bI followed\b/g, "We followed")
+    .replace(/\bI redeveloped\b/g, "We redeveloped")
+    .replace(/\bI rebuilt\b/g, "We rebuilt")
+    .replace(/\bI supported\b/g, "We supported")
+    .replace(/\bI delivered\b/g, "We delivered")
+    .replace(/\bI contributed\b/g, "We contributed")
+    .replace(/\bmy state agency\b/g, "our state agency")
+    .replace(/\bmy experience\b/g, "our experience");
+}
+
 export const projects: Project[] = baseProjects
   .filter((project) => !project.hidden)
   .map((project) => ({
     ...project,
+    description: normalizeStudioVoice(project.description),
+    caseStudy: project.caseStudy
+      ? {
+          ...project.caseStudy,
+          summary: project.caseStudy.summary ? normalizeStudioVoice(project.caseStudy.summary) : undefined,
+          problem: project.caseStudy.problem ? normalizeStudioVoice(project.caseStudy.problem) : undefined,
+          process: project.caseStudy.process ? normalizeStudioVoice(project.caseStudy.process) : undefined,
+          outcome: project.caseStudy.outcome ? normalizeStudioVoice(project.caseStudy.outcome) : undefined,
+          reflection: project.caseStudy.reflection ? normalizeStudioVoice(project.caseStudy.reflection) : undefined,
+          role: project.caseStudy.role ? normalizeStudioVoice(project.caseStudy.role) : undefined,
+        }
+      : undefined,
     values: resolveProjectValues(project),
   }));
 

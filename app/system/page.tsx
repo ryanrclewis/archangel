@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { PageLayout } from "@/app/components/PageLayout";
+export const metadata: Metadata = { title: "System | Archangel Laboratories", description: "The design system behind Archangel Laboratories." };
+export default function SystemPage() { return <PageLayout><section className="content-band"><p className="eyebrow">System</p><h1>The site, made visible.</h1><p className="lede">These tokens are generated from the live CSS in <code>app/globals.css</code>.</p><div className="token-list"><p><strong>Type:</strong> SF Pro, New York, SF Mono</p><p><strong>Color:</strong> paper, ink, muted, hairline, blue, red, green, amber</p><p><strong>Motion:</strong> short transitions; reduced motion disables them</p><p><strong>Spacing:</strong> responsive clamp-based bands and a 1440px shell</p></div></section></PageLayout>; }

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:vinext",
+    "build:next": "next build",
     "start": "next start",
     "lint": "eslint",
     "dev:vinext": "vite dev --port 3001",
@@ -14,8 +15,6 @@
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
-    "@cloudflare/workerd-darwin-arm64": "^1.20260612.1",
-    "@next/swc-darwin-arm64": "^16.2.9",
     "next": "16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

@@ -27,7 +27,7 @@ export default function ArchivePage() {
   const archivedProjects = getArchivedProjects();
 
   return (
-    <main className="site-shell min-h-screen">
+    <main className="site-shell min-h-screen" id="main-content">
       <SiteHeader />
 
       <section className="archive-band" aria-labelledby="archive-page-title">
