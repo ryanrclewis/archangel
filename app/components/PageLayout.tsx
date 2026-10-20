@@ -8,7 +8,7 @@ type PageLayoutProps = {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <main className="site-shell min-h-screen">
+    <main className="site-shell min-h-screen" id="main-content">
       <SiteHeader />
       {children}
     </main>

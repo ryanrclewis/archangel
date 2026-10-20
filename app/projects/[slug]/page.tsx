@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
-import { getProjectById, getProjectIds, getProjectLaunchLabel } from "../../data/projects";
+import { CaseStudy } from "@/app/components/CaseStudy";
+import { getProjectById, getProjectIds, getFeaturedProjects } from "../../data/projects";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -44,8 +46,15 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   }
 
   return {
-    title: `${project.name} | Archangel`,
+    title: `${project.name} | Archangel Laboratories`,
     description: project.description,
+    alternates: { canonical: `/projects/${project.id}` },
+    openGraph: {
+      title: `${project.name} | Archangel Laboratories`,
+      description: project.description,
+      url: `/projects/${project.id}`,
+      type: "article",
+    },
   };
 }
 
@@ -61,6 +70,10 @@ export default async function ProjectPage({ params }: RouteProps) {
     ...(project.url ? [{ label: "Open project", href: project.url }] : []),
     ...(project.externalLinks ?? []),
   ];
+  const featured = getFeaturedProjects();
+  const position = featured.findIndex((item) => item.id === project.id);
+  const previous = position > 0 ? featured[position - 1] : undefined;
+  const next = position >= 0 && position < featured.length - 1 ? featured[position + 1] : undefined;
 
   const isPortraitEmbed = Boolean(
     project.embed?.width && project.embed?.height && project.embed.width < project.embed.height,
@@ -123,15 +136,19 @@ export default async function ProjectPage({ params }: RouteProps) {
   );
 
   return (
-    <main className="site-shell min-h-screen">
+    <main className="site-shell min-h-screen" id="main-content">
       <SiteHeader />
 
       <article className="project-detail">
+        <nav className="breadcrumb" aria-label="Breadcrumb">
+          <Link href="/">Home</Link><span aria-hidden="true">/</span><span>{project.name}</span>
+        </nav>
         <header className="detail-hero">{heroContent}</header>
 
         {landscapeEmbed}
 
         <div className="detail-grid">
+          <CaseStudy data={project.caseStudy} />
           {project.features?.length ? (
             <section className="detail-section" aria-labelledby="highlights-title">
               <div className="section-heading compact">
@@ -160,6 +177,12 @@ export default async function ProjectPage({ params }: RouteProps) {
             </div>
           </section>
         </div>
+        {previous || next ? (
+          <nav className="project-pagination" aria-label="Featured project navigation">
+            {previous ? <a href={`/projects/${previous.id}`}>← {previous.name}</a> : <span />}
+            {next ? <a href={`/projects/${next.id}`}>{next.name} →</a> : <span />}
+          </nav>
+        ) : null}
       </article>
     </main>
   );

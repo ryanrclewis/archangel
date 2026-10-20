@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SiteHeader } from "@/app/components/SiteHeader";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
@@ -135,6 +134,7 @@ export default function Home() {
         <div className="section-heading">
           <p className="eyebrow">Principles</p>
           <h2 id="principles-title">Our foundation</h2>
+          <p className="taxonomy-note">Our tags name the concerns that guide the work. <Link href="/#taxonomy">Read the taxonomy.</Link></p>
         </div>
 
         <div className="principles-grid">
@@ -145,6 +145,14 @@ export default function Home() {
               <p>{principle.text}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="principles-band taxonomy-band" id="taxonomy" aria-labelledby="taxonomy-title">
+        <div className="section-heading">
+          <p className="eyebrow">Taxonomy</p>
+          <h2 id="taxonomy-title">A shared vocabulary</h2>
+          <p className="lede">Definitions for the studio’s working vocabulary will appear here.</p>
         </div>
       </section>
 
@@ -278,7 +286,16 @@ export default function Home() {
       </section>
 
       <footer className="site-footer">
-        <p>Designed and engineered by Archangel Laboratories.</p>
+        <p>
+          Designed and engineered by{" "}
+          <span className="footer-practice">
+            <span tabIndex={0} aria-describedby="footer-practice-note">Archangel Laboratories</span>
+            <span id="footer-practice-note" className="footer-practice-note" role="tooltip">
+              Archangel Laboratories is the office of Ryan R. C. Lewis.
+            </span>
+          </span>
+          .
+        </p>
         <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
         <a href="https://x.com/ArchangelLabs" target="_blank" rel="noopener noreferrer">{siteConfig.twitterHandle ?? "@ArchangelLabs"}</a>
       </footer>
