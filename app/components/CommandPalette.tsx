@@ -1,83 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { searchProjects } from "@/app/utils/searchProjects";
-import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { type Project } from "@/app/data/projects";
+import { searchProjects } from "@/app/utils/searchProjects";
 
-type CommandPaletteProps = {
-  isOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-};
-
-export function CommandPalette({ isOpen: controlledIsOpen, onOpenChange }: CommandPaletteProps) {
-  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
+export function CommandPalette() {
+  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Use controlled or uncontrolled state
-  const isOpen = controlledIsOpen ?? uncontrolledIsOpen;
-  const setIsOpen = (open: boolean) => {
-    if (controlledIsOpen === undefined) {
-      setUncontrolledIsOpen(open);
-    }
-    onOpenChange?.(open);
-  };
-
   const results = searchProjects(query);
-
-  // Handle keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Open with Cmd+K or Ctrl+K
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setIsOpen(true);
-        setQuery("");
-        setSelectedIndex(0);
-      }
-
-      // Close with Escape
-      if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
-
-      // Navigation with arrow keys
-      if (!isOpen) return;
-
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % results.length);
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
-      } else if (e.key === "Enter" && results[selectedIndex]) {
-        const project = results[selectedIndex];
-        navigateToProject(project);
-      }
-    };
-
-    const handleOpenCommand = () => {
-      setIsOpen(true);
-      setQuery("");
-      setSelectedIndex(0);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("command-palette-open", handleOpenCommand);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("command-palette-open", handleOpenCommand);
-    };
-  }, [isOpen, selectedIndex, results]);
-
-  // Focus input when opened
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
 
   const navigateToProject = (project: Project) => {
     const href = project.url ?? `/projects/${project.id}`;
@@ -89,80 +22,115 @@ export function CommandPalette({ isOpen: controlledIsOpen, onOpenChange }: Comma
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const open = () => {
+      setIsOpen(true);
+      setQuery("");
+      setSelectedIndex(0);
+      requestAnimationFrame(() => inputRef.current?.focus());
+    };
+    const close = () => setIsOpen(false);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        open();
+      } else if (event.key === "Escape" && isOpen) {
+        event.preventDefault();
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("command-palette-open", open);
+    window.addEventListener("command-palette-close", close);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("command-palette-open", open);
+      window.removeEventListener("command-palette-close", close);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowDown" && results.length > 0) {
+      event.preventDefault();
+      setSelectedIndex((index) => (index + 1) % results.length);
+    } else if (event.key === "ArrowUp" && results.length > 0) {
+      event.preventDefault();
+      setSelectedIndex((index) => (index - 1 + results.length) % results.length);
+    } else if (event.key === "Enter" && results[selectedIndex]) {
+      event.preventDefault();
+      navigateToProject(results[selectedIndex]);
+    }
+  };
+
   return (
     <>
-      {/* Overlay */}
-      {isOpen && (
-        <div className="command-palette-overlay" onClick={() => setIsOpen(false)} />
-      )}
-
-      {/* Dialog */}
-      <div className={`command-palette ${isOpen ? "open" : ""}`}>
+      <div className={`command-palette-backdrop ${isOpen ? "open" : ""}`} aria-hidden="true" />
+      <div
+        className={`command-palette ${isOpen ? "open" : ""} ${query.trim() ? "has-query" : ""}`}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={(event) => {
+          const nextTarget = event.relatedTarget;
+          if (!(nextTarget instanceof Element && nextTarget.closest(".command-palette-trigger"))) {
+            setIsOpen(false);
+          }
+        }}
+      >
         <div className="command-palette-content">
-          {/* Search input */}
-          <div className="command-palette-input-wrapper">
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search projects by name, type, phrases..."
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setSelectedIndex(0);
-              }}
-              className="command-palette-input"
-              autoComplete="off"
-            />
-          </div>
+        <div className="command-palette-input-wrapper">
+          <span className="command-palette-search-icon" aria-hidden="true">⌕</span>
+          <input
+            ref={inputRef}
+            type="search"
+            placeholder="Search Archangel"
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setSelectedIndex(0);
+            }}
+            onKeyDown={handleKeyDown}
+            className="command-palette-input"
+            aria-label="Search projects"
+            autoComplete="off"
+          />
+        </div>
 
-          {/* Results list */}
-          <div className="command-palette-results">
-            {results.length === 0 ? (
-              <div className="command-palette-no-results">No projects found</div>
-            ) : (
+        <div className="command-palette-results">
+          {!query.trim() ? (
+            <div className="command-palette-quick-links">
+              <p>Quick Links</p>
+              <Link href="/categories/bespoke" onClick={() => setIsOpen(false)}>Bespoke</Link>
+              <Link href="/categories/government" onClick={() => setIsOpen(false)}>Government</Link>
+              <Link href="/categories/industry" onClick={() => setIsOpen(false)}>Industry</Link>
+              <Link href="/categories/research" onClick={() => setIsOpen(false)}>Research</Link>
+              <Link href="/archive" onClick={() => setIsOpen(false)}>Project Archive</Link>
+            </div>
+          ) : results.length === 0 ? (
+            <div className="command-palette-no-results">No projects found</div>
+          ) : (
+            <>
+              <p className="command-palette-results-heading">Suggested Searches</p>
               <ul role="listbox">
                 {results.map((project, index) => (
                   <li
                     key={project.id}
                     role="option"
                     aria-selected={index === selectedIndex}
-                    className={`command-palette-result ${
-                      index === selectedIndex ? "selected" : ""
-                    }`}
+                    className={`command-palette-result ${index === selectedIndex ? "selected" : ""}`}
                     onClick={() => navigateToProject(project)}
                     onMouseEnter={() => setSelectedIndex(index)}
                   >
-                    <div className="result-name">{project.name}</div>
-                    <div className="result-type">{project.type}</div>
-                    {project.values && project.values.length > 0 && (
-                      <div className="result-tags">
-                        {project.values.slice(0, 2).map((val) => (
-                          <span key={val.text} className="tag" style={getPhraseChipStyle(val.text, val.color)}>
-                            {val.text}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    {project.name}
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-
-          {/* Footer hint */}
-          <div className="command-palette-footer">
-            <span className="hint">
-              {results.length > 0 ? (
-                <>
-                  <kbd>↑↓</kbd> to navigate • <kbd>Enter</kbd> to select • <kbd>Esc</kbd> to close
-                </>
-              ) : (
-                <>
-                  <kbd>Esc</kbd> to close
-                </>
-              )}
-            </span>
-          </div>
+            </>
+          )}
+        </div>
         </div>
       </div>
     </>

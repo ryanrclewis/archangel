@@ -2,21 +2,12 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
-import { getArchivedProjects, getProjectLaunchLabel, type Project } from "@/app/data/projects";
+import { getArchivedProjects, type Project } from "@/app/data/projects";
 
 export const metadata: Metadata = {
   title: "Project Archive | Archangel Laboratories",
   description: "Archived research, explorations, and legacy systems from Archangel Laboratories.",
 };
-
-function statusClass(status: string) {
-  if (status === "LIVE") return "status-live";
-  if (status === "IN PROGRESS") return "status-progress";
-  if (status === "BETA") return "status-beta";
-  if (status === "DEPRECATED") return "status-deprecated";
-  if (status === "UNSUPPORTED") return "status-unsupported";
-  return "status-complete";
-}
 
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
   const valueColor = project.values?.[0]?.color;
@@ -32,7 +23,6 @@ export default function ArchivePage() {
 
       <section className="archive-band" aria-labelledby="archive-page-title">
         <div className="section-heading">
-          <p className="eyebrow">Project Archive</p>
           <h1 id="archive-page-title">Historical &amp; Legacy Records</h1>
           <p className="lede">
             Explorations, earlier system versions, and legacy research retained for reference. All archived projects remain indexed and searchable via <kbd className="search-hint">⌘K</kbd>.
@@ -55,9 +45,6 @@ export default function ArchivePage() {
                   data-tone={tone}
                   style={projectTitleHoverStyle(project)}
                 >
-                  <span className={`status-text ${statusClass(project.status)}`}>
-                    {getProjectLaunchLabel(project)}
-                  </span>
                   <div className="row-copy">
                     <span className="archive-name">{project.name}</span>
                     <ProjectClients

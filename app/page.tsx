@@ -1,10 +1,9 @@
-import Link from "next/link";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
-import { getProjectLaunchLabel, projects, valueColors, type Project } from "./data/projects";
+import { homepageExampleIds, projects, valueColors, type Project } from "./data/projects";
 import allTypewriterPhrases from "./data/typewriter-phrases.json";
 import themes from "./data/themes.json";
 import siteConfig from "./data/site-config.json";
@@ -39,34 +38,11 @@ function sortProjectsByLaunchDateDesc(projectList: Project[]) {
 // Active non-archived projects for homepage
 const activeProjects     = projects.filter((p) => !p.archived);
 const featuredProjects   = activeProjects.filter((p) => p.featured).sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
-const ourWorkSorted      = activeProjects.filter((p) => p.section === "bespoke");
-const publicSystems      = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "government"));
-const industryProjects   = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "industry"));
-const universityProjects = sortProjectsByLaunchDateDesc(activeProjects.filter((p) => p.section === "research"));
-
-const principles = [
-  {
-    title: "Design with dignity",
-    text: "Tools should respect the people that use them. We don't build what we wouldn't use.",
-  },
-  {
-    title: "Craft with clients",
-    text: "Small details matter. We value your vision and work with you to implement it.",
-  },
-  {
-    title: "Lead with longevity",
-    text: "We take on projects that are timeless and offer support to match.",
-  },
-];
-
-function statusClass(status: string) {
-  if (status === "LIVE") return "status-live";
-  if (status === "IN PROGRESS") return "status-progress";
-  if (status === "BETA") return "status-beta";
-  if (status === "DEPRECATED") return "status-deprecated";
-  if (status === "UNSUPPORTED") return "status-unsupported";
-  return "status-complete";
-}
+const homepageProjects = activeProjects.filter((project) => homepageExampleIds.has(project.id));
+const ourWorkSorted      = homepageProjects.filter((p) => p.section === "bespoke");
+const publicSystems      = sortProjectsByLaunchDateDesc(homepageProjects.filter((p) => p.section === "government"));
+const industryProjects   = sortProjectsByLaunchDateDesc(homepageProjects.filter((p) => p.section === "industry"));
+const universityProjects = sortProjectsByLaunchDateDesc(homepageProjects.filter((p) => p.section === "research"));
 
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
   const valueColor = project.values?.[0]?.color;
@@ -87,7 +63,6 @@ function renderProjectCard(project: Project) {
       <div className="project-card-topline">
         <span>{project.type}</span>
         {isFeatured && <span className="featured-badge">FEATURED</span>}
-        <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
       </div>
       <h3>{project.name}</h3>
       <p>{project.description}</p>
@@ -110,7 +85,6 @@ export default function Home() {
     <PageLayout>
       <section className="hero-band" aria-labelledby="home-title">
         <div className="hero-copy">
-          <p className="eyebrow">🖥️ Technology with Telos</p>
           <h1 id="home-title">
             Technology in service of{"\u00A0"}
             <br />
@@ -131,27 +105,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="principles-band" id="principles" aria-labelledby="principles-title">
-        <div className="section-heading">
-          <p className="eyebrow">🪨 Principles</p>
-          <h2 id="principles-title">Our foundation</h2>
-        </div>
-
-        <div className="principles-grid">
-          {principles.map((principle, index) => (
-            <article className="principle-item" key={principle.title}>
-              <span>{(index + 1).toString().padStart(2, "0")}</span>
-              <h3>{principle.title}</h3>
-              <p>{principle.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       {featuredProjects.length > 0 && (
         <section className="work-band" id="featured" aria-labelledby="featured-title">
           <div className="section-heading">
-            <p className="eyebrow">Flagships</p>
             <h2 id="featured-title">Featured Work</h2>
           </div>
           <div className="project-grid">
@@ -162,8 +118,7 @@ export default function Home() {
 
       <section className="work-band" id="bespoke" aria-labelledby="work-title">
         <div className="section-heading">
-          <p className="eyebrow">🧵 Bespoke</p>
-          <h2 id="work-title">Our tailored solutions for unique clients</h2>
+          <h2 id="work-title">🧵 Bespoke</h2>
         </div>
 
         <div className="project-grid">
@@ -173,8 +128,7 @@ export default function Home() {
 
       <section className="systems-band" id="government" aria-labelledby="systems-title">
         <div className="section-heading">
-          <p className="eyebrow">🏛️ Government</p>
-          <h2 id="systems-title">Our public service</h2>
+          <h2 id="systems-title">🏛️ Government</h2>
         </div>
 
         <div className="systems-list">
@@ -188,7 +142,6 @@ export default function Home() {
                 data-tone={tone}
                 style={projectTitleHoverStyle(project)}
               >
-                <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                 <div className="row-copy">
                   <strong>{project.name}</strong>
                   <ProjectClients
@@ -206,8 +159,7 @@ export default function Home() {
 
       <section className="archive-band" id="industry" aria-labelledby="archive-title">
         <div className="section-heading">
-          <p className="eyebrow">🏭 Industry</p>
-          <h2 id="archive-title">Our work with industrial partners</h2>
+          <h2 id="archive-title">🏭 Industry</h2>
         </div>
 
         <div className="archive-list">
@@ -221,7 +173,6 @@ export default function Home() {
                   data-tone={tone}
                   style={projectTitleHoverStyle(project)}
                 >
-                  <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                   <div className="row-copy">
                     <span className="archive-name">{project.name}</span>
                     <ProjectClients
@@ -239,8 +190,7 @@ export default function Home() {
 
       <section className="university-band" id="research" aria-labelledby="university-title">
         <div className="section-heading">
-          <p className="eyebrow">📚 Research</p>
-          <h2 id="university-title">Our experiments and explorations</h2>
+          <h2 id="university-title">📚 Research</h2>
         </div>
 
         <div className="university-list">
@@ -254,7 +204,6 @@ export default function Home() {
                 data-tone={tone}
                 style={projectTitleHoverStyle(project)}
               >
-                <span className={`status-text ${statusClass(project.status)}`}>{getProjectLaunchLabel(project)}</span>
                 <div className="row-copy">
                   <span className="archive-name">{project.name}</span>
                   <ProjectClients
@@ -269,12 +218,6 @@ export default function Home() {
           })}
         </div>
 
-        <div className="archive-footer-note">
-          <span>Looking for older projects or legacy explorations?</span>
-          <Link href="/archive" className="archive-link">
-            View project archive →
-          </Link>
-        </div>
       </section>
 
       <footer className="site-footer">

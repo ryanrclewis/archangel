@@ -94,6 +94,17 @@ export const projects: Project[] = baseProjects
     values: resolveProjectValues(project),
   }));
 
+export const homepageExampleIds = new Set([
+  "saintstombs",
+  "heirloom",
+  "wwat-modernization",
+  "digital-guidelines",
+  "gm",
+  "nsfm",
+  "listening-to-users",
+  "healthy-habits",
+]);
+
 export function getActiveProjects() {
   return projects.filter((project) => !project.archived);
 }

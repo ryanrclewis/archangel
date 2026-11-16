@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CommandPalette } from "@/app/components/CommandPalette";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 import siteConfig from "./data/site-config.json";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className="antialiased" style={bodyStyle}>
         {children}
         <CommandPalette />
+        <ThemeToggle />
       </body>
     </html>
   );

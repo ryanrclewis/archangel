@@ -3,15 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import siteConfig from "@/app/data/site-config.json";
+import { homepageExampleIds, projects, type ProjectSection } from "@/app/data/projects";
+
+const navigationSections: Array<{ key: ProjectSection; label: string; emoji: string }> = [
+  { key: "bespoke", label: "Bespoke", emoji: "🧵" },
+  { key: "government", label: "Government", emoji: "🏛️" },
+  { key: "industry", label: "Industry", emoji: "🏭" },
+  { key: "research", label: "Research", emoji: "📚" },
+];
 
 export function SiteHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  const handleOpenCommandPalette = () => {
-    window.dispatchEvent(new Event("command-palette-open"));
-  };
+  const handleOpenSearch = () => window.dispatchEvent(new Event("command-palette-open"));
 
   useEffect(() => {
     const checkMobile = () => {
@@ -53,15 +57,47 @@ export function SiteHeader() {
 
       {!isMobile && (
         <nav className="site-nav" aria-label="Primary navigation">
-          <Link href="/#principles"><span className="nav-emoji">🪨</span>Principles</Link>
-          <Link href="/#bespoke"><span className="nav-emoji">🧵</span>Bespoke</Link>
-          <Link href="/#government"><span className="nav-emoji">🏛️</span>Government</Link>
-          <Link href="/#industry"><span className="nav-emoji">🏭</span>Industry</Link>
-          <Link href="/#research"><span className="nav-emoji">📚</span>Research</Link>
-          <a href={`mailto:${siteConfig.contactEmail}`}><span className="nav-emoji">📧</span>Contact</a>
+          {navigationSections.map(({ key, label, emoji }) => {
+            const sectionProjects = projects.filter(
+              (project) => project.section === key && !project.archived && !homepageExampleIds.has(project.id),
+            );
+
+            return (
+              <div
+                className="site-nav-menu"
+                key={key}
+              >
+                <Link href={`/categories/${key}`} aria-haspopup="true">
+                  <span className="nav-emoji">{emoji}</span>
+                  {label}
+                </Link>
+                <div className="site-nav-dropdown">
+                  <div className="site-nav-dropdown-inner">
+                    <div className="site-nav-dropdown-heading">
+                      <Link href={`/categories/${key}`}>View all {label}</Link>
+                    </div>
+                    <div className="site-nav-project-list">
+                      {sectionProjects.map((project) => (
+                        <Link href={`/projects/${project.id}`} key={project.id}>
+                          {project.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
           <button
-            onClick={handleOpenCommandPalette}
             className="command-palette-trigger"
+            onClick={handleOpenSearch}
+            onMouseEnter={handleOpenSearch}
+            onMouseLeave={(event) => {
+              const nextTarget = event.relatedTarget;
+              if (!(nextTarget instanceof Element && nextTarget.closest(".command-palette"))) {
+                window.dispatchEvent(new Event("command-palette-close"));
+              }
+            }}
             aria-label="Search projects (Cmd+K)"
             title="Press Cmd+K to search projects"
           >
@@ -86,32 +122,26 @@ export function SiteHeader() {
                 ×
               </button>
               <nav className="drawer-nav" aria-label="Mobile navigation">
-                <Link href="/#principles" onClick={() => setDrawerOpen(false)}>
-                  Principles
-                </Link>
-                <Link href="/#bespoke" onClick={() => setDrawerOpen(false)}>
+                <Link href="/categories/bespoke" onClick={() => setDrawerOpen(false)}>
                   Bespoke
                 </Link>
-                <Link href="/#government" onClick={() => setDrawerOpen(false)}>
+                <Link href="/categories/government" onClick={() => setDrawerOpen(false)}>
                   Government
                 </Link>
-                <Link href="/#industry" onClick={() => setDrawerOpen(false)}>
+                <Link href="/categories/industry" onClick={() => setDrawerOpen(false)}>
                   Industry
                 </Link>
-                <Link href="/#research" onClick={() => setDrawerOpen(false)}>
+                <Link href="/categories/research" onClick={() => setDrawerOpen(false)}>
                   Research
                 </Link>
-                <a href={`mailto:${siteConfig.contactEmail}`} onClick={() => setDrawerOpen(false)}>
-                  Contact
-                </a>
                 <button
                   onClick={() => {
                     setDrawerOpen(false);
-                    handleOpenCommandPalette();
+                    handleOpenSearch();
                   }}
                   className="command-palette-trigger"
                 >
-                  <kbd>⌘K</kbd>
+                  <span className="nav-emoji">🔍</span>Search
                 </button>
               </nav>
             </div>

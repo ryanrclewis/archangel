@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
-import { getProjectById, getProjectIds, getProjectLaunchLabel } from "../../data/projects";
+import { getProjectById, getProjectIds } from "../../data/projects";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -18,15 +18,6 @@ function formatDegree(degree: string): { abbr: string; institution: string } {
     abbr: abbrMap[program.trim()] ?? program.trim(),
     institution: institution ? "Michigan State University" : "",
   };
-}
-
-function statusClass(status: string) {
-  if (status === "LIVE") return "status-live";
-  if (status === "IN PROGRESS") return "status-progress";
-  if (status === "BETA") return "status-beta";
-  if (status === "DEPRECATED") return "status-deprecated";
-  if (status === "UNSUPPORTED") return "status-unsupported";
-  return "status-complete";
 }
 
 export function generateStaticParams() {
@@ -72,7 +63,7 @@ export default async function ProjectPage({ params }: RouteProps) {
         src={project.embed.src}
         title={project.embed.title ?? `${project.name} embed`}
         style={{
-          border: "1px solid rgba(0, 0, 0, 0.1)",
+          border: "1px solid var(--hairline)",
           width: "100%",
           height: project.embed.height ? `${project.embed.height}px` : "450px",
         }}
@@ -84,14 +75,10 @@ export default async function ProjectPage({ params }: RouteProps) {
   const heroContent = (
     <div className={`detail-hero-content ${project.embed && isPortraitEmbed ? "detail-hero-content--portrait" : ""}`}>
       <div className="detail-hero-copy">
-        <p className="eyebrow">Project</p>
         <h1>{project.name}</h1>
         <div className="detail-meta">
           <span>{project.type}</span>
           {project.launchDate?.trim() ? <span>{project.launchDate.trim()}</span> : null}
-          <span className={`status-chip ${statusClass(project.status)}`} aria-label={`Status: ${project.status}`}>
-            {project.status}
-          </span>
           {project.degree && (() => {
             const { abbr, institution } = formatDegree(project.degree);
             return (
@@ -111,7 +98,7 @@ export default async function ProjectPage({ params }: RouteProps) {
             src={project.embed.src}
             title={project.embed.title ?? `${project.name} embed`}
             style={{
-              border: "1px solid rgba(0, 0, 0, 0.1)",
+              border: "1px solid var(--hairline)",
               width: "100%",
               height: project.embed.height ? `${project.embed.height}px` : "450px",
             }}
@@ -135,7 +122,6 @@ export default async function ProjectPage({ params }: RouteProps) {
           {project.features?.length ? (
             <section className="detail-section" aria-labelledby="highlights-title">
               <div className="section-heading compact">
-                <p className="eyebrow">Project record</p>
                 <h2 id="highlights-title">Highlights</h2>
               </div>
               <ul className="feature-list">
@@ -148,7 +134,6 @@ export default async function ProjectPage({ params }: RouteProps) {
 
           <section className="detail-section" aria-labelledby="resources-title">
             <div className="section-heading compact">
-              <p className="eyebrow">Resources</p>
               <h2 id="resources-title">Links</h2>
             </div>
             <div className="action-row">
