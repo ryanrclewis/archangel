@@ -1,4 +1,3 @@
-import { SiteHeader } from "@/app/components/SiteHeader";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
@@ -76,6 +75,7 @@ function renderProjectCard(project: Project) {
         className="project-card-clients"
         ariaLabel={`${project.name} phrases`}
       />
+      <span className="project-card-link">Learn more</span>
     </ProjectPreviewCard>
   );
 }
@@ -83,7 +83,7 @@ function renderProjectCard(project: Project) {
 export default function Home() {
   return (
     <PageLayout>
-      <section className="hero-band" aria-labelledby="home-title">
+      <section className="hero-band homepage-section" aria-labelledby="home-title">
         <div className="hero-copy">
           <h1 id="home-title">
             Technology in service of{"\u00A0"}
@@ -106,7 +106,7 @@ export default function Home() {
       </section>
 
       {featuredProjects.length > 0 && (
-        <section className="work-band" id="featured" aria-labelledby="featured-title">
+        <section className="work-band homepage-section" id="featured" aria-labelledby="featured-title">
           <div className="section-heading">
             <h2 id="featured-title">Featured Work</h2>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="work-band" id="bespoke" aria-labelledby="work-title">
+      <section className="work-band homepage-section" id="bespoke" aria-labelledby="work-title">
         <div className="section-heading">
           <h2 id="work-title">🧵 Bespoke</h2>
         </div>
@@ -126,96 +126,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="systems-band" id="government" aria-labelledby="systems-title">
+      <section className="systems-band homepage-section" id="government" aria-labelledby="systems-title">
         <div className="section-heading">
           <h2 id="systems-title">🏛️ Government</h2>
         </div>
 
-        <div className="systems-list">
-          {publicSystems.map((project) => {
-            const tone = project.clients?.[0]?.tone ?? "muted";
-            return (
-              <ProjectPreviewCard
-                key={project.id}
-                project={project}
-                className="system-row"
-                data-tone={tone}
-                style={projectTitleHoverStyle(project)}
-              >
-                <div className="row-copy">
-                  <strong>{project.name}</strong>
-                  <ProjectClients
-                    values={project.values ?? []}
-                    className="row-clients"
-                    ariaLabel={`${project.name} phrases`}
-                  />
-                </div>
-                <em>{project.type}</em>
-              </ProjectPreviewCard>
-            );
-          })}
+        <div className="project-grid systems-list">
+          {publicSystems.map(renderProjectCard)}
         </div>
       </section>
 
-      <section className="archive-band" id="industry" aria-labelledby="archive-title">
+      <section className="archive-band homepage-section" id="industry" aria-labelledby="archive-title">
         <div className="section-heading">
           <h2 id="archive-title">🏭 Industry</h2>
         </div>
 
-        <div className="archive-list">
-          {industryProjects.map((project) => {
-              const tone = project.clients?.[0]?.tone ?? "muted";
-              return (
-                <ProjectPreviewCard
-                  key={project.id}
-                  project={project}
-                  className="archive-row"
-                  data-tone={tone}
-                  style={projectTitleHoverStyle(project)}
-                >
-                  <div className="row-copy">
-                    <span className="archive-name">{project.name}</span>
-                    <ProjectClients
-                      values={project.values ?? []}
-                      className="row-clients"
-                      ariaLabel={`${project.name} phrases`}
-                    />
-                  </div>
-                  <span className="archive-type">{project.type}</span>
-                </ProjectPreviewCard>
-              );
-            })}
+        <div className="project-grid archive-list">
+          {industryProjects.map(renderProjectCard)}
         </div>
       </section>
 
-      <section className="university-band" id="research" aria-labelledby="university-title">
+      <section className="university-band homepage-section" id="research" aria-labelledby="university-title">
         <div className="section-heading">
           <h2 id="university-title">📚 Research</h2>
         </div>
 
-        <div className="university-list">
-          {universityProjects.map((project) => {
-            const tone = project.clients?.[0]?.tone ?? "muted";
-            return (
-              <ProjectPreviewCard
-                key={project.id}
-                project={project}
-                className="archive-row"
-                data-tone={tone}
-                style={projectTitleHoverStyle(project)}
-              >
-                <div className="row-copy">
-                  <span className="archive-name">{project.name}</span>
-                  <ProjectClients
-                    values={project.values ?? []}
-                    className="row-clients"
-                    ariaLabel={`${project.name} phrases`}
-                  />
-                </div>
-                <span className="archive-type">{project.type}</span>
-              </ProjectPreviewCard>
-            );
-          })}
+        <div className="project-grid university-list">
+          {universityProjects.map(renderProjectCard)}
         </div>
 
       </section>

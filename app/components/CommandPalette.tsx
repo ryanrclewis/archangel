@@ -100,20 +100,11 @@ export function CommandPalette() {
         </div>
 
         <div className="command-palette-results">
-          {!query.trim() ? (
-            <div className="command-palette-quick-links">
-              <p>Quick Links</p>
+          <div className={query.trim() ? "command-palette-suggested-searches" : "command-palette-quick-links"}>
+            <p>{query.trim() ? "Suggested Searches" : "Quick Links"}</p>
+            {!query.trim() ? (
               <Link href="/categories/bespoke" onClick={() => setIsOpen(false)}>Bespoke</Link>
-              <Link href="/categories/government" onClick={() => setIsOpen(false)}>Government</Link>
-              <Link href="/categories/industry" onClick={() => setIsOpen(false)}>Industry</Link>
-              <Link href="/categories/research" onClick={() => setIsOpen(false)}>Research</Link>
-              <Link href="/archive" onClick={() => setIsOpen(false)}>Project Archive</Link>
-            </div>
-          ) : results.length === 0 ? (
-            <div className="command-palette-no-results">No projects found</div>
-          ) : (
-            <>
-              <p className="command-palette-results-heading">Suggested Searches</p>
+            ) : results.length > 0 ? (
               <ul role="listbox">
                 {results.map((project, index) => (
                   <li
@@ -128,8 +119,18 @@ export function CommandPalette() {
                   </li>
                 ))}
               </ul>
-            </>
-          )}
+            ) : (
+              <div className="command-palette-no-results">No projects found</div>
+            )}
+            {!query.trim() && (
+              <>
+                <Link href="/categories/government" onClick={() => setIsOpen(false)}>Government</Link>
+                <Link href="/categories/industry" onClick={() => setIsOpen(false)}>Industry</Link>
+                <Link href="/categories/research" onClick={() => setIsOpen(false)}>Research</Link>
+                <Link href="/archive" onClick={() => setIsOpen(false)}>Project Archive</Link>
+              </>
+            )}
+          </div>
         </div>
         </div>
       </div>

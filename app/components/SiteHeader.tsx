@@ -15,6 +15,7 @@ const navigationSections: Array<{ key: ProjectSection; label: string; emoji: str
 export function SiteHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [openSection, setOpenSection] = useState<ProjectSection | null>(null);
   const handleOpenSearch = () => window.dispatchEvent(new Event("command-palette-open"));
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="site-header" aria-label="Site header">
+    <header className={`site-header ${openSection ? "nav-expanded" : ""}`} aria-label="Site header">
       <Link className="site-mark" href="/">
         <Image src="/icon.svg" alt="" width={32} height={32} priority />
         <span>Archangel Laboratories</span>
@@ -64,8 +65,15 @@ export function SiteHeader() {
 
             return (
               <div
-                className="site-nav-menu"
+                className={`site-nav-menu ${openSection === key ? "is-open" : ""}`}
                 key={key}
+                onMouseEnter={() => setOpenSection(key)}
+                onMouseLeave={(event) => {
+                  const nextTarget = event.relatedTarget;
+                  if (!(nextTarget instanceof Element && nextTarget.closest(".site-nav-menu"))) {
+                    setOpenSection(null);
+                  }
+                }}
               >
                 <Link href={`/categories/${key}`} aria-haspopup="true">
                   <span className="nav-emoji">{emoji}</span>
@@ -73,9 +81,6 @@ export function SiteHeader() {
                 </Link>
                 <div className="site-nav-dropdown">
                   <div className="site-nav-dropdown-inner">
-                    <div className="site-nav-dropdown-heading">
-                      <Link href={`/categories/${key}`}>View all {label}</Link>
-                    </div>
                     <div className="site-nav-project-list">
                       {sectionProjects.map((project) => (
                         <Link href={`/projects/${project.id}`} key={project.id}>
