@@ -32,13 +32,13 @@
 .admin-toast[data-tone="error"] {
   border-color: var(--red);
   background: var(--red);
-  color: var(--white);
+  color: var(--on-accent);
 }
 
 .admin-toast[data-tone="info"] {
   border-color: var(--blue);
   background: var(--blue);
-  color: var(--white);
+  color: var(--on-accent);
 }
 
 .admin-toast-dot {
@@ -175,7 +175,6 @@
 .admin-stat-link:hover,
 .admin-stat-link:focus-visible {
   color: var(--ink);
-  outline: 0;
 }
 
 .admin-tabs {
@@ -208,7 +207,6 @@
 .admin-tab:focus-visible {
   border-color: var(--ink);
   color: var(--ink);
-  outline: 0;
 }
 
 .admin-tab.is-active {
@@ -303,7 +301,16 @@
 .admin-btn:focus-visible {
   background: var(--ink);
   color: var(--paper);
-  outline: 0;
+}
+
+.admin-btn:focus-visible,
+.admin-tab:focus-visible,
+.admin-pill:focus-visible,
+.admin-icon-btn:focus-visible,
+.admin-stat-link:focus-visible,
+.admin-suggestion-check:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .admin-btn:disabled {
@@ -321,20 +328,20 @@
 .admin-btn--primary:focus-visible {
   border-color: var(--blue);
   background: var(--blue);
-  color: var(--white);
+  color: var(--on-accent);
 }
 
 .admin-btn--accent {
   border-color: var(--blue);
   background: var(--blue);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 
 .admin-btn--accent:hover,
 .admin-btn--accent:focus-visible {
   border-color: var(--blue-dark);
   background: var(--blue-dark);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 
 .admin-btn--ghost {
@@ -352,7 +359,7 @@
 .admin-btn--danger {
   border-color: var(--red);
   background: var(--red);
-  color: var(--white);
+  color: var(--on-accent);
 }
 
 .admin-btn--danger:hover,
@@ -400,7 +407,6 @@
   border-color: var(--ink);
   background: var(--ink);
   color: var(--paper);
-  outline: 0;
 }
 
 .admin-icon-btn:disabled {
@@ -486,7 +492,6 @@
 .admin-pill:focus-visible {
   border-color: var(--ink);
   color: var(--ink);
-  outline: 0;
 }
 
 .admin-pill.is-active {
@@ -509,7 +514,7 @@
 .admin-pill--amber.is-active {
   border-color: var(--amber);
   background: var(--amber);
-  color: var(--white);
+  color: var(--on-accent);
 }
 
 .admin-pill-dot {
@@ -619,7 +624,7 @@
   color: var(--amber);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -671,8 +676,7 @@
 .admin-suggestion-check:focus-visible {
   border-color: var(--green);
   background: var(--green);
-  color: var(--white);
-  outline: 0;
+  color: var(--on-accent);
 }
 
 .admin-suggestions-footer {
@@ -1034,7 +1038,7 @@
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1292,7 +1296,7 @@
   color: var(--paper);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -1428,7 +1432,7 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .admin-editor-bar {
     top: 56px;
   }

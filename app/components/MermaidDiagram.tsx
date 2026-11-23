@@ -65,12 +65,46 @@ export function MermaidDiagram({ chart }: Props) {
 
     loadMermaid()
       .then(async (mermaid) => {
+        const styles = getComputedStyle(document.documentElement);
+        const token = (name: string, fallback: string) =>
+          styles.getPropertyValue(name).trim() || fallback;
+
+        const paper = token("--paper", dark ? "#171817" : "#f7f4ec");
+        const paperWarm = token("--paper-warm", dark ? "#2b2a25" : "#d9cfae");
+        const ink = token("--ink", dark ? "#f4f0e6" : "#101010");
+        const muted = token("--muted", dark ? "#b8b0a2" : "#4a3a2c");
+        const hairline = token("--hairline", dark ? "#5d594f" : "#c2b49a");
+        const blue = token("--blue", dark ? "#78b4e5" : "#005ea8");
+        const fontSans = token(
+          "--font-sans",
+          '"SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif'
+        );
+
         mermaid.initialize({
           startOnLoad: false,
           securityLevel: "loose",
-          theme: dark ? "dark" : "neutral",
-          fontFamily:
-            '"SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif',
+          theme: "base",
+          themeVariables: {
+            darkMode: dark,
+            background: paper,
+            fontFamily: fontSans,
+            primaryColor: paperWarm,
+            primaryTextColor: ink,
+            primaryBorderColor: hairline,
+            secondaryColor: paper,
+            secondaryTextColor: ink,
+            secondaryBorderColor: blue,
+            tertiaryColor: paperWarm,
+            tertiaryTextColor: ink,
+            tertiaryBorderColor: hairline,
+            lineColor: muted,
+            textColor: ink,
+            mainBkg: paperWarm,
+            nodeBorder: hairline,
+            clusterBkg: paper,
+            clusterBorder: hairline,
+            edgeLabelBackground: paper,
+          },
           flowchart: {
             useMaxWidth: true,
             htmlLabels: true,

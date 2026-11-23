@@ -1,45 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 type ThemeMode = "light" | "dark";
 
 const THEME_STORAGE_KEY = "archangel-theme";
+const THEME_CHANGE_EVENT = "archangel-theme-change";
+
+/**
+ * Set to `true` to restore the original Liquid Glass light-mode orb
+ * and solid B&W dark-mode toggle styling.
+ */
+const USE_LIQUID_GLASS = false;
+
+function getResolvedTheme(): ThemeMode {
+  if (typeof window === "undefined") return "light";
+  const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY);
+  if (savedMode === "dark" || savedMode === "light") return savedMode;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function subscribeTheme(onStoreChange: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  mql.addEventListener?.("change", onStoreChange);
+  window.addEventListener(THEME_CHANGE_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    mql.removeEventListener?.("change", onStoreChange);
+    window.removeEventListener(THEME_CHANGE_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
 
 export function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode | null>(null);
+  const mode = useSyncExternalStore(subscribeTheme, getResolvedTheme, () => "light" as ThemeMode);
 
   useEffect(() => {
     const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY);
-    const systemMode: ThemeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    const nextMode = savedMode === "dark" || savedMode === "light" ? savedMode : systemMode;
-
-    setMode(nextMode);
     if (savedMode === "dark" || savedMode === "light") {
       document.documentElement.dataset.theme = savedMode;
     } else {
       document.documentElement.removeAttribute("data-theme");
     }
-  }, []);
+  }, [mode]);
 
   const isDark = mode === "dark";
   const toggleMode = () => {
     const nextMode: ThemeMode = isDark ? "light" : "dark";
-    setMode(nextMode);
     window.localStorage.setItem(THEME_STORAGE_KEY, nextMode);
     document.documentElement.dataset.theme = nextMode;
+    window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   };
+
+  const variantClass = USE_LIQUID_GLASS ? "theme-toggle--liquid-glass" : "";
 
   return (
     <button
-      className={`theme-toggle ${isDark ? "is-dark" : "is-light"}`}
+      className={`theme-toggle ${variantClass} ${isDark ? "is-dark" : "is-light"}`.trim()}
       type="button"
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       aria-pressed={isDark}
       title={`Switch to ${isDark ? "light" : "dark"} mode`}
       onClick={toggleMode}
     >
-      {!isDark && (
+      {USE_LIQUID_GLASS && !isDark && (
         <svg className="theme-toggle-rim" viewBox="0 0 52 52" aria-hidden="true">
           <defs>
             <linearGradient id="theme-toggle-rim-gradient" x1="0" y1="0" x2="0" y2="1">

@@ -7,13 +7,13 @@ import siteConfig from "./data/site-config.json";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: "Archangel Laboratories",
-  description: "A civic-minded design and engineering studio building durable digital tools.",
+  description: "A design and engineering studio building thoughtful, durable software for families, communities, and public institutions.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Archangel Laboratories",
-    description: "A civic-minded design and engineering studio building durable digital tools.",
+    description: "A design and engineering studio building thoughtful, durable software for families, communities, and public institutions.",
     url: siteConfig.siteUrl,
     siteName: "Archangel Laboratories",
     type: "website",

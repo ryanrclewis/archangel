@@ -137,8 +137,21 @@ export function getProjectIds() {
   return projects.map((project) => project.id);
 }
 
+const STATUS_LABELS: Record<ProjectStatus, string> = {
+  LIVE: "Live",
+  "IN PROGRESS": "In Progress",
+  COMPLETED: "Completed",
+  UNSUPPORTED: "Unsupported",
+  DEPRECATED: "Deprecated",
+  BETA: "Beta",
+};
+
+export function formatProjectStatus(status: ProjectStatus): string {
+  return STATUS_LABELS[status] ?? status;
+}
+
 export function getProjectLaunchLabel(project: Project) {
-  return project.launchDate ?? (project.status === "IN PROGRESS" ? "IN PROGRESS" : project.status);
+  return project.launchDate ?? formatProjectStatus(project.status);
 }
 
 export type ProjectTag = {

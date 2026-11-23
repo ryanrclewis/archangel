@@ -1,4 +1,5 @@
-import type { ProjectValue } from "@/app/data/projects";
+import Link from "next/link";
+import { formatTagTitle, tagToSlug, type ProjectValue } from "@/app/data/projects";
 import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 
 type ProjectClientsProps = {
@@ -14,13 +15,30 @@ export function ProjectClients({ values, className, ariaLabel = "Associated phra
 
   return (
     <ul className={className ? `client-list ${className}` : "client-list"} aria-label={ariaLabel}>
-      {visible.map((val, index) => (
-        <li key={`${val.text}-${index}-${val.tone ?? "muted"}`}>
-          <span className="client-chip" data-tone={val.tone ?? "muted"} style={getPhraseChipStyle(val.text, val.color)}>
-            {val.text}
-          </span>
-        </li>
-      ))}
+      {visible.map((val, index) => {
+        const slug = tagToSlug(val.text);
+        const label = formatTagTitle(val.text);
+        const style = getPhraseChipStyle(val.text, val.color);
+        const tone = val.tone ?? "muted";
+        return (
+          <li key={`${val.text}-${index}-${tone}`}>
+            {slug ? (
+              <Link
+                href={`/tags/${slug}`}
+                className="client-chip client-chip-link"
+                data-tone={tone}
+                style={style}
+              >
+                {label}
+              </Link>
+            ) : (
+              <span className="client-chip" data-tone={tone} style={style}>
+                {label}
+              </span>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

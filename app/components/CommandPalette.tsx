@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getAllProjectTags, type Project } from "@/app/data/projects";
+import { formatTagTitle, getAllProjectTags, type Project } from "@/app/data/projects";
+import siteConfig from "@/app/data/site-config.json";
 import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 import { searchProjects } from "@/app/utils/searchProjects";
 
@@ -168,7 +169,7 @@ export function CommandPalette() {
                       className="client-chip command-palette-tag-chip"
                       style={getPhraseChipStyle(tag.name, tag.color)}
                     >
-                      <span>{tag.name}</span>
+                      <span>{formatTagTitle(tag.name)}</span>
                       <span className="command-palette-tag-count">{tag.count}</span>
                     </Link>
                   ))}
@@ -204,6 +205,7 @@ export function CommandPalette() {
                   <Link href="/categories/industry" onClick={closePalette}>Industry</Link>
                   <Link href="/categories/research" onClick={closePalette}>Research</Link>
                   <Link href="/archive" onClick={closePalette}>Project Archive</Link>
+                  <a href={`mailto:${siteConfig.contactEmail}`} onClick={closePalette}>Contact</a>
                 </>
               )}
             </div>

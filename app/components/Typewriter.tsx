@@ -27,7 +27,6 @@ export default function Typewriter({
   const [index, setIndex] = useState(0);
   const [display, setDisplay] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
@@ -79,11 +78,7 @@ export default function Typewriter({
           href={currentLink}
           className="typewriter-link"
           aria-label={currentText}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onFocus={() => setIsHovered(true)}
-          onBlur={() => setIsHovered(false)}
-          style={isHovered ? undefined : accentVars}
+          style={accentVars}
         >
           {inner}
         </a>

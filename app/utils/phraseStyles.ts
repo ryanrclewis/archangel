@@ -169,6 +169,15 @@ function rgbaStr({ r, g, b }: Rgb, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+const ON_DARK_FILL: Rgb = { r: 255, g: 255, b: 255 };
+const ON_LIGHT_FILL: Rgb = { r: 17, g: 17, b: 17 };
+
+function pickOnFill(bg: Rgb): string {
+  return contrastRatio(ON_DARK_FILL, bg) >= contrastRatio(ON_LIGHT_FILL, bg)
+    ? "#ffffff"
+    : "#111111";
+}
+
 export function getPhraseThemePalette(text: string, explicitHex?: string) {
   const { h, s, l } = resolveBaseHsl(text, explicitHex);
   const isNeutral = s < 0.1;
@@ -233,12 +242,14 @@ export function getPhraseThemePalette(text: string, explicitHex?: string) {
       bg: rgbaStr(lightTint, lightBgAlpha),
       border: rgbaStr(lightBorder, lightBorderAlpha),
       text: rgbStr(lightText),
+      onText: pickOnFill(lightText),
     },
     dark: {
       fg: rgbStr(darkFg),
       bg: rgbaStr(darkTint, darkBgAlpha),
       border: rgbaStr(darkBorder, darkBorderAlpha),
       text: rgbStr(darkText),
+      onText: pickOnFill(darkText),
     },
   };
 }
@@ -272,5 +283,7 @@ export function getValueHoverVars(text: string, explicitHex?: string): React.CSS
   return {
     "--value-hover-color-light": palette.light.text,
     "--value-hover-color-dark": palette.dark.text,
+    "--value-hover-on-light": palette.light.onText,
+    "--value-hover-on-dark": palette.dark.onText,
   } as React.CSSProperties;
 }

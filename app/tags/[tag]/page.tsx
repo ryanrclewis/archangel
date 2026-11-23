@@ -5,6 +5,7 @@ import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import {
+  formatProjectStatus,
   formatTagTitle,
   getAllProjectTags,
   getProjectsByTagSlug,
@@ -58,7 +59,7 @@ export default async function TagPage({ params }: PageProps) {
               className="client-chip"
               style={getPhraseChipStyle(tag.name, tag.color)}
             >
-              {tag.name}
+              {displayTitle}
             </span>
             <span className="tag-hero-count">
               {matchingProjects.length}{" "}
@@ -82,7 +83,7 @@ export default async function TagPage({ params }: PageProps) {
                   style={getPhraseChipStyle(item.name, item.color)}
                   aria-current={isCurrent ? "page" : undefined}
                 >
-                  <span>{item.name}</span>
+                  <span>{formatTagTitle(item.name)}</span>
                   <span className="command-palette-tag-count">{item.count}</span>
                 </Link>
               );
@@ -109,15 +110,17 @@ export default async function TagPage({ params }: PageProps) {
                     project={project}
                     className={`project-card ${isFeatured ? "project-card--featured" : ""}`}
                     data-tone={tone}
+                    data-project={project.id}
                     style={projectTitleHoverStyle(project)}
                   >
                     <div className="project-card-topline">
                       <span>
-                        {project.section ? `${project.section} · ` : ""}
+                        {project.section ? `${formatTagTitle(project.section)} · ` : ""}
                         {project.type}
                       </span>
                       <span className="project-card-topline-end">
-                        <span className="status-text">{project.status}</span>
+                        {isFeatured && <span className="featured-badge">Featured</span>}
+                        <span className="status-text">{formatProjectStatus(project.status)}</span>
                         {project.emoji && (
                           <span className="project-card-emoji" aria-hidden="true">
                             {project.emoji}
@@ -127,6 +130,11 @@ export default async function TagPage({ params }: PageProps) {
                     </div>
                     <h3>{project.name}</h3>
                     <p>{project.tagline || project.description}</p>
+                    {isFeatured && project.whatItProves && (
+                      <p className="what-it-proves">
+                        <strong>Proves:</strong> {project.whatItProves}
+                      </p>
+                    )}
                     <ProjectClients
                       values={project.values ?? []}
                       className="project-card-clients"

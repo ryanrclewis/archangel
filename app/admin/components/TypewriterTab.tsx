@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { getPhraseAccentVars } from "@/app/utils/phraseStyles";
 import type { TypewriterPhrase } from "./types";
 
 type Props = {
@@ -99,8 +100,9 @@ export function TypewriterTab({
     livePreviewList.length > 0
       ? livePreviewList[previewIdx % livePreviewList.length]
       : phrases[0];
-  const previewKey = (activePreview?.text ?? "").replace(/[.,!?;:]+$/, "");
-  const previewColor = valueColors[previewKey] ?? "var(--blue)";
+  const previewText = activePreview?.text || "magnificent humanity.";
+  const previewKey = previewText.replace(/[.,!?;:]+$/, "");
+  const previewAccentVars = getPhraseAccentVars(previewText, valueColors[previewKey]);
 
   return (
     <div>
@@ -136,8 +138,8 @@ export function TypewriterTab({
         </span>
         <p className="admin-typewriter-headline">
           Technology in service of{" "}
-          <span style={{ color: previewColor }}>
-            {activePreview?.text || "magnificent humanity."}
+          <span className="typewriter-link" style={previewAccentVars}>
+            {previewText}
           </span>
         </p>
       </div>

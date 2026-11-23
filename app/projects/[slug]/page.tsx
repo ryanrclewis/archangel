@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SiteHeader } from "@/app/components/SiteHeader";
+import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { CaseStudyMarkdown } from "@/app/components/CaseStudyMarkdown";
 import { getProjectById, getProjectIds } from "../../data/projects";
@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
 
   if (!project) {
     return {
-      title: "Project Not Found | Archangel",
+      title: "Project Not Found | Archangel Laboratories",
     };
   }
 
   return {
-    title: `${project.name} | Archangel`,
+    title: `${project.name} | Archangel Laboratories`,
     description: project.tagline || project.description,
   };
 }
@@ -111,9 +111,7 @@ export default async function ProjectPage({ params }: RouteProps) {
   );
 
   return (
-    <main className="site-shell min-h-screen">
-      <SiteHeader />
-
+    <PageLayout>
       <article className="project-detail">
         <header className="detail-hero">{heroContent}</header>
 
@@ -140,8 +138,14 @@ export default async function ProjectPage({ params }: RouteProps) {
                   <h2 id="resources-title">Links</h2>
                 </div>
                 <div className="action-row">
-                  {projectLinks.map((link) => (
-                    <a key={link.href} href={link.href} className="button-primary" target="_blank" rel="noreferrer">
+                  {projectLinks.map((link, index) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className={index === 0 ? "button-primary" : "button-secondary"}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {link.label}
                     </a>
                   ))}
@@ -157,6 +161,6 @@ export default async function ProjectPage({ params }: RouteProps) {
           </section>
         ) : null}
       </article>
-    </main>
+    </PageLayout>
   );
 }

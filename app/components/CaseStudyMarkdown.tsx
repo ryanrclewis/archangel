@@ -284,7 +284,9 @@ function renderBlocks(markdown: string, keyPrefix = "blk"): React.ReactNode[] {
             key={key}
             className={`case-study-callout case-study-callout--${alertType}`}
           >
-            <p className="case-study-callout-label">{alertMatch[1].toUpperCase()}</p>
+            <p className="case-study-callout-label">
+              {alertMatch[1].charAt(0).toUpperCase() + alertMatch[1].slice(1).toLowerCase()}
+            </p>
             <div className="case-study-callout-body">
               {renderBlocks(bodyMd, `${key}-alert`)}
             </div>

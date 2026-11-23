@@ -89,6 +89,7 @@ export const COLOR_LABELS: Record<string, string> = {
   "--red": "Red",
   "--green": "Green",
   "--amber": "Amber",
+  "--purple": "Purple",
   "--white": "White",
 };
 

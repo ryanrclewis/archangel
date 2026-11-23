@@ -75,7 +75,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth <= 768);
     };
 
     checkMobile();
@@ -234,50 +234,53 @@ export function SiteHeader() {
           </div>
         )}
 
-        {isMobile && drawerOpen && (
-          <>
-            <div id="mobile-drawer" className="mobile-drawer open" aria-hidden={false}>
-              <div className="drawer-inner">
-                <button
-                  className="drawer-close"
-                  aria-label="Close navigation"
-                  onClick={() => setDrawerOpen(false)}
-                >
-                  ×
-                </button>
-                <nav className="drawer-nav" aria-label="Mobile navigation">
-                  <Link href="/categories/bespoke" onClick={() => setDrawerOpen(false)}>
-                    Bespoke
-                  </Link>
-                  <Link href="/categories/government" onClick={() => setDrawerOpen(false)}>
-                    Government
-                  </Link>
-                  <Link href="/categories/industry" onClick={() => setDrawerOpen(false)}>
-                    Industry
-                  </Link>
-                  <Link href="/categories/research" onClick={() => setDrawerOpen(false)}>
-                    Research
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDrawerOpen(false);
-                      handleOpenSearchClick();
-                    }}
-                    className="command-palette-trigger"
-                  >
-                    <span className="nav-emoji" aria-hidden="true">
-                      🔍
-                    </span>
-                    Search
-                  </button>
-                </nav>
-              </div>
-            </div>
-            <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
-          </>
-        )}
       </header>
+
+      {isMobile && drawerOpen && (
+        <>
+          <div id="mobile-drawer" className="mobile-drawer open" aria-hidden={false}>
+            <div className="drawer-inner">
+              <button
+                type="button"
+                className="drawer-close"
+                aria-label="Close navigation"
+                onClick={() => setDrawerOpen(false)}
+              >
+                ×
+              </button>
+              <nav className="drawer-nav" aria-label="Mobile navigation">
+                <Link href="/categories/bespoke" onClick={() => setDrawerOpen(false)}>
+                  Bespoke
+                </Link>
+                <Link href="/categories/government" onClick={() => setDrawerOpen(false)}>
+                  Government
+                </Link>
+                <Link href="/categories/industry" onClick={() => setDrawerOpen(false)}>
+                  Industry
+                </Link>
+                <Link href="/categories/research" onClick={() => setDrawerOpen(false)}>
+                  Research
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDrawerOpen(false);
+                    handleOpenSearchClick();
+                  }}
+                  className="command-palette-trigger"
+                >
+                  <span className="nav-emoji" aria-hidden="true">
+                    🔍
+                  </span>
+                  Search
+                </button>
+              </nav>
+            </div>
+          </div>
+          <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
+        </>
+      )}
+
       <div
         className={`site-nav-backdrop ${openSection ? "open" : ""}`}
         aria-hidden="true"

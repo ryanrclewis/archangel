@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Project } from "@/app/data/projects";
 
 type Props = {
@@ -15,8 +16,13 @@ type Props = {
 
 export function ProjectPreviewCard({ project, children, className, style, ...rest }: Props) {
   return (
-    <a className={className} style={style} href={`/projects/${project.id}`} {...rest}>
+    <div className={className} style={style} {...rest}>
+      <Link
+        href={`/projects/${project.id}`}
+        className="card-stretched-link"
+        aria-label={project.name}
+      />
       {children}
-    </a>
+    </div>
   );
 }

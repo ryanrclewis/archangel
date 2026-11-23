@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
@@ -9,9 +10,26 @@ import themes from "./data/themes.json";
 import siteConfig from "./data/site-config.json";
 
 const activeTheme = themes.find((t) => t.id === siteConfig.activeTheme);
-const typewriterPhrases = activeTheme
-  ? allTypewriterPhrases.filter((p) => activeTheme.enabledPhrases.includes(p.text))
-  : allTypewriterPhrases.filter((p) => p.enabled !== false);
+const typewriterPhrases = (() => {
+  if (!activeTheme) {
+    return allTypewriterPhrases.filter((p) => p.enabled !== false);
+  }
+  const preferCivicLinks = activeTheme.id === "america-250";
+  const isCivicLink = (link?: string) =>
+    Boolean(link && /(archives\.gov|senate\.gov)/i.test(link));
+
+  const seen = new Map<string, (typeof allTypewriterPhrases)[number]>();
+  for (const phrase of allTypewriterPhrases) {
+    if (!activeTheme.enabledPhrases.includes(phrase.text)) continue;
+    const existing = seen.get(phrase.text);
+    if (!existing) {
+      seen.set(phrase.text, phrase);
+    } else if (isCivicLink(phrase.link) === preferCivicLinks && isCivicLink(existing.link) !== preferCivicLinks) {
+      seen.set(phrase.text, phrase);
+    }
+  }
+  return Array.from(seen.values());
+})();
 
 const MONTH_INDEX: Record<string, number> = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
@@ -58,12 +76,13 @@ function renderProjectCard(project: Project) {
       project={project}
       className={`project-card ${isFeatured ? "project-card--featured" : ""}`}
       data-tone={tone}
+      data-project={project.id}
       style={projectTitleHoverStyle(project)}
     >
       <div className="project-card-topline">
         <span>{project.type}</span>
         <span className="project-card-topline-end">
-          {isFeatured && <span className="featured-badge">FEATURED</span>}
+          {isFeatured && <span className="featured-badge">Featured</span>}
           {project.emoji && (
             <span className="project-card-emoji" aria-hidden="true">
               {project.emoji}
@@ -99,15 +118,12 @@ export default function Home() {
             <Typewriter phrases={typewriterPhrases} valueColors={valueColors} />
           </h1>
           <p className="lede">
-            Archangel Laboratories designs and builds technology for families, communities, teams, and public
-            institutions that seek tools ordered to human flourishing and the common good.
+            Archangel Laboratories designs and builds software for families, communities, teams, and public
+            institutions looking for practical, well-crafted tools ordered to human flourishing and the common good.
           </p>
           <div className="action-row">
             <a className="button-primary" href={`mailto:${siteConfig.contactEmail}`}>
               Start a project
-            </a>
-            <a className="button-secondary" href="#bespoke">
-              View work
             </a>
           </div>
         </div>
@@ -126,7 +142,12 @@ export default function Home() {
 
       <section className="work-band homepage-section" id="bespoke" aria-labelledby="work-title">
         <div className="section-heading">
-          <h2 id="work-title">🧵 Bespoke</h2>
+          <h2 id="work-title">
+            <Link href="/categories/bespoke" className="section-heading-link">
+              <span>🧵 Bespoke</span>
+              <span className="section-heading-chevron" aria-hidden="true">›</span>
+            </Link>
+          </h2>
         </div>
 
         <div className="project-grid">
@@ -136,40 +157,49 @@ export default function Home() {
 
       <section className="systems-band homepage-section" id="government" aria-labelledby="systems-title">
         <div className="section-heading">
-          <h2 id="systems-title">🏛️ Government</h2>
+          <h2 id="systems-title">
+            <Link href="/categories/government" className="section-heading-link">
+              <span>🏛️ Government</span>
+              <span className="section-heading-chevron" aria-hidden="true">›</span>
+            </Link>
+          </h2>
         </div>
 
-        <div className="project-grid systems-list">
+        <div className="project-grid">
           {publicSystems.map(renderProjectCard)}
         </div>
       </section>
 
       <section className="archive-band homepage-section" id="industry" aria-labelledby="archive-title">
         <div className="section-heading">
-          <h2 id="archive-title">🏭 Industry</h2>
+          <h2 id="archive-title">
+            <Link href="/categories/industry" className="section-heading-link">
+              <span>🏭 Industry</span>
+              <span className="section-heading-chevron" aria-hidden="true">›</span>
+            </Link>
+          </h2>
         </div>
 
-        <div className="project-grid archive-list">
+        <div className="project-grid">
           {industryProjects.map(renderProjectCard)}
         </div>
       </section>
 
       <section className="university-band homepage-section" id="research" aria-labelledby="university-title">
         <div className="section-heading">
-          <h2 id="university-title">📚 Research</h2>
+          <h2 id="university-title">
+            <Link href="/categories/research" className="section-heading-link">
+              <span>📚 Research</span>
+              <span className="section-heading-chevron" aria-hidden="true">›</span>
+            </Link>
+          </h2>
         </div>
 
-        <div className="project-grid university-list">
+        <div className="project-grid">
           {universityProjects.map(renderProjectCard)}
         </div>
 
       </section>
-
-      <footer className="site-footer">
-        <p>Designed and engineered by Archangel Laboratories.</p>
-        <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
-        <a href="https://x.com/ArchangelLabs" target="_blank" rel="noopener noreferrer">{siteConfig.twitterHandle ?? "@ArchangelLabs"}</a>
-      </footer>
     </PageLayout>
   );
 }
