@@ -3,6 +3,7 @@ import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import { getArchivedProjects, type Project } from "@/app/data/projects";
+import { getValueHoverVars } from "@/app/utils/phraseStyles";
 
 export const metadata: Metadata = {
   title: "Project Archive | Archangel Laboratories",
@@ -10,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
-  const valueColor = project.values?.[0]?.color;
-  return valueColor ? ({ ["--value-hover-color"]: valueColor } as React.CSSProperties) : {};
+  const firstValue = project.values?.[0];
+  return firstValue?.text ? getValueHoverVars(firstValue.text, firstValue.color) : {};
 }
 
 export default function ArchivePage() {

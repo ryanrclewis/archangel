@@ -1,3 +1,5 @@
+import type React from "react";
+
 export function hashPhrase(text: string) {
   let hash = 0;
   for (let i = 0; i < text.length; i += 1) {
@@ -7,18 +9,33 @@ export function hashPhrase(text: string) {
   return Math.abs(hash);
 }
 
-export function getPhraseChipColor(text: string, explicitHex?: string) {
-  if (explicitHex) {
-    const { r, g, b } = readableOnPaper(hexToRgb(explicitHex));
-    return `rgb(${r} ${g} ${b})`;
-  }
+type Rgb = { r: number; g: number; b: number };
+type Hsl = { h: number; s: number; l: number };
 
-  const hue = hashPhrase(text) % 360;
-  return `hsl(${hue} 62% 26%)`;
+// Worst-case & standard surfaces in both themes:
+// Light: --paper (#f7f4ec), --white (#ffffff), --paper-warm (#d9cfae, featured cards)
+const LIGHT_PAPER: Rgb = { r: 247, g: 244, b: 236 };
+const LIGHT_WHITE: Rgb = { r: 255, g: 255, b: 255 };
+const LIGHT_WARM: Rgb = { r: 217, g: 207, b: 174 };
+const LIGHT_SURFACES: Rgb[] = [LIGHT_PAPER, LIGHT_WHITE, LIGHT_WARM];
+
+// Dark: --paper (#171817), card (#222322), --paper-warm (#2b2a25), card hover (#2f302f)
+const DARK_PAPER: Rgb = { r: 23, g: 24, b: 23 };
+const DARK_WARM: Rgb = { r: 43, g: 42, b: 37 };
+const DARK_HOVER: Rgb = { r: 47, g: 48, b: 47 };
+const DARK_SURFACES: Rgb[] = [DARK_PAPER, DARK_WARM, DARK_HOVER];
+
+// Exceed WCAG 2.1 AA (4.5:1) with comfortable headroom across every surface.
+const MIN_LIGHT_CONTRAST = 5.2;
+const MIN_DARK_CONTRAST = 5.5;
+
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
 }
 
-function hexToRgb(hex: string) {
-  const clean = hex.replace("#", "");
+function hexToRgb(hex: string): Rgb | null {
+  const clean = hex.trim().replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(clean)) return null;
   const bigint = parseInt(clean, 16);
   if (clean.length === 3) {
     const r = (bigint >> 8) & 0xf;
@@ -26,17 +43,12 @@ function hexToRgb(hex: string) {
     const b = bigint & 0xf;
     return { r: r * 17, g: g * 17, b: b * 17 };
   }
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return { r, g, b };
+  return {
+    r: (bigint >> 16) & 255,
+    g: (bigint >> 8) & 255,
+    b: bigint & 255,
+  };
 }
-
-type Rgb = { r: number; g: number; b: number };
-
-// The paper the chips sit on (--paper). Text must stay legible against it.
-const PAPER: Rgb = { r: 247, g: 244, b: 236 };
-const MIN_CONTRAST = 4.5;
 
 function srgbChannel(c: number) {
   const s = c / 255;
@@ -55,7 +67,15 @@ function contrastRatio(a: Rgb, b: Rgb) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function rgbToHsl({ r, g, b }: Rgb) {
+function compositeOver(fg: Rgb, alpha: number, bg: Rgb): Rgb {
+  return {
+    r: Math.round(fg.r * alpha + bg.r * (1 - alpha)),
+    g: Math.round(fg.g * alpha + bg.g * (1 - alpha)),
+    b: Math.round(fg.b * alpha + bg.b * (1 - alpha)),
+  };
+}
+
+function rgbToHsl({ r, g, b }: Rgb): Hsl {
   const rn = r / 255;
   const gn = g / 255;
   const bn = b / 255;
@@ -105,43 +125,152 @@ function hslToRgb(h: number, s: number, l: number): Rgb {
   };
 }
 
-/**
- * Keep a value's hue but darken it just enough to stay readable as text on the
- * paper background. Pale picks (light golds, jade, an accidental white) become a
- * deeper shade of the same color rather than washing out.
- */
-function readableOnPaper(rgb: Rgb): Rgb {
-  if (contrastRatio(rgb, PAPER) >= MIN_CONTRAST) return rgb;
-  const { h, s } = rgbToHsl(rgb);
-  // Nudge saturation up a touch for near-grey inputs so the darkened text still
-  // reads as a hue rather than flat charcoal.
-  const sat = Math.max(s, 0.05);
-  let l = rgbToHsl(rgb).l;
-  let candidate = rgb;
-  while (l > 0) {
-    candidate = hslToRgb(h, sat, l);
-    if (contrastRatio(candidate, PAPER) >= MIN_CONTRAST) break;
-    l -= 0.02;
+function resolveBaseHsl(text: string, explicitHex?: string): Hsl {
+  const parsed = explicitHex ? hexToRgb(explicitHex) : null;
+  if (parsed) {
+    const hsl = rgbToHsl(parsed);
+    // Guard against near-white inputs (e.g. #ffffff) losing hue/visibility
+    if (hsl.s < 0.06 && hsl.l > 0.85) {
+      return { h: (hashPhrase(text) % 360) / 360, s: 0.48, l: 0.36 };
+    }
+    return hsl;
   }
-  return candidate;
+  return { h: (hashPhrase(text) % 360) / 360, s: 0.58, l: 0.34 };
+}
+
+function findReadableForeground(
+  h: number,
+  s: number,
+  startL: number,
+  backgrounds: Rgb[],
+  minContrast: number,
+  direction: "darken" | "lighten"
+): Rgb {
+  const step = direction === "darken" ? -0.015 : 0.015;
+  let l = startL;
+  let best = hslToRgb(h, s, l);
+
+  for (let i = 0; i < 80; i += 1) {
+    const candidate = hslToRgb(h, s, clamp(l, 0.04, 0.96));
+    best = candidate;
+    const minRatio = Math.min(...backgrounds.map((bg) => contrastRatio(candidate, bg)));
+    if (minRatio >= minContrast) return candidate;
+    l += step;
+    if (l <= 0.04 || l >= 0.96) break;
+  }
+  return best;
+}
+
+function rgbStr({ r, g, b }: Rgb) {
+  return `rgb(${r} ${g} ${b})`;
+}
+
+function rgbaStr({ r, g, b }: Rgb, alpha: number) {
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+export function getPhraseThemePalette(text: string, explicitHex?: string) {
+  const { h, s, l } = resolveBaseHsl(text, explicitHex);
+  const isNeutral = s < 0.1;
+
+  // Light mode: rich tinted pill & crisp border on cream/warm parchment
+  const lightSat = isNeutral ? s : clamp(s, 0.36, 0.78);
+  const lightTint = hslToRgb(h, lightSat, clamp(l, 0.34, 0.48));
+  const lightBorder = hslToRgb(h, lightSat, clamp(l, 0.28, 0.42));
+  const lightBgAlpha = 0.13;
+  const lightBorderAlpha = 0.4;
+  const lightChipSurfaces = LIGHT_SURFACES.map((surface) =>
+    compositeOver(lightTint, lightBgAlpha, surface)
+  );
+  const lightFg = findReadableForeground(
+    h,
+    isNeutral ? s : clamp(s, 0.42, 0.82),
+    clamp(l, 0.24, 0.4),
+    lightChipSurfaces,
+    MIN_LIGHT_CONTRAST,
+    "darken"
+  );
+
+  // Dark mode: luminous tinted pill & crisp border on charcoal surfaces
+  const darkSat = isNeutral ? s : clamp(s * 1.05, 0.42, 0.78);
+  const darkTint = hslToRgb(h, darkSat, clamp(l + 0.22, 0.56, 0.68));
+  const darkBorder = hslToRgb(h, darkSat, clamp(l + 0.26, 0.6, 0.74));
+  const darkBgAlpha = 0.2;
+  const darkBorderAlpha = 0.46;
+  const darkChipSurfaces = DARK_SURFACES.map((surface) =>
+    compositeOver(darkTint, darkBgAlpha, surface)
+  );
+  const darkFg = findReadableForeground(
+    h,
+    isNeutral ? s : clamp(s * 1.05, 0.46, 0.84),
+    clamp(l + 0.34, 0.72, 0.82),
+    darkChipSurfaces,
+    MIN_DARK_CONTRAST,
+    "lighten"
+  );
+
+  // Standalone text colors for typewriter & project card hover titles
+  const lightText = findReadableForeground(
+    h,
+    isNeutral ? s : clamp(s, 0.42, 0.82),
+    clamp(l, 0.26, 0.42),
+    LIGHT_SURFACES,
+    MIN_LIGHT_CONTRAST,
+    "darken"
+  );
+  const darkText = findReadableForeground(
+    h,
+    isNeutral ? s : clamp(s * 1.05, 0.46, 0.84),
+    clamp(l + 0.34, 0.7, 0.82),
+    DARK_SURFACES,
+    MIN_DARK_CONTRAST,
+    "lighten"
+  );
+
+  return {
+    light: {
+      fg: rgbStr(lightFg),
+      bg: rgbaStr(lightTint, lightBgAlpha),
+      border: rgbaStr(lightBorder, lightBorderAlpha),
+      text: rgbStr(lightText),
+    },
+    dark: {
+      fg: rgbStr(darkFg),
+      bg: rgbaStr(darkTint, darkBgAlpha),
+      border: rgbaStr(darkBorder, darkBorderAlpha),
+      text: rgbStr(darkText),
+    },
+  };
+}
+
+export function getPhraseChipColor(text: string, explicitHex?: string) {
+  return getPhraseThemePalette(text, explicitHex).light.text;
 }
 
 export function getPhraseChipStyle(text: string, explicitHex?: string): React.CSSProperties {
-  if (explicitHex) {
-    const base = hexToRgb(explicitHex);
-    const { r, g, b } = base;
-    const textColor = readableOnPaper(base);
-    return {
-      color: `rgb(${textColor.r} ${textColor.g} ${textColor.b})`,
-      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.13)`,
-      borderColor: `rgba(${r}, ${g}, ${b}, 0.28)`,
-    };
-  }
-
-  const hue = hashPhrase(text) % 360;
+  const palette = getPhraseThemePalette(text, explicitHex);
   return {
-    color: `hsl(${hue} 62% 22%)`,
-    backgroundColor: `hsl(${hue} 70% 44% / 0.13)`,
-    borderColor: `hsl(${hue} 64% 36% / 0.28)`,
-  };
+    "--chip-fg-light": palette.light.fg,
+    "--chip-bg-light": palette.light.bg,
+    "--chip-border-light": palette.light.border,
+    "--chip-fg-dark": palette.dark.fg,
+    "--chip-bg-dark": palette.dark.bg,
+    "--chip-border-dark": palette.dark.border,
+  } as React.CSSProperties;
+}
+
+export function getPhraseAccentVars(text: string, explicitHex?: string): React.CSSProperties {
+  const palette = getPhraseThemePalette(text, explicitHex);
+  return {
+    "--phrase-fg-light": palette.light.text,
+    "--phrase-fg-dark": palette.dark.text,
+  } as React.CSSProperties;
+}
+
+export function getValueHoverVars(text: string, explicitHex?: string): React.CSSProperties {
+  const palette = getPhraseThemePalette(text, explicitHex);
+  return {
+    "--value-hover-color-light": palette.light.text,
+    "--value-hover-color-dark": palette.dark.text,
+  } as React.CSSProperties;
 }

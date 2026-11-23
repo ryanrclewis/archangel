@@ -1,0 +1,101 @@
+/* ── Tag Listing Page ─────────────────────────────────────────────────────── */
+
+.tag-page {
+  background: transparent;
+}
+
+.tag-hero {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 4vw, 4rem) clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.tag-hero-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.tag-hero-count {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tag-hero h1 {
+  max-width: none;
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.02;
+}
+
+.tag-hero-description {
+  max-width: 42rem;
+  margin: 0 0 1.75rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.tag-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 0.25rem 0;
+}
+
+.tag-switcher::-webkit-scrollbar {
+  display: none;
+}
+
+.tag-switcher-chip {
+  flex: 0 0 auto;
+  gap: 0.45rem;
+  opacity: 0.72;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.tag-switcher-chip:hover,
+.tag-switcher-chip:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+  outline: 0;
+}
+
+.tag-switcher-chip:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.tag-switcher-chip.is-current {
+  opacity: 1;
+  box-shadow: 0 0 0 1.5px currentColor;
+}
+
+.tag-projects-band {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 4rem) clamp(4rem, 8vw, 6.5rem);
+}
+
+.tag-empty {
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--hairline);
+  border-radius: 1.25rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.tag-empty p {
+  margin: 0 0 1.25rem;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getPhraseChipColor } from "@/app/utils/phraseStyles";
+import { getPhraseAccentVars } from "@/app/utils/phraseStyles";
 
 export type TypewriterPhrase = {
   text: string;
@@ -64,7 +64,7 @@ export default function Typewriter({
   const currentText = typeof phraseObj === "string" ? phraseObj : phraseObj.text;
   const lookupText = currentText.replace(/[.,!?;:]+$/, "");
   const valueColor = valueColors[lookupText] ?? undefined;
-  const hoverColor = getPhraseChipColor(currentText, valueColor);
+  const accentVars = getPhraseAccentVars(currentText, valueColor);
   const inner = (
     <>
       <span aria-hidden="true">{display}</span>
@@ -83,7 +83,7 @@ export default function Typewriter({
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
           onBlur={() => setIsHovered(false)}
-          style={{ color: isHovered ? undefined : hoverColor } as React.CSSProperties}
+          style={isHovered ? undefined : accentVars}
         >
           {inner}
         </a>

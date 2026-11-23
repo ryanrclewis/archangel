@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { type Project } from "@/app/data/projects";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { getAllProjectTags, type Project } from "@/app/data/projects";
+import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 import { searchProjects } from "@/app/utils/searchProjects";
 
 export function CommandPalette() {
@@ -14,6 +15,7 @@ export function CommandPalette() {
   const pinnedRef = useRef(false);
   const queryRef = useRef("");
   const results = searchProjects(query);
+  const allTags = useMemo(() => getAllProjectTags(), []);
 
   useEffect(() => {
     isOpenRef.current = isOpen;
@@ -151,6 +153,29 @@ export function CommandPalette() {
           </div>
 
           <div className="command-palette-results">
+            {!query.trim() && allTags.length > 0 && (
+              <div className="command-palette-tags">
+                <div
+                  className="command-palette-tags-track"
+                  role="region"
+                  aria-label="Project tags"
+                >
+                  {allTags.map((tag) => (
+                    <Link
+                      key={tag.slug}
+                      href={`/tags/${tag.slug}`}
+                      onClick={closePalette}
+                      className="client-chip command-palette-tag-chip"
+                      style={getPhraseChipStyle(tag.name, tag.color)}
+                    >
+                      <span>{tag.name}</span>
+                      <span className="command-palette-tag-count">{tag.count}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className={query.trim() ? "command-palette-suggested-searches" : "command-palette-quick-links"}>
               <p>{query.trim() ? "Suggested Searches" : "Quick Links"}</p>
               {!query.trim() ? (

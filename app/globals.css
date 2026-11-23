@@ -1136,9 +1136,11 @@ h3 {
   display: inline-flex;
   min-height: 2rem;
   align-items: center;
-  border: 1px solid transparent;
+  border: 1px solid var(--chip-border-light, var(--tone-border, transparent));
   border-radius: 999px;
   padding: 0.3rem 0.6rem;
+  background: var(--chip-bg-light, var(--tone-bg, transparent));
+  color: var(--chip-fg-light, var(--tone-fg, var(--ink)));
   font-family: var(--font-mono);
   font-size: 0.75rem;
   line-height: 1;
@@ -1146,48 +1148,63 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   white-space: nowrap;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
 .client-chip[data-tone="muted"] {
-  background: rgba(94, 91, 85, 0.18);
-  border-color: rgba(94, 91, 85, 0.28);
-  color: var(--muted);
+  --tone-bg: rgba(94, 91, 85, 0.14);
+  --tone-border: rgba(94, 91, 85, 0.36);
+  --tone-fg: var(--muted);
 }
 
 .client-chip[data-tone="ink"] {
-  background: rgba(16, 16, 16, 0.16);
-  border-color: rgba(16, 16, 16, 0.25);
-  color: var(--ink);
+  --tone-bg: rgba(16, 16, 16, 0.12);
+  --tone-border: rgba(16, 16, 16, 0.34);
+  --tone-fg: var(--ink);
 }
 
 .client-chip[data-tone="blue"] {
-  background: rgba(0, 94, 168, 0.2);
-  border-color: rgba(0, 94, 168, 0.28);
-  color: var(--blue-dark);
+  --tone-bg: rgba(0, 94, 168, 0.14);
+  --tone-border: rgba(0, 94, 168, 0.36);
+  --tone-fg: var(--blue-dark);
 }
 
 .client-chip[data-tone="green"] {
-  background: rgba(46, 112, 68, 0.2);
-  border-color: rgba(46, 112, 68, 0.28);
-  color: var(--green);
+  --tone-bg: rgba(46, 112, 68, 0.14);
+  --tone-border: rgba(46, 112, 68, 0.36);
+  --tone-fg: var(--green);
 }
 
 .client-chip[data-tone="amber"] {
-  background: rgba(143, 95, 0, 0.22);
-  border-color: rgba(143, 95, 0, 0.32);
-  color: var(--amber);
+  --tone-bg: rgba(143, 95, 0, 0.15);
+  --tone-border: rgba(143, 95, 0, 0.38);
+  --tone-fg: var(--amber);
 }
 
 .client-chip[data-tone="red"] {
-  background: rgba(179, 25, 66, 0.18);
-  border-color: rgba(179, 25, 66, 0.28);
-  color: var(--red);
+  --tone-bg: rgba(179, 25, 66, 0.14);
+  --tone-border: rgba(179, 25, 66, 0.36);
+  --tone-fg: var(--red);
 }
 
 .client-chip[data-tone="purple"] {
-  background: rgba(92, 57, 155, 0.2);
-  border-color: rgba(92, 57, 155, 0.28);
-  color: #5c399b;
+  --tone-bg: rgba(92, 57, 155, 0.14);
+  --tone-border: rgba(92, 57, 155, 0.36);
+  --tone-fg: #5c399b;
+}
+
+:root[data-theme="dark"] .client-chip {
+  background: var(--chip-bg-dark, var(--tone-bg, transparent));
+  border-color: var(--chip-border-dark, var(--tone-border, transparent));
+  color: var(--chip-fg-dark, var(--tone-fg, var(--ink)));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .client-chip {
+    background: var(--chip-bg-dark, var(--tone-bg, transparent));
+    border-color: var(--chip-border-dark, var(--tone-border, transparent));
+    color: var(--chip-fg-dark, var(--tone-fg, var(--ink)));
+  }
 }
 
 .project-card-clients {
@@ -1224,7 +1241,19 @@ h3 {
 
 .project-card:hover h3,
 .project-card:focus-visible h3 {
-  color: var(--value-hover-color);
+  color: var(--value-hover-color-light, var(--value-hover-color));
+}
+
+:root[data-theme="dark"] .project-card:hover h3,
+:root[data-theme="dark"] .project-card:focus-visible h3 {
+  color: var(--value-hover-color-dark, var(--value-hover-color));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .project-card:hover h3,
+  :root:not([data-theme]) .project-card:focus-visible h3 {
+    color: var(--value-hover-color-dark, var(--value-hover-color));
+  }
 }
 
 .project-card p {
@@ -1395,7 +1424,23 @@ h3 {
 .system-row:focus-visible strong,
 .archive-row:hover .archive-name,
 .archive-row:focus-visible .archive-name {
-  color: var(--value-hover-color);
+  color: var(--value-hover-color-light, var(--value-hover-color));
+}
+
+:root[data-theme="dark"] .system-row:hover strong,
+:root[data-theme="dark"] .system-row:focus-visible strong,
+:root[data-theme="dark"] .archive-row:hover .archive-name,
+:root[data-theme="dark"] .archive-row:focus-visible .archive-name {
+  color: var(--value-hover-color-dark, var(--value-hover-color));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .system-row:hover strong,
+  :root:not([data-theme]) .system-row:focus-visible strong,
+  :root:not([data-theme]) .archive-row:hover .archive-name,
+  :root:not([data-theme]) .archive-row:focus-visible .archive-name {
+    color: var(--value-hover-color-dark, var(--value-hover-color));
+  }
 }
 
 .system-row span,
@@ -1678,13 +1723,23 @@ h3 {
 
 .typewriter-link {
   display: inline;
-  color: inherit;
+  color: var(--phrase-fg-light, inherit);
   text-decoration: underline;
   text-decoration-color: currentColor;
   text-underline-offset: 0.15em;
   text-decoration-thickness: 1px;
   transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
   cursor: pointer;
+}
+
+:root[data-theme="dark"] .typewriter-link {
+  color: var(--phrase-fg-dark, inherit);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .typewriter-link {
+    color: var(--phrase-fg-dark, inherit);
+  }
 }
 
 .typewriter-link:hover {
@@ -1826,7 +1881,7 @@ h3 {
 }
 
 .command-palette.open {
-  max-height: min(28rem, calc(100vh - 72px));
+  max-height: min(34rem, calc(100vh - 72px));
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
@@ -1942,6 +1997,50 @@ h3 {
   color: var(--muted);
   font-size: 0.68rem;
   font-weight: 500;
+}
+
+.command-palette-tags {
+  margin-bottom: 1.2rem;
+}
+
+.command-palette-tags-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  padding: 0.15rem 0.1rem;
+}
+
+.command-palette-tags-track::-webkit-scrollbar {
+  display: none;
+}
+
+.command-palette-tag-chip {
+  flex: 0 0 auto;
+  gap: 0.45rem;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.command-palette-tag-chip:hover,
+.command-palette-tag-chip:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(16, 16, 16, 0.1);
+  outline: 0;
+}
+
+.command-palette-tag-chip:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.command-palette-tag-count {
+  font-size: 0.65rem;
+  opacity: 0.72;
 }
 
 .command-palette-quick-links {

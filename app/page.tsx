@@ -3,6 +3,7 @@ import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
 import { homepageExampleIds, projects, valueColors, type Project } from "./data/projects";
+import { getValueHoverVars } from "./utils/phraseStyles";
 import allTypewriterPhrases from "./data/typewriter-phrases.json";
 import themes from "./data/themes.json";
 import siteConfig from "./data/site-config.json";
@@ -44,8 +45,8 @@ const industryProjects   = sortProjectsByLaunchDateDesc(homepageProjects.filter(
 const universityProjects = sortProjectsByLaunchDateDesc(homepageProjects.filter((p) => p.section === "research"));
 
 function projectTitleHoverStyle(project: Project): React.CSSProperties {
-  const valueColor = project.values?.[0]?.color;
-  return valueColor ? ({ ["--value-hover-color"]: valueColor } as React.CSSProperties) : {};
+  const firstValue = project.values?.[0];
+  return firstValue?.text ? getValueHoverVars(firstValue.text, firstValue.color) : {};
 }
 
 function renderProjectCard(project: Project) {

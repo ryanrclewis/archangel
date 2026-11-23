@@ -130,3 +130,82 @@ export function getProjectIds() {
 export function getProjectLaunchLabel(project: Project) {
   return project.launchDate ?? (project.status === "IN PROGRESS" ? "IN PROGRESS" : project.status);
 }
+
+export type ProjectTag = {
+  name: string;
+  slug: string;
+  color?: string;
+  count: number;
+};
+
+export function tagToSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const MINOR_TITLE_WORDS = new Set(["of", "on", "in", "to", "for", "and", "the", "a", "an"]);
+
+export function formatTagTitle(name: string): string {
+  const words = name.trim().split(/\s+/);
+  return words
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+      if (index > 0 && MINOR_TITLE_WORDS.has(lower)) return lower;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
+export function getAllProjectTags(): ProjectTag[] {
+  const counts = new Map<string, ProjectTag>();
+
+  for (const project of projects) {
+    const seen = new Set<string>();
+    for (const val of project.values ?? []) {
+      const name = val.text?.trim();
+      if (!name) continue;
+      const slug = tagToSlug(name);
+      if (!slug || seen.has(slug)) continue;
+      seen.add(slug);
+
+      const existing = counts.get(slug);
+      if (existing) {
+        existing.count += 1;
+      } else {
+        counts.set(slug, {
+          name,
+          slug,
+          color: val.color ?? valueColors[name],
+          count: 1,
+        });
+      }
+    }
+  }
+
+  return Array.from(counts.values()).sort(
+    (a, b) => b.count - a.count || a.name.localeCompare(b.name)
+  );
+}
+
+export function getTagBySlug(slug: string): ProjectTag | undefined {
+  const normalized = tagToSlug(slug);
+  const activeTag = getAllProjectTags().find((t) => t.slug === normalized);
+  if (activeTag) return activeTag;
+
+  for (const [name, color] of Object.entries(valueColors)) {
+    if (tagToSlug(name) === normalized) {
+      return { name, slug: normalized, color, count: 0 };
+    }
+  }
+  return undefined;
+}
+
+export function getProjectsByTagSlug(slug: string): Project[] {
+  const normalized = tagToSlug(slug);
+  return projects.filter((project) =>
+    (project.values ?? []).some((val) => tagToSlug(val.text ?? "") === normalized)
+  );
+}
