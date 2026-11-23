@@ -65,7 +65,7 @@ function renderProjectCard(project: Project) {
         {isFeatured && <span className="featured-badge">FEATURED</span>}
       </div>
       <h3>{project.name}</h3>
-      <p>{project.description}</p>
+      <p>{project.tagline || project.description}</p>
       {isFeatured && project.whatItProves && (
         <p className="what-it-proves">
           <strong>Proves:</strong> {project.whatItProves}

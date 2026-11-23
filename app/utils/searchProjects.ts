@@ -11,7 +11,8 @@ export function searchProjects(query: string): Project[] {
     // Search in name
     if (project.name.toLowerCase().includes(lowerQuery)) return true;
 
-    // Search in description
+    // Search in tagline & description
+    if (project.tagline?.toLowerCase().includes(lowerQuery)) return true;
     if (project.description.toLowerCase().includes(lowerQuery)) return true;
 
     // Search in type

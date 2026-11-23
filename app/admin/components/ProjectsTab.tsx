@@ -103,6 +103,7 @@ export function ProjectsTab({
         p.type,
         p.status,
         p.section,
+        p.tagline,
         p.description,
         ...(p.clients ?? []).map((c) => c.name),
         ...(p.values ?? []).map((v) => v.text),
@@ -327,7 +328,7 @@ export function ProjectsTab({
                       {p.type && <span className="admin-stat-meta">{p.type}</span>}
                     </div>
                     <p className="admin-project-desc">
-                      {p.description || "No description yet — click to edit."}
+                      {p.tagline || p.description || "No description yet — click to edit."}
                     </p>
                   </div>
 

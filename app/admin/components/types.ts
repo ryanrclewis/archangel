@@ -32,6 +32,7 @@ export type Project = {
   name: string;
   type: string;
   status: ProjectStatus;
+  tagline?: string;
   description: string;
   url?: string;
   clients?: ProjectClient[];

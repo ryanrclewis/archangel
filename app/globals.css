@@ -442,39 +442,6 @@ a {
   text-align: left;
 }
 
-.site-nav-dropdown-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--hairline);
-}
-
-.site-nav-dropdown-eyebrow {
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.site-nav-dropdown-all {
-  display: inline-flex;
-  align-items: center;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  transition: color 150ms ease;
-}
-
-.site-nav-dropdown-all:hover,
-.site-nav-dropdown-all:focus-visible {
-  color: var(--blue);
-  outline: 0;
-}
-
 .site-nav-dropdown-heading {
   display: flex;
   flex-direction: column;
@@ -1531,7 +1498,7 @@ h3 {
 }
 
 .detail-hero h1 {
-  max-width: 16ch;
+  max-width: none;
 }
 
 .detail-meta {
@@ -1603,13 +1570,16 @@ h3 {
 }
 
 .case-study-body {
-  max-width: 56rem;
+  width: 100%;
+  max-width: none;
   color: var(--ink);
   font-size: 1.02rem;
   line-height: 1.72;
 }
 
 .case-study-subtitle {
+  width: 100%;
+  max-width: none;
   margin: 0 0 1.25rem;
   font-family: var(--font-serif);
   font-size: clamp(1.45rem, 2.6vw, 2.05rem);
@@ -1619,6 +1589,8 @@ h3 {
 }
 
 .case-study-h2 {
+  width: 100%;
+  max-width: none;
   margin: 2.75rem 0 1rem;
   padding-bottom: 0.45rem;
   border-bottom: 1px solid var(--hairline);
@@ -1630,6 +1602,8 @@ h3 {
 }
 
 .case-study-h3 {
+  width: 100%;
+  max-width: none;
   margin: 2rem 0 0.7rem;
   font-family: var(--font-sans);
   font-size: 1.2rem;
@@ -1639,6 +1613,8 @@ h3 {
 }
 
 .case-study-h4 {
+  width: 100%;
+  max-width: none;
   margin: 1.5rem 0 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.92rem;

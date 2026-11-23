@@ -53,6 +53,8 @@ export type Project = {
   name: string;
   type: string;
   status: ProjectStatus;
+  /** Concise 1-sentence tagline shown on project cards. */
+  tagline?: string;
   description: string;
   url?: string;
   externalLinks?: ProjectLink[];

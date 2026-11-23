@@ -119,7 +119,7 @@ export default async function TagPage({ params }: PageProps) {
                       <span className="status-text">{project.status}</span>
                     </div>
                     <h3>{project.name}</h3>
-                    <p>{project.description}</p>
+                    <p>{project.tagline || project.description}</p>
                     <ProjectClients
                       values={project.values ?? []}
                       className="project-card-clients"

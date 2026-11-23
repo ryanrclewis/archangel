@@ -88,6 +88,7 @@ export function ProjectEditor({
         ...p,
         id: cleanId,
         name: p.name.trim(),
+        tagline: p.tagline?.trim() ? p.tagline.trim() : undefined,
         embed: cleanedEmbed,
         externalLinks: cleanedLinks.length ? cleanedLinks : undefined,
         features: cleanedFeatures.length ? cleanedFeatures : undefined,
@@ -385,9 +386,23 @@ export function ProjectEditor({
             </div>
 
             <div className="admin-field admin-field--full">
+              <label className="admin-label" htmlFor="proj-tagline">
+                <span>Card Tagline</span>
+                <span className="admin-label-hint">Short 1-sentence pitch shown on cards</span>
+              </label>
+              <input
+                id="proj-tagline"
+                className="admin-input"
+                value={p.tagline ?? ""}
+                placeholder="e.g. A digital keepsake for your family's history."
+                onChange={(e) => set("tagline", e.target.value || undefined)}
+              />
+            </div>
+
+            <div className="admin-field admin-field--full">
               <label className="admin-label" htmlFor="proj-desc">
-                <span>Description</span>
-                <span className="admin-label-hint">Shown on cards &amp; page hero</span>
+                <span>Full Description</span>
+                <span className="admin-label-hint">Shown on the project detail page</span>
               </label>
               <textarea
                 id="proj-desc"
@@ -856,7 +871,7 @@ export function ProjectEditor({
                 lineHeight: 1.45,
               }}
             >
-              {p.description || "Project description preview will appear here as you type."}
+              {p.tagline || p.description || "Card tagline preview will appear here as you type."}
             </p>
             {(p.values ?? []).filter((v) => v.text.trim()).length > 0 && (
               <div className="admin-quick-chips" style={{ marginTop: 0, marginBottom: "0.85rem" }}>

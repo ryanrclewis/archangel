@@ -114,9 +114,6 @@ export function SiteHeader() {
   }, [clearCloseTimer, scheduleClose]);
 
   const isExpanded = Boolean(openSection || searchOpen);
-  const activeSectionMeta = displaySection
-    ? navigationSections.find((section) => section.key === displaySection) ?? null
-    : null;
   const activeSectionProjects = displaySection
     ? projects.filter(
         (project) =>
@@ -211,18 +208,8 @@ export function SiteHeader() {
             className={`site-nav-dropdown ${openSection ? "is-open" : ""}`}
             aria-hidden={!openSection}
           >
-            {activeSectionMeta && (
+            {displaySection && (
               <div className="site-nav-dropdown-inner">
-                <div className="site-nav-dropdown-header">
-                  <span className="site-nav-dropdown-eyebrow">{activeSectionMeta.label}</span>
-                  <Link
-                    href={`/categories/${activeSectionMeta.key}`}
-                    className="site-nav-dropdown-all"
-                    onClick={closeMenu}
-                  >
-                    View all {activeSectionMeta.label} →
-                  </Link>
-                </div>
                 <div
                   className={`site-nav-project-list ${
                     activeSectionProjects.length > 5 ? "is-multi-column" : ""

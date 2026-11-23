@@ -43,7 +43,7 @@ export function CategoryCarousel({ projects }: Props) {
               <span>{project.type}</span>
             </div>
             <h3>{project.name}</h3>
-            <p>{project.description}</p>
+            <p>{project.tagline || project.description}</p>
             <span className="category-project-link">View project <span aria-hidden="true">↗</span></span>
           </Link>
         ))}

@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
 
   return {
     title: `${project.name} | Archangel`,
-    description: project.description,
+    description: project.tagline || project.description,
   };
 }
 
@@ -90,7 +90,7 @@ export default async function ProjectPage({ params }: RouteProps) {
           })()}
         </div>
         <ProjectClients values={project.values ?? []} className="detail-clients" ariaLabel={`${project.name} phrases`} />
-        <p className="lede">{project.description}</p>
+        <p className="lede">{project.description || project.tagline}</p>
       </div>
 
       {project.embed && isPortraitEmbed ? (
