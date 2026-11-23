@@ -7,7 +7,7 @@ import "./admin.css";
 import { BackgroundTab } from "./components/BackgroundTab";
 import { ColorsTab } from "./components/ColorsTab";
 import { ProjectEditor } from "./components/ProjectEditor";
-import { ProjectsTab } from "./components/ProjectsTab";
+import { ProjectsTab, type VisibilityFilter } from "./components/ProjectsTab";
 import { ThemesTab } from "./components/ThemesTab";
 import { TypewriterTab } from "./components/TypewriterTab";
 import {
@@ -40,6 +40,7 @@ export default function AdminPage() {
 
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isNewProject, setIsNewProject] = useState(false);
+  const [projectFilter, setProjectFilter] = useState<VisibilityFilter>("all");
 
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const toastTimer = useRef<number | null>(null);
@@ -162,6 +163,45 @@ export default function AdminPage() {
       updated,
       nextHidden ? `Hidden "${target.name}"` : `"${target.name}" is now public`
     );
+  };
+
+  const toggleProjectNeedsWork = async (id: string) => {
+    const target = projects.find((p) => p.id === id);
+    if (!target) return;
+    const nextNeedsWork = !target.needsWork;
+    const updated = projects.map((p) => {
+      if (p.id !== id) return p;
+      const copy = { ...p };
+      if (nextNeedsWork) {
+        copy.needsWork = true;
+      } else {
+        delete copy.needsWork;
+      }
+      return copy;
+    });
+    await persistProjects(
+      updated,
+      nextNeedsWork
+        ? `Moved "${target.name}" to Needs Work`
+        : `Marked "${target.name}" as portfolio-ready`
+    );
+  };
+
+  const dismissSuggestion = async (id: string, index: number) => {
+    const target = projects.find((p) => p.id === id);
+    if (!target) return;
+    const nextSuggestions = (target.portfolioSuggestions ?? []).filter((_, idx) => idx !== index);
+    const updated = projects.map((p) => {
+      if (p.id !== id) return p;
+      const copy = { ...p };
+      if (nextSuggestions.length > 0) {
+        copy.portfolioSuggestions = nextSuggestions;
+      } else {
+        delete copy.portfolioSuggestions;
+      }
+      return copy;
+    });
+    await persistProjects(updated, `Checked off suggestion for "${target.name}"`);
   };
 
   const duplicateProject = (project: Project) => {
@@ -341,6 +381,7 @@ export default function AdminPage() {
 
   const publicCount = projects.filter((p) => !p.hidden && !p.archived).length;
   const hiddenCount = projects.filter((p) => p.hidden).length;
+  const needsWorkCount = projects.filter((p) => p.needsWork).length;
   const activeTheme = themes.find((t) => t.id === siteConfig.activeTheme) ?? null;
   const activePhraseCount = activeTheme
     ? activeTheme.enabledPhrases.length
@@ -398,6 +439,21 @@ export default function AdminPage() {
               <span className="admin-stat-value">{projects.length}</span>
               <span className="admin-stat-meta">
                 {publicCount} public · {hiddenCount} hidden
+                {needsWorkCount > 0 && (
+                  <>
+                    {" · "}
+                    <button
+                      type="button"
+                      className="admin-stat-link"
+                      onClick={() => {
+                        switchTab("projects");
+                        setProjectFilter("needs-work");
+                      }}
+                    >
+                      {needsWorkCount} needs work
+                    </button>
+                  </>
+                )}
               </span>
             </div>
             <div className="admin-stat-card">
@@ -485,6 +541,8 @@ export default function AdminPage() {
                     {tab === "projects" && (
                       <ProjectsTab
                         projects={projects}
+                        visibility={projectFilter}
+                        onVisibilityChange={setProjectFilter}
                         onSelect={(p) => {
                           setEditingProject(p);
                           setIsNewProject(false);
@@ -495,6 +553,8 @@ export default function AdminPage() {
                         }}
                         onDuplicate={duplicateProject}
                         onToggleHidden={toggleProjectHidden}
+                        onToggleNeedsWork={toggleProjectNeedsWork}
+                        onDismissSuggestion={dismissSuggestion}
                         onDelete={deleteProject}
                         onReorder={reorderProjects}
                       />

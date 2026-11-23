@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { ProjectClients } from "@/app/components/ProjectClients";
+import { CaseStudyMarkdown } from "@/app/components/CaseStudyMarkdown";
 import { getProjectById, getProjectIds } from "../../data/projects";
 
 type RouteProps = {
@@ -145,6 +146,12 @@ export default async function ProjectPage({ params }: RouteProps) {
             </div>
           </section>
         </div>
+
+        {project.caseStudy?.trim() ? (
+          <section className="detail-case-study" aria-label={`${project.name} case study`}>
+            <CaseStudyMarkdown markdown={project.caseStudy} />
+          </section>
+        ) : null}
       </article>
     </main>
   );

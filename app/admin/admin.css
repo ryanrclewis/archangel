@@ -160,6 +160,24 @@
   font-size: 0.7rem;
 }
 
+.admin-stat-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--amber);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.admin-stat-link:hover,
+.admin-stat-link:focus-visible {
+  color: var(--ink);
+  outline: 0;
+}
+
 .admin-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -477,6 +495,31 @@
   color: var(--paper);
 }
 
+.admin-pill--amber {
+  border-color: color-mix(in srgb, var(--amber) 55%, var(--hairline));
+  color: var(--amber);
+}
+
+.admin-pill--amber:hover,
+.admin-pill--amber:focus-visible {
+  border-color: var(--amber);
+  color: var(--ink);
+}
+
+.admin-pill--amber.is-active {
+  border-color: var(--amber);
+  background: var(--amber);
+  color: var(--white);
+}
+
+.admin-pill-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
 .admin-badge {
   display: inline-flex;
   align-items: center;
@@ -524,24 +567,163 @@
   gap: 0.65rem;
 }
 
+.admin-project-card {
+  border: 1px solid color-mix(in srgb, var(--hairline) 75%, transparent);
+  border-radius: 1rem;
+  background: var(--paper);
+  overflow: hidden;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.admin-project-card:hover {
+  border-color: var(--ink);
+}
+
+.admin-project-card.is-hidden {
+  opacity: 0.76;
+}
+
+.admin-project-card.is-needs-work {
+  border-color: color-mix(in srgb, var(--amber) 45%, var(--hairline));
+}
+
 .admin-project-row {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.9rem 1.05rem;
-  border: 1px solid color-mix(in srgb, var(--hairline) 75%, transparent);
-  border-radius: 1rem;
-  background: var(--paper);
-  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+  background: transparent;
+  transition: background 140ms ease;
 }
 
-.admin-project-row:hover {
-  border-color: var(--ink);
+.admin-project-card:hover .admin-project-row {
   background: var(--card-hover-background);
 }
 
-.admin-project-row.is-hidden {
-  opacity: 0.72;
+.admin-suggestions-box {
+  padding: 0.9rem 1.05rem 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--amber) 28%, var(--hairline));
+  background: color-mix(in srgb, var(--amber) 5%, var(--paper));
+}
+
+.admin-suggestions-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.admin-suggestions-title {
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-missing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.admin-suggestion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.admin-suggestion-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--amber) 55%, var(--hairline));
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.admin-suggestion-check:hover,
+.admin-suggestion-check:focus-visible {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--white);
+  outline: 0;
+}
+
+.admin-suggestions-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed color-mix(in srgb, var(--hairline) 75%, transparent);
+}
+
+.admin-notice--amber {
+  border-color: color-mix(in srgb, var(--amber) 45%, transparent);
+  background: color-mix(in srgb, var(--amber) 7%, var(--paper));
+}
+
+.admin-coach-box {
+  padding: 1rem 1.05rem;
+  margin-bottom: 1rem;
+  border: 1px solid color-mix(in srgb, var(--amber) 50%, var(--hairline));
+  border-radius: 1.15rem;
+  background: color-mix(in srgb, var(--amber) 6%, var(--paper));
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.admin-coach-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.admin-coach-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.admin-coach-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.42;
+  color: var(--ink);
 }
 
 .admin-project-monogram {

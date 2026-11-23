@@ -48,6 +48,9 @@ export type Project = {
   degree?: string;
   version?: string;
   externalLinks?: ProjectLink[];
+  caseStudy?: string;
+  needsWork?: boolean;
+  portfolioSuggestions?: string[];
 };
 
 export type Theme = {

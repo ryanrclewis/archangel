@@ -81,6 +81,7 @@ export function ProjectEditor({
     const cleanedFeatures = (p.features ?? []).filter((f) => f.trim());
     const cleanedClients = (p.clients ?? []).filter((c) => c.name.trim());
     const cleanedValues = (p.values ?? []).filter((v) => v.text.trim());
+    const cleanedSuggestions = (p.portfolioSuggestions ?? []).filter((s) => s.trim());
 
     onSave(
       {
@@ -92,6 +93,9 @@ export function ProjectEditor({
         features: cleanedFeatures.length ? cleanedFeatures : undefined,
         clients: cleanedClients.length ? cleanedClients : undefined,
         values: cleanedValues.length ? cleanedValues : undefined,
+        caseStudy: p.caseStudy?.trim() ? p.caseStudy : undefined,
+        needsWork: p.needsWork || undefined,
+        portfolioSuggestions: cleanedSuggestions.length ? cleanedSuggestions : undefined,
       },
       originalId
     );
@@ -182,6 +186,31 @@ export function ProjectEditor({
     setP((prev) => ({
       ...prev,
       embed: { ...(prev.embed ?? { src: "" }), [key]: val },
+    }));
+
+  // Portfolio suggestions helpers
+  const setSuggestion = (i: number, val: string) =>
+    setP((prev) => {
+      const portfolioSuggestions = [...(prev.portfolioSuggestions ?? [])];
+      portfolioSuggestions[i] = val;
+      return { ...prev, portfolioSuggestions };
+    });
+  const addSuggestion = () =>
+    setP((prev) => ({
+      ...prev,
+      needsWork: true,
+      portfolioSuggestions: [...(prev.portfolioSuggestions ?? []), ""],
+    }));
+  const removeSuggestion = (i: number) =>
+    setP((prev) => ({
+      ...prev,
+      portfolioSuggestions: (prev.portfolioSuggestions ?? []).filter((_, idx) => idx !== i),
+    }));
+  const markPortfolioReady = () =>
+    setP((prev) => ({
+      ...prev,
+      needsWork: false,
+      portfolioSuggestions: [],
     }));
 
   const previewTone = p.clients?.[0]?.tone ?? "muted";
@@ -357,7 +386,8 @@ export function ProjectEditor({
 
             <div className="admin-field admin-field--full">
               <label className="admin-label" htmlFor="proj-desc">
-                Description
+                <span>Description</span>
+                <span className="admin-label-hint">Shown on cards &amp; page hero</span>
               </label>
               <textarea
                 id="proj-desc"
@@ -365,6 +395,21 @@ export function ProjectEditor({
                 value={p.description}
                 placeholder="Concise summary of the project and its purpose…"
                 onChange={(e) => set("description", e.target.value)}
+              />
+            </div>
+
+            <div className="admin-field admin-field--full">
+              <label className="admin-label" htmlFor="proj-case-study">
+                <span>Full Case Study (Markdown, optional)</span>
+                <span className="admin-label-hint">Supports tables, alerts, images &amp; Mermaid</span>
+              </label>
+              <textarea
+                id="proj-case-study"
+                className="admin-textarea admin-input--mono"
+                style={{ minHeight: "11rem" }}
+                value={p.caseStudy ?? ""}
+                placeholder="Paste a long-form Markdown case study to render on /projects/slug…"
+                onChange={(e) => set("caseStudy", e.target.value || undefined)}
               />
             </div>
           </div>
@@ -395,6 +440,15 @@ export function ProjectEditor({
                 onChange={(e) => set("archived", e.target.checked)}
               />
               <span>Archived</span>
+            </label>
+
+            <label className="admin-check-pill">
+              <input
+                type="checkbox"
+                checked={!!p.needsWork}
+                onChange={(e) => set("needsWork", e.target.checked)}
+              />
+              <span>Needs portfolio work</span>
             </label>
           </div>
 
@@ -687,10 +741,100 @@ export function ProjectEditor({
               </div>
             </div>
           </div>
+
+          {/* Portfolio Suggestions (Admin Only) */}
+          <div className="admin-section">
+            <div className="admin-section-header">
+              <h3 className="admin-section-title">Portfolio Suggestions (Admin Only)</h3>
+              <div style={{ display: "flex", gap: "0.4rem" }}>
+                {(p.needsWork || (p.portfolioSuggestions ?? []).length > 0) && (
+                  <button
+                    type="button"
+                    className="admin-btn admin-btn--ghost admin-btn--sm"
+                    onClick={markPortfolioReady}
+                  >
+                    ✓ Mark Ready
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--ghost admin-btn--sm"
+                  onClick={addSuggestion}
+                >
+                  + Add Suggestion
+                </button>
+              </div>
+            </div>
+            <div className="admin-repeater">
+              {(p.portfolioSuggestions ?? []).map((s, i) => (
+                <div key={i} className="admin-repeater-row" style={{ alignItems: "flex-start" }}>
+                  <textarea
+                    className="admin-textarea"
+                    style={{ minHeight: "3.75rem", fontSize: "0.84rem" }}
+                    placeholder="Suggestion for strengthening this portfolio piece…"
+                    value={s}
+                    onChange={(e) => setSuggestion(i, e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="admin-icon-btn"
+                    onClick={() => removeSuggestion(i)}
+                    title="Dismiss / remove suggestion"
+                    aria-label="Remove suggestion"
+                    style={{ marginTop: "0.35rem" }}
+                  >
+                    ✓
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Live Front-End Preview Sidebar */}
-        <aside className="admin-preview-aside" aria-label="Live card preview">
+        <aside className="admin-preview-aside" aria-label="Live card preview and coaching notes">
+          {(p.needsWork || (p.portfolioSuggestions ?? []).filter((s) => s.trim()).length > 0) && (
+            <div className="admin-coach-box">
+              <div className="admin-coach-header">
+                <p className="admin-preview-label" style={{ margin: 0, color: "var(--amber)" }}>
+                  Needs Work · Coaching
+                </p>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--ghost admin-btn--sm"
+                  onClick={markPortfolioReady}
+                  title="Clear suggestions and mark project portfolio-ready"
+                >
+                  ✓ Ready
+                </button>
+              </div>
+              {(p.portfolioSuggestions ?? []).filter((s) => s.trim()).length > 0 ? (
+                <ul className="admin-coach-list">
+                  {(p.portfolioSuggestions ?? []).map((tip, i) =>
+                    tip.trim() ? (
+                      <li key={i} className="admin-coach-item">
+                        <button
+                          type="button"
+                          className="admin-suggestion-check"
+                          onClick={() => removeSuggestion(i)}
+                          title="Mark suggestion complete"
+                          aria-label={`Mark suggestion complete: ${tip}`}
+                        >
+                          ✓
+                        </button>
+                        <span>{tip}</span>
+                      </li>
+                    ) : null
+                  )}
+                </ul>
+              ) : (
+                <p className="admin-stat-meta" style={{ margin: "0.5rem 0 0" }}>
+                  All checklist items cleared — click Ready and save.
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="admin-preview-box">
             <p className="admin-preview-label">Live Card Preview</p>
             <div className="admin-preview-art" data-tone={previewTone}>

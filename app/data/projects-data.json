@@ -8,7 +8,7 @@
     "status": "LIVE",
     "launchDate": "Jan 2026",
     "url": "https://saintstombs.com",
-    "description": "Database of saints and their final resting places, built as a resource for pilgrims and anyone interested in the saints.",
+    "description": "Open-access digital pilgrimage gazetteer and hagiographical index mapping 14,290 holy figures across 5,824 shrines and 138 countries. Modernized into a zero-database, edge-cached React 19 + TypeScript app and Git-backed Structured Markdown CMS on Cloudflare Pages Workers with 0.62 ms client-side search.",
     "clients": [
       {
         "name": "BKO",
@@ -27,12 +27,19 @@
       }
     ],
     "features": [
-      "Dynamic Markdown Rendering",
-      "Edge-Powered Full-Text Search",
-      "Fluid & Interactive UI Elements",
-      "GitOps & Continuous Deployment",
-      "Accessibility (a11y) & SEO Optimization"
-    ]
+      "Zero-database static JSON index (14,290 figures, 5,824 shrines, 138 countries) with 0.62 ms p50 client-side search",
+      "Custom Git-backed Structured Markdown CMS on Cloudflare Pages Workers (2.27 KB gz) with lossless round-trip serialization",
+      "75.48 KB gzipped React 19 + TypeScript 5.9 + Vite 8 entry bundle with route-level code splitting",
+      "WCAG-conscious accessibility: keyboard skip link, ⌘K WAI-ARIA focus-trapped search dialog, and aria-live announcements",
+      "Browser-side Gregorian Easter computus driving automatic liturgical calendar theming"
+    ],
+    "externalLinks": [
+      {
+        "label": "GitHub Repository",
+        "href": "https://github.com/ryanrclewis/saintstombs"
+      }
+    ],
+    "caseStudy": "# SaintsTombs.com: UX Engineering, Frontend Architecture, and Digital Humanities Case Study\n\n> **Live Application:** [saintstombs.com](https://saintstombs.com) · **Source Repository:** [github.com/ryanrclewis/saintstombs](https://github.com/ryanrclewis/saintstombs)  \n> **Role:** End-to-End Owner (Product Strategy, Information Architecture, Design Systems, Frontend & Edge Engineering, Custom CMS & Data Pipeline)  \n> **Stack:** React 19 · TypeScript 5.9 · Vite 8 · React Router 7 · Marked · Gray Matter · Cloudflare Pages & Workers (`_worker.js`) · GitHub Contents API\n\n---\n\n## Overview\n\n**SaintsTombs.com** is an open-access digital pilgrimage gazetteer and hagiographical index that maps **14,290 indexed holy figures** across **5,824 shrines, churches, and towns** in **138 countries** on six continents. The project came to me as a commission from a parishioner who has spent more than twenty years, going all the way back to 2003, hand-collecting this data by reading through books and traveling to many of these places himself. His ask was pretty humble: he wanted his decades of work out in the open where people could actually use it, along with a simple place for visitors to send him a tip if they found it helpful.\n\nThat goal shaped every technical decision I made. I wanted to make his data as useful as possible to travelers and researchers while keeping his handmade notes as the true source of truth. To pull that off, I modernized the site from a multi-page vanilla HTML setup and an early third-party CMS and database prototype into a **zero-database, edge-cached React 19 and TypeScript app** paired with a **custom Git-backed Structured Markdown CMS** on Cloudflare Pages Workers. That setup gives people **sub-millisecond client-side filtering (`0.62 ms` p50)**, a **`75.48 KB` gzipped** initial JavaScript payload, thoughtful keyboard and screen-reader support, and a lossless editing workflow that keeps his scholarly notes intact across **57,282 lines** of structured Markdown.\n\n---\n\n## 1. The User Problem, Information Architecture, and End-to-End Ownership\n\n### 1.1 The Problem Space\n\nThis project sits at the intersection of two real-world problems: respecting the craft of the person who built the archive, and making decades of scattered burial records easy to search for everyone else.\n\nFirst up is the creator's side of the equation. The parishioner who commissioned this site didn't compile these records with a software schema in mind. He spent decades pouring through history books, checking references, and exploring churches and shrines in person, recording everything in his own careful, handmade notes. He wasn't looking to maintain a complicated backend or become a database administrator. He simply wanted to share what he had gathered so other people could benefit from it, and give appreciative visitors an easy way to send him a tip (handled via the `/donate` page) if the site proved useful on a trip or research project. Any architecture that locked his notes inside a proprietary database, or forced him to flatten his nuanced historical asides into rigid form fields, would have worked against the entire point of the project. His handmade files had to stay the authoritative source of truth.\n\nMeanwhile, on the visitor side, anyone trying to track down historical Christian burial sites faces a fragmented discovery problem. Reliable burial data for saints, blesseds, venerables, and Servants of God is spread across regional diocesan booklets, out-of-print martyrologies, and aging web forums. People who end up looking for this information usually fall into one of two camps, and existing tools tend to leave both of them hanging:\n\n1. **On-the-Road & Route-Based Pilgrimage (Geographic-First):** Picture a traveler driving down Italy's Autostrada A24 near *Tagliacozzo*, or standing inside an old parish church in a European city, wondering if a saint is buried nearby, which chapel or cemetery holds the tomb, and whether a feast day (*dies natalis*, which for those less familiar is the traditional liturgical term for a saint's date of death) lines up with their visit. Classic references like *Butler's Lives of the Saints*, Wikipedia, and *CatholicSaints.info* are great for what they are, but they are indexed alphabetically by **person**. That makes sense in a printed encyclopedia, sure, yet it makes geographic lookup on a phone almost impossible.\n2. **Hagiographical & Prosopographical Research (Entity-First):** Historians, diocesan archivists, and digital humanists come in with a completely different set of questions. For those who haven't run into the term, prosopography is the study of historical groups through shared biographical details. These researchers need to cross-reference canonical status (*Servant of God*, *Venerable*, *Blessed*, *Saint*), religious order post-nominals (`OFM`, `OSB`, `SJ`, `O.Cart.`), relic provenance versus full bodily interment, and historical uncertainty across borders that have shifted over two thousand years.\n\n### 1.2 Information Architecture\n\nTo serve both kinds of visitors without breaking the underlying structure of the author's notes, I designed a **dual-access Information Architecture** powered by a single 4-tier geographic-hagiographical taxonomy:\n\n```mermaid\nflowchart LR\n    subgraph Source[\"Canonical Markdown Gazetteer (19 Regional Files · 57,282 Lines)\"]\n        direction TB\n        L1[\"Tier 1: Region / Country (# H1)\"]\n        L2[\"Tier 2: Town & Admin Unit (Alphabetical)\"]\n        L3[\"Tier 3: Church, Shrine, Cemetery, or '???' (- Bullet)\"]\n        L4[\"Tier 4: Holy Figure Record (Nested Bullet: Rank, Name/Aliases, Order, Role, Feast/Death Date, Provenance)\"]\n        L1 --> L2 --> L3 --> L4\n    end\n\n    subgraph Discovery[\"Dual User Discovery Paths\"]\n        direction TB\n        P1[\"Entity-First Faceted Search (/saints & ⌘K Modal)<br/>Free-text query + Continent → Country cascading filters\"]\n        P2[\"Corridor-First Regional Gazetteer (/regions)<br/>Alphabetical towns + auto-generated 'Jump to Country' TOC\"]\n    end\n\n    subgraph Curation[\"Scholarly Stewardship Loop\"]\n        direction TB\n        C1[\"Public Peer Corrections (/contact → Formspree)\"]\n        C2[\"Authenticated Editorial CMS (/admin → GitHub OAuth)\"]\n    end\n\n    Source -->|\"Build-Time JSON Indexer\"| P1\n    Source -->|\"On-Demand Markdown Fetch + Marked\"| P2\n    C1 --> C2 -->|\"Atomic Git Commit\"| Source\n```\n\nA few deliberate UX and IA choices hold this together:\n- **First up, cascading geographic facets:** Countries packed with entries (Italy, Spain, France, Germany, Britain) get their own dedicated regional gazetteers. Smaller or more dispersed territories are grouped regionally (like *Eastern Europe*, *Latin America*, and *Oceania*) with an auto-generated **Jump to Country** anchor table of contents (`buildToc` in [RegionsPage.tsx](https://github.com/ryanrclewis/saintstombs/blob/main/src/pages/RegionsPage.tsx#L34-L42)) so multi-country pages stay easy to scan.\n- **Quick global search from anywhere (`⌘K` / `Ctrl+K`):** If you are halfway down a long list on `/regions` or reading `/about`, you can pop open the lazy-loaded [GlobalSearchModal.tsx](https://github.com/ryanrclewis/saintstombs/blob/main/src/components/GlobalSearchModal.tsx) with a keyboard shortcut or the floating glassmorphic pill in the corner, look someone up, and jump right back without losing your scroll position.\n- **Another meaningful addition is ambient liturgical theming:** I didn't want the visual palette to feel like arbitrary branding, so [liturgicalTheme.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/liturgicalTheme.ts) implements the **Meeus/Jones/Butcher Gregorian Easter computus** right in the browser. (For those that don't know, a *computus* is the traditional astronomical calculation used to pin down the date of Easter each year.) Using that calculation, the site quietly shifts its CSS custom properties (`data-liturgical-color`) with the Church calendar: Green for Ordinary Time, Purple for Advent and Lent, White for Christmas, the Triduum, and Easter, Red for Passion Sunday and Pentecost, and Rose for Gaudete and Laetare Sundays. It even handles midnight rollovers automatically and remembers manual overrides in `localStorage`.\n\n### 1.3 End-to-End Ownership\n\n| Discipline | Owned Deliverables |\n| --- | --- |\n| **Product & IA** | Client discovery with the archive's author, persona modeling (on-road pilgrims and DH researchers), 4-tier gazetteer taxonomy, progressive result disclosure (`24` cards/page), peer-correction flow, and tip/support page (`/donate`). |\n| **Design System & Accessibility** | Dark glassmorphic UI built on CSS custom properties, seasonal liturgical palettes, `Texturina` editorial serif typography, WCAG-conscious skip links, focus traps, ARIA live regions, and responsive mobile drawers. |\n| **Frontend Engineering** | Migration from vanilla multi-page HTML/JS to **React 19 + TypeScript 5.9 + Vite 8**, route-level code splitting, React 19 `useDeferredValue` search handling, and `Intl.Collator` diacritic-insensitive Unicode sorting. |\n| **Edge & CMS Engineering** | Custom **Cloudflare Pages Worker** ([worker/index.ts](https://github.com/ryanrclewis/saintstombs/blob/main/worker/index.ts)) handling GitHub OAuth 2.0, `HttpOnly` session cookies, repo push-permission verification, and optimistic-concurrency Git commits; custom bidirectional Markdown AST parser/serializer ([regionsParser.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/regionsParser.ts), [regionsSerializer.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/regionsSerializer.ts)). |\n| **Build & Data Pipeline** | Multi-schema Markdown-to-JSON compiler ([build-saints-index.mjs](https://github.com/ryanrclewis/saintstombs/blob/main/scripts/build-saints-index.mjs)), automated round-trip fidelity test harness ([test-roundtrip.mjs](https://github.com/ryanrclewis/saintstombs/blob/main/scripts/test-roundtrip.mjs)), and Wrangler edge deployment pipeline. |\n\n---\n\n## 2. Technical Architecture and Engineering Trade-Offs\n\n### 2.1 System Architecture Diagram\n\n```mermaid\nflowchart TD\n    subgraph Authoring[\"Editorial & Curation Layer\"]\n        Editor[\"/admin Structured Markdown Editor<br/>(Structured Form View ⇄ Raw Markdown)\"]\n        LocalVite[\"Local Dev Middleware<br/>(vite.config.ts /api/admin)<br/>FS Write + Hot Index Rebuild\"]\n        EdgeWorker[\"Cloudflare Pages Worker<br/>(dist/_worker.js · 2.27 KB gz)<br/>GitHub OAuth + Push-Access Guard\"]\n        GitHub[\"GitHub Repository (main)<br/>content/saints/regions/*.md\"]\n    end\n\n    subgraph Pipeline[\"Build & Indexing Pipeline (npm run build)\"]\n        Indexer[\"scripts/build-saints-index.mjs<br/>gray-matter + Gazetteer Parser\"]\n        JSONOut[\"Static Search Artifacts<br/>saints.json (404 KB br / 662 KB gz)<br/>filters.json (0.96 KB gz)\"]\n        ViteBuild[\"tsc -b + Vite 8 Code-Split Build<br/>Entry JS: 75.5 KB gz · CSS: 5.3 KB gz\"]\n        Esbuild[\"esbuild ESM Neutral Bundle<br/>worker/index.ts → dist/_worker.js\"]\n    end\n\n    subgraph Runtime[\"Cloudflare Global Edge + Browser Client\"]\n        CDN[\"Cloudflare Pages Static CDN<br/>Hashed /assets/* + /data/* + /regions/*\"]\n        Browser[\"React 19 SPA Client<br/>Singleton Fetch Promise + useDeferredValue\"]\n        SearchUI[\"/saints & ⌘K GlobalSearchModal<br/>0.62 ms p50 Filter · 24-Card Windowing\"]\n        RegionsUI[\"/regions Gazetteer<br/>Lazy-loaded Marked Renderer + Dynamic TOC\"]\n    end\n\n    Editor -->|\"Prod: PUT + Blob SHA\"| EdgeWorker\n    Editor -->|\"Dev: PUT\"| LocalVite\n    EdgeWorker -->|\"GitHub Contents API Commit\"| GitHub\n    GitHub -->|\"Build Trigger\"| Indexer\n    Indexer --> JSONOut --> ViteBuild --> CDN\n    Esbuild --> CDN\n    CDN --> Browser\n    Browser --> SearchUI\n    Browser --> RegionsUI\n```\n\n### 2.2 How the Architecture Evolved (and Why)\n\nEvery choice below comes back to the same constraint: squeeze maximum utility out of this dataset for visitors without ever taking control away from the parishioner's handmade Markdown notes.\n\n#### Trade-Off 1: Replacing Cloudflare D1 (SQLite FTS5) Search with a Build-Time Static Index\nAn earlier version of the project ([content/source-repo/workers/search/schema.sql](https://github.com/ryanrclewis/saintstombs/blob/main/content/source-repo/workers/search/schema.sql)) prototyped a serverless search API built on **Cloudflare D1 and SQLite FTS5** virtual tables with sync triggers. On paper, that is a very respectable setup: FTS5 gives you BM25 ranking and stemming out of the box. In practice, though, it fought against keeping the handmade notes as the true source of truth:\n- **Index Drift:** Every Markdown edit meant running `node populate.js > /tmp/seed.sql` and pushing remote D1 migrations, leaving awkward windows where live search results fell out of sync with the Git source files.\n- **Per-Keystroke Network Latency:** Every search query paid for an edge Worker invocation, CORS preflight overhead, and a D1 lookup. That lag really shows up when a traveler is searching over spotty European cellular service.\n\n**What I ended up building instead:** At build time, [build-saints-index.mjs](https://github.com/ryanrclewis/saintstombs/blob/main/scripts/build-saints-index.mjs) compiles all 19 Markdown files directly into two static CDN files (`saints.json` and `filters.json`). In the browser, [useSaintSearch.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/hooks/useSaintSearch.ts) caches one module-level `dataPromise` (so `/saints` and `GlobalSearchModal` share the same fetch), pre-computes a lowercase `normalizedSearchText` field per record, sorts names cleanly with a diacritic-insensitive `Intl.Collator`, and wraps filtering in React 19's `useDeferredValue` so typing stays crisp.\n\n| Dimension | Legacy D1 + FTS5 Edge API | Current Static Index + Client Deferred Search |\n| --- | --- | --- |\n| **Source-of-Truth Parity** | Async manual re-seeding (`populate.js`) | Guaranteed atomic parity on every `prebuild` |\n| **Keystroke Latency (Post-Load)** | Network RTT + Worker + D1 query (~40 to 250 ms) | **0.62 ms p50 / 1.42 ms p99** in-memory V8 scan |\n| **Offline / Weak-Signal Resilience** | Fails without live network per query | Full search & facet filtering works offline once cached |\n| **Initial Data Payload** | Minimal per query (~5 to 20 KB) | `661.7 KB` gzip / `404.3 KB` brotli one-time transfer |\n| **Scaling Ceiling** | Scales to millions of records | Sweet spot up to ~30k to 50k records; past that, shard by continent or move to a Web Worker + inverted index |\n\n#### Trade-Off 2: Building a Custom Structured Markdown CMS Instead of Using Decap CMS\nThe old repo used **Decap CMS** ([content/source-repo/admin/config.yml](https://github.com/ryanrclewis/saintstombs/blob/main/content/source-repo/admin/config.yml)), which is a reasonable default for standard Markdown blogs. The trouble showed up the moment you opened a **15,505-line** file like [italy.md](https://github.com/ryanrclewis/saintstombs/blob/main/content/saints/regions/italy.md) in a generic WYSIWYG editor: nested bullet indentation got mangled, the author's handwritten parentheticals disappeared, and the browser DOM slowed to a crawl.\n\n**What I ended up building instead:** I wrote a custom dual-mode **Structured Editor** ([StructuredEditor.tsx](https://github.com/ryanrclewis/saintstombs/blob/main/src/components/StructuredEditor/StructuredEditor.tsx)) backed by a domain-specific parser and serializer ([regionsParser.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/regionsParser.ts), [regionsSerializer.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/regionsSerializer.ts)):\n- **Lossless Fallback Pattern:** Whenever a line doesn't fit the standard template (say, a multi-sentence archival note or a personal travel observation), the parser stashes it in a `rawLine` field and writes it back verbatim on save. None of his handmade phrasing gets silently chewed up.\n- **GitHub-Native Auth and Concurrency:** Instead of spinning up a separate user database, [worker/index.ts](https://github.com/ryanrclewis/saintstombs/blob/main/worker/index.ts) handles the GitHub OAuth code exchange server-side, checks `repoData.permissions.push === true` before setting an `HttpOnly; Secure; SameSite=Lax` cookie (with an 8-hour `Max-Age`), and requires the Git blob `sha` on every `PUT /api/admin/regions/:file` request so concurrent edits can't overwrite each other.\n- **Local Dev Parity:** [vite.config.ts](https://github.com/ryanrclewis/saintstombs/blob/main/vite.config.ts#L20-L88) mounts an `adminApiPlugin()` Vite middleware that mirrors the exact same `/api/admin/regions` API against the local filesystem, and automatically re-runs `build-saints-index.mjs` on save so you can preview edits immediately.\n\n#### Trade-Off 3: Vite 8 SPA with Route-Level Code Splitting vs. SSR or Multi-Page HTML\n- **Why an SPA made sense here:** Most visitors spend their time exploring statefully, filtering across 14,290 records, switching liturgical themes, and pulling up `⌘K` search from page to page. Keeping the app as a single-page application lets `saints.json` stay warm in memory across route changes instead of starting from scratch on every click.\n- **Keeping the bundle disciplined:** Every secondary route (`SearchPage`, `RegionsPage`, `AdminPage`, `AboutPage`, `ContactPage`, `DonatePage`) along with `GlobalSearchModal` is lazily loaded with `React.lazy()`. Even the Markdown parser (`marked`, `11.69 KB` gzip) sits in its own chunk so someone who only visits `/home` or `/saints` never downloads it.\n- **Being honest about SEO:** Client-side routing updates `document.title` and `<meta name=\"description\">` dynamically in [App.tsx](https://github.com/ryanrclewis/saintstombs/blob/main/src/App.tsx#L159-L168), supported by static Open Graph and Twitter Card tags in [index.html](https://github.com/ryanrclewis/saintstombs/blob/main/index.html) and [robots.txt](https://github.com/ryanrclewis/saintstombs/blob/main/public/robots.txt). That covers social previews and top-level indexing well enough, though if we want search engines to deeply index individual shrines and small towns, pre-rendering static route shells or generating per-region HTML snapshots at build time is the clear next step.\n\n#### Trade-Off 4: Deterministic Build Pipeline and Edge Caching\n- **The build chain ([package.json](https://github.com/ryanrclewis/saintstombs/blob/main/package.json#L6-L16)):**\n  1. `prebuild`: `node scripts/build-saints-index.mjs` regenerates `public/data/saints.json`, `public/data/filters.json`, and copies `content/saints/regions/*.md` over to `public/regions/`.\n  2. `tsc -b`: Runs project-referenced TypeScript builds across both the app and Node configs.\n  3. `vite build`: Produces content-hashed `/assets/*.js` and `/assets/*.css` bundles in `dist/`.\n  4. `esbuild worker/index.ts --bundle --format=esm --platform=neutral --target=esnext --outfile=dist/_worker.js`: Bundles the edge Worker into a zero-dependency `2.27 KB` gzipped module.\n  5. `wrangler pages deploy dist --project-name saintstombs --branch main`: Publishes static assets and `_worker.js` together to Cloudflare's edge network.\n- **Caching trade-offs:** Content-hashed files under `dist/assets/` can be cached immutably for as long as you want. Meanwhile, the static data files (`/data/saints.json` and `/regions/*.md`) still live at predictable, readable URLs with ETag revalidation (`W/\"...\"`). That trades a quick conditional `304` check for clean paths. Switching to a build-time hashed filename like `saints.<hash>.json` pointed to by a tiny manifest would cut out that revalidation round trip altogether on repeat visits.\n\n> [!IMPORTANT]\n> **Engineering Self-Audit (Real Production Findings Caught During Review):**\n> Digging closely into the production build and live runtime turned up three concrete issues I have queued up to fix next:\n> 1. **Parser Regex Parity (`Ven.`):** `regionsParser.ts` recognizes `Ven.`, while line 118 of `build-saints-index.mjs` matches `venerable` without the abbreviated `Ven.` prefix. That currently leaves **742 Venerable entries** out of `saints.json`, which accounts for the gap between the 15,910 parsed corpus lines and the 14,290 indexed JSON records.\n> 2. **Multi-Line Wrapped Bullet Parsing:** Line-by-line scanning in `build-saints-index.mjs` mistakes hard-wrapped continuation lines inside bullet notes (like 80-character wraps in `italy.md`) for a new `currentLocation`. Occasionally that leaks trailing bits like `San Giorgio)` or `Santa Chiara)` into the `Region` field (you can actually spot this in the `/saints` screenshot below). Swapping that heuristic out for the shared AST parser in `regionsParser.ts` fixes both bugs in one go.\n> 3. **Stale Home Counters and Heading Levels:** `HomePage.tsx` still displays hardcoded hero counters (`12,061` saints, `5,629` locations, `133` countries) that have fallen behind the live index (`14,290`, `5,824`, `138`). On top of that, both `/home` (`h1 → h3`) and `/regions` (multiple `h1` country headings) need a quick pass to follow strict sequential heading order (`h1 → h2 → h3`).\n\n---\n\n## 3. Scale, Performance, and Quality Metrics\n\nEvery repository, bundle, latency, and DOM accessibility number below was measured directly against the production build (`dist/`) and a local Chromium runtime (`1440×900`). External production metrics that aren't stored in the repo are marked clearly as TBD so nothing here is guessed at.\n\n### 3.1 Corpus and Index Scale (Verified from `public/data/` and `content/saints/regions/`)\n\n| Metric | Verified Value | Details |\n| --- | --- | --- |\n| **Indexed Saint Records (`saints.json`)** | **14,290** | Compiled with base-36 IDs (`s1` to `sb0y`); `15,910` total entries parsed by `test-roundtrip.mjs` |\n| **Countries & Territories** | **138** | Across all **6** inhabited continents (`filters.json`: `0.96 KB` gzip) |\n| **Unique Towns / Locations / Shrines** | **5,824** | Unique `country + city_or_region` index nodes & ~5,824 church/shrine bullets |\n| **Regional Markdown Corpus** | **19 files** | **57,282 total lines** (`1.60 MB` raw Markdown); largest file: `italy.md` (15,505 lines, 396 KB) |\n| **Geographic Distribution** | Europe: **11,848** (82.9%) | Asia: **1,031** · South America: **538** · North America: **521** · Africa: **342** · Oceania: **10** |\n| **Canonical Rank Distribution** | Saints: **7,778** · Blesseds: **4,574** | Servants of God: **1,458** · Venerables: **748** (`6` indexed + `742` `Ven.` in Markdown) |\n| **Structured Metadata Density** | **10,718** feast/date keywords | **1,692** religious order post-nominals · **4,174** provenance/alias notes · **1,560** `???` uncertainty markers · **835** relic notes |\n\n### 3.2 Bundle Footprint and Search Latency Benchmarks (Verified)\n\n| Metric | Measured Result | Methodology |\n| --- | --- | --- |\n| **Main App Entry JS (`index-*.js`)** | **75.48 KB** gzip (`238.48 KB` raw) | Measured from `dist/assets/` via Node `zlib.gzipSync` |\n| **Main Stylesheet (`index-*.css`)** | **5.28 KB** gzip (`22.33 KB` raw) | Includes all 5 liturgical themes, glassmorphism, and responsive rules |\n| **Cloudflare Edge Worker (`_worker.js`)** | **2.27 KB** gzip (`7.38 KB` raw) | Bundled ESM output of `worker/index.ts` |\n| **Lazy Route Chunks** | `0.44` to `5.03 KB` gzip each | `SearchPage` 1.25 KB · `RegionsPage` 1.40 KB · `GlobalSearchModal` 1.43 KB · `AdminPage` 5.03 KB · `marked` 11.69 KB |\n| **Search Index Payload (`saints.json`)** | **404.3 KB** brotli / **661.7 KB** gzip | `3.22 MB` raw JSON; fetched once & cached via module singleton |\n| **Index Hydration / Prep Time** | **3.17 ms** | Normalizing all 14,290 records into `normalizedSearchText` (Node V8) |\n| **Client-Side Filter Latency (750 queries)** | **0.62 ms** p50 · **1.27 ms** p95 · **1.42 ms** p99 | Exact `useSaintSearch` predicate across 15 representative queries × 50 runs |\n| **End-to-End Browser UI Search Latency** | **159 to 308 ms** (single query) · **356 ms** (3-facet) | Wall-clock Chromium Playwright timing from `fill()` to `[role=\"status\"]` DOM update on `/saints` |\n| **Local Navigation Timing (`1440×900`)** | `/home`: **55 ms** DCL / **180 ms** Load<br/>`/saints`: **42 ms** DCL / **170 ms** Load | Wall-clock Chromium navigation against production Vite preview (`dist/`) |\n\n### 3.3 Lighthouse, Accessibility Audit, and Production Traffic Telemetry\n\n| Quality / Telemetry Dimension | Current Verified Audit / Status | Notes & Verification Source |\n| --- | --- | --- |\n| **DOM Accessibility Audit (`/home`, `/saints`, `/regions`)** | **100%** explicit `<label for>` coverage (`3/3` on `/saints`, `1/1` in modal)<br/>**100%** image `alt` coverage (`6/6` hero cards)<br/>Verified landmarks (`<header>`, `<nav aria-label=\"Primary\">`, `<main id=\"main-content\">`, `<footer>`), `.skip-link`, `aria-live=\"polite\"`, `aria-modal=\"true\"`, `Escape` focus restoration | Verified via live Chromium DOM & keyboard inspection on `dist/` build; 2 heading-level polish items (`h1→h3` on `/home`, multi-`h1` on `/regions`) documented above |\n| **Lighthouse Scores (Production `saintstombs.com`)** | Performance: `[TBD: run PSI on live URL]`<br/>Accessibility: `[TBD]` · Best Practices: `[TBD]` · SEO: `[TBD]` | Live external Lighthouse / CrUX scores are not stored in this repo; run `npx lighthouse https://saintstombs.com --view` or PageSpeed Insights to populate |\n| **Active Users & Traffic Figures** | Monthly Unique Visitors: `[TBD: Cloudflare Web Analytics]`<br/>Monthly Pageviews / Top Countries: `[TBD]` | Private Cloudflare Analytics / Search Console figures are not committed to Git; insert exported 90-day figures before portfolio publication |\n\n---\n\n## 4. Data Curation and Scholarly Verification\n\nFor Digital Humanities researchers, librarians, and historians, the plain-text Markdown files in **SaintsTombs** do double duty. They power the website, of course, while also preserving the parishioner's decades of hand-collected research from books, in-person visits, and hagiographical references as a **version-controlled, human-readable prosopographical dataset** with explicit conventions for provenance and historical uncertainty.\n\n### 4.1 Taxonomic Grammar and Conventions\n\nEvery entry follows the consistent notation the author developed in his regional Markdown files, which I formalized into [regionsModel.ts](https://github.com/ryanrclewis/saintstombs/blob/main/src/utils/regionsModel.ts) so the app can parse it cleanly without altering his style:\n\n```text\n<Municipality / Town>, <Province / County>, <Region / State> [(optional geographic distance cue)]\n\n- <Ecclesiastical Site: Basilica / Cathedral / Church / Abbey / Cemetery / \"???\"> [(street address)]\n\n  - <Canonical Title> <Name> [(née <Birth Name> | aka <Variant> | <Native Script>)], <Religious Institute>, <Vocation/Role>, <Feast Day (M/D) | d. M/D/YYYY> (<Relic / Provenance / Source Note>)\n```\n\nHere is how that looks in practice in [italy.md](https://github.com/ryanrclewis/saintstombs/blob/main/content/saints/regions/italy.md) and [about.md](https://github.com/ryanrclewis/saintstombs/blob/main/content/saints/regions/about.md):\n- **Multilingual Names and Order Affiliations:** `Bl. Gabriele (née Giovanni Stefano) Allegra (雷永明), OFM, 1/26 (relics only)` keeps canonical rank, birth name, Chinese script name, Order of Friars Minor affiliation, liturgical feast day, and the fact that the site holds relics rather than a full body all in one clean line.\n- **Contemporary Causes (*Dies Natalis*):** `Servant of God Rossella Petrellese, laywoman, d. 9/18/1994` clearly flags figures who don't yet have an assigned liturgical feast day by recording their death date (`d.`).\n- **Geographic Disambiguation:** `Affi, Province of Verona, Veneto region (120 kilometres [75 mi] west of Venice and about 20 kilometres [12 mi] northwest of Verona)` anchors small historical communes to recognizable reference cities.\n\n### 4.2 Handling Epistemic Uncertainty and Relic Translation\n\nOne of the classic traps in historical databases is **false precision**, where messy medieval or wartime burial data gets shoved into rigid non-null database columns until the data looks way more certain than the historical record actually is. Keeping the parishioner's handmade Markdown as the source of truth let us treat uncertainty as a normal, first-class part of the record:\n\n1. **The `???` Provenance Marker (1,560 occurrences):** Explained right on `/about`, `???` stands for two specific archival realities:\n   - *A documented place of death with no identifiable grave*, such as martyrs of Dachau and Auschwitz whose remains were cremated, or ruined sites like St. Simeon Stylites near Aleppo.\n   - *A traditional town attribution without solid church-level documentation*, such as `possibly at Parrocchia di San Pietro` or `body never found` for Bl. Karl Serreqi, OFM, in Albania.\n2. **Relic Provenance and Translation Notes (835 occurrences):** Parenthetical notes separate primary tombs from secondary shrines, like `(relics only)` or `(reliquary bust in the Cappella Reale)`, and capture translation trails like `(from Lindisfarne)` or `(from Iona)` that trace how relics moved during Viking raids or monastic suppressions.\n3. **Inline Source Attribution and Honesty About Scope:** Alongside the author's books and first-hand visits, the corpus embeds **73 direct archival URLs** and inline source notes (`santiebeati.it`, Vatican causes records, regional shrine surveys, Britannia hagiographical indices, and Wikipedia cross-checks). The `/about` page is completely upfront that the site is a living secondary synthesis drawing heavily on online hagiographical sources as well, and reminds travelers and researchers to double-check local access with dioceses or monasteries before making a trip.\n4. **Peer Corrections and an Auditable History:** Community corrections come in through `/contact` (via Formspree), get vetted, and are committed through `/admin`. Because every edit lands as an author-attributed Git commit on `main`, the repo doubles as an immutable revision log (`git blame` and commit diffs) for every single record.\n\n### 4.3 Digital Humanities Roadmap\n\nSince the corpus already parses cleanly into a structured `RegionDocument` AST, it is in pretty good shape for future academic Linked Open Data exports without ever touching or disrupting the underlying Markdown notes:\n- **Linked Identifiers:** Mapping towns to **GeoNames / Pleiades** URIs and holy figures to **Wikidata QIDs** and *Bibliotheca Hagiographica Latina* (BHL) numbers.\n- **Spatial and Bibliographic Interchange:** Exporting **GeoJSON** layers for GIS pilgrimage-route mapping and shifting inline parenthetical citations into structured **CSL-JSON / BibTeX** source registries.\n\n---\n\n## 5. Interface, Search, and Accessibility Showcase\n\nAll four screenshots below were captured straight from the production build (`dist/`) in Chromium at `1440×900`.\n\n### 5.1 Home Hero, Interactive Card Stack, and Keyboard Skip Link\nHit `Tab` once when the page loads and a high-contrast gold **Skip to main content** control (`.skip-link:focus`) appears at `(0, 0)`, letting keyboard and screen-reader users jump right past the navigation bar to `<main id=\"main-content\">`. The interactive hero card stack (`role=\"button\"`, `tabIndex={0}`) responds to both clicks and `Enter`/`Space`, sitting alongside the floating Quick Search (`⌘K`) and Liturgical Theme pill down in the bottom right.\n\n![Home Hero with visible keyboard Skip to main content link, interactive St. Peter card stack, and floating action pill](/projects/saintstombs/home-hero-skip-link.png)\n\n### 5.2 Faceted Search and Cascading Geographic Filters (`/saints`)\nPicking `Continent: Europe`, then `Country: Italy`, and typing `\"Assisi\"` trims the 14,290-record index down to **19 matching figures**. You can see the gold focus ring on `#query`, explicit `<label for>` bindings across all three controls, and a `role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"` status bar (`Showing 19 of 19 saints`) for assistive tech. *(If you look closely at `Region: San Giorgio)` and `Region: Santa Chiara)`, you can also see that line-wrapping parser edge case from the Section 2.2 audit in the wild.)*\n\n![Faceted search on /saints filtering Europe, Italy, and Assisi showing 19 of 19 saints with explicit labels and visible focus ring](/projects/saintstombs/faceted-search.png)\n\n### 5.3 Global Quick Search Modal (`⌘K` with Focus Trap and ARIA Dialog)\nOpenable from anywhere with `⌘K`/`Ctrl+K` or the floating pill, [GlobalSearchModal.tsx](https://github.com/ryanrclewis/saintstombs/blob/main/src/components/GlobalSearchModal.tsx) follows the full WAI-ARIA dialog pattern: `role=\"dialog\"`, `aria-modal=\"true\"`, `aria-labelledby=\"global-search-title\"`, automatic focus inside `#global-query`, two-way `Tab` and `Shift+Tab` focus trapping, live match counts (`237 saints found` for `\"Francis\"`), and `Escape` dismissal that sends focus cleanly back to whatever opened the modal.\n\n![Global Quick Search modal open over blurred backdrop with role=dialog, focused search input for Francis, Esc affordance, and 237 saints found](/projects/saintstombs/global-search-modal.png)\n\n### 5.4 Regional Gazetteer Explorer and Dynamic Country TOC (`/regions`)\nClicking **Eastern Europe** lazily fetches `eastern-europe.md`, runs it through a custom `marked.Renderer()` that adds deterministic heading anchor IDs, and builds a 30-country **Jump to Country** pill bar right above the text. Under *Albania*, you can see the scholarly notation working as intended: municipality hierarchy (`Burreli/Burrel, Mat municipality, Dibër County`), the `• ???` uncertainty marker, and the nested biographical record (`○ Bl. Karl (née Ndue) Serreqi, OFM, priest/martyr, 4/4 (body never found)`).\n\n![Regions Explorer displaying Eastern Europe with auto-generated 30-country Jump to Country TOC and hierarchical Albania entry with ??? uncertainty marker](/projects/saintstombs/regions-explorer.png)\n\n---\n\n## 6. Takeaways and What Comes Next\n\n1. **Right-sizing infrastructure honors the source material:** Stepping away from a D1 FTS5 database and Decap CMS in favor of a build-time static JSON index (`404 KB` brotli) and a `2.27 KB` Cloudflare Worker wiped out index drift, got per-keystroke filtering under `1 ms`, kept hosting costs next to zero, and let the parishioner's handmade Markdown notes remain the undisturbed, Git-tracked source of truth.\n2. **Cultural craft and accessibility pull in the same direction:** Building proper WAI-ARIA focus traps, skip links, `aria-live` announcements, and calendar-driven liturgical themes side by side proved to me that an interface can have real visual character and historical texture without cutting corners on semantic HTML or keyboard usability.\n3. **What I'm tackling next:**\n   - Move `build-saints-index.mjs` onto the shared `regionsParser.ts` AST so the 742 `Ven.` entries show up in search and wrapped continuation lines stop bleeding into region labels.\n   - Pull `HomePage.tsx` summary counters directly from `filters.json` (or build metadata) and tighten the two heading-level gaps (`h1→h3` on `/home` and country `h2` mapping on `/regions`) for a clean 100 on Accessibility.\n   - Introduce content-hashed data manifests (`saints.<hash>.json`) for immutable CDN caching, and export Wikidata- and GeoNames-linked GeoJSON to power an interactive pilgrimage map view.\n\nThere is still plenty to refine, especially on the parser cleanup and linked-data side, and that feels fitting for a labor of love that someone has been patiently building by hand for over twenty years. The goal from here stays simple: build quiet, dependable software around his notes so anyone trying to find a small chapel off the highway or verify a centuries-old record gets what they need, and maybe leaves him a tip on the way out."
   },
   {
     "id": "heirloom",
@@ -59,7 +66,15 @@
         "text": "hope"
       }
     ],
-    "hidden": false
+    "hidden": false,
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Replace the 7-word description with a clear problem statement, target audience, and product vision explaining why existing photo/notes apps fail for multi-generational family archives.",
+      "Populate Key Features (currently empty) with concrete iOS capabilities (e.g., offline-first storage, media tagging, family sharing, export/preservation formats).",
+      "Document your technical and Apple-platform design decisions (SwiftUI, SwiftData/CoreData, CloudKit, Apple Human Interface Guidelines, VoiceOver/Dynamic Type support) — especially valuable for Apple & Big Tech mobile roles.",
+      "Add user research findings (interviews with families/older adults, mental models for preserving oral history) and privacy/data-longevity design principles (appeals to university HCI & Big Tech privacy teams).",
+      "Add a target Launch Date, TestFlight/GitHub/Figma link, or embedded interactive prototype so reviewers can evaluate visual and interaction craft (this project is currently public)."
+    ]
   },
   {
     "id": "crisis-catalog",
@@ -80,6 +95,13 @@
       {
         "text": "our posterity"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the user scenario (high-stress emergency preparation and retrieval), core user personas, and what differentiates this from generic checklist apps.",
+      "Populate Key Features (currently empty) and specify technical choices such as offline-first PWA support, local persistence, print-friendly layouts, and fast edge delivery on Cloudflare Pages.",
+      "Highlight accessibility and crisis-UX considerations (high-contrast readability, cognitive load reduction under stress, low-bandwidth resilience) relevant to both Big Tech and public-interest university labs.",
+      "Add a Launch Date or milestone timeline, repository link, and usability testing notes or screenshots before making the project public."
     ]
   },
   {
@@ -107,6 +129,13 @@
       {
         "text": "evangelization"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the conceptual goal, how real-time/geographic liturgical data drives the visualization, and why this interaction model was chosen.",
+      "Populate Key Features (currently empty) and document the graphics/data engineering stack (e.g., WebGL/Three.js/D3/Globe rendering, timezone/geospatial calculations, frame-rate optimization).",
+      "Explain accessibility and inclusive fallbacks for a visual/3D experience (reduced-motion support, keyboard navigation, descriptive text alternatives) — a strong signal for Big Tech front-end and university visualization labs.",
+      "Add a live deployment URL (or demo video/screenshots) and a Launch Date alongside the GitHub link so hiring managers can experience the visualization without building locally."
     ]
   },
   {
@@ -127,6 +156,13 @@
       {
         "text": "prosperity"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to frame the problem (household food waste and inventory friction), why a self-hosted Docker/CLI approach was chosen, and who the primary user is.",
+      "Populate Key Features (currently empty) with concrete capabilities (expiration alerts, barcode/item schema, CLI commands, container architecture, persistence layer).",
+      "Document software engineering decisions (language, database, Dockerfile/compose design, testing, error handling, CLI ergonomics) to demonstrate systems & developer-experience skills for Big Tech.",
+      "Add usage examples/screenshots (terminal output or UI), a Launch Date, and a link to documentation or release notes since this project is currently public."
     ]
   },
   {
@@ -155,7 +191,14 @@
         "text": "love"
       }
     ],
-    "launchDate": "JAN 2026"
+    "launchDate": "JAN 2026",
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Populate Key Features (currently empty) detailing how the DNS filtering stack worked (resolver architecture, blocklist ingestion, container networking, deployment workflow).",
+      "Frame the deprecation story as an engineering and product judgment highlight: explain the threat model, privacy/latency trade-offs, and why native OS-level controls (iOS/macOS 27) superseded a custom DNS layer.",
+      "Add technical validation details (DNS lookup latency benchmarks, false-positive handling, security/privacy posture) to showcase networking and systems thinking for Big Tech roles.",
+      "Normalize Launch Date formatting ('JAN 2026' → 'Jan 2026') and note whether you want this archived rather than hidden."
+    ]
   },
   {
     "id": "gm",
@@ -180,7 +223,15 @@
         "text": "prosperity"
       }
     ],
-    "features": []
+    "features": [],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Populate Key Features (currently empty) with concrete NDA-safe highlights (e.g., AI trust/transparency interaction patterns, design-to-dev handoff specification framework, behavioral analytics instrumentation).",
+      "Turn the resume-style paragraph into a structured case study (Context → Problem → Your Scope → Research/Design Process → Impact): explain what AI-powered domain you worked in (NDA-safe) and how you balanced safety with user trust.",
+      "Break down your strong metrics (+40% feature adoption, -34% design-to-dev handoff time): explain the baseline, what specific UX changes or process standards drove each gain, and how impact was measured with engineering and data science.",
+      "Replace or supplement the generic gm.com URL with NDA-safe artifacts (conceptual system diagrams, sanitized workflow blueprints, or public press/feature announcements) so Big Tech design & engineering reviewers can evaluate your craft.",
+      "Detail your cross-functional leadership (team size, disciplines partnered with, how you resolved technical vs. UX trade-offs) for senior Big Tech and university staff UX roles."
+    ]
   },
   {
     "id": "nsfm",
@@ -247,6 +298,13 @@
       "Web application development",
       "Technical consulting",
       "Brand implementation"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Replace the 6-word description ('Website project for Long Walk Technologies.') with a real narrative covering the client's business/technical problem, target audience, constraints, and your specific role.",
+      "Replace the four generic features ('Creative direction', 'Web application development', etc.) with specific deliverables (e.g., tech stack, IA restructuring, custom components, CMS/deployment architecture, WCAG compliance).",
+      "Add measurable outcomes (performance/Core Web Vitals improvements, conversion or lead-generation lift, accessibility audit scores, or maintainability gains) for Big Tech credibility.",
+      "Include before/after visual comparisons, architecture notes, or specific technical challenges solved so reviewers can verify the depth of your implementation."
     ]
   },
   {
@@ -272,7 +330,14 @@
         "text": "prosperity"
       }
     ],
-    "features": []
+    "features": [],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Populate Key Features (currently empty) with concrete NDA-safe deliverables (e.g., cross-platform web/mobile interaction patterns, usability testing program, global design-dev QA workflow).",
+      "Expand the resume summary into a problem-process-outcome narrative: explain the legacy UX pain points behind the baseline NPS and how your research and agile design sprints drove the +15 NPS improvement.",
+      "Detail your usability testing and validation methodology (study design, participant types, iteration cycles, how findings shifted the product roadmap) to resonate with both Big Tech UXR/UXD and university hiring committees.",
+      "Clarify your global cross-functional scope (regions, engineering/product team structure, design system or handoff artifacts established) and add NDA-safe process diagrams or sanitized UI examples rather than relying solely on the corporate homepage link."
+    ]
   },
   {
     "id": "coetic",
@@ -305,6 +370,13 @@
       "Platform showcase for CoeticHR offerings",
       "Cross-functional collaboration with product and design teammates",
       "Improved UX clarity for navigation and feature communication"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain why CoeticHR needed a 4.0 redesign, what user and business problems existed in 3.0, and your exact responsibilities on the team.",
+      "Replace generic feature bullets with concrete UX and technical details (information architecture changes, content hierarchy, responsive/accessible implementation, design system components).",
+      "Quantify or substantiate the impact (usability testing outcomes, bounce/conversion changes, stakeholder goals met) and explain how 4.0 evolved from Coetic 3.0.",
+      "Add screenshots or a side-by-side 3.0 vs. 4.0 comparison since Wayback Machine links are slow and recruiters rarely wait for archived pages to load."
     ]
   },
   {
@@ -338,6 +410,13 @@
       "Information architecture aligned with Coetic products",
       "Collaborative implementation with cross-functional creators",
       "Audience-friendly storytelling and conversion pathways"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to define the target audience (HR leaders, organizational psychologists, prospective clients), content discovery challenges, and your specific role.",
+      "Replace generic feature bullets with specific IA, taxonomy, editorial UX, or frontend implementation details showing how complex organizational psychology content was made scannable and actionable.",
+      "Verify the live URL (or add screenshots/prototype embeds if the page has changed) and add measurable engagement, readability, or conversion outcomes.",
+      "Consider whether this should be strengthened as a standalone IA/content-strategy case study or consolidated into a single stronger CoeticHR ecosystem case study."
     ]
   },
   {
@@ -376,6 +455,13 @@
       "Cross-functional creator collaboration",
       "Information flow and workflow definition",
       "Experience refinement across core journeys"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the user problem (how ministry teams manage operations), target personas, and the exact scope of your UX/product strategy work.",
+      "Add visual or documentary artifacts (currently zero links and zero embeds): include sanitized user flows, wireframes, service blueprints, or journey maps.",
+      "Replace generic feature bullets ('Product and UX planning', 'Experience refinement') with concrete deliverables (specific workflows mapped, research methods used, product roadmap decisions).",
+      "Explain the outcome and lessons learned — what shipped, how stakeholders used your recommendations, and what measurable or qualitative improvements resulted."
     ]
   },
   {
@@ -414,6 +500,13 @@
       "Team workflow management",
       "Psychology-based productivity",
       "Custom reporting"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 7-word description to explain which specific organizational psychology theories/frameworks informed the product and how they translated into concrete UI/UX patterns that differentiate Woether from Jira or Asana.",
+      "Clarify your specific role (researcher, product designer, systems thinker), team structure, and the design process behind the embedded Figma prototype.",
+      "Document usability testing, iteration trade-offs, and accessibility/interaction decisions (e.g., team workflow states, cognitive load management, reporting views).",
+      "Add a direct clickable prototype URL or key annotated screen callouts so reviewers who don't interact with the iframe immediately grasp the strongest UX innovations."
     ]
   },
   {
@@ -438,6 +531,13 @@
       {
         "text": "the human heart"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "CRITICAL (featured on homepage, zero features, zero artifacts): Expand the 1-sentence description into an academic/Big Tech UX Research summary covering research questions, hypotheses, and why mood-music behavior matters for product design.",
+      "Document full methodological rigor (essential for universities & Google/Apple/Microsoft UXR): study design (diary study, survey, interviews, or mixed methods), sample size (n), recruitment criteria, IRB/ethics, and analysis methods (thematic coding, statistical tests).",
+      "Summarize 3–5 concrete empirical findings, study limitations, and actionable product/UX recommendations (e.g., adaptive recommendations, emotional state awareness).",
+      "Populate Key Features (currently empty) with specific research deliverables and attach/embed the research report, slide deck, or anonymized dataset/synthesis artifacts."
     ]
   },
   {
@@ -462,6 +562,13 @@
       {
         "text": "the human heart"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "CRITICAL (featured on homepage, zero features, zero artifacts): Expand the 1-sentence description into a full research-to-design case study linking mental health, motivation, and habit-formation evidence to specific product decisions.",
+      "Cite the behavioral science or HCI frameworks used (e.g., Self-Determination Theory, Fogg Behavior Model, CBT principles) and detail your research protocol (methods, participant count, synthesis approach) for university & Big Tech UXR credibility.",
+      "Explain how research findings directly translated into app requirements, interaction flows, and ethical/privacy safeguards for sensitive mental health data.",
+      "Populate Key Features (currently empty) and embed or link the research report, wireframes, or interactive prototype."
     ]
   },
   {
@@ -486,6 +593,13 @@
       {
         "text": "the human heart"
       }
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description into a structured research & spatial-UX case study detailing the emotional barriers users face when trying on clothing and how AR addresses (or risks worsening) them.",
+      "Document your UX research methodology (qualitative interviews, surveys, participatory probes, sample size, thematic synthesis) and ethical considerations around body image and camera/biometric privacy.",
+      "Detail AR/spatial interaction design principles and evidence-based product specs (onboarding, lighting/fit accuracy feedback, accessibility in AR) — directly relevant to Apple (VisionOS/ARKit), Meta, and university HCI labs.",
+      "Populate Key Features (currently empty) and attach/embed the research deck, findings report, or AR prototype screens."
     ]
   },
   {
@@ -520,6 +634,13 @@
       "Restaurant discovery features",
       "Enhanced dining information",
       "User experience research"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the value-centered design methodology used, the core user pain points in dining discovery, and how research shaped the prototype.",
+      "Highlight the Apple Maps integration and iOS HIG alignment explicitly (what native patterns you extended vs. customized and why) — a strong signal for Apple and Big Tech product design teams.",
+      "Replace brief feature bullets with specific user flows, research findings, and usability testing outcomes (what failed in early prototypes and how you iterated).",
+      "Clarify your individual contribution vs. team roles and add a summary of key prototype screens so reviewers don't have to explore the Figma file cold."
     ]
   },
   {
@@ -553,6 +674,13 @@
       "Complete visual redesign",
       "Improved navigation",
       "Accessibility improvements"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Strong candidate for university roles — expand the 3-sentence description to detail the academic library information architecture problem (federated search across catalogs, journals, and databases) and why a bento-box pattern improved discovery.",
+      "Replace the four generic feature bullets ('User research and analysis', 'Complete visual redesign', etc.) with concrete UX artifacts (e.g., card sorting/tree testing, bento result hierarchy, WCAG compliance fixes, usability task benchmarks).",
+      "Specify your exact individual role on the UX team, your user testing methodology (number of students/faculty tested, task completion or time-on-task findings), and how MSU Library staff responded to or adopted your recommendations.",
+      "Pull key metrics and before/after takeaways out of the embedded Google Slides deck into the page text so hiring committees can scan the impact immediately."
     ]
   },
   {
@@ -586,6 +714,13 @@
       "Complete visual redesign",
       "Improved navigation",
       "Accessibility improvements"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Strong candidate for university roles — expand the 1-sentence description to explain the Digital Scholarship Lab's mission, user groups (faculty, graduate researchers, undergrads), and the specific usability/discoverability problems you uncovered.",
+      "Replace the four generic features (currently copy-pasted from Bento Box) with DSL-specific research methods, IA restructuring, equipment/space booking or resource discovery improvements, and accessibility upgrades.",
+      "Detail your research and testing process (stakeholder interviews, analytics, usability evaluations, sample size) and clarify your personal contribution on the project.",
+      "Summarize the concrete before/after design improvements shown in the Figma prototype and any adoption or stakeholder feedback from MSU Libraries."
     ]
   },
   {
@@ -622,6 +757,13 @@
       "Water conservation focus",
       "Product prototyping",
       "Environmental impact analysis"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 7-word description to frame the sustainability problem, target household behaviors, research insights on water consumption, and how your product design drives measurable behavior change.",
+      "Clarify the form factor and interaction model (mobile app, smart-home/IoT interface, physical-digital feedback loop) and explain key design trade-offs.",
+      "Replace generic feature bullets with concrete design & research outputs (behavioral feedback mechanisms, environmental impact calculations, prototype testing findings).",
+      "Note whether this early 2018 undergraduate concept should be fleshed out as a sustainability/HCI case study or moved to the Archive to keep focus on recent work."
     ]
   },
   {
@@ -658,6 +800,13 @@
       "Innovative interface design",
       "Accessibility considerations",
       "Cross-platform implementation"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 11-word description to explain the scholarly publishing problem: how researchers cite, annotate, navigate, and review academic audio content compared to text.",
+      "Detail the specific interaction innovations shown in the Figma prototype (e.g., waveform scrubbing, timestamped citations, synchronized transcripts/captions for accessibility) — strong material for university digital humanities and Big Tech audio/media UX.",
+      "Document your research grounding, accessibility methodology (ensuring audio scholarship is inclusive for D/deaf and hard-of-hearing audiences), and user evaluation results.",
+      "Replace generic feature bullets with concrete interface capabilities and clarify your role and academic collaborators."
     ]
   },
   {
@@ -703,6 +852,13 @@
       "Accessibility awareness training",
       "Interactive prototype",
       "User testing"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "High-prestige collaboration (Stanford University + Teach Access + MSU) — expand the 15-word description substantially! Google, Apple, and Microsoft all actively partner with Teach Access, so this can be a standout accessibility case study.",
+      "Detail the participatory design methodology: how you co-designed with people with visual disabilities, what assumptions were challenged, and how lived experience shaped game mechanics.",
+      "Explain the pedagogical goals and evaluation outcomes (how the game teaches WCAG/assistive-tech empathy, what user testing with learners revealed, and how the prototype evolved).",
+      "Replace generic feature bullets with concrete mechanics, accessibility features, and your specific leadership/design contributions across the multi-institution team."
     ]
   },
   {
@@ -738,6 +894,13 @@
       "Cross-functional creator collaboration",
       "Content and navigation restructuring",
       "Brand and UI consistency improvements"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to clarify what specific problems this rapid iteration solved, what constraints drove the timeline, and what you personally designed or built.",
+      "Differentiate clearly from CoeticHR 4.0: highlight the user insights or limitations discovered in 3.0 that directly motivated the 4.0 architecture refresh (iterative learning is prized by Big Tech & universities).",
+      "Replace generic feature bullets with concrete deliverables and add visual before/after screenshots instead of relying solely on a Wayback Machine link.",
+      "Consider archiving this entry (or folding it into a unified CoeticHR 3.0 → 4.0 evolution case study) to keep your active portfolio focused on your highest-signal work."
     ]
   },
   {
@@ -775,6 +938,13 @@
       "Stakeholder collaboration with public institutions",
       "Insight synthesis for urban development decisions",
       "Human-centered framing for strategic proposals"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the civic/urban planning challenge, the stakeholders involved (residents, businesses, transit users, Corridor Improvement Authority), and your specific role in the research.",
+      "Document your human-centered research methodology (fieldwork, intercept interviews, community workshops, surveys, sample size, synthesis frameworks) to demonstrate university-grade public-interest research rigor.",
+      "Add concrete findings and deliverables (currently zero links and zero embeds): attach or summarize the final report, persona/journey artifacts, or specific urban corridor recommendations.",
+      "Explain the real-world policy or planning impact — how the Corridor Improvement Authority used your team's research to inform 2030 development proposals."
     ]
   },
   {
@@ -811,6 +981,13 @@
       "Technology stack analysis",
       "User and system flow mapping",
       "Findings documentation and presentation"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to state the core research question, payment rails/technologies analyzed (card networks, ACH, mobile wallets, crypto/cross-border rails), and why this investigation mattered.",
+      "Add concrete artifacts (currently zero links and zero embeds): link or embed the research paper, systems architecture diagram, or presentation deck.",
+      "Replace generic feature bullets with specific technical and socio-technical insights (e.g., settlement architecture, security/trust UX, fee structures, financial inclusion/subsidiarity).",
+      "Clarify your methodology and analytical takeaways, or consider moving this 2019 coursework piece to Archive if it is outside your core career focus."
     ]
   },
   {
@@ -845,7 +1022,14 @@
       "width": 960,
       "height": 569
     },
-    "features": []
+    "features": [],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Populate Key Features (currently empty) with concrete research methods and deliverables (e.g., qualitative discourse analysis, stakeholder interviews, institutional policy review).",
+      "Expand the 1-sentence description to clearly frame the research question, methodology, evidence base, and objective analytical findings drawn from the embedded presentation.",
+      "Ensure the narrative emphasizes neutral, scholarly rigor and critical inquiry (how you gathered diverse campus perspectives and synthesized institutional communication challenges) — especially important for university hiring committees.",
+      "Evaluate whether this early 2018 undergraduate study strengthens your target UX/tech job narrative or is better placed in the Archive."
+    ]
   },
   {
     "id": "jane-the-brain",
@@ -876,6 +1060,13 @@
       "Student-focused mental health education",
       "Messaging and experience design for campus audiences",
       "Figma-based campaign artifact production"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Expand the 1-sentence description to explain the campus mental health access barriers uncovered through research and how your rhetorical/UX strategy addressed stigma and resource discoverability.",
+      "Embed key campaign visuals or artifacts (there is a Figma link, but no embed) so reviewers can immediately see the visual communication and information design craft.",
+      "Replace generic feature bullets with specific deliverables, audience research insights, accessibility/inclusivity choices, and any student reach, comprehension, or engagement outcomes.",
+      "Consider archiving if you prefer your active Research section to highlight recent M.S. UX and interactive systems work."
     ]
   },
   {
@@ -903,6 +1094,13 @@
       "Conversation-focused interaction redesign",
       "Concept validation through UX principles",
       "Product narrative for emerging interface patterns"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Add visual artifacts (currently zero links and zero embeds): a UX concept redesign cannot be evaluated by Big Tech or university reviewers without wireframes, before/after screens, or a prototype.",
+      "Expand the 1-sentence description to articulate the specific Google Material Design principles you critiqued/evolved, the messaging UX pain points addressed, and your design rationale.",
+      "Replace generic feature bullets with concrete component, typography, motion, or interaction pattern proposals.",
+      "Since Google Allo was sunset in 2019 and no visuals are attached, consider either uploading archived mockups or moving this to the Archive."
     ]
   },
   {
@@ -930,7 +1128,14 @@
       "width": 960,
       "height": 569
     },
-    "features": []
+    "features": [],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Populate Key Features (currently empty) with specific accessibility innovations designed for blind and low-vision users (e.g., voice-first feedback cues, non-visual error recovery, TalkBack/screen-reader alignment).",
+      "Summarize the core research and design story in the description instead of relying on the embedded slide deck: state the problem, participant research methods, key accessibility barriers uncovered, and your specific redesign decisions.",
+      "Highlight usability testing methodology and results (tasks tested, participant feedback, iteration outcomes) — high-impact proof for Google, Apple, Microsoft accessibility teams and university HCI departments.",
+      "Check metadata consistency: this is listed under 'Industry' with client 'Michigan State University' (Mar 2018) and no 'degree' field — clarify whether it belongs in Research with your B.A. attribution so your academic vs. industry timeline is crystal clear."
+    ]
   },
   {
     "id": "fiop-modernization",
@@ -1023,6 +1228,13 @@
       "Search by Water Supply Serial Number (WSSN) and operator name",
       "Advisory Board-approved continuing education course directory",
       "WCAG 2.1 AA compliance and One State, One Brand alignment"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Add explicit first-person ownership: the current description uses passive voice ('The modernization effort is rebuilding...') and never states what YOU specifically designed, researched, or engineered.",
+      "Add a Launch Date or milestone timeline (currently empty) and a live URL, staging link, or sanitized workflow screenshots/wireframes (currently zero links/embeds).",
+      "Document the technical and UX architecture (frontend/backend stack, WSSN search UX improvements, WCAG 2.1 AA remediation patterns, legacy pain points solved for the ~5,000 operators and EGLE staff).",
+      "Add measurable or projected impact metrics (task completion time for lookups/renewals, accessibility compliance defects eliminated, staff processing efficiency) for Big Tech and university systems roles."
     ]
   },
   {
@@ -1083,6 +1295,13 @@
       "Rebuilt on sustainable, lower-cost architecture",
       "Updated UX aligned with state accessibility and design standards",
       "Supports supervisor workflows for check-ins, goals, and pay-period documentation"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Add explicit first-person ownership: the current description never mentions your personal role — clarify whether you led UX research, information architecture, UI/design system implementation, or frontend engineering.",
+      "Add a timeline/Launch Date (currently empty) and NDA-safe artifacts (currently zero links/embeds), such as redacted wireframes, service blueprints of the supervisor review workflow, or architecture diagrams.",
+      "Detail the technical and cost-sustainability improvements (legacy stack vs. modern architecture, maintenance cost reduction, accessibility & usability upgrades for HR/supervisors).",
+      "Include user research insights from MDARD supervisors/employees and measurable outcomes (faster documentation completion, reduced support tickets, WCAG 2.1 AA conformance)."
     ]
   },
   {
@@ -1114,6 +1333,13 @@
       "Harvest verification and real-time data management workflows",
       "Improved usability for DNR staff and regulated fishing operators",
       "Platform modernization supporting enforcement and policy decisions"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Replace vague ownership ('I supported platform modernization work') with concrete specifics of what YOU led or built (e.g., specific reporting forms redesigned, accessibility fixes, frontend components, user testing).",
+      "Add a Launch Date or phase timeline (currently empty) so recruiters understand recency and project duration.",
+      "Detail the paper-to-digital UX challenges for commercial/charter/wholesale fishers (e.g., field/mobile usability, offline/low-connectivity edge cases, complex regulatory data validation) and any user research conducted with DNR staff or operators.",
+      "Add before/after UX artifacts or impact metrics (reporting accuracy, submission turnaround time, error-rate reduction, accessibility compliance)."
     ]
   },
   {
@@ -1177,6 +1403,13 @@
       "Mobile-enabled field workflows covering attribute data for every forested acre",
       "Platform improvements supporting 80 DNR foresters measuring 400,000 acres annually",
       "Sustains a NASCIO award-winning system critical to forest conservation operations"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Separate YOUR contributions from the 2015 legacy transformation: right now the impressive metrics (30% more area, 2 months earlier) belong to the 2015 NASCIO launch, while your role is summarized in one vague sentence ('I contributed platform work').",
+      "Specify the exact features, workflows, technical components, or UX improvements you personally designed or engineered for the 80 DNR foresters.",
+      "Add a Launch Date or active timeframe (currently empty) and include concrete artifacts (sanitized workflow diagrams, mobile/field UX details, GIS integration challenges).",
+      "Add metrics or outcomes directly tied to your work (reliability, accessibility, field-workflow speed, or technical debt reduction) — Big Tech interviewers probe closely on personal vs. team/historical impact."
     ]
   },
   {
@@ -1211,6 +1444,13 @@
       "Serves public water supplies, campgrounds, pools, and septage handlers statewide",
       "Submission tracking, review progress visibility, and EGLE staff messaging",
       "Part of a multi-year DWEHD systems consolidation effort"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Replace vague ownership ('I delivered platform improvements') with the exact modules, user journeys, components, or research initiatives you personally owned within this multi-year consolidation.",
+      "Add a Launch Date or phase timeline (currently empty) so reviewers know when and how long you contributed.",
+      "Document the system-design complexity: how you unified disparate permitting/licensing workflows across public water supplies, campgrounds, pools, and septage handlers while keeping forms accessible (WCAG 2.1 AA) and understandable.",
+      "Add concrete outcomes (submission error reduction, faster EGLE–local health department communication, accessibility test pass rates, or adoption metrics) and sanitized UI/flow visuals."
     ]
   },
   {
@@ -1237,6 +1477,13 @@
       "Applies to state-built sites, mobile apps, and vendor-supplied software",
       "Supports One State, One Brand consistency for 38M monthly website users",
       "Administered by DTMB as part of Michigan's human-centered digital strategy"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Clarify your exact personal contribution: 'contributed experience design and implementation work that informed and aligned with these standards' is too broad — specify which standards, WCAG 2.1 AA criteria, audit rubrics, or agency feedback loops you directly authored or influenced.",
+      "Add a Launch Date / timeframe (currently empty) showing when you contributed (e.g., Version 2.0 rollout).",
+      "Frame the governance and policy impact for Big Tech (Design Ops / Accessibility Engineering) and universities (institutional digital accessibility leadership): how standards were operationalized across agencies serving 38M monthly users.",
+      "Differentiate clearly from 'Digital Guidelines' and 'One State, One Brand' by linking concrete examples of policies or compliance audits you executed."
     ]
   },
   {
@@ -1268,6 +1515,13 @@
       "Figma design kit for prototyping and design-to-dev handoff",
       "Implementation layer for One State, One Brand visual and interaction standards",
       "Used across multiple agency modernization projects to ensure consistency"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Big Tech (Google Material, Apple HIG, Microsoft Fluent) and universities love Design Systems — replace vague ownership ('contributed design and implementation work') with the exact components, design tokens, Figma patterns, or accessible code primitives you built or audited.",
+      "Add a Launch Date / version timeline (currently empty) and concrete technical details (ARIA/keyboard patterns, focus management, token architecture, documentation structure).",
+      "Add adoption and scale metrics: how many agency apps or developers used your components/patterns, and how much engineering/QA time or WCAG defect volume it saved across modernizations.",
+      "Include screenshots, component spec examples, or a link to specific documented patterns you contributed."
     ]
   },
   {
@@ -1294,6 +1548,13 @@
       "Human-centered design approach serving 38M monthly website users",
       "Encompasses accessibility compliance, MiLogin SSO, and legacy modernization",
       "Michigan ranked top five nationally for digital government experience five years running"
+    ],
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Reframe from an umbrella state-program description into a personal impact case study: right now it explains DTMB's initiative broadly without isolating what YOU personally delivered across agencies.",
+      "Add a Launch Date / timeframe (currently empty) and list the specific agency systems (MiSAFE, WRRS, Burn Permits, WWAT, etc.) you modernized under this umbrella with cross-cutting themes.",
+      "Highlight cross-agency leadership, stakeholder alignment, accessibility governance (WCAG 2.1 AA), and measurable portfolio-level outcomes (number of public systems brought into compliance, unified UX patterns shipped).",
+      "Differentiate clearly from 'Digital Standards' and 'Digital Guidelines' (or link them as a cohesive 3-part Design Systems & Governance pillar) so recruiters don't see overlapping boilerplate."
     ]
   },
   {
@@ -1313,7 +1574,14 @@
     "features": [],
     "launchDate": "",
     "hidden": false,
-    "section": "bespoke"
+    "section": "bespoke",
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "CRITICAL (currently public with an empty page): Add a thorough description explaining the problem, target users, your specific role (design, research, iOS engineering), and the core value proposition — or hide this project until ready.",
+      "Populate Key Features (currently empty) and assign relevant Values/Phrases (currently empty) so the card and detail page are complete.",
+      "Document Apple-platform design and engineering details (SwiftUI, HIG compliance, accessibility/VoiceOver, data model, state architecture) to make this compelling for Apple and Big Tech mobile teams.",
+      "Add user research or validation insights, a Launch Date/milestone status, and a prototype embed, screenshots, or TestFlight/repo link."
+    ]
   },
   {
     "id": "catholicbookchat",
@@ -1331,6 +1599,13 @@
     "values": [],
     "features": [],
     "launchDate": "",
-    "hidden": true
+    "hidden": true,
+    "needsWork": true,
+    "portfolioSuggestions": [
+      "Assign a Section (currently unset) and fix the Primary URL ('catholicbookchat.com' is missing 'https://', which breaks external linking).",
+      "Write a full description (currently empty), populate Key Features and Values (both empty), and add a Launch Date.",
+      "Clarify your specific technical, UX, or production role (e.g., web platform architecture, RSS/audio pipeline, branding, audience growth, accessibility/transcripts) so universities and Big Tech see transferable product/engineering skills.",
+      "Include links to live episodes, the companion web experience, or analytics/accessibility improvements (e.g., searchable transcripts) before publishing."
+    ]
   }
 ]

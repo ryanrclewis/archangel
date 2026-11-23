@@ -62,6 +62,12 @@ export type Project = {
   features?: string[];
   launchDate?: string;
   embed?: ProjectEmbed;
+  /** Optional long-form Markdown case study rendered on the project detail page. */
+  caseStudy?: string;
+  /** Admin-only flag indicating this project needs more information to serve as a strong portfolio piece. */
+  needsWork?: boolean;
+  /** Admin-only suggestions for strengthening this project for university and Big Tech roles. */
+  portfolioSuggestions?: string[];
 };
 
 // helper: normalize a text or ProjectValue into a ProjectValue, using explicit colors map
