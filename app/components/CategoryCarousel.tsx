@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import type { Project } from "@/app/data/projects";
+import { formatUppercaseLabel } from "@/app/utils/brandText";
 import { getValueHoverVars } from "@/app/utils/phraseStyles";
 
 export type CategoryCtaCard = {
@@ -73,7 +74,7 @@ export function CategoryCarousel({ projects, ctaCard }: Props) {
               </div>
             </div>
             <div className="category-project-meta">
-              <span>{project.type}</span>
+              <span>{formatUppercaseLabel(project.type)}</span>
             </div>
             <h3>{project.name}</h3>
             <p>{project.tagline || project.description}</p>
@@ -102,7 +103,7 @@ export function CategoryCarousel({ projects, ctaCard }: Props) {
               </div>
             </div>
             <div className="category-project-meta">
-              <span>{ctaCard.type}</span>
+              <span>{formatUppercaseLabel(ctaCard.type)}</span>
             </div>
             <h3>{ctaCard.title}</h3>
             <p>{ctaCard.description}</p>

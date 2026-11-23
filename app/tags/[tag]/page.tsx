@@ -5,13 +5,14 @@ import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import {
-  formatProjectStatus,
   formatTagTitle,
   getAllProjectTags,
   getProjectsByTagSlug,
   getTagBySlug,
   type Project,
 } from "@/app/data/projects";
+import { getTagEncyclical } from "@/app/data/tag-encyclicals";
+import { formatUppercaseLabel } from "@/app/utils/brandText";
 import { getPhraseChipStyle, getValueHoverVars } from "@/app/utils/phraseStyles";
 import "./tag.css";
 
@@ -29,9 +30,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!tag) return { title: "Tag Not Found | Archangel Laboratories" };
 
   const title = formatTagTitle(tag.name);
+  const encyclical = getTagEncyclical(tag.slug);
   return {
     title: `${title} | Archangel Laboratories`,
-    description: `Projects ordered toward ${tag.name} from Archangel Laboratories.`,
+    description:
+      encyclical?.description ??
+      `Projects ordered toward ${tag.name} from Archangel Laboratories.`,
   };
 }
 
@@ -49,6 +53,8 @@ export default async function TagPage({ params }: PageProps) {
   const matchingProjects = getProjectsByTagSlug(tag.slug);
   const allTags = getAllProjectTags();
   const displayTitle = formatTagTitle(tag.name);
+  const encyclical = getTagEncyclical(tag.slug);
+  const tagAccentVars = getValueHoverVars(tag.name, tag.color);
 
   return (
     <PageLayout>
@@ -69,8 +75,24 @@ export default async function TagPage({ params }: PageProps) {
 
           <h1 id="tag-page-title">{displayTitle}</h1>
           <p className="tag-hero-description">
-            Work across Archangel Laboratories shaped by {tag.name}.
+            {encyclical
+              ? encyclical.description
+              : `Work across Archangel Laboratories shaped by ${tag.name}.`}
           </p>
+          {encyclical && (
+            <div className="tag-encyclical-cta" style={tagAccentVars}>
+              <a
+                href={encyclical.href}
+                className="tag-encyclical-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>
+                  Read <em>{encyclical.documentTitle}</em> ({encyclical.author}, {encyclical.year})
+                </span>
+              </a>
+            </div>
+          )}
 
           <nav className="tag-switcher" aria-label="All project tags">
             {allTags.map((item) => {
@@ -115,12 +137,11 @@ export default async function TagPage({ params }: PageProps) {
                   >
                     <div className="project-card-topline">
                       <span>
-                        {project.section ? `${formatTagTitle(project.section)} · ` : ""}
-                        {project.type}
+                        {project.section ? `${formatUppercaseLabel(project.section)} · ` : ""}
+                        {formatUppercaseLabel(project.type)}
                       </span>
                       <span className="project-card-topline-end">
                         {isFeatured && <span className="featured-badge">Featured</span>}
-                        <span className="status-text">{formatProjectStatus(project.status)}</span>
                         {project.emoji && (
                           <span className="project-card-emoji" aria-hidden="true">
                             {project.emoji}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CvEntry } from "@/app/data/cv";
+import { formatUppercaseLabel } from "@/app/utils/brandText";
 
 type CvSectionProps = {
   id: string;
@@ -22,8 +23,8 @@ export function CvSection({ id, title, subtitle, entries }: CvSectionProps) {
         {entries.map((entry) => (
           <li key={entry.id} className="cv-entry">
             <div className="cv-meta">
-              <span className="cv-timeframe">{entry.timeframe}</span>
-              {entry.status ? <span className="cv-status">{entry.status}</span> : null}
+              <span className="cv-timeframe">{formatUppercaseLabel(entry.timeframe)}</span>
+              {entry.status ? <span className="cv-status">{formatUppercaseLabel(entry.status)}</span> : null}
             </div>
 
             <div className="cv-body">

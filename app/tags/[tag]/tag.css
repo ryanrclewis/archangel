@@ -36,11 +36,67 @@
 }
 
 .tag-hero-description {
-  max-width: 42rem;
-  margin: 0 0 1.75rem;
+  max-width: 46rem;
+  margin: 0 0 1.25rem;
   color: var(--muted);
   font-size: 1.05rem;
-  line-height: 1.5;
+  line-height: 1.55;
+}
+
+.tag-encyclical-cta {
+  margin: 0 0 1.75rem;
+}
+
+.tag-encyclical-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--value-hover-color-light, var(--ink));
+  border-radius: 999px;
+  color: var(--value-hover-color-light, var(--ink));
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.tag-encyclical-link:hover,
+.tag-encyclical-link:focus-visible {
+  background: var(--value-hover-color-light, var(--ink));
+  border-color: var(--value-hover-color-light, var(--ink));
+  color: var(--value-hover-on-light, var(--paper));
+}
+
+.tag-encyclical-link:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+:root[data-theme="dark"] .tag-encyclical-link {
+  border-color: var(--value-hover-color-dark, var(--ink));
+  color: var(--value-hover-color-dark, var(--ink));
+}
+
+:root[data-theme="dark"] .tag-encyclical-link:hover,
+:root[data-theme="dark"] .tag-encyclical-link:focus-visible {
+  background: var(--value-hover-color-dark, var(--ink));
+  border-color: var(--value-hover-color-dark, var(--ink));
+  color: var(--value-hover-on-dark, var(--paper));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .tag-encyclical-link {
+    border-color: var(--value-hover-color-dark, var(--ink));
+    color: var(--value-hover-color-dark, var(--ink));
+  }
+
+  :root:not([data-theme]) .tag-encyclical-link:hover,
+  :root:not([data-theme]) .tag-encyclical-link:focus-visible {
+    background: var(--value-hover-color-dark, var(--ink));
+    border-color: var(--value-hover-color-dark, var(--ink));
+    color: var(--value-hover-on-dark, var(--paper));
+  }
 }
 
 .tag-switcher {

@@ -4,6 +4,7 @@ import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import { getArchivedProjects, type Project } from "@/app/data/projects";
+import { formatUppercaseLabel } from "@/app/utils/brandText";
 import { getValueHoverVars } from "@/app/utils/phraseStyles";
 
 export const metadata: Metadata = {
@@ -56,7 +57,7 @@ export default function ArchivePage() {
                       ariaLabel={`${project.name} phrases`}
                     />
                   </div>
-                  <span className="archive-type">{project.type}</span>
+                  <span className="archive-type">{formatUppercaseLabel(project.type)}</span>
                 </ProjectPreviewCard>
               );
             })}

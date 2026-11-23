@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { CaseStudyMarkdown } from "@/app/components/CaseStudyMarkdown";
+import { formatUppercaseLabel } from "@/app/utils/brandText";
 import { getProjectById, getProjectIds } from "../../data/projects";
 
 type RouteProps = {
@@ -78,8 +79,8 @@ export default async function ProjectPage({ params }: RouteProps) {
       <div className="detail-hero-copy">
         <h1>{project.name}</h1>
         <div className="detail-meta">
-          <span>{project.type}</span>
-          {project.launchDate?.trim() ? <span>{project.launchDate.trim()}</span> : null}
+          <span>{formatUppercaseLabel(project.type)}</span>
+          {project.launchDate?.trim() ? <span>{formatUppercaseLabel(project.launchDate.trim())}</span> : null}
           {project.degree && (() => {
             const { abbr, institution } = formatDegree(project.degree);
             return (

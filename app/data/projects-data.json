@@ -4,7 +4,7 @@
     "id": "saintstombs",
     "section": "bespoke",
     "name": "SaintsTombs",
-    "emoji": "⛪",
+    "emoji": "🪦",
     "type": "Web Application",
     "status": "LIVE",
     "launchDate": "Jan 2026",
@@ -74,7 +74,7 @@
     "portfolioSuggestions": [
       "Replace the 7-word description with a clear problem statement, target audience, and product vision explaining why existing photo/notes apps fail for multi-generational family archives.",
       "Populate Key Features (currently empty) with concrete iOS capabilities (e.g., offline-first storage, media tagging, family sharing, export/preservation formats).",
-      "Document your technical and Apple-platform design decisions (SwiftUI, SwiftData/CoreData, CloudKit, Apple Human Interface Guidelines, VoiceOver/Dynamic Type support) — especially valuable for Apple & Big Tech mobile roles.",
+      "Document your technical and Apple-platform design decisions (SwiftUI, SwiftData/Core Data, CloudKit, Apple Human Interface Guidelines, VoiceOver/Dynamic Type support) — especially valuable for Apple & Big Tech mobile roles.",
       "Add user research findings (interviews with families/older adults, mental models for preserving oral history) and privacy/data-longevity design principles (appeals to university HCI & Big Tech privacy teams).",
       "Add a target Launch Date, TestFlight/GitHub/Figma link, or embedded interactive prototype so reviewers can evaluate visual and interaction craft (this project is currently public)."
     ]
@@ -655,7 +655,7 @@
     "portfolioSuggestions": [
       "Expand the 1-sentence description into a structured research & spatial-UX case study detailing the emotional barriers users face when trying on clothing and how AR addresses (or risks worsening) them.",
       "Document your UX research methodology (qualitative interviews, surveys, participatory probes, sample size, thematic synthesis) and ethical considerations around body image and camera/biometric privacy.",
-      "Detail AR/spatial interaction design principles and evidence-based product specs (onboarding, lighting/fit accuracy feedback, accessibility in AR) — directly relevant to Apple (VisionOS/ARKit), Meta, and university HCI labs.",
+      "Detail AR/spatial interaction design principles and evidence-based product specs (onboarding, lighting/fit accuracy feedback, accessibility in AR) — directly relevant to Apple (visionOS/ARKit), Meta, and university HCI labs.",
       "Populate Key Features (currently empty) and attach/embed the research deck, findings report, or AR prototype screens."
     ]
   },
@@ -1693,7 +1693,7 @@
     "id": "one-state-one-brand",
     "section": "government",
     "name": "One State, One Brand",
-    "emoji": "🗺️",
+    "emoji": "🧤",
     "type": "Design System",
     "url": "https://www.nascio.org/wp-content/uploads/2023/08/MI_Digital-Services_Government-to-Citizen.pdf",
     "status": "LIVE",

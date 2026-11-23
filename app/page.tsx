@@ -4,6 +4,7 @@ import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
 import Typewriter from "./components/Typewriter";
 import { homepageExampleIds, projects, valueColors, type Project } from "./data/projects";
+import { formatUppercaseLabel } from "./utils/brandText";
 import { getValueHoverVars } from "./utils/phraseStyles";
 import allTypewriterPhrases from "./data/typewriter-phrases.json";
 import themes from "./data/themes.json";
@@ -80,7 +81,7 @@ function renderProjectCard(project: Project) {
       style={projectTitleHoverStyle(project)}
     >
       <div className="project-card-topline">
-        <span>{project.type}</span>
+        <span>{formatUppercaseLabel(project.type)}</span>
         <span className="project-card-topline-end">
           {isFeatured && <span className="featured-badge">Featured</span>}
           {project.emoji && (
