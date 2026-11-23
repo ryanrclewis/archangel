@@ -10,7 +10,29 @@ export function CommandPalette() {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isOpenRef = useRef(false);
+  const pinnedRef = useRef(false);
+  const queryRef = useRef("");
   const results = searchProjects(query);
+
+  useEffect(() => {
+    isOpenRef.current = isOpen;
+    window.dispatchEvent(new CustomEvent("command-palette-state", { detail: { open: isOpen } }));
+    if (isOpen) {
+      requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
+    } else {
+      pinnedRef.current = false;
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    queryRef.current = query;
+  }, [query]);
+
+  const closePalette = () => {
+    pinnedRef.current = false;
+    setIsOpen(false);
+  };
 
   const navigateToProject = (project: Project) => {
     const href = project.url ?? `/projects/${project.id}`;
@@ -19,23 +41,47 @@ export function CommandPalette() {
     } else {
       window.location.href = href;
     }
-    setIsOpen(false);
+    closePalette();
   };
 
   useEffect(() => {
-    const open = () => {
-      setIsOpen(true);
+    const open = (event?: Event) => {
+      const trigger = (event as CustomEvent<{ trigger?: string }> | undefined)?.detail?.trigger;
+      const isHoverTrigger = trigger === "hover";
+
+      if (isHoverTrigger) {
+        if (!isOpenRef.current) {
+          pinnedRef.current = false;
+          setQuery("");
+          setSelectedIndex(0);
+          setIsOpen(true);
+        }
+        return;
+      }
+
+      pinnedRef.current = true;
       setQuery("");
       setSelectedIndex(0);
-      requestAnimationFrame(() => inputRef.current?.focus());
+      setIsOpen(true);
+      requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
     };
-    const close = () => setIsOpen(false);
+
+    const close = (event?: Event) => {
+      const reason = (event as CustomEvent<{ reason?: string }> | undefined)?.detail?.reason;
+      if (reason === "hover-leave" && (pinnedRef.current || queryRef.current.trim().length > 0)) {
+        return;
+      }
+      pinnedRef.current = false;
+      setIsOpen(false);
+    };
+
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         open();
-      } else if (event.key === "Escape" && isOpen) {
+      } else if (event.key === "Escape" && isOpenRef.current) {
         event.preventDefault();
+        pinnedRef.current = false;
         setIsOpen(false);
       }
     };
@@ -48,11 +94,7 @@ export function CommandPalette() {
       window.removeEventListener("command-palette-close", close);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen) inputRef.current?.focus();
-  }, [isOpen]);
+  }, []);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown" && results.length > 0) {
@@ -69,69 +111,78 @@ export function CommandPalette() {
 
   return (
     <>
-      <div className={`command-palette-backdrop ${isOpen ? "open" : ""}`} aria-hidden="true" />
+      <div
+        className={`command-palette-backdrop ${isOpen ? "open" : ""}`}
+        aria-hidden="true"
+        onClick={closePalette}
+      />
       <div
         className={`command-palette ${isOpen ? "open" : ""} ${query.trim() ? "has-query" : ""}`}
-        onMouseEnter={() => setIsOpen(true)}
+        onMouseEnter={() => window.dispatchEvent(new Event("command-palette-hover-enter"))}
         onMouseLeave={(event) => {
           const nextTarget = event.relatedTarget;
-          if (!(nextTarget instanceof Element && nextTarget.closest(".command-palette-trigger"))) {
-            setIsOpen(false);
+          if (nextTarget instanceof Element && nextTarget.closest(".site-header")) {
+            return;
           }
+          window.dispatchEvent(new Event("command-palette-hover-leave"));
         }}
       >
         <div className="command-palette-content">
-        <div className="command-palette-input-wrapper">
-          <span className="command-palette-search-icon" aria-hidden="true">⌕</span>
-          <input
-            ref={inputRef}
-            type="search"
-            placeholder="Search Archangel"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setSelectedIndex(0);
-            }}
-            onKeyDown={handleKeyDown}
-            className="command-palette-input"
-            aria-label="Search projects"
-            autoComplete="off"
-          />
-        </div>
-
-        <div className="command-palette-results">
-          <div className={query.trim() ? "command-palette-suggested-searches" : "command-palette-quick-links"}>
-            <p>{query.trim() ? "Suggested Searches" : "Quick Links"}</p>
-            {!query.trim() ? (
-              <Link href="/categories/bespoke" onClick={() => setIsOpen(false)}>Bespoke</Link>
-            ) : results.length > 0 ? (
-              <ul role="listbox">
-                {results.map((project, index) => (
-                  <li
-                    key={project.id}
-                    role="option"
-                    aria-selected={index === selectedIndex}
-                    className={`command-palette-result ${index === selectedIndex ? "selected" : ""}`}
-                    onClick={() => navigateToProject(project)}
-                    onMouseEnter={() => setSelectedIndex(index)}
-                  >
-                    {project.name}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="command-palette-no-results">No projects found</div>
-            )}
-            {!query.trim() && (
-              <>
-                <Link href="/categories/government" onClick={() => setIsOpen(false)}>Government</Link>
-                <Link href="/categories/industry" onClick={() => setIsOpen(false)}>Industry</Link>
-                <Link href="/categories/research" onClick={() => setIsOpen(false)}>Research</Link>
-                <Link href="/archive" onClick={() => setIsOpen(false)}>Project Archive</Link>
-              </>
-            )}
+          <div className="command-palette-input-wrapper">
+            <span className="command-palette-search-icon" aria-hidden="true">⌕</span>
+            <input
+              ref={inputRef}
+              type="search"
+              placeholder="Search Archangel"
+              value={query}
+              onChange={(event) => {
+                const nextQuery = event.target.value;
+                if (nextQuery.trim().length > 0) {
+                  pinnedRef.current = true;
+                }
+                setQuery(nextQuery);
+                setSelectedIndex(0);
+              }}
+              onKeyDown={handleKeyDown}
+              className="command-palette-input"
+              aria-label="Search projects"
+              autoComplete="off"
+            />
           </div>
-        </div>
+
+          <div className="command-palette-results">
+            <div className={query.trim() ? "command-palette-suggested-searches" : "command-palette-quick-links"}>
+              <p>{query.trim() ? "Suggested Searches" : "Quick Links"}</p>
+              {!query.trim() ? (
+                <Link href="/categories/bespoke" onClick={closePalette}>Bespoke</Link>
+              ) : results.length > 0 ? (
+                <ul role="listbox">
+                  {results.map((project, index) => (
+                    <li
+                      key={project.id}
+                      role="option"
+                      aria-selected={index === selectedIndex}
+                      className={`command-palette-result ${index === selectedIndex ? "selected" : ""}`}
+                      onClick={() => navigateToProject(project)}
+                      onMouseEnter={() => setSelectedIndex(index)}
+                    >
+                      {project.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="command-palette-no-results">No projects found</div>
+              )}
+              {!query.trim() && (
+                <>
+                  <Link href="/categories/government" onClick={closePalette}>Government</Link>
+                  <Link href="/categories/industry" onClick={closePalette}>Industry</Link>
+                  <Link href="/categories/research" onClick={closePalette}>Research</Link>
+                  <Link href="/archive" onClick={closePalette}>Project Archive</Link>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>
