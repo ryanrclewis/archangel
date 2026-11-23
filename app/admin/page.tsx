@@ -1,1420 +1,591 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { PageLayout } from "@/app/components/PageLayout";
+import "./admin.css";
+import { BackgroundTab } from "./components/BackgroundTab";
+import { ColorsTab } from "./components/ColorsTab";
+import { ProjectEditor } from "./components/ProjectEditor";
+import { ProjectsTab } from "./components/ProjectsTab";
+import { ThemesTab } from "./components/ThemesTab";
+import { TypewriterTab } from "./components/TypewriterTab";
+import {
+  makeEmptyProject,
+  slugify,
+  type AdminTabId,
+  type Project,
+  type SiteConfig,
+  type Theme,
+  type ToastMessage,
+  type TypewriterPhrase,
+} from "./components/types";
 
-// ── Types ──────────────────────────────────────────────────────────────────
+const VALID_TABS: AdminTabId[] = ["projects", "themes", "typewriter", "background", "colors"];
 
-type TypewriterPhrase = { text: string; link?: string; enabled?: boolean };
+export default function AdminPage() {
+  const [tab, setTab] = useState<AdminTabId>("projects");
+  const [loading, setLoading] = useState(true);
 
-type ProjectStatus = "LIVE" | "IN PROGRESS" | "COMPLETED" | "UNSUPPORTED" | "DEPRECATED" | "BETA";
-type ProjectClientTone = "ink" | "muted" | "blue" | "green" | "amber" | "red" | "purple";
-
-type ProjectClient = { name: string; tone?: ProjectClientTone };
-type ProjectValue = { text: string; color?: string; tone?: ProjectClientTone };
-type ProjectEmbed = { src: string; title?: string; width?: number; height?: number };
-
-type Project = {
-  id: string;
-  name: string;
-  type: string;
-  status: ProjectStatus;
-  description: string;
-  url?: string;
-  clients?: ProjectClient[];
-  values?: ProjectValue[];
-  features?: string[];
-  launchDate?: string;
-  embed?: ProjectEmbed;
-  hidden?: boolean;
-  section?: string;
-  degree?: string;
-  version?: string;
-  externalLinks?: { label: string; href: string }[];
-};
-
-// ── Color labels ───────────────────────────────────────────────────────────
-
-const COLOR_LABELS: Record<string, string> = {
-  "--paper": "Paper",
-  "--paper-warm": "Paper Warm",
-  "--ink": "Ink",
-  "--muted": "Muted",
-  "--hairline": "Hairline",
-  "--blue": "Blue",
-  "--blue-dark": "Blue Dark",
-  "--red": "Red",
-  "--green": "Green",
-  "--amber": "Amber",
-  "--white": "White",
-};
-
-// ── Heritage Colors (Sherwin-Williams, 1820–1920) ───────────────────────────
-// Approximate hex values sampled from the printed Heritage Colors chart.
-type HeritageColor = { name: string; sw: string; hex: string };
-
-const HERITAGE_COLORS: HeritageColor[] = [
-  { name: "Rookwood Jade", sw: "94283", hex: "#7d9a7a" },
-  { name: "Renwick Olive", sw: "94150", hex: "#6e7349" },
-  { name: "Colonial Revival Yellow", sw: "94440", hex: "#d9c98e" },
-  { name: "Downing Cream", sw: "94028", hex: "#d6cba6" },
-  { name: "Colonial Revival Ivory", sw: "94432", hex: "#d9cfae" },
-  { name: "Rookwood Amber", sw: "94184", hex: "#c79a3f" },
-  { name: "Renwick Heather", sw: "94143", hex: "#9a958c" },
-  { name: "Colonial Revival Blue", sw: "94416", hex: "#91a3aa" },
-  { name: "Renwick Fence Green", sw: "94119", hex: "#5f7250" },
-  { name: "Tiffany Bronze", sw: "94366", hex: "#8a8741" },
-  { name: "Classical White", sw: "94408", hex: "#e2dcc8" },
-  { name: "Downing Straw", sw: "94077", hex: "#c4b079" },
-  { name: "Renwick Yellow", sw: "94176", hex: "#c9a94e" },
-  { name: "Rookwood Clay", sw: "94234", hex: "#b89b6e" },
-  { name: "Renwick Beige", sw: "94101", hex: "#c2b49a" },
-  { name: "Rookwood Red", sw: "94325", hex: "#7e2f23" },
-  { name: "Rookwood Dark Red", sw: "94275", hex: "#5a241c" },
-  { name: "Colonial Revival Gray", sw: "94424", hex: "#b6bdba" },
-  { name: "Rookwood Blue Green", sw: "94218", hex: "#4f6f63" },
-  { name: "Tiffany Olive", sw: "94382", hex: "#7c7d3e" },
-  { name: "Downing Yellow", sw: "94085", hex: "#c9b454" },
-  { name: "Rookwood Antique Gold", sw: "94192", hex: "#b29b5c" },
-  { name: "Downing Sand", sw: "94044", hex: "#c7b386" },
-  { name: "Rookwood Brown", sw: "94228", hex: "#8a6a45" },
-  { name: "Renwick Rose Beige", sw: "94168", hex: "#c2a48d" },
-  { name: "Rookwood Dark Brown", sw: "94242", hex: "#4a3a2c" },
-  { name: "Downing Slate", sw: "94051", hex: "#8f9794" },
-  { name: "Rookwood Sash Green", sw: "94333", hex: "#3f5642" },
-  { name: "Tiffany Palm Green", sw: "94390", hex: "#5f7141" },
-  { name: "Tiffany Moss Green", sw: "94374", hex: "#7b7d3f" },
-  { name: "Downing Stone", sw: "94069", hex: "#9d9171" },
-  { name: "Renwick Gold", sw: "94127", hex: "#b58f3e" },
-  { name: "Rookwood Terra Cotta", sw: "94358", hex: "#a85a32" },
-  { name: "Rookwood Medium Brown", sw: "94291", hex: "#6e5236" },
-  { name: "Rookwood Shutter Green", sw: "94341", hex: "#2f4032" },
-  { name: "Rookwood Dark Green", sw: "94259", hex: "#3a4a30" },
-  { name: "Rookwood Dark Olive", sw: "94267", hex: "#4a4a2c" },
-  { name: "Rookwood Olive", sw: "94317", hex: "#6a6238" },
-  { name: "Downing Earth", sw: "94036", hex: "#6f6149" },
-  { name: "Renwick Golden Oak", sw: "94135", hex: "#8a6e3c" },
-];
-
-const STATUS_OPTIONS: ProjectStatus[] = ["LIVE", "IN PROGRESS", "COMPLETED", "UNSUPPORTED", "DEPRECATED", "BETA"];
-const TONE_OPTIONS: ProjectClientTone[] = ["ink", "muted", "blue", "green", "amber", "red", "purple"];
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-
-function makeEmptyProject(): Project {
-  return {
-    id: "",
-    name: "",
-    type: "",
-    status: "IN PROGRESS",
-    description: "",
-    url: "",
-    clients: [],
-    values: [],
-    features: [],
-    launchDate: "",
-    hidden: true,
-  };
-}
-
-// ── Sub-components ─────────────────────────────────────────────────────────
-
-function SaveBanner({ saved }: { saved: boolean }) {
-  if (!saved) return null;
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: 16,
-        right: 16,
-        background: "var(--ink)",
-        color: "var(--paper)",
-        padding: "8px 16px",
-        fontSize: 13,
-        fontFamily: "var(--font-mono)",
-        zIndex: 9999,
-        borderRadius: 4,
-      }}
-    >
-      Saved
-    </div>
-  );
-}
-
-function ColorSwatch({
-  label,
-  sublabel,
-  value,
-  onChange,
-  onActivate,
-  active,
-}: {
-  label: string;
-  sublabel?: string;
-  value: string;
-  onChange: (val: string) => void;
-  onActivate?: () => void;
-  active?: boolean;
-}) {
-  return (
-    <div>
-      <label
-        style={{
-          display: "block",
-          fontSize: 11,
-          fontFamily: "var(--font-mono)",
-          color: active ? "var(--ink)" : "var(--muted)",
-          marginBottom: 6,
-          textTransform: "uppercase",
-          letterSpacing: "0.05em",
-        }}
-      >
-        {label}
-        {sublabel && <span style={{ display: "block", opacity: 0.6, fontSize: 10 }}>{sublabel}</span>}
-      </label>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <input
-          type="color"
-          value={value.startsWith("#") ? value : "#000000"}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={onActivate}
-          style={{
-            width: 44,
-            height: 44,
-            border: active ? "2px solid var(--blue)" : "1px solid var(--hairline)",
-            cursor: "pointer",
-            borderRadius: 4,
-          }}
-        />
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={onActivate}
-          style={inputStyle}
-        />
-      </div>
-    </div>
-  );
-}
-
-function HeritagePalette({ onPick, disabled }: { onPick: (hex: string) => void; disabled: boolean }) {
-  return (
-    <div style={{ borderTop: "1px solid var(--hairline)", paddingTop: 28, marginBottom: 32 }}>
-      <div style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>
-        Heritage Colors · 1820–1920
-      </div>
-      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", opacity: 0.8, marginBottom: 14 }}>
-        {disabled
-          ? "Click a color field above, then pick a Heritage color to apply it."
-          : "Click a swatch to apply it to the selected color field."}
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-          gap: 8,
-          opacity: disabled ? 0.45 : 1,
-          pointerEvents: disabled ? "none" : "auto",
-        }}
-      >
-        {HERITAGE_COLORS.map((c) => (
-          <button
-            key={c.sw}
-            type="button"
-            onClick={() => onPick(c.hex)}
-            title={`${c.name} · SW ${c.sw} · ${c.hex}`}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: 4,
-              background: "none",
-              border: "1px solid var(--hairline)",
-              borderRadius: 4,
-              cursor: "pointer",
-              textAlign: "left",
-            }}
-          >
-            <span style={{ width: 22, height: 22, flexShrink: 0, borderRadius: 3, background: c.hex, border: "1px solid var(--hairline)" }} />
-            <span style={{ minWidth: 0 }}>
-              <span style={{ display: "block", fontSize: 10, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</span>
-              <span style={{ display: "block", fontSize: 9, fontFamily: "var(--font-mono)", color: "var(--muted)" }}>SW {c.sw}</span>
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ColorEditor({
-  colors,
-  onChange,
-  onSave,
-  valueColors,
-  onValueColorChange,
-  onValueColorAdd,
-  onValueColorRemove,
-}: {
-  colors: Record<string, string>;
-  onChange: (key: string, val: string) => void;
-  onSave: () => void;
-  valueColors: Record<string, string>;
-  onValueColorChange: (key: string, val: string) => void;
-  onValueColorAdd: () => void;
-  onValueColorRemove: (key: string) => void;
-}) {
-  // Tracks which color field a Heritage swatch should apply to.
-  // `site:<varName>` for the site palette, `value:<name>` for value colors.
-  const [activeField, setActiveField] = useState<string | null>(null);
-
-  const applyHeritage = (hex: string) => {
-    if (!activeField) return;
-    const [kind, key] = [activeField.slice(0, activeField.indexOf(":")), activeField.slice(activeField.indexOf(":") + 1)];
-    if (kind === "site") onChange(key, hex);
-    else if (kind === "value") onValueColorChange(key, hex);
-  };
-
-  return (
-    <div>
-      {/* Site palette */}
-      <div style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 12 }}>
-        Site Palette
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: 20,
-          marginBottom: 32,
-        }}
-      >
-        {Object.entries(COLOR_LABELS).map(([varName, label]) => (
-          <ColorSwatch
-            key={varName}
-            label={label}
-            sublabel={varName}
-            value={colors[varName] ?? ""}
-            onChange={(val) => onChange(varName, val)}
-            onActivate={() => setActiveField(`site:${varName}`)}
-            active={activeField === `site:${varName}`}
-          />
-        ))}
-      </div>
-
-      {/* Value colors */}
-      <div style={{ borderTop: "1px solid var(--hairline)", paddingTop: 28, marginBottom: 32 }}>
-        <div style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 12 }}>
-          Value Colors
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-            gap: 20,
-            marginBottom: 16,
-          }}
-        >
-          {Object.entries(valueColors).map(([name, hex]) => (
-            <div key={name} style={{ position: "relative" }}>
-              <button
-                onClick={() => onValueColorRemove(name)}
-                title="Remove"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "var(--muted)",
-                  fontSize: 14,
-                  lineHeight: 1,
-                  padding: "0 2px",
-                }}
-              >
-                ×
-              </button>
-              <ColorSwatch
-                label={name}
-                value={hex}
-                onChange={(val) => onValueColorChange(name, val)}
-                onActivate={() => setActiveField(`value:${name}`)}
-                active={activeField === `value:${name}`}
-              />
-            </div>
-          ))}
-        </div>
-        <button onClick={onValueColorAdd} style={{ ...addBtnStyle, marginBottom: 0 }}>+ New Value</button>
-      </div>
-
-      <HeritagePalette onPick={applyHeritage} disabled={!activeField} />
-
-      <button onClick={onSave} style={btnStyle}>Save Colors</button>
-    </div>
-  );
-}
-
-function filterTabStyle(active: boolean): React.CSSProperties {
-  return {
-    padding: "6px 12px",
-    background: active ? "var(--ink)" : "none",
-    color: active ? "var(--paper)" : "var(--muted)",
-    border: "1px solid " + (active ? "var(--ink)" : "var(--hairline)"),
-    borderRadius: 4,
-    cursor: "pointer",
-    fontSize: 12,
-    fontFamily: "var(--font-mono)",
-  };
-}
-
-const SECTIONS = [
-  { id: "all", label: "All Sections" },
-  { id: "bespoke", label: "Bespoke" },
-  { id: "government", label: "Government" },
-  { id: "industry", label: "Industry" },
-  { id: "research", label: "Research" },
-];
-
-function ProjectList({
-  projects,
-  onSelect,
-  onNew,
-  onDelete,
-  onReorder,
-}: {
-  projects: Project[];
-  onSelect: (p: Project) => void;
-  onNew: () => void;
-  onDelete: (id: string) => void;
-  onReorder: (newProjects: Project[]) => void;
-}) {
-  const [filterSection, setFilterSection] = useState<string>("all");
-
-  const filtered = projects.filter((p) => filterSection === "all" || p.section === filterSection);
-
-  const moveProject = (index: number, direction: "up" | "down") => {
-    const bespokeProjects = projects.filter((p) => p.section === "bespoke");
-    const targetBespokeIndex = direction === "up" ? index - 1 : index + 1;
-    if (targetBespokeIndex < 0 || targetBespokeIndex >= bespokeProjects.length) return;
-
-    // The two bespoke projects to swap
-    const projA = bespokeProjects[index];
-    const projB = bespokeProjects[targetBespokeIndex];
-
-    // Find their indices in the master projects array
-    const masterIdxA = projects.findIndex((p) => p.id === projA.id);
-    const masterIdxB = projects.findIndex((p) => p.id === projB.id);
-
-    if (masterIdxA === -1 || masterIdxB === -1) return;
-
-    // Swap them in the master array clone
-    const updated = [...projects];
-    const temp = updated[masterIdxA];
-    updated[masterIdxA] = updated[masterIdxB];
-    updated[masterIdxB] = temp;
-
-    onReorder(updated);
-  };
-
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <span style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", marginRight: 4 }}>Filter:</span>
-          {SECTIONS.map((s) => (
-            <button
-              key={s.id}
-              style={filterTabStyle(filterSection === s.id)}
-              onClick={() => setFilterSection(s.id)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <button onClick={onNew} style={btnStyle}>
-          + New Project
-        </button>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {filtered.map((p, index) => (
-          <div
-            key={p.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "10px 14px",
-              border: "1px solid var(--hairline)",
-              borderRadius: 4,
-              cursor: "pointer",
-              background: "var(--paper)",
-            }}
-          >
-            <div
-              style={{ flex: 1, cursor: "pointer" }}
-              onClick={() => onSelect(p)}
-            >
-              <span style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600 }}>{p.name || "(untitled)"}</span>
-              <span
-                style={{
-                  marginLeft: 10,
-                  fontSize: 11,
-                  fontFamily: "var(--font-mono)",
-                  color: "var(--muted)",
-                  textTransform: "uppercase",
-                }}
-              >
-                {p.status}
-              </span>
-              {p.hidden && (
-                <span
-                  style={{
-                    marginLeft: 10,
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
-                    color: "var(--amber)",
-                    fontWeight: 600,
-                  }}
-                  title="Hidden from public"
-                >
-                  🔒 HIDDEN
-                </span>
-              )}
-              {p.section && (
-                <span
-                  style={{
-                    marginLeft: 10,
-                    fontSize: 11,
-                    fontFamily: "var(--font-mono)",
-                    color: "var(--blue)",
-                    textTransform: "uppercase",
-                  }}
-                  title="Section"
-                >
-                  📁 {p.section}
-                </span>
-              )}
-              <span style={{ marginLeft: 10, fontSize: 12, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
-                {p.type}
-              </span>
-            </div>
-            {filterSection === "bespoke" && (
-              <div style={{ display: "flex", gap: 4 }}>
-                <button
-                  disabled={index === 0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    moveProject(index, "up");
-                  }}
-                  style={{
-                    ...btnStyle,
-                    padding: "4px 8px",
-                    fontSize: 12,
-                    background: "none",
-                    color: index === 0 ? "var(--hairline)" : "var(--muted)",
-                    border: "1px solid var(--hairline)",
-                    cursor: index === 0 ? "not-allowed" : "pointer"
-                  }}
-                  title="Move Up"
-                >
-                  ↑
-                </button>
-                <button
-                  disabled={index === filtered.length - 1}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    moveProject(index, "down");
-                  }}
-                  style={{
-                    ...btnStyle,
-                    padding: "4px 8px",
-                    fontSize: 12,
-                    background: "none",
-                    color: index === filtered.length - 1 ? "var(--hairline)" : "var(--muted)",
-                    border: "1px solid var(--hairline)",
-                    cursor: index === filtered.length - 1 ? "not-allowed" : "pointer"
-                  }}
-                  title="Move Down"
-                >
-                  ↓
-                </button>
-              </div>
-            )}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (confirm(`Delete "${p.name}"?`)) onDelete(p.id);
-              }}
-              style={{ ...btnStyle, background: "none", color: "var(--muted)", border: "1px solid var(--hairline)", padding: "4px 10px", fontSize: 12 }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProjectEditor({
-  project,
-  onSave,
-  onCancel,
-}: {
-  project: Project;
-  onSave: (p: Project) => void;
-  onCancel: () => void;
-}) {
-  const [p, setP] = useState<Project>({ ...project });
-
-  const set = (key: keyof Project, val: unknown) =>
-    setP((prev) => ({ ...prev, [key]: val }));
-
-  // Clients helpers
-  const setClient = (i: number, key: keyof ProjectClient, val: string) =>
-    setP((prev) => {
-      const clients = [...(prev.clients ?? [])];
-      clients[i] = { ...clients[i], [key]: val };
-      return { ...prev, clients };
-    });
-  const addClient = () => setP((prev) => ({ ...prev, clients: [...(prev.clients ?? []), { name: "", tone: "muted" }] }));
-  const removeClient = (i: number) =>
-    setP((prev) => ({ ...prev, clients: (prev.clients ?? []).filter((_, idx) => idx !== i) }));
-
-  // Values helpers
-  const setValueText = (i: number, val: string) =>
-    setP((prev) => {
-      const values = [...(prev.values ?? [])];
-      values[i] = { ...values[i], text: val };
-      return { ...prev, values };
-    });
-  const addValue = () => setP((prev) => ({ ...prev, values: [...(prev.values ?? []), { text: "" }] }));
-  const removeValue = (i: number) =>
-    setP((prev) => ({ ...prev, values: (prev.values ?? []).filter((_, idx) => idx !== i) }));
-
-  // Features helpers
-  const setFeature = (i: number, val: string) =>
-    setP((prev) => {
-      const features = [...(prev.features ?? [])];
-      features[i] = val;
-      return { ...prev, features };
-    });
-  const addFeature = () => setP((prev) => ({ ...prev, features: [...(prev.features ?? []), ""] }));
-  const removeFeature = (i: number) =>
-    setP((prev) => ({ ...prev, features: (prev.features ?? []).filter((_, idx) => idx !== i) }));
-
-  // Embed helpers
-  const setEmbed = (key: keyof ProjectEmbed, val: string | number) =>
-    setP((prev) => ({ ...prev, embed: { ...(prev.embed ?? { src: "" }), [key]: val } }));
-
-  return (
-    <div>
-      <div style={{ display: "flex", gap: 12, marginBottom: 24, alignItems: "center" }}>
-        <button onClick={onCancel} style={{ ...btnStyle, background: "none", border: "1px solid var(--hairline)", color: "var(--ink)" }}>
-          ← Back
-        </button>
-        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{p.name || "New Project"}</h2>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Field label="ID (slug)" hint="url-safe, no spaces">
-          <input style={inputStyle} value={p.id} onChange={(e) => set("id", e.target.value)} />
-        </Field>
-        <Field label="Name">
-          <input style={inputStyle} value={p.name} onChange={(e) => set("name", e.target.value)} />
-        </Field>
-        <Field label="Type">
-          <input style={inputStyle} value={p.type} onChange={(e) => set("type", e.target.value)} />
-        </Field>
-        <Field label="Status">
-          <select style={inputStyle} value={p.status} onChange={(e) => set("status", e.target.value as ProjectStatus)}>
-            {STATUS_OPTIONS.map((s) => <option key={s}>{s}</option>)}
-          </select>
-        </Field>
-        <Field label="Section">
-          <select style={inputStyle} value={p.section ?? ""} onChange={(e) => set("section", e.target.value || undefined)}>
-            <option value="">(None)</option>
-            <option value="bespoke">Bespoke</option>
-            <option value="government">Government</option>
-            <option value="industry">Industry</option>
-            <option value="research">Research</option>
-          </select>
-        </Field>
-        <Field label="URL">
-          <input style={inputStyle} value={p.url ?? ""} onChange={(e) => set("url", e.target.value)} />
-        </Field>
-        <Field label="Launch Date">
-          <input style={inputStyle} value={p.launchDate ?? ""} onChange={(e) => set("launchDate", e.target.value)} />
-        </Field>
-        <Field label="Visibility" hint="Show/hide project publicly">
-          <label style={{ display: "flex", alignItems: "center", gap: 8, height: 38, cursor: "pointer" }}>
-            <input
-              type="checkbox"
-              checked={!!p.hidden}
-              onChange={(e) => set("hidden", e.target.checked)}
-              style={{ width: 18, height: 18, cursor: "pointer", accentColor: "var(--ink)" }}
-            />
-            <span style={{ fontSize: 13, fontFamily: "var(--font-mono)" }}>Keep project hidden</span>
-          </label>
-        </Field>
-      </div>
-
-      <Field label="Description">
-        <textarea
-          style={{ ...inputStyle, minHeight: 100, resize: "vertical" }}
-          value={p.description}
-          onChange={(e) => set("description", e.target.value)}
-        />
-      </Field>
-
-      {/* Clients */}
-      <Section label="Clients">
-        {(p.clients ?? []).map((c, i) => (
-          <div key={i} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-            <input
-              style={{ ...inputStyle, flex: 1 }}
-              placeholder="Name"
-              value={c.name}
-              onChange={(e) => setClient(i, "name", e.target.value)}
-            />
-            <select
-              style={{ ...inputStyle, width: 110 }}
-              value={c.tone ?? "muted"}
-              onChange={(e) => setClient(i, "tone", e.target.value as ProjectClientTone)}
-            >
-              {TONE_OPTIONS.map((t) => <option key={t}>{t}</option>)}
-            </select>
-            <button onClick={() => removeClient(i)} style={removeBtnStyle}>×</button>
-          </div>
-        ))}
-        <button onClick={addClient} style={addBtnStyle}>+ Client</button>
-      </Section>
-
-      {/* Values */}
-      <Section label="Values">
-        {(p.values ?? []).map((v, i) => (
-          <div key={i} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-            <input
-              style={{ ...inputStyle, flex: 1 }}
-              placeholder="Value text"
-              value={v.text}
-              onChange={(e) => setValueText(i, e.target.value)}
-            />
-            <button onClick={() => removeValue(i)} style={removeBtnStyle}>×</button>
-          </div>
-        ))}
-        <button onClick={addValue} style={addBtnStyle}>+ Value</button>
-      </Section>
-
-      {/* Features */}
-      <Section label="Features">
-        {(p.features ?? []).map((f, i) => (
-          <div key={i} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-            <input
-              style={{ ...inputStyle, flex: 1 }}
-              value={f}
-              onChange={(e) => setFeature(i, e.target.value)}
-            />
-            <button onClick={() => removeFeature(i)} style={removeBtnStyle}>×</button>
-          </div>
-        ))}
-        <button onClick={addFeature} style={addBtnStyle}>+ Feature</button>
-      </Section>
-
-      {/* Embed */}
-      <Section label="Embed (optional)">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-          <Field label="Src URL">
-            <input style={inputStyle} value={p.embed?.src ?? ""} onChange={(e) => setEmbed("src", e.target.value)} />
-          </Field>
-          <Field label="Title">
-            <input style={inputStyle} value={p.embed?.title ?? ""} onChange={(e) => setEmbed("title", e.target.value)} />
-          </Field>
-          <Field label="Width">
-            <input
-              style={inputStyle}
-              type="number"
-              value={p.embed?.width ?? ""}
-              onChange={(e) => setEmbed("width", Number(e.target.value))}
-            />
-          </Field>
-          <Field label="Height">
-            <input
-              style={inputStyle}
-              type="number"
-              value={p.embed?.height ?? ""}
-              onChange={(e) => setEmbed("height", Number(e.target.value))}
-            />
-          </Field>
-        </div>
-      </Section>
-
-      <div style={{ marginTop: 24 }}>
-        <button onClick={() => onSave(p)} style={btnStyle}>
-          Save Project
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label style={{ display: "block", fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-        {label}
-        {hint && <span style={{ opacity: 0.6, marginLeft: 6 }}>({hint})</span>}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: 20 }}>
-      <div
-        style={{
-          fontSize: 11,
-          fontFamily: "var(--font-mono)",
-          color: "var(--muted)",
-          textTransform: "uppercase",
-          letterSpacing: "0.05em",
-          marginBottom: 8,
-          paddingBottom: 4,
-          borderBottom: "1px solid var(--hairline)",
-        }}
-      >
-        {label}
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function TypewriterEditor({
-  phrases,
-  valueColors,
-  onChange,
-  onValueColorChange,
-  onSaveAll,
-}: {
-  phrases: TypewriterPhrase[];
-  valueColors: Record<string, string>;
-  onChange: (phrases: TypewriterPhrase[]) => void;
-  onValueColorChange: (key: string, val: string) => void;
-  onSaveAll: () => void;
-}) {
-  const setPhrase = (i: number, key: keyof TypewriterPhrase, val: string | boolean) => {
-    const next = [...phrases];
-    next[i] = { ...next[i], [key]: val };
-    onChange(next);
-  };
-
-  const addPhrase = () => onChange([...phrases, { text: "", link: "", enabled: true }]);
-  const removePhrase = (i: number) => onChange(phrases.filter((_, idx) => idx !== i));
-  const movePhrase = (i: number, dir: -1 | 1) => {
-    const next = [...phrases];
-    const j = i + dir;
-    if (j < 0 || j >= next.length) return;
-    [next[i], next[j]] = [next[j], next[i]];
-    onChange(next);
-  };
-
-  return (
-    <div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "38px 1fr 1fr 32px auto auto auto",
-          gap: 8,
-          alignItems: "center",
-          padding: "0 12px 8px",
-          fontSize: 10,
-          fontFamily: "var(--font-mono)",
-          color: "var(--muted)",
-          textTransform: "uppercase",
-          letterSpacing: "0.05em",
-        }}
-      >
-        <div>Color</div>
-        <div>Text</div>
-        <div>Link</div>
-        <div title="Show in typewriter">On</div>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
-        {phrases.map((p, i) => {
-          const lookupKey = p.text.replace(/[.,!?;:]+$/, "");
-          const colorVal = valueColors[lookupKey] ?? "#888888";
-          const isEnabled = p.enabled !== false;
-          return (
-            <div
-              key={i}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "38px 1fr 1fr 32px auto auto auto",
-                gap: 8,
-                alignItems: "center",
-                padding: "8px 12px",
-                border: "1px solid var(--hairline)",
-                borderRadius: 4,
-                background: isEnabled ? "var(--paper)" : "var(--paper-warm)",
-                opacity: isEnabled ? 1 : 0.6,
-              }}
-            >
-              <input
-                type="color"
-                value={colorVal.startsWith("#") ? colorVal : "#888888"}
-                title={`Color for "${lookupKey}"`}
-                onChange={(e) => onValueColorChange(lookupKey, e.target.value)}
-                style={{ width: 32, height: 32, border: "1px solid var(--hairline)", cursor: "pointer", borderRadius: 3, padding: 1 }}
-              />
-              <input
-                style={inputStyle}
-                placeholder="Text (e.g. faith.)"
-                value={p.text}
-                onChange={(e) => setPhrase(i, "text", e.target.value)}
-              />
-              <input
-                style={inputStyle}
-                placeholder="Link URL (optional)"
-                value={p.link ?? ""}
-                onChange={(e) => setPhrase(i, "link", e.target.value)}
-              />
-              <input
-                type="checkbox"
-                checked={isEnabled}
-                title={isEnabled ? "Remove from typewriter" : "Add to typewriter"}
-                onChange={(e) => setPhrase(i, "enabled", e.target.checked)}
-                style={{ width: 18, height: 18, cursor: "pointer", accentColor: "var(--ink)", justifySelf: "center" }}
-              />
-              <button onClick={() => movePhrase(i, -1)} style={iconBtnStyle} title="Move up">↑</button>
-              <button onClick={() => movePhrase(i, 1)} style={iconBtnStyle} title="Move down">↓</button>
-              <button onClick={() => removePhrase(i)} style={{ ...iconBtnStyle, color: "var(--muted)" }} title="Remove">×</button>
-            </div>
-          );
-        })}
-      </div>
-      <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={addPhrase} style={addBtnStyle}>+ Phrase</button>
-        <button onClick={onSaveAll} style={btnStyle}>Save All</button>
-      </div>
-    </div>
-  );
-}
-
-// ── Styles ─────────────────────────────────────────────────────────────────
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "7px 10px",
-  border: "1px solid var(--hairline)",
-  borderRadius: 4,
-  fontSize: 13,
-  fontFamily: "var(--font-mono)",
-  background: "var(--paper)",
-  color: "var(--ink)",
-  boxSizing: "border-box",
-};
-
-const btnStyle: React.CSSProperties = {
-  padding: "8px 18px",
-  background: "var(--ink)",
-  color: "var(--paper)",
-  border: "none",
-  borderRadius: 4,
-  fontSize: 13,
-  fontFamily: "var(--font-mono)",
-  cursor: "pointer",
-};
-
-const addBtnStyle: React.CSSProperties = {
-  ...btnStyle,
-  background: "none",
-  color: "var(--blue)",
-  border: "1px dashed var(--blue)",
-  padding: "4px 12px",
-  fontSize: 12,
-};
-
-const removeBtnStyle: React.CSSProperties = {
-  padding: "6px 10px",
-  background: "none",
-  border: "1px solid var(--hairline)",
-  borderRadius: 4,
-  cursor: "pointer",
-  color: "var(--muted)",
-  fontSize: 14,
-};
-
-const iconBtnStyle: React.CSSProperties = {
-  padding: "5px 9px",
-  background: "none",
-  border: "1px solid var(--hairline)",
-  borderRadius: 4,
-  cursor: "pointer",
-  color: "var(--ink)",
-  fontSize: 14,
-  fontFamily: "var(--font-mono)",
-};
-
-// ── Themes Editor ─────────────────────────────────────────────────────────
-
-type Theme = {
-  id: string;
-  name: string;
-  backgroundImage: string;
-  enabledPhrases: string[];
-};
-
-function ThemesEditor({ onSave }: { onSave: () => void }) {
+  const [colors, setColors] = useState<Record<string, string>>({});
+  const [savedColors, setSavedColors] = useState<Record<string, string>>({});
+  const [valueColors, setValueColors] = useState<Record<string, string>>({});
+  const [savedValueColors, setSavedValueColors] = useState<Record<string, string>>({});
+  const [typewriterPhrases, setTypewriterPhrases] = useState<TypewriterPhrase[]>([]);
+  const [savedPhrases, setSavedPhrases] = useState<TypewriterPhrase[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [themes, setThemes] = useState<Theme[]>([]);
-  const [activeTheme, setActiveTheme] = useState<string | null>(null);
-  const [newName, setNewName] = useState("");
-  const [allPhrases, setAllPhrases] = useState<TypewriterPhrase[]>([]);
+  const [siteConfig, setSiteConfig] = useState<SiteConfig>({});
   const [images, setImages] = useState<string[]>([]);
-  const [editing, setEditing] = useState<Theme | null>(null);
 
-  useEffect(() => {
-    fetch("/api/admin/themes").then((r) => r.json()).then((d) => {
-      setThemes(d.themes ?? []);
-      setActiveTheme(d.activeTheme ?? null);
-    });
-    fetch("/api/admin/typewriter-phrases").then((r) => r.json()).then(setAllPhrases);
-    fetch("/api/admin/upload-image").then((r) => r.json()).then((d) => setImages(d.images ?? []));
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [isNewProject, setIsNewProject] = useState(false);
+
+  const [toast, setToast] = useState<ToastMessage | null>(null);
+  const toastTimer = useRef<number | null>(null);
+
+  const [commitMessage, setCommitMessage] = useState("");
+  const [publishing, setPublishing] = useState(false);
+
+  const showToast = useCallback((text: string, tone: ToastMessage["tone"] = "success") => {
+    setToast({ text, tone });
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(null), 3200);
   }, []);
 
-  const apply = async (id: string) => {
-    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "apply", id }) });
-    setActiveTheme(id);
-    onSave();
+  // Sync tab with URL hash
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "") as AdminTabId;
+    if (VALID_TABS.includes(hash)) setTab(hash);
+  }, []);
+
+  const switchTab = (next: AdminTabId) => {
+    setTab(next);
+    setEditingProject(null);
+    setIsNewProject(false);
+    window.history.replaceState(null, "", `#${next}`);
+  };
+
+  // Load all admin datasets in parallel
+  useEffect(() => {
+    let active = true;
+    Promise.all([
+      fetch("/api/admin/colors").then((r) => r.json()),
+      fetch("/api/admin/value-colors").then((r) => r.json()),
+      fetch("/api/admin/typewriter-phrases").then((r) => r.json()),
+      fetch("/api/admin/projects").then((r) => r.json()),
+      fetch("/api/admin/themes").then((r) => r.json()),
+      fetch("/api/admin/site-config").then((r) => r.json()),
+      fetch("/api/admin/upload-image").then((r) => r.json()),
+    ])
+      .then(([c, vc, tp, pr, th, sc, img]) => {
+        if (!active) return;
+        setColors(c ?? {});
+        setSavedColors(c ?? {});
+        setValueColors(vc ?? {});
+        setSavedValueColors(vc ?? {});
+        setTypewriterPhrases(Array.isArray(tp) ? tp : []);
+        setSavedPhrases(Array.isArray(tp) ? tp : []);
+        setProjects(Array.isArray(pr) ? pr : []);
+        setThemes(th?.themes ?? []);
+        setSiteConfig(sc ?? {});
+        setImages(img?.images ?? []);
+      })
+      .catch(() => {
+        if (active) showToast("Failed to load admin data", "error");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [showToast]);
+
+  const colorsDirty = useMemo(
+    () =>
+      JSON.stringify(colors) !== JSON.stringify(savedColors) ||
+      JSON.stringify(valueColors) !== JSON.stringify(savedValueColors),
+    [colors, savedColors, valueColors, savedValueColors]
+  );
+
+  const phrasesDirty = useMemo(
+    () =>
+      JSON.stringify(typewriterPhrases) !== JSON.stringify(savedPhrases) ||
+      JSON.stringify(valueColors) !== JSON.stringify(savedValueColors),
+    [typewriterPhrases, savedPhrases, valueColors, savedValueColors]
+  );
+
+  // ── API persistence handlers ─────────────────────────────────────────────
+
+  const persistProjects = useCallback(
+    async (updated: Project[], message: string) => {
+      setProjects(updated);
+      const res = await fetch("/api/admin/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+      if (!res.ok) {
+        showToast("Failed to save projects", "error");
+        return;
+      }
+      showToast(message);
+    },
+    [showToast]
+  );
+
+  const saveProject = async (project: Project, originalId: string) => {
+    const updated = isNewProject
+      ? [...projects, project]
+      : projects.map((item) => (item.id === originalId ? project : item));
+    await persistProjects(updated, isNewProject ? `Created "${project.name}"` : `Saved "${project.name}"`);
+    setEditingProject(null);
+    setIsNewProject(false);
+  };
+
+  const deleteProject = async (id: string) => {
+    const target = projects.find((p) => p.id === id);
+    await persistProjects(
+      projects.filter((p) => p.id !== id),
+      target ? `Deleted "${target.name}"` : "Project deleted"
+    );
+  };
+
+  const toggleProjectHidden = async (id: string) => {
+    const target = projects.find((p) => p.id === id);
+    if (!target) return;
+    const nextHidden = !target.hidden;
+    const updated = projects.map((p) => (p.id === id ? { ...p, hidden: nextHidden } : p));
+    await persistProjects(
+      updated,
+      nextHidden ? `Hidden "${target.name}"` : `"${target.name}" is now public`
+    );
+  };
+
+  const duplicateProject = (project: Project) => {
+    const baseSlug = slugify(`${project.id}-copy`);
+    let candidate = baseSlug;
+    let suffix = 2;
+    while (projects.some((p) => p.id === candidate)) {
+      candidate = `${baseSlug}-${suffix++}`;
+    }
+    setEditingProject({
+      ...project,
+      id: candidate,
+      name: `${project.name} (Copy)`,
+      hidden: true,
+    });
+    setIsNewProject(true);
+  };
+
+  const reorderProjects = async (updated: Project[]) => {
+    await persistProjects(updated, "Project order updated");
+  };
+
+  const saveColors = useCallback(async () => {
+    const [r1, r2] = await Promise.all([
+      fetch("/api/admin/colors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(colors),
+      }),
+      fetch("/api/admin/value-colors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(valueColors),
+      }),
+    ]);
+    if (!r1.ok || !r2.ok) {
+      showToast("Failed to save colors", "error");
+      return;
+    }
+    setSavedColors(colors);
+    setSavedValueColors(valueColors);
+    showToast("Colors saved");
+  }, [colors, valueColors, showToast]);
+
+  const saveTypewriterPhrases = useCallback(async () => {
+    const [r1, r2] = await Promise.all([
+      fetch("/api/admin/typewriter-phrases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(typewriterPhrases),
+      }),
+      fetch("/api/admin/value-colors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(valueColors),
+      }),
+    ]);
+    if (!r1.ok || !r2.ok) {
+      showToast("Failed to save typewriter phrases", "error");
+      return;
+    }
+    setSavedPhrases(typewriterPhrases);
+    setSavedValueColors(valueColors);
+    showToast("Typewriter phrases saved");
+  }, [typewriterPhrases, valueColors, showToast]);
+
+  const applyTheme = async (id: string) => {
+    const res = await fetch("/api/admin/themes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "apply", id }),
+    });
+    if (!res.ok) {
+      showToast("Failed to apply theme", "error");
+      return;
+    }
+    const chosen = themes.find((t) => t.id === id);
+    setSiteConfig((prev) => ({
+      ...prev,
+      activeTheme: id,
+      backgroundImage: chosen?.backgroundImage ?? prev.backgroundImage,
+    }));
+    showToast(`Applied theme "${chosen?.name ?? id}"`);
   };
 
   const saveTheme = async (theme: Theme) => {
-    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "save", theme }) });
+    const res = await fetch("/api/admin/themes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "save", theme }),
+    });
+    if (!res.ok) {
+      showToast("Failed to save theme", "error");
+      return;
+    }
     setThemes((prev) => {
       const idx = prev.findIndex((t) => t.id === theme.id);
-      return idx >= 0 ? prev.map((t) => t.id === theme.id ? theme : t) : [...prev, theme];
+      return idx >= 0 ? prev.map((t) => (t.id === theme.id ? theme : t)) : [...prev, theme];
     });
-    setEditing(null);
-    onSave();
+    showToast(`Saved theme "${theme.name}"`);
   };
 
   const deleteTheme = async (id: string) => {
-    if (!confirm("Delete this theme?")) return;
-    await fetch("/api/admin/themes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "delete", id }) });
-    setThemes((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  const createNew = () => {
-    const id = newName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    if (!id) return;
-    setEditing({ id, name: newName, backgroundImage: images[0] ?? "", enabledPhrases: [] });
-    setNewName("");
-  };
-
-  if (editing) {
-    return (
-      <div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-          <button onClick={() => setEditing(null)} style={iconBtnStyle}>←</button>
-          <h3 style={{ margin: 0, fontSize: 16 }}>Editing: {editing.name}</h3>
-        </div>
-
-        <p style={{ margin: "0 0 8px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Background</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8, marginBottom: 20 }}>
-          {images.map((img) => (
-            <button key={img} onClick={() => setEditing({ ...editing, backgroundImage: img })}
-              style={{ padding: 0, border: img === editing.backgroundImage ? "3px solid var(--ink)" : "2px solid var(--hairline)", borderRadius: 6, cursor: "pointer", overflow: "hidden", background: "none" }}>
-              <img src={`/${img}`} alt={img} style={{ width: "100%", height: 80, objectFit: "cover", display: "block" }} />
-              <div style={{ padding: "3px 6px", fontSize: 9, fontFamily: "var(--font-mono)", color: "var(--muted)", background: "var(--paper)", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {img === editing.backgroundImage && "✓ "}{img}
-              </div>
-            </button>
-          ))}
-        </div>
-
-        <p style={{ margin: "0 0 8px", fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Typewriter phrases</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 20 }}>
-          {allPhrases.map((p) => {
-            const on = editing.enabledPhrases.includes(p.text);
-            return (
-              <label key={p.text} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 10px", border: "1px solid var(--hairline)", borderRadius: 4, cursor: "pointer", background: on ? "var(--paper)" : "var(--paper-warm)", opacity: on ? 1 : 0.6 }}>
-                <input type="checkbox" checked={on} onChange={(e) => setEditing({
-                  ...editing,
-                  enabledPhrases: e.target.checked
-                    ? [...editing.enabledPhrases, p.text]
-                    : editing.enabledPhrases.filter((x) => x !== p.text),
-                })} style={{ accentColor: "var(--ink)" }} />
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 13 }}>{p.text}</span>
-              </label>
-            );
-          })}
-        </div>
-
-        <button onClick={() => saveTheme(editing)} style={btnStyle}>Save theme</button>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-        {themes.map((t) => (
-          <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", border: t.id === activeTheme ? "2px solid var(--ink)" : "1px solid var(--hairline)", borderRadius: 6, background: "var(--paper)" }}>
-            <img src={`/${t.backgroundImage}`} alt="" style={{ width: 56, height: 40, objectFit: "cover", borderRadius: 4, flexShrink: 0, border: "1px solid var(--hairline)" }} />
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontWeight: 600, fontSize: 14 }}>{t.name}</div>
-              <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", marginTop: 2 }}>{t.enabledPhrases.length} phrases · {t.backgroundImage}</div>
-            </div>
-            <div style={{ display: "flex", gap: 6 }}>
-              {t.id !== activeTheme && <button onClick={() => apply(t.id)} style={btnStyle}>Apply</button>}
-              {t.id === activeTheme && <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--muted)", padding: "8px 12px" }}>✓ Active</span>}
-              <button onClick={() => setEditing(t)} style={addBtnStyle}>Edit</button>
-              <button onClick={() => deleteTheme(t.id)} style={{ ...iconBtnStyle, color: "var(--muted)" }}>×</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="New theme name…" style={{ ...inputStyle, width: 220 }} onKeyDown={(e) => e.key === "Enter" && createNew()} />
-        <button onClick={createNew} style={addBtnStyle} disabled={!newName.trim()}>+ Create theme</button>
-      </div>
-    </div>
-  );
-}
-
-// ── Background Editor ──────────────────────────────────────────────────────
-
-function BackgroundEditor({ onSave }: { onSave: () => void }) {
-  const [current, setCurrent] = useState<string>("");
-  const [images, setImages] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/admin/site-config").then((r) => r.json()).then((d) => setCurrent(d.backgroundImage ?? ""));
-    fetch("/api/admin/upload-image").then((r) => r.json()).then((d) => setImages(d.images ?? []));
-  }, []);
-
-  const select = async (filename: string) => {
-    setCurrent(filename);
-    await fetch("/api/admin/site-config", {
+    const target = themes.find((t) => t.id === id);
+    const res = await fetch("/api/admin/themes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ backgroundImage: filename }),
+      body: JSON.stringify({ action: "delete", id }),
     });
-    onSave();
+    if (!res.ok) {
+      showToast("Failed to delete theme", "error");
+      return;
+    }
+    setThemes((prev) => prev.filter((t) => t.id !== id));
+    showToast(target ? `Deleted theme "${target.name}"` : "Theme deleted");
   };
 
-  const upload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
+  const updateSiteConfig = async (updates: Partial<SiteConfig>, message: string) => {
+    const res = await fetch("/api/admin/site-config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+    if (!res.ok) {
+      showToast("Failed to update site config", "error");
+      return;
+    }
+    setSiteConfig((prev) => ({ ...prev, ...updates }));
+    showToast(message);
+  };
+
+  const uploadBackgroundImage = async (file: File) => {
     const fd = new FormData();
     fd.append("file", file);
     const res = await fetch("/api/admin/upload-image", { method: "POST", body: fd });
     const data = await res.json();
-    if (data.ok) {
-      setImages(data.images ?? []);
-      await select(data.filename);
+    if (!res.ok || !data.ok) {
+      showToast(data.error ?? "Upload failed", "error");
+      return;
     }
-    setUploading(false);
-    e.target.value = "";
-  };
-
-  return (
-    <div>
-      <div style={{ marginBottom: 20 }}>
-        <p style={{ margin: "0 0 12px", fontSize: 13, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
-          Active: <strong style={{ color: "var(--ink)" }}>{current || "—"}</strong>
-        </p>
-        <label
-          style={{
-            display: "inline-block",
-            padding: "8px 18px",
-            background: "var(--ink)",
-            color: "var(--paper)",
-            borderRadius: 4,
-            fontSize: 13,
-            fontFamily: "var(--font-mono)",
-            cursor: uploading ? "not-allowed" : "pointer",
-            opacity: uploading ? 0.6 : 1,
-          }}
-        >
-          {uploading ? "Uploading…" : "+ Upload image"}
-          <input type="file" accept="image/*" onChange={upload} style={{ display: "none" }} disabled={uploading} />
-        </label>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12 }}>
-        {images.map((img) => (
-          <button
-            key={img}
-            onClick={() => select(img)}
-            title={img}
-            style={{
-              padding: 0,
-              border: img === current ? "3px solid var(--ink)" : "2px solid var(--hairline)",
-              borderRadius: 6,
-              cursor: "pointer",
-              overflow: "hidden",
-              background: "none",
-              position: "relative",
-            }}
-          >
-            <img
-              src={`/${img}`}
-              alt={img}
-              style={{ width: "100%", height: 110, objectFit: "cover", display: "block" }}
-            />
-            <div
-              style={{
-                padding: "4px 8px",
-                fontSize: 10,
-                fontFamily: "var(--font-mono)",
-                color: "var(--muted)",
-                textAlign: "left",
-                background: "var(--paper)",
-                borderTop: "1px solid var(--hairline)",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {img === current && "✓ "}
-              {img}
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ── Main Page ──────────────────────────────────────────────────────────────
-
-export default function AdminPage() {
-  const [tab, setTab] = useState<"colors" | "typewriter" | "projects" | "background" | "themes">("colors");
-  const [colors, setColors] = useState<Record<string, string>>({});
-  const [valueColors, setValueColors] = useState<Record<string, string>>({});
-  const [typewriterPhrases, setTypewriterPhrases] = useState<TypewriterPhrase[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [saved, setSaved] = useState(false);
-  const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [isNew, setIsNew] = useState(false);
-  const [publishing, setPublishing] = useState(false);
-  const [publishStatus, setPublishStatus] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("/api/admin/colors").then((r) => r.json()).then(setColors);
-    fetch("/api/admin/value-colors").then((r) => r.json()).then(setValueColors);
-    fetch("/api/admin/typewriter-phrases").then((r) => r.json()).then(setTypewriterPhrases);
-    fetch("/api/admin/projects").then((r) => r.json()).then(setProjects);
-  }, []);
-
-  const flashSaved = useCallback(() => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, []);
-
-  const persistValueColors = useCallback((vc: Record<string, string>) =>
-    fetch("/api/admin/value-colors", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(vc) }),
-  []);
-
-  const saveColors = async () => {
-    await Promise.all([
-      fetch("/api/admin/colors", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(colors) }),
-      persistValueColors(valueColors),
-    ]);
-    flashSaved();
-  };
-
-  const addValueColor = () => {
-    const name = prompt("Value name (e.g. \"justice\"):");
-    if (!name?.trim()) return;
-    setValueColors((prev) => ({ ...prev, [name.trim()]: "#888888" }));
-  };
-
-  const saveTypewriterPhrases = async () => {
-    await Promise.all([
-      fetch("/api/admin/typewriter-phrases", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(typewriterPhrases) }),
-      persistValueColors(valueColors),
-    ]);
-    flashSaved();
+    setImages(data.images ?? []);
+    await updateSiteConfig(
+      { backgroundImage: data.filename },
+      `Uploaded & activated "${data.filename}"`
+    );
   };
 
   const publish = async () => {
     setPublishing(true);
-    setPublishStatus(null);
     try {
       const res = await fetch("/api/admin/git-push", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "admin: update content" }),
+        body: JSON.stringify({
+          message: commitMessage.trim() || "admin: update content",
+        }),
       });
       const data = await res.json();
       if (data.ok) {
-        setPublishStatus(data.skipped ? "Nothing to publish" : `Published (${data.sha})`);
+        if (data.skipped) {
+          showToast("Everything is already published", "info");
+        } else {
+          setCommitMessage("");
+          showToast(`Published to production (${data.sha})`, "success");
+        }
       } else {
-        setPublishStatus(`Error: ${data.error}`);
+        showToast(`Publish error: ${data.error}`, "error");
       }
     } catch {
-      setPublishStatus("Network error");
+      showToast("Network error while publishing", "error");
     } finally {
       setPublishing(false);
-      setTimeout(() => setPublishStatus(null), 4000);
     }
   };
 
-  const removeValueColor = (key: string) => {
-    setValueColors((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-  };
+  // ── Summary Metrics ──────────────────────────────────────────────────────
 
-  const saveProject = async (p: Project) => {
-    let updated: Project[];
-    if (isNew) {
-      updated = [...projects, p];
-    } else {
-      updated = projects.map((proj) => proj.id === p.id ? p : proj);
-    }
-    setProjects(updated);
-    await fetch("/api/admin/projects", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated) });
-    flashSaved();
-    setEditingProject(null);
-    setIsNew(false);
-  };
-
-  const deleteProject = async (id: string) => {
-    const updated = projects.filter((p) => p.id !== id);
-    setProjects(updated);
-    await fetch("/api/admin/projects", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated) });
-    flashSaved();
-  };
-
-  const reorderProjects = async (updated: Project[]) => {
-    setProjects(updated);
-    await fetch("/api/admin/projects", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated) });
-    flashSaved();
-  };
-
-  const tabStyle = (active: boolean): React.CSSProperties => ({
-    padding: "8px 20px",
-    cursor: "pointer",
-    fontFamily: "var(--font-mono)",
-    fontSize: 13,
-    background: active ? "var(--ink)" : "none",
-    color: active ? "var(--paper)" : "var(--muted)",
-    border: "1px solid var(--hairline)",
-    borderRadius: 4,
-  });
+  const publicCount = projects.filter((p) => !p.hidden && !p.archived).length;
+  const hiddenCount = projects.filter((p) => p.hidden).length;
+  const activeTheme = themes.find((t) => t.id === siteConfig.activeTheme) ?? null;
+  const activePhraseCount = activeTheme
+    ? activeTheme.enabledPhrases.length
+    : typewriterPhrases.filter((p) => p.enabled !== false).length;
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--paper-warm)",
-        padding: 40,
-        fontFamily: "var(--font-sans)",
-        color: "var(--ink)",
-      }}
-    >
-      <SaveBanner saved={saved} />
-
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ marginBottom: 32, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-          <div>
-            <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0, marginBottom: 4 }}>Admin</h1>
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
-              Archangel Laboratories — site editor
-            </p>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
-            <button
-              onClick={publish}
-              disabled={publishing}
-              style={{
-                ...btnStyle,
-                background: publishing ? "var(--muted)" : "var(--blue)",
-                opacity: publishing ? 0.7 : 1,
-                cursor: publishing ? "not-allowed" : "pointer",
-                minWidth: 110,
-              }}
-            >
-              {publishing ? "Publishing…" : "↑ Publish"}
-            </button>
-            {publishStatus && (
-              <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: publishStatus.startsWith("Error") ? "var(--red)" : "var(--muted)" }}>
-                {publishStatus}
-              </span>
-            )}
-          </div>
+    <PageLayout>
+      {toast && (
+        <div className="admin-toast" data-tone={toast.tone ?? "success"} role="status" aria-live="polite">
+          <span className="admin-toast-dot" aria-hidden="true" />
+          <span>{toast.text}</span>
         </div>
+      )}
 
-        {editingProject ? (
-          <div style={{ background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: 6, padding: 28 }}>
-            <ProjectEditor
-              project={editingProject}
-              onSave={saveProject}
-              onCancel={() => { setEditingProject(null); setIsNew(false); }}
-            />
-          </div>
-        ) : (
-          <>
-            <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-              <button style={tabStyle(tab === "colors")} onClick={() => setTab("colors")}>Colors</button>
-              <button style={tabStyle(tab === "typewriter")} onClick={() => setTab("typewriter")}>Typewriter</button>
-              <button style={tabStyle(tab === "projects")} onClick={() => setTab("projects")}>Projects</button>
-              <button style={tabStyle(tab === "background")} onClick={() => setTab("background")}>Background</button>
-              <button style={tabStyle(tab === "themes")} onClick={() => setTab("themes")}>Themes</button>
+      <div className="admin-page">
+        <div className="admin-container">
+          <header className="admin-hero">
+            <div>
+              <p className="admin-kicker">Archangel Laboratories · Studio Admin</p>
+              <h1>Site Editor</h1>
+              <p className="admin-subtitle">
+                Manage portfolio projects, seasonal themes, hero typewriter phrases, backdrop artwork, and palette tokens.
+              </p>
             </div>
 
-            <div style={{ background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: 6, padding: 28 }}>
-              {tab === "colors" && (
-                <ColorEditor
-                  colors={colors}
-                  onChange={(key, val) => setColors((prev) => ({ ...prev, [key]: val }))}
-                  onSave={saveColors}
-                  valueColors={valueColors}
-                  onValueColorChange={(key, val) => setValueColors((prev) => ({ ...prev, [key]: val }))}
-                  onValueColorAdd={addValueColor}
-                  onValueColorRemove={removeValueColor}
+            <div className="admin-hero-actions">
+              <Link href="/" className="admin-btn admin-btn--ghost">
+                View live site ↗
+              </Link>
+              <div className="admin-publish-group">
+                <input
+                  type="text"
+                  className="admin-publish-input"
+                  placeholder="Commit message (optional)…"
+                  value={commitMessage}
+                  onChange={(e) => setCommitMessage(e.target.value)}
+                  aria-label="Publish commit message"
                 />
-              )}
-              {tab === "typewriter" && (
-                <TypewriterEditor
-                  phrases={typewriterPhrases}
-                  valueColors={valueColors}
-                  onChange={setTypewriterPhrases}
-                  onValueColorChange={(key, val) => setValueColors((prev) => ({ ...prev, [key]: val }))}
-                  onSaveAll={saveTypewriterPhrases}
-                />
-              )}
-              {tab === "projects" && (
-                <ProjectList
-                  projects={projects}
-                  onSelect={(p) => { setEditingProject(p); setIsNew(false); }}
-                  onNew={() => { setEditingProject(makeEmptyProject()); setIsNew(true); }}
-                  onDelete={deleteProject}
-                  onReorder={reorderProjects}
-                />
-              )}
-              {tab === "background" && (
-                <BackgroundEditor onSave={flashSaved} />
-              )}
-              {tab === "themes" && (
-                <ThemesEditor onSave={flashSaved} />
-              )}
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--accent"
+                  onClick={publish}
+                  disabled={publishing}
+                >
+                  {publishing ? "Publishing…" : "↑ Publish"}
+                </button>
+              </div>
             </div>
-          </>
-        )}
+          </header>
+
+          {/* Summary overview strip */}
+          <section className="admin-stats" aria-label="Site overview">
+            <div className="admin-stat-card">
+              <span className="admin-stat-label">Projects</span>
+              <span className="admin-stat-value">{projects.length}</span>
+              <span className="admin-stat-meta">
+                {publicCount} public · {hiddenCount} hidden
+              </span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-label">Active Theme</span>
+              <span className="admin-stat-value">{activeTheme?.name ?? "Custom"}</span>
+              <span className="admin-stat-meta">{themes.length} saved themes</span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-label">Hero Phrases</span>
+              <span className="admin-stat-value">{activePhraseCount}</span>
+              <span className="admin-stat-meta">of {typewriterPhrases.length} total phrases</span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-label">Backdrop</span>
+              <span className="admin-stat-value" title={siteConfig.backgroundImage}>
+                {siteConfig.backgroundImage ?? "—"}
+              </span>
+              <span className="admin-stat-meta">{images.length} images in /public</span>
+            </div>
+          </section>
+
+          {editingProject ? (
+            <section className="admin-panel">
+              <ProjectEditor
+                project={editingProject}
+                isNew={isNewProject}
+                existingIds={projects.map((p) => p.id)}
+                valueColors={valueColors}
+                onSave={saveProject}
+                onCancel={() => {
+                  setEditingProject(null);
+                  setIsNewProject(false);
+                }}
+              />
+            </section>
+          ) : (
+            <>
+              <nav className="admin-tabs" aria-label="Admin sections">
+                <button
+                  type="button"
+                  className={`admin-tab ${tab === "projects" ? "is-active" : ""}`}
+                  onClick={() => switchTab("projects")}
+                >
+                  Projects <span className="admin-tab-count">{projects.length}</span>
+                </button>
+                <button
+                  type="button"
+                  className={`admin-tab ${tab === "themes" ? "is-active" : ""}`}
+                  onClick={() => switchTab("themes")}
+                >
+                  Themes <span className="admin-tab-count">{themes.length}</span>
+                </button>
+                <button
+                  type="button"
+                  className={`admin-tab ${tab === "typewriter" ? "is-active" : ""}`}
+                  onClick={() => switchTab("typewriter")}
+                >
+                  Typewriter <span className="admin-tab-count">{typewriterPhrases.length}</span>
+                  {phrasesDirty && <span className="admin-tab-dirty" title="Unsaved changes" />}
+                </button>
+                <button
+                  type="button"
+                  className={`admin-tab ${tab === "background" ? "is-active" : ""}`}
+                  onClick={() => switchTab("background")}
+                >
+                  Background <span className="admin-tab-count">{images.length}</span>
+                </button>
+                <button
+                  type="button"
+                  className={`admin-tab ${tab === "colors" ? "is-active" : ""}`}
+                  onClick={() => switchTab("colors")}
+                >
+                  Colors
+                  {colorsDirty && <span className="admin-tab-dirty" title="Unsaved changes" />}
+                </button>
+              </nav>
+
+              <section className="admin-panel">
+                {loading ? (
+                  <div className="admin-empty">
+                    <p>Loading studio data…</p>
+                  </div>
+                ) : (
+                  <>
+                    {tab === "projects" && (
+                      <ProjectsTab
+                        projects={projects}
+                        onSelect={(p) => {
+                          setEditingProject(p);
+                          setIsNewProject(false);
+                        }}
+                        onNew={(defaultSection) => {
+                          setEditingProject(makeEmptyProject(defaultSection));
+                          setIsNewProject(true);
+                        }}
+                        onDuplicate={duplicateProject}
+                        onToggleHidden={toggleProjectHidden}
+                        onDelete={deleteProject}
+                        onReorder={reorderProjects}
+                      />
+                    )}
+
+                    {tab === "themes" && (
+                      <ThemesTab
+                        themes={themes}
+                        activeThemeId={siteConfig.activeTheme ?? null}
+                        allPhrases={typewriterPhrases}
+                        valueColors={valueColors}
+                        images={images}
+                        onApply={applyTheme}
+                        onSaveTheme={saveTheme}
+                        onDeleteTheme={deleteTheme}
+                      />
+                    )}
+
+                    {tab === "typewriter" && (
+                      <TypewriterTab
+                        phrases={typewriterPhrases}
+                        valueColors={valueColors}
+                        activeThemeName={activeTheme?.name ?? null}
+                        activeThemePhrases={activeTheme?.enabledPhrases ?? null}
+                        dirty={phrasesDirty}
+                        onChange={setTypewriterPhrases}
+                        onValueColorChange={(key, val) =>
+                          setValueColors((prev) => ({ ...prev, [key]: val }))
+                        }
+                        onSaveAll={saveTypewriterPhrases}
+                        onReset={() => {
+                          setTypewriterPhrases(savedPhrases);
+                          setValueColors(savedValueColors);
+                        }}
+                        onOpenThemes={() => switchTab("themes")}
+                      />
+                    )}
+
+                    {tab === "background" && (
+                      <BackgroundTab
+                        key={`${siteConfig.contactEmail ?? ""}-${siteConfig.twitterHandle ?? ""}`}
+                        siteConfig={siteConfig}
+                        images={images}
+                        onSelectImage={(filename) =>
+                          updateSiteConfig(
+                            { backgroundImage: filename },
+                            `Active backdrop set to "${filename}"`
+                          )
+                        }
+                        onUploadImage={uploadBackgroundImage}
+                        onSaveSiteDetails={(updates) =>
+                          updateSiteConfig(updates, "Site contact details saved")
+                        }
+                      />
+                    )}
+
+                    {tab === "colors" && (
+                      <ColorsTab
+                        colors={colors}
+                        valueColors={valueColors}
+                        dirty={colorsDirty}
+                        onChange={(key, val) =>
+                          setColors((prev) => ({ ...prev, [key]: val }))
+                        }
+                        onValueColorChange={(key, val) =>
+                          setValueColors((prev) => ({ ...prev, [key]: val }))
+                        }
+                        onValueColorAdd={(name, hex) =>
+                          setValueColors((prev) => ({ ...prev, [name]: hex }))
+                        }
+                        onValueColorRemove={(key) =>
+                          setValueColors((prev) => {
+                            const next = { ...prev };
+                            delete next[key];
+                            return next;
+                          })
+                        }
+                        onReset={() => {
+                          setColors(savedColors);
+                          setValueColors(savedValueColors);
+                        }}
+                        onSave={saveColors}
+                      />
+                    )}
+                  </>
+                )}
+              </section>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

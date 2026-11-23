@@ -8,9 +8,12 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { writeFileSync } = await import("fs");
+  const { readFileSync, writeFileSync } = await import("fs");
   const { join } = await import("path");
-  const config = await req.json();
-  writeFileSync(join(process.cwd(), "app/data/site-config.json"), JSON.stringify(config, null, 2), "utf-8");
-  return NextResponse.json({ ok: true });
+  const configPath = join(process.cwd(), "app/data/site-config.json");
+  const existing = JSON.parse(readFileSync(configPath, "utf-8"));
+  const updates = await req.json();
+  const merged = { ...existing, ...updates };
+  writeFileSync(configPath, JSON.stringify(merged, null, 2), "utf-8");
+  return NextResponse.json({ ok: true, config: merged });
 }
