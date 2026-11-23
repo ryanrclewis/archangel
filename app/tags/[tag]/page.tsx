@@ -116,7 +116,14 @@ export default async function TagPage({ params }: PageProps) {
                         {project.section ? `${project.section} · ` : ""}
                         {project.type}
                       </span>
-                      <span className="status-text">{project.status}</span>
+                      <span className="project-card-topline-end">
+                        <span className="status-text">{project.status}</span>
+                        {project.emoji && (
+                          <span className="project-card-emoji" aria-hidden="true">
+                            {project.emoji}
+                          </span>
+                        )}
+                      </span>
                     </div>
                     <h3>{project.name}</h3>
                     <p>{project.tagline || project.description}</p>

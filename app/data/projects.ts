@@ -51,6 +51,8 @@ export type Project = {
   degree?: ProjectDegree;
   version?: string;
   name: string;
+  /** Optional emoji representing the project in nav hover states and cards. */
+  emoji?: string;
   type: string;
   status: ProjectStatus;
   /** Concise 1-sentence tagline shown on project cards. */

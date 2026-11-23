@@ -62,7 +62,14 @@ function renderProjectCard(project: Project) {
     >
       <div className="project-card-topline">
         <span>{project.type}</span>
-        {isFeatured && <span className="featured-badge">FEATURED</span>}
+        <span className="project-card-topline-end">
+          {isFeatured && <span className="featured-badge">FEATURED</span>}
+          {project.emoji && (
+            <span className="project-card-emoji" aria-hidden="true">
+              {project.emoji}
+            </span>
+          )}
+        </span>
       </div>
       <h3>{project.name}</h3>
       <p>{project.tagline || project.description}</p>

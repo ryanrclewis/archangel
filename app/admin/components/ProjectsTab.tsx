@@ -294,7 +294,7 @@ export function ProjectsTab({
                     onClick={() => onSelect(p)}
                     style={{ cursor: "pointer" }}
                   >
-                    {(p.name || "?").slice(0, 1).toUpperCase()}
+                    {p.emoji || (p.name || "?").slice(0, 1).toUpperCase()}
                   </div>
 
                   <div

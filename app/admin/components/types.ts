@@ -30,6 +30,7 @@ export type ProjectLink = { label: string; href: string };
 export type Project = {
   id: string;
   name: string;
+  emoji?: string;
   type: string;
   status: ProjectStatus;
   tagline?: string;

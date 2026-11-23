@@ -88,6 +88,7 @@ export function ProjectEditor({
         ...p,
         id: cleanId,
         name: p.name.trim(),
+        emoji: p.emoji?.trim() ? p.emoji.trim() : undefined,
         tagline: p.tagline?.trim() ? p.tagline.trim() : undefined,
         embed: cleanedEmbed,
         externalLinks: cleanedLinks.length ? cleanedLinks : undefined,
@@ -382,6 +383,20 @@ export function ProjectEditor({
                 value={p.version ?? ""}
                 placeholder="e.g. v1.2"
                 onChange={(e) => set("version", e.target.value || undefined)}
+              />
+            </div>
+
+            <div className="admin-field">
+              <label className="admin-label" htmlFor="proj-emoji">
+                <span>Emoji</span>
+                <span className="admin-label-hint">Shown on nav hover &amp; cards</span>
+              </label>
+              <input
+                id="proj-emoji"
+                className="admin-input"
+                value={p.emoji ?? ""}
+                placeholder="e.g. ⛪"
+                onChange={(e) => set("emoji", e.target.value || undefined)}
               />
             </div>
 
@@ -853,8 +868,15 @@ export function ProjectEditor({
           <div className="admin-preview-box">
             <p className="admin-preview-label">Live Card Preview</p>
             <div className="admin-preview-art" data-tone={previewTone}>
-              <span>{p.section ? p.section.toUpperCase() : "PROJECT"}</span>
-              <strong>{(p.name || "A").slice(0, 1).toUpperCase()}</strong>
+              <span className="admin-preview-art-section">{p.section ? p.section.toUpperCase() : "PROJECT"}</span>
+              <div className="admin-preview-art-bottom">
+                <strong>{(p.name || "A").slice(0, 1).toUpperCase()}</strong>
+                {p.emoji && (
+                  <span className="admin-preview-art-emoji" aria-hidden="true">
+                    {p.emoji}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="category-project-meta" style={{ marginBottom: "0.45rem" }}>
               <span>{p.type || "Project Type"}</span>

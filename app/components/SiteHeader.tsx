@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { homepageExampleIds, projects, type ProjectSection } from "@/app/data/projects";
+import { projects, type ProjectSection } from "@/app/data/projects";
 
 const navigationSections: Array<{ key: ProjectSection; label: string; emoji: string }> = [
   { key: "bespoke", label: "Bespoke", emoji: "🧵" },
@@ -118,8 +118,7 @@ export function SiteHeader() {
     ? projects.filter(
         (project) =>
           project.section === displaySection &&
-          !project.archived &&
-          !homepageExampleIds.has(project.id),
+          !project.archived,
       )
     : [];
 
@@ -221,7 +220,12 @@ export function SiteHeader() {
                       key={project.id}
                       onClick={closeMenu}
                     >
-                      {project.name}
+                      {project.emoji && (
+                        <span className="site-nav-project-emoji" aria-hidden="true">
+                          {project.emoji}
+                        </span>
+                      )}
+                      <span>{project.name}</span>
                     </Link>
                   ))}
                 </div>

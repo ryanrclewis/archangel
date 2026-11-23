@@ -36,8 +36,15 @@ export function CategoryCarousel({ projects }: Props) {
         {projects.map((project, index) => (
           <Link className="category-project-card" href={`/projects/${project.id}`} key={project.id}>
             <div className="category-project-art" data-tone={project.clients?.[0]?.tone ?? "muted"}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{project.name.slice(0, 1)}</strong>
+              <span className="category-project-index">{String(index + 1).padStart(2, "0")}</span>
+              <div className="category-project-art-bottom">
+                <strong>{project.name.slice(0, 1)}</strong>
+                {project.emoji && (
+                  <span className="category-project-emoji" aria-hidden="true">
+                    {project.emoji}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="category-project-meta">
               <span>{project.type}</span>
