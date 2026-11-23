@@ -50,8 +50,8 @@ export default async function ProjectPage({ params }: RouteProps) {
   }
 
   const projectLinks = [
-    ...(project.url ? [{ label: "Open project", href: project.url }] : []),
-    ...(project.externalLinks ?? []),
+    ...(project.url?.trim() ? [{ label: "Open project", href: project.url.trim() }] : []),
+    ...(project.externalLinks ?? []).filter((link) => link.href?.trim()),
   ];
 
   const isPortraitEmbed = Boolean(
@@ -119,33 +119,37 @@ export default async function ProjectPage({ params }: RouteProps) {
 
         {landscapeEmbed}
 
-        <div className="detail-grid">
-          {project.features?.length ? (
-            <section className="detail-section" aria-labelledby="highlights-title">
-              <div className="section-heading compact">
-                <h2 id="highlights-title">Highlights</h2>
-              </div>
-              <ul className="feature-list">
-                {project.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+        {project.features?.length || projectLinks.length ? (
+          <div className="detail-grid">
+            {project.features?.length ? (
+              <section className="detail-section" aria-labelledby="highlights-title">
+                <div className="section-heading compact">
+                  <h2 id="highlights-title">Highlights</h2>
+                </div>
+                <ul className="feature-list">
+                  {project.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-          <section className="detail-section" aria-labelledby="resources-title">
-            <div className="section-heading compact">
-              <h2 id="resources-title">Links</h2>
-            </div>
-            <div className="action-row">
-              {projectLinks.map((link) => (
-                <a key={link.href} href={link.href} className="button-primary" target="_blank" rel="noreferrer">
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </section>
-        </div>
+            {projectLinks.length ? (
+              <section className="detail-section" aria-labelledby="resources-title">
+                <div className="section-heading compact">
+                  <h2 id="resources-title">Links</h2>
+                </div>
+                <div className="action-row">
+                  {projectLinks.map((link) => (
+                    <a key={link.href} href={link.href} className="button-primary" target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+        ) : null}
 
         {project.caseStudy?.trim() ? (
           <section className="detail-case-study" aria-label={`${project.name} case study`}>

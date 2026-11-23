@@ -50,7 +50,6 @@
     "emoji": "🕰️",
     "type": "iOS Application",
     "status": "IN PROGRESS",
-    "url": "",
     "tagline": "A digital keepsake for your family's history.",
     "description": "A digital keepsake for your family's history.",
     "clients": [
@@ -505,7 +504,8 @@
       "Add visual or documentary artifacts (currently zero links and zero embeds): include sanitized user flows, wireframes, service blueprints, or journey maps.",
       "Replace generic feature bullets ('Product and UX planning', 'Experience refinement') with concrete deliverables (specific workflows mapped, research methods used, product roadmap decisions).",
       "Explain the outcome and lessons learned — what shipped, how stakeholders used your recommendations, and what measurable or qualitative improvements resulted."
-    ]
+    ],
+    "url": "https://effectiveministry360.coetichr.com/"
   },
   {
     "id": "woether",
@@ -552,6 +552,12 @@
       "Clarify your specific role (researcher, product designer, systems thinker), team structure, and the design process behind the embedded Figma prototype.",
       "Document usability testing, iteration trade-offs, and accessibility/interaction decisions (e.g., team workflow states, cognitive load management, reporting views).",
       "Add a direct clickable prototype URL or key annotated screen callouts so reviewers who don't interact with the iframe immediately grasp the strongest UX innovations."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Figma Prototype",
+        "href": "https://www.figma.com/proto/9EiuFXr6vw57nzwTuzAytQ/Woether?node-id=266-490&page-id=0%3A1&starting-point-node-id=268%3A0"
+      }
     ]
   },
   {
@@ -736,6 +742,16 @@
       "Replace the four generic feature bullets ('User research and analysis', 'Complete visual redesign', etc.) with concrete UX artifacts (e.g., card sorting/tree testing, bento result hierarchy, WCAG compliance fixes, usability task benchmarks).",
       "Specify your exact individual role on the UX team, your user testing methodology (number of students/faculty tested, task completion or time-on-task findings), and how MSU Library staff responded to or adopted your recommendations.",
       "Pull key metrics and before/after takeaways out of the embedded Google Slides deck into the page text so hiring committees can scan the impact immediately."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Presentation",
+        "href": "https://docs.google.com/presentation/d/e/2PACX-1vSkOnG69z2TEquPvkU07X8l3BG0qYYVJT0G80WYDwtdAEIeG5OnAZTAhQJekscwOA/pub?start=false&loop=false&delayms=3000"
+      },
+      {
+        "label": "MSU Libraries",
+        "href": "https://lib.msu.edu/"
+      }
     ]
   },
   {
@@ -778,6 +794,16 @@
       "Replace the four generic features (currently copy-pasted from Bento Box) with DSL-specific research methods, IA restructuring, equipment/space booking or resource discovery improvements, and accessibility upgrades.",
       "Detail your research and testing process (stakeholder interviews, analytics, usability evaluations, sample size) and clarify your personal contribution on the project.",
       "Summarize the concrete before/after design improvements shown in the Figma prototype and any adoption or stakeholder feedback from MSU Libraries."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Figma Prototype",
+        "href": "https://www.figma.com/proto/Qmxd4FQy87KkFEwWiXwp6Wn8/Digital-Scholarship-Lab?node-id=0-2"
+      },
+      {
+        "label": "MSU Digital Scholarship Lab",
+        "href": "https://lib.msu.edu/dsl"
+      }
     ]
   },
   {
@@ -823,6 +849,12 @@
       "Clarify the form factor and interaction model (mobile app, smart-home/IoT interface, physical-digital feedback loop) and explain key design trade-offs.",
       "Replace generic feature bullets with concrete design & research outputs (behavioral feedback mechanisms, environmental impact calculations, prototype testing findings).",
       "Note whether this early 2018 undergraduate concept should be fleshed out as a sustainability/HCI case study or moved to the Archive to keep focus on recent work."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Figma Prototype",
+        "href": "https://www.figma.com/proto/VEuNFNQaoIufcLy5renlB4As/H2Home?node-id=0-2&page-id=0%3A1&starting-point-node-id=0%3A2"
+      }
     ]
   },
   {
@@ -868,6 +900,12 @@
       "Detail the specific interaction innovations shown in the Figma prototype (e.g., waveform scrubbing, timestamped citations, synchronized transcripts/captions for accessibility) — strong material for university digital humanities and Big Tech audio/media UX.",
       "Document your research grounding, accessibility methodology (ensuring audio scholarship is inclusive for D/deaf and hard-of-hearing audiences), and user evaluation results.",
       "Replace generic feature bullets with concrete interface capabilities and clarify your role and academic collaborators."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Figma Prototype",
+        "href": "https://www.figma.com/proto/x8RJbWV0TjjAo00KTDRHQw/Sound-Writing?node-id=0-1431&page-id=0%3A1&starting-point-node-id=0%3A1431"
+      }
     ]
   },
   {
@@ -1012,6 +1050,12 @@
       "Document your human-centered research methodology (fieldwork, intercept interviews, community workshops, surveys, sample size, synthesis frameworks) to demonstrate university-grade public-interest research rigor.",
       "Add concrete findings and deliverables (currently zero links and zero embeds): attach or summarize the final report, persona/journey artifacts, or specific urban corridor recommendations.",
       "Explain the real-world policy or planning impact — how the Corridor Improvement Authority used your team's research to inform 2030 development proposals."
+    ],
+    "externalLinks": [
+      {
+        "label": "Michigan Avenue Corridor",
+        "href": "https://www.dotheavenue.com/"
+      }
     ]
   },
   {
@@ -1100,6 +1144,12 @@
       "Expand the 1-sentence description to clearly frame the research question, methodology, evidence base, and objective analytical findings drawn from the embedded presentation.",
       "Ensure the narrative emphasizes neutral, scholarly rigor and critical inquiry (how you gathered diverse campus perspectives and synthesized institutional communication challenges) — especially important for university hiring committees.",
       "Evaluate whether this early 2018 undergraduate study strengthens your target UX/tech job narrative or is better placed in the Archive."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Presentation",
+        "href": "https://docs.google.com/presentation/d/e/2PACX-1vTMZGUYJctcmjZXcKKihEZrte97e6Jsv_idq3OaqehIYZtEpYpRnbHJPCrG78woYYpzZsJt0D1SbPL1/pub?start=false&loop=false&delayms=3000"
+      }
     ]
   },
   {
@@ -1212,6 +1262,12 @@
       "Summarize the core research and design story in the description instead of relying on the embedded slide deck: state the problem, participant research methods, key accessibility barriers uncovered, and your specific redesign decisions.",
       "Highlight usability testing methodology and results (tasks tested, participant feedback, iteration outcomes) — high-impact proof for Google, Apple, Microsoft accessibility teams and university HCI departments.",
       "Check metadata consistency: this is listed under 'Industry' with client 'Michigan State University' (Mar 2018) and no 'degree' field — clarify whether it belongs in Research with your B.A. attribution so your academic vs. industry timeline is crystal clear."
+    ],
+    "externalLinks": [
+      {
+        "label": "Open Presentation",
+        "href": "https://docs.google.com/presentation/d/e/2PACX-1vTgDOygXp-gwtTyY7_Dr1iroXnaxi5i_bOgEbBTL4FXsOLxQfGCuUbu2NheKf1zMiMauSceyuCFKtf2/pub?start=false&loop=false&delayms=3000"
+      }
     ]
   },
   {
@@ -1318,6 +1374,16 @@
       "Add a Launch Date or milestone timeline (currently empty) and a live URL, staging link, or sanitized workflow screenshots/wireframes (currently zero links/embeds).",
       "Document the technical and UX architecture (frontend/backend stack, WSSN search UX improvements, WCAG 2.1 AA remediation patterns, legacy pain points solved for the ~5,000 operators and EGLE staff).",
       "Add measurable or projected impact metrics (task completion time for lookups/renewals, accessibility compliance defects eliminated, staff processing efficiency) for Big Tech and university systems roles."
+    ],
+    "externalLinks": [
+      {
+        "label": "OTCIS Portal",
+        "href": "https://www.egle.state.mi.us/otcis/"
+      },
+      {
+        "label": "EGLE Operator Certification",
+        "href": "https://www.michigan.gov/egle/about/organization/drinking-water-and-environmental-health/drinking-water-operator-certification"
+      }
     ]
   },
   {
@@ -1665,7 +1731,6 @@
     "type": "iOS Application",
     "status": "IN PROGRESS",
     "description": "",
-    "url": "",
     "clients": [
       {
         "name": "MJGZL",
@@ -1692,7 +1757,7 @@
     "type": "Podcast",
     "status": "IN PROGRESS",
     "description": "",
-    "url": "catholicbookchat.com",
+    "url": "https://catholicbookchat.com",
     "clients": [
       {
         "name": "B. Shinkle",

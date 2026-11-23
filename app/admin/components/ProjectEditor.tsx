@@ -76,7 +76,7 @@ export function ProjectEditor({
 
     const cleanedEmbed = p.embed?.src?.trim() ? p.embed : undefined;
     const cleanedLinks = (p.externalLinks ?? []).filter(
-      (link) => link.label.trim() || link.href.trim()
+      (link) => link.label.trim() && link.href.trim()
     );
     const cleanedFeatures = (p.features ?? []).filter((f) => f.trim());
     const cleanedClients = (p.clients ?? []).filter((c) => c.name.trim());
@@ -90,6 +90,7 @@ export function ProjectEditor({
         name: p.name.trim(),
         emoji: p.emoji?.trim() ? p.emoji.trim() : undefined,
         tagline: p.tagline?.trim() ? p.tagline.trim() : undefined,
+        url: p.url?.trim() ? p.url.trim() : undefined,
         embed: cleanedEmbed,
         externalLinks: cleanedLinks.length ? cleanedLinks : undefined,
         features: cleanedFeatures.length ? cleanedFeatures : undefined,
