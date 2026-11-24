@@ -8,10 +8,50 @@ import {
   MagnifyingGlassIcon,
   XmarkCircleFillIcon,
 } from "@/app/components/SfSymbols";
-import { formatTagTitle, getAllProjectTags, type Project } from "@/app/data/projects";
-import siteConfig from "@/app/data/site-config.json";
+import {
+  formatTagTitle,
+  getAllProjectTags,
+  projects,
+  type Project,
+} from "@/app/data/projects";
 import { getPhraseChipStyle } from "@/app/utils/phraseStyles";
 import { searchProjects } from "@/app/utils/searchProjects";
+
+const QUICK_LINK_PROJECT_IDS = [
+  "saintstombs",
+  "pantrie",
+  "wwat-modernization",
+  "gm",
+  "nsfm",
+  "listening-to-users",
+];
+
+function getQuickLinkProjects(): Project[] {
+  const active = projects.filter((project) => !project.archived);
+  const featured = active
+    .filter((project) => project.featured)
+    .sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
+
+  const chosen: Project[] = [];
+  const seen = new Set<string>();
+
+  for (const project of featured) {
+    if (seen.has(project.id)) continue;
+    seen.add(project.id);
+    chosen.push(project);
+  }
+
+  for (const id of QUICK_LINK_PROJECT_IDS) {
+    if (chosen.length >= 6) break;
+    const match = active.find((project) => project.id === id);
+    if (match && !seen.has(match.id)) {
+      seen.add(match.id);
+      chosen.push(match);
+    }
+  }
+
+  return chosen.slice(0, 6);
+}
 
 function getFocusableElements(container: HTMLElement | null): HTMLElement[] {
   if (!container) return [];
@@ -39,6 +79,7 @@ export function CommandPalette() {
 
   const results = useMemo(() => searchProjects(query), [query]);
   const allTags = useMemo(() => getAllProjectTags(), []);
+  const quickLinkProjects = useMemo(() => getQuickLinkProjects(), []);
   const trimmedQuery = query.trim();
   const activeOptionId =
     trimmedQuery && results[selectedIndex]
@@ -314,30 +355,16 @@ export function CommandPalette() {
               <p>{trimmedQuery ? "Projects" : "Quick Links"}</p>
               {!trimmedQuery ? (
                 <>
-                  <Link href="/categories/bespoke" onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Bespoke</span>
-                  </Link>
-                  <Link href="/categories/government" onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Government</span>
-                  </Link>
-                  <Link href="/categories/industry" onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Industry</span>
-                  </Link>
-                  <Link href="/categories/research" onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Research</span>
-                  </Link>
-                  <Link href="/archive" onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Project Archive</span>
-                  </Link>
-                  <a href={`mailto:${siteConfig.contactEmail}`} onClick={closePalette}>
-                    <ArrowRightIcon size="0.9rem" className="inline-symbol" />
-                    <span>Contact</span>
-                  </a>
+                  {quickLinkProjects.map((project) => (
+                    <Link
+                      key={project.id}
+                      href={`/projects/${project.id}`}
+                      onClick={closePalette}
+                    >
+                      <ArrowRightIcon size="0.9rem" className="inline-symbol" />
+                      <span>{project.name}</span>
+                    </Link>
+                  ))}
                 </>
               ) : results.length > 0 ? (
                 <ul id="command-palette-listbox" role="listbox" aria-label="Search results">

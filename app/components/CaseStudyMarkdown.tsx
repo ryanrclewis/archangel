@@ -71,8 +71,26 @@ function renderInline(text: string, keyPrefix = "in"): React.ReactNode[] {
 }
 
 function splitTableRow(line: string): string[] {
-  const trimmed = line.trim().replace(/^\|/, "").replace(/\|$/, "");
-  return trimmed.split("|").map((cell) => cell.trim());
+  let trimmed = line.trim();
+  if (trimmed.startsWith("|")) trimmed = trimmed.slice(1);
+  if (trimmed.endsWith("|") && !trimmed.endsWith("\\|")) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  const cells: string[] = [];
+  let current = "";
+  for (let idx = 0; idx < trimmed.length; idx++) {
+    if (trimmed[idx] === "\\" && trimmed[idx + 1] === "|") {
+      current += "|";
+      idx++;
+    } else if (trimmed[idx] === "|") {
+      cells.push(current.trim());
+      current = "";
+    } else {
+      current += trimmed[idx];
+    }
+  }
+  cells.push(current.trim());
+  return cells;
 }
 
 function isTableSeparator(line: string): boolean {
@@ -162,6 +180,22 @@ function parseList(
         {nestedChildren}
       </li>
     );
+
+    // Continue loose list across blank lines when followed by a sibling item
+    let lookahead = i;
+    while (lookahead < lines.length && !lines[lookahead].trim()) {
+      lookahead++;
+    }
+    if (lookahead > i && lookahead < lines.length) {
+      const nextSibling = isListLine(lines[lookahead]);
+      if (
+        nextSibling &&
+        nextSibling.indent === baseIndent &&
+        nextSibling.ordered === ordered
+      ) {
+        i = lookahead;
+      }
+    }
   }
 
   const Tag = ordered ? "ol" : "ul";
@@ -190,6 +224,36 @@ function renderBlocks(markdown: string, keyPrefix = "blk"): React.ReactNode[] {
     }
 
     const key = `${keyPrefix}-${blocks.length}`;
+
+    // Carousel / multi-slide gallery blocks (````carousel ... ````)
+    if (/^````carousel\s*$/i.test(trimmed)) {
+      const slideChunks: string[][] = [[]];
+      i++;
+      while (i < lines.length && !/^````\s*$/.test(lines[i].trim())) {
+        if (/^<!--\s*slide\s*-->$/i.test(lines[i].trim())) {
+          slideChunks.push([]);
+        } else {
+          slideChunks[slideChunks.length - 1].push(lines[i]);
+        }
+        i++;
+      }
+      if (i < lines.length) i++;
+      const nonEmptySlides = slideChunks
+        .map((chunk) => chunk.join("\n").trim())
+        .filter(Boolean);
+      if (nonEmptySlides.length > 0) {
+        blocks.push(
+          <div key={key} className="case-study-gallery">
+            {nonEmptySlides.map((slideMd, sIdx) => (
+              <div key={`${key}-slide-${sIdx}`} className="case-study-gallery-item">
+                {renderBlocks(slideMd, `${key}-s-${sIdx}`)}
+              </div>
+            ))}
+          </div>
+        );
+      }
+      continue;
+    }
 
     // Fenced code blocks & Mermaid
     const fenceMatch = /^```(\w*)\s*$/.exec(trimmed);
@@ -277,7 +341,7 @@ function renderBlocks(markdown: string, keyPrefix = "blk"): React.ReactNode[] {
     if (/^>\s?/.test(trimmed)) {
       const quoteLines: string[] = [];
       while (i < lines.length && /^>\s?/.test(lines[i].trim())) {
-        quoteLines.push(lines[i].trim().replace(/^>\s?/, ""));
+        quoteLines.push(lines[i].trimStart().replace(/^>\s?/, ""));
         i++;
       }
 

@@ -2493,6 +2493,26 @@ ol.case-study-list {
   line-height: 1.45;
 }
 
+.case-study-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0 2rem;
+  align-items: start;
+}
+
+.case-study-gallery .case-study-figure {
+  margin: 0;
+}
+
+.case-study-gallery .case-study-figure img {
+  width: auto;
+  max-width: 100%;
+  max-height: 36rem;
+  height: auto;
+  margin: 0 auto;
+}
+
 .case-study-diagram {
   margin: 1.5rem 0 2rem;
   padding: 1.15rem;
