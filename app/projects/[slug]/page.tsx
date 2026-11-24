@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BreadcrumbNav, type BreadcrumbItem } from "@/app/components/BreadcrumbNav";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { CaseStudyMarkdown } from "@/app/components/CaseStudyMarkdown";
+import { ArrowUpRightIcon } from "@/app/components/SfSymbols";
 import { formatUppercaseLabel } from "@/app/utils/brandText";
-import { getProjectById, getProjectIds } from "../../data/projects";
+import { getProjectById, getProjectIds, type ProjectSection } from "../../data/projects";
+
+const SECTION_LABELS: Record<ProjectSection, string> = {
+  bespoke: "Bespoke",
+  government: "Government",
+  industry: "Industry",
+  research: "Research",
+};
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -54,6 +63,17 @@ export default async function ProjectPage({ params }: RouteProps) {
     ...(project.url?.trim() ? [{ label: "Open project", href: project.url.trim() }] : []),
     ...(project.externalLinks ?? []).filter((link) => link.href?.trim()),
   ];
+
+  const breadcrumbs: BreadcrumbItem[] = [{ label: "Home", href: "/" }];
+  if (project.archived) {
+    breadcrumbs.push({ label: "Project Archive", href: "/archive" });
+  } else if (project.section) {
+    breadcrumbs.push({
+      label: SECTION_LABELS[project.section],
+      href: `/categories/${project.section}`,
+    });
+  }
+  breadcrumbs.push({ label: project.name });
 
   const isPortraitEmbed = Boolean(
     project.embed?.width && project.embed?.height && project.embed.width < project.embed.height,
@@ -114,7 +134,10 @@ export default async function ProjectPage({ params }: RouteProps) {
   return (
     <PageLayout>
       <article className="project-detail">
-        <header className="detail-hero">{heroContent}</header>
+        <header className="detail-hero">
+          <BreadcrumbNav items={breadcrumbs} />
+          {heroContent}
+        </header>
 
         {landscapeEmbed}
 
@@ -145,9 +168,11 @@ export default async function ProjectPage({ params }: RouteProps) {
                       href={link.href}
                       className={index === 0 ? "button-primary" : "button-secondary"}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      <ArrowUpRightIcon size="0.95em" className="inline-symbol" />
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   ))}
                 </div>

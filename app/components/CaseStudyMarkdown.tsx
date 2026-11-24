@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowUpRightIcon } from "./SfSymbols";
 import { MermaidDiagram } from "./MermaidDiagram";
 
 function slugifyHeading(text: string): string {
@@ -46,6 +47,13 @@ function renderInline(text: string, keyPrefix = "in"): React.ReactNode[] {
           rel={isExternal ? "noopener noreferrer" : undefined}
         >
           {renderInline(label, `${key}-a`)}
+          {isExternal && (
+            <>
+              {" "}
+              <ArrowUpRightIcon size="0.85em" className="inline-symbol" />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </>
+          )}
         </a>
       );
     } else if (match[6]) {
@@ -257,7 +265,7 @@ function renderBlocks(markdown: string, keyPrefix = "blk"): React.ReactNode[] {
       blocks.push(
         <figure key={key} className="case-study-figure">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={alt} loading="lazy" />
+          <img src={src} alt={alt} loading="lazy" decoding="async" />
           {alt && <figcaption>{alt}</figcaption>}
         </figure>
       );
@@ -322,7 +330,7 @@ function renderBlocks(markdown: string, keyPrefix = "blk"): React.ReactNode[] {
             <thead>
               <tr>
                 {headers.map((h, hIdx) => (
-                  <th key={`${key}-th-${hIdx}`}>
+                  <th key={`${key}-th-${hIdx}`} scope="col">
                     {renderInline(h, `${key}-th-${hIdx}`)}
                   </th>
                 ))}

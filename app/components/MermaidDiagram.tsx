@@ -53,12 +53,25 @@ type Props = {
   chart: string;
 };
 
+function describeDiagram(chart: string): string {
+  const firstLine = chart.trim().split("\n")[0]?.trim().toLowerCase() ?? "";
+  if (firstLine.startsWith("sequencediagram")) return "Sequence architecture diagram";
+  if (firstLine.startsWith("erdiagram")) return "Entity-relationship diagram";
+  if (firstLine.startsWith("statediagram")) return "State transition diagram";
+  if (firstLine.startsWith("classdiagram")) return "Class structure diagram";
+  if (firstLine.startsWith("flowchart") || firstLine.startsWith("graph")) {
+    return "System architecture flowchart";
+  }
+  return "Architecture diagram";
+}
+
 export function MermaidDiagram({ chart }: Props) {
   const rawId = useId();
   const safeId = `mermaid-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const [svg, setSvg] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const dark = useSyncExternalStore(subscribeTheme, getIsDarkTheme, () => false);
+  const diagramLabel = describeDiagram(chart);
 
   useEffect(() => {
     let active = true;
@@ -129,7 +142,7 @@ export function MermaidDiagram({ chart }: Props) {
 
   if (svg) {
     return (
-      <figure className="case-study-diagram" aria-label="Architecture diagram">
+      <figure className="case-study-diagram" aria-label={diagramLabel}>
         <div
           className="case-study-diagram-svg"
           dangerouslySetInnerHTML={{ __html: svg }}
@@ -139,7 +152,7 @@ export function MermaidDiagram({ chart }: Props) {
   }
 
   return (
-    <figure className="case-study-diagram" aria-label="Architecture diagram">
+    <figure className="case-study-diagram" aria-label={diagramLabel}>
       <pre className="case-study-code">
         <code>{chart}</code>
       </pre>

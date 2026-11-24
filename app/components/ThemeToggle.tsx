@@ -1,22 +1,32 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
+import {
+  CircleLeftHalfFilledIcon,
+  MoonIcon,
+  SunMaxIcon,
+} from "@/app/components/SfSymbols";
 
-type ThemeMode = "light" | "dark";
+type ThemePreference = "system" | "light" | "dark";
+type ResolvedTheme = "light" | "dark";
 
 const THEME_STORAGE_KEY = "archangel-theme";
 const THEME_CHANGE_EVENT = "archangel-theme-change";
 
 /**
- * Set to `true` to restore the original Liquid Glass light-mode orb
- * and solid B&W dark-mode toggle styling.
+ * Set to `true` to restore the Liquid Glass orb toggle styling.
  */
 const USE_LIQUID_GLASS = false;
 
-function getResolvedTheme(): ThemeMode {
+function getThemePreference(): ThemePreference {
+  if (typeof window === "undefined") return "system";
+  const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+  if (saved === "light" || saved === "dark") return saved;
+  return "system";
+}
+
+function getSystemTheme(): ResolvedTheme {
   if (typeof window === "undefined") return "light";
-  const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY);
-  if (savedMode === "dark" || savedMode === "light") return savedMode;
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
@@ -33,36 +43,64 @@ function subscribeTheme(onStoreChange: () => void): () => void {
   };
 }
 
+const NEXT_PREFERENCE: Record<ThemePreference, ThemePreference> = {
+  system: "light",
+  light: "dark",
+  dark: "system",
+};
+
+const MODE_LABELS: Record<ThemePreference, string> = {
+  system: "Automatic",
+  light: "Light",
+  dark: "Dark",
+};
+
 export function ThemeToggle() {
-  const mode = useSyncExternalStore(subscribeTheme, getResolvedTheme, () => "light" as ThemeMode);
+  const preference = useSyncExternalStore(
+    subscribeTheme,
+    getThemePreference,
+    () => "system" as ThemePreference,
+  );
+  const systemTheme = useSyncExternalStore(
+    subscribeTheme,
+    getSystemTheme,
+    () => "light" as ResolvedTheme,
+  );
+
+  const resolved: ResolvedTheme = preference === "system" ? systemTheme : preference;
+  const isDark = resolved === "dark";
 
   useEffect(() => {
-    const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (savedMode === "dark" || savedMode === "light") {
-      document.documentElement.dataset.theme = savedMode;
+    if (preference === "light" || preference === "dark") {
+      document.documentElement.dataset.theme = preference;
     } else {
       document.documentElement.removeAttribute("data-theme");
     }
-  }, [mode]);
+  }, [preference]);
 
-  const isDark = mode === "dark";
-  const toggleMode = () => {
-    const nextMode: ThemeMode = isDark ? "light" : "dark";
-    window.localStorage.setItem(THEME_STORAGE_KEY, nextMode);
-    document.documentElement.dataset.theme = nextMode;
+  const cycleMode = () => {
+    const next = NEXT_PREFERENCE[preference];
+    if (next === "system") {
+      window.localStorage.removeItem(THEME_STORAGE_KEY);
+      document.documentElement.removeAttribute("data-theme");
+    } else {
+      window.localStorage.setItem(THEME_STORAGE_KEY, next);
+      document.documentElement.dataset.theme = next;
+    }
     window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   };
 
+  const nextMode = NEXT_PREFERENCE[preference];
+  const actionLabel = `Appearance: ${MODE_LABELS[preference]}. Switch to ${MODE_LABELS[nextMode]}.`;
   const variantClass = USE_LIQUID_GLASS ? "theme-toggle--liquid-glass" : "";
 
   return (
     <button
       className={`theme-toggle ${variantClass} ${isDark ? "is-dark" : "is-light"}`.trim()}
       type="button"
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      aria-pressed={isDark}
-      title={`Switch to ${isDark ? "light" : "dark"} mode`}
-      onClick={toggleMode}
+      aria-label={actionLabel}
+      title={actionLabel}
+      onClick={cycleMode}
     >
       {USE_LIQUID_GLASS && !isDark && (
         <svg className="theme-toggle-rim" viewBox="0 0 52 52" aria-hidden="true">
@@ -85,17 +123,13 @@ export function ThemeToggle() {
           />
         </svg>
       )}
-      <svg
-        className={`theme-toggle-icon ${isDark ? "is-dark" : "is-light"}`}
-        viewBox="0 0 44 44"
-        aria-hidden="true"
-      >
-        <path
-          fill="currentColor"
-          fillRule="evenodd"
-          d="M22 0a22 22 0 1 1 0 44a22 22 0 1 1 0-44ZM22 5a17 17 0 0 0 0 34V30a8 8 0 0 1 0-16ZM22 14a8 8 0 0 1 0 16Z"
-        />
-      </svg>
+      {preference === "system" ? (
+        <CircleLeftHalfFilledIcon className="theme-toggle-icon" />
+      ) : preference === "light" ? (
+        <SunMaxIcon className="theme-toggle-icon" />
+      ) : (
+        <MoonIcon className="theme-toggle-icon" />
+      )}
     </button>
   );
 }

@@ -21,7 +21,7 @@ export const bespokeEntries: CvEntry[] = [
     status: "iOS Application",
     title: "Heirloom",
     organization: "Self-directed",
-    summary: "A digital keepsake for your family's history, designed for iOS.",
+    summary: "A digital keepsake for your family’s history, designed for iOS.",
     links: [{ label: "Heirloom", href: "/projects/heirloom" }],
   },
   {

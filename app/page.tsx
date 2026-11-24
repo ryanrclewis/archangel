@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { HeroSection } from "@/app/components/HeroSection";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
-import Typewriter from "./components/Typewriter";
+import { ChevronRightIcon } from "@/app/components/SfSymbols";
 import { homepageExampleIds, projects, valueColors, type Project } from "./data/projects";
 import { formatUppercaseLabel } from "./utils/brandText";
 import { getValueHoverVars } from "./utils/phraseStyles";
@@ -101,9 +102,11 @@ function renderProjectCard(project: Project) {
       <ProjectClients
         values={project.values ?? []}
         className="project-card-clients"
-        ariaLabel={`${project.name} phrases`}
+        ariaLabel={`${project.name} values`}
       />
-      <span className="project-card-link">Learn more</span>
+      <span className="project-card-link" aria-hidden="true">
+        View project
+      </span>
     </ProjectPreviewCard>
   );
 }
@@ -111,24 +114,11 @@ function renderProjectCard(project: Project) {
 export default function Home() {
   return (
     <PageLayout>
-      <section className="hero-band homepage-section" aria-labelledby="home-title">
-        <div className="hero-copy">
-          <h1 id="home-title">
-            Technology in service of{"\u00A0"}
-            <br />
-            <Typewriter phrases={typewriterPhrases} valueColors={valueColors} />
-          </h1>
-          <p className="lede">
-            Archangel Laboratories designs and builds software for families, communities, teams, and public
-            institutions looking for practical, well-crafted tools ordered to human flourishing and the common good.
-          </p>
-          <div className="action-row">
-            <a className="button-primary" href={`mailto:${siteConfig.contactEmail}`}>
-              Start a project
-            </a>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        phrases={typewriterPhrases}
+        valueColors={valueColors}
+        contactEmail={siteConfig.contactEmail}
+      />
 
       {featuredProjects.length > 0 && (
         <section className="work-band homepage-section" id="featured" aria-labelledby="featured-title">
@@ -146,7 +136,9 @@ export default function Home() {
           <h2 id="work-title">
             <Link href="/categories/bespoke" className="section-heading-link">
               <span>🧵 Bespoke</span>
-              <span className="section-heading-chevron" aria-hidden="true">›</span>
+              <span className="section-heading-chevron" aria-hidden="true">
+                <ChevronRightIcon size="1em" />
+              </span>
             </Link>
           </h2>
         </div>
@@ -161,7 +153,9 @@ export default function Home() {
           <h2 id="systems-title">
             <Link href="/categories/government" className="section-heading-link">
               <span>🏛️ Government</span>
-              <span className="section-heading-chevron" aria-hidden="true">›</span>
+              <span className="section-heading-chevron" aria-hidden="true">
+                <ChevronRightIcon size="1em" />
+              </span>
             </Link>
           </h2>
         </div>
@@ -176,7 +170,9 @@ export default function Home() {
           <h2 id="archive-title">
             <Link href="/categories/industry" className="section-heading-link">
               <span>🏭 Industry</span>
-              <span className="section-heading-chevron" aria-hidden="true">›</span>
+              <span className="section-heading-chevron" aria-hidden="true">
+                <ChevronRightIcon size="1em" />
+              </span>
             </Link>
           </h2>
         </div>
@@ -191,7 +187,9 @@ export default function Home() {
           <h2 id="university-title">
             <Link href="/categories/research" className="section-heading-link">
               <span>📚 Research</span>
-              <span className="section-heading-chevron" aria-hidden="true">›</span>
+              <span className="section-heading-chevron" aria-hidden="true">
+                <ChevronRightIcon size="1em" />
+              </span>
             </Link>
           </h2>
         </div>

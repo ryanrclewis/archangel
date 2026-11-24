@@ -21,8 +21,8 @@
 .tag-hero-count {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.82rem;
+  font-weight: 600;
   letter-spacing: 0;
 }
 
@@ -32,14 +32,14 @@
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 5vw, 4.25rem);
   font-weight: 500;
-  line-height: 1.02;
+  line-height: 1.06;
 }
 
 .tag-hero-description {
   max-width: 46rem;
   margin: 0 0 1.25rem;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
   line-height: 1.55;
 }
 
@@ -50,15 +50,16 @@
 .tag-encyclical-link {
   display: inline-flex;
   align-items: center;
-  min-height: 2.5rem;
-  padding: 0.55rem 1.1rem;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.2rem;
   border: 1px solid var(--value-hover-color-light, var(--ink));
   border-radius: 999px;
   color: var(--value-hover-color-light, var(--ink));
-  font-size: 0.88rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 120ms ease;
 }
 
 .tag-encyclical-link:hover,
@@ -66,6 +67,10 @@
   background: var(--value-hover-color-light, var(--ink));
   border-color: var(--value-hover-color-light, var(--ink));
   color: var(--value-hover-on-light, var(--paper));
+}
+
+.tag-encyclical-link:active {
+  transform: scale(0.97);
 }
 
 .tag-encyclical-link:focus-visible {
@@ -102,29 +107,29 @@
 .tag-switcher {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scrollbar-width: none;
-  padding: 0.25rem 0;
-}
-
-.tag-switcher::-webkit-scrollbar {
-  display: none;
+  scrollbar-width: thin;
+  padding: 0.35rem 1.75rem 0.65rem 0.1rem;
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 0%, #000 92%, transparent 100%);
 }
 
 .tag-switcher-chip {
   flex: 0 0 auto;
   gap: 0.45rem;
-  opacity: 0.72;
-  transition: opacity 150ms ease, transform 150ms ease;
+  transition: transform 140ms ease, box-shadow 140ms ease;
 }
 
 .tag-switcher-chip:hover,
 .tag-switcher-chip:focus-visible {
-  opacity: 1;
   transform: translateY(-1px);
-  outline: 0;
+  box-shadow: 0 0 0 1px currentColor;
+}
+
+.tag-switcher-chip:active {
+  transform: scale(0.96);
 }
 
 .tag-switcher-chip:focus-visible {
@@ -133,8 +138,7 @@
 }
 
 .tag-switcher-chip.is-current {
-  opacity: 1;
-  box-shadow: 0 0 0 1.5px currentColor;
+  box-shadow: 0 0 0 2px currentColor;
 }
 
 .tag-projects-band {

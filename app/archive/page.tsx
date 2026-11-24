@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BreadcrumbNav } from "@/app/components/BreadcrumbNav";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
@@ -24,9 +25,15 @@ export default function ArchivePage() {
     <PageLayout>
       <section className="archive-band" aria-labelledby="archive-page-title">
         <div className="section-heading">
+          <BreadcrumbNav
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Project Archive" },
+            ]}
+          />
           <h1 id="archive-page-title">Project Archive</h1>
           <p className="lede">
-            Earlier explorations, older system versions, and past research kept here for reference. Everything in the archive is still indexed and searchable with <kbd className="search-hint">⌘K</kbd>.
+            Earlier explorations, older system versions, and past research kept here for reference. Everything in the archive is still indexed and searchable with <kbd className="search-hint">⌘K</kbd> / <kbd className="search-hint">Ctrl K</kbd>.
           </p>
         </div>
 

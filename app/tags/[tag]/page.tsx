@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BreadcrumbNav } from "@/app/components/BreadcrumbNav";
 import { PageLayout } from "@/app/components/PageLayout";
 import { ProjectClients } from "@/app/components/ProjectClients";
 import { ProjectPreviewCard } from "@/app/components/ProjectPreviewCard";
+import { ArrowUpRightIcon } from "@/app/components/SfSymbols";
 import {
   formatTagTitle,
   getAllProjectTags,
@@ -60,6 +62,12 @@ export default async function TagPage({ params }: PageProps) {
     <PageLayout>
       <div className="tag-page">
         <section className="tag-hero" aria-labelledby="tag-page-title">
+          <BreadcrumbNav
+            items={[
+              { label: "Home", href: "/" },
+              { label: displayTitle },
+            ]}
+          />
           <div className="tag-hero-eyebrow">
             <span
               className="client-chip"
@@ -90,18 +98,20 @@ export default async function TagPage({ params }: PageProps) {
                 <span>
                   Read <em>{encyclical.documentTitle}</em> ({encyclical.author}, {encyclical.year})
                 </span>
+                <ArrowUpRightIcon size="0.95em" className="inline-symbol" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </div>
           )}
 
-          <nav className="tag-switcher" aria-label="All project tags">
+          <nav className="tag-switcher" aria-label="All project values">
             {allTags.map((item) => {
               const isCurrent = item.slug === tag.slug;
               return (
                 <Link
                   key={item.slug}
                   href={`/tags/${item.slug}`}
-                  className={`client-chip tag-switcher-chip ${isCurrent ? "is-current" : ""}`}
+                  className={`client-chip client-chip-link tag-switcher-chip ${isCurrent ? "is-current" : ""}`}
                   style={getPhraseChipStyle(item.name, item.color)}
                   aria-current={isCurrent ? "page" : undefined}
                 >
@@ -159,9 +169,11 @@ export default async function TagPage({ params }: PageProps) {
                     <ProjectClients
                       values={project.values ?? []}
                       className="project-card-clients"
-                      ariaLabel={`${project.name} phrases`}
+                      ariaLabel={`${project.name} values`}
                     />
-                    <span className="project-card-link">Learn more</span>
+                    <span className="project-card-link" aria-hidden="true">
+                      View project
+                    </span>
                   </ProjectPreviewCard>
                 );
               })}

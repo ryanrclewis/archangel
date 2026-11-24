@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
+import {
+  ChevronRightIcon,
+  LineHorizontal3Icon,
+  MagnifyingGlassIcon,
+  XmarkIcon,
+} from "@/app/components/SfSymbols";
 import { projects, type ProjectSection } from "@/app/data/projects";
 
 const navigationSections: Array<{ key: ProjectSection; label: string; emoji: string }> = [
@@ -14,13 +21,43 @@ const navigationSections: Array<{ key: ProjectSection; label: string; emoji: str
 
 const CLOSE_DELAY_MS = 180;
 
+function getFocusableElements(container: HTMLElement | null): HTMLElement[] {
+  if (!container) return [];
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  );
+}
+
+function subscribeNoop(): () => void {
+  return () => {};
+}
+
+function getIsApplePlatform(): boolean {
+  if (typeof navigator === "undefined") return true;
+  const platform =
+    (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
+    navigator.platform ??
+    navigator.userAgent;
+  return /(Mac|iPhone|iPad|iPod)/i.test(platform);
+}
+
 export function SiteHeader() {
+  const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [expandedDrawerSection, setExpandedDrawerSection] = useState<ProjectSection | null>(null);
   const [openSection, setOpenSection] = useState<ProjectSection | null>(null);
   const [displaySection, setDisplaySection] = useState<ProjectSection | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const isApplePlatform = useSyncExternalStore(subscribeNoop, getIsApplePlatform, () => true);
+
   const closeTimerRef = useRef<number | null>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const drawerCloseBtnRef = useRef<HTMLButtonElement>(null);
+  const navToggleBtnRef = useRef<HTMLButtonElement>(null);
+  const prevDrawerOpenRef = useRef(false);
 
   const clearCloseTimer = useCallback(() => {
     if (closeTimerRef.current !== null) {
@@ -74,12 +111,11 @@ export function SiteHeader() {
   }, [clearCloseTimer]);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 4);
     };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -93,6 +129,7 @@ export function SiteHeader() {
       setSearchOpen(isPaletteOpen);
       if (isPaletteOpen) {
         setOpenSection(null);
+        setDrawerOpen(false);
       }
     };
     const onPaletteHoverEnter = () => clearCloseTimer();
@@ -105,7 +142,7 @@ export function SiteHeader() {
 
     return () => {
       clearCloseTimer();
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("command-palette-state", onPaletteState);
       window.removeEventListener("command-palette-hover-enter", onPaletteHoverEnter);
@@ -113,33 +150,65 @@ export function SiteHeader() {
     };
   }, [clearCloseTimer, scheduleClose]);
 
+  // Modal focus management and scroll lock for mobile drawer
+  useEffect(() => {
+    if (drawerOpen) {
+      prevDrawerOpenRef.current = true;
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => drawerCloseBtnRef.current?.focus());
+
+      const handleTrap = (e: KeyboardEvent) => {
+        if (e.key !== "Tab") return;
+        const focusables = getFocusableElements(drawerRef.current);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+
+      window.addEventListener("keydown", handleTrap);
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener("keydown", handleTrap);
+      };
+    }
+
+    if (prevDrawerOpenRef.current) {
+      prevDrawerOpenRef.current = false;
+      navToggleBtnRef.current?.focus();
+    }
+  }, [drawerOpen]);
+
   const isExpanded = Boolean(openSection || searchOpen);
   const activeSectionProjects = displaySection
-    ? projects.filter(
-        (project) =>
-          project.section === displaySection &&
-          !project.archived,
-      )
+    ? projects.filter((project) => project.section === displaySection && !project.archived)
     : [];
+
+  const shortcutLabel = isApplePlatform ? "⌘K" : "Ctrl K";
+  const shortcutAria = isApplePlatform ? "Command K" : "Control K";
 
   return (
     <>
       <header
-        className={`site-header ${isExpanded ? "nav-expanded" : ""}`}
+        className={`site-header ${isScrolled ? "is-scrolled" : ""} ${isExpanded ? "nav-expanded" : ""}`.trim()}
         aria-label="Site header"
         onMouseEnter={clearCloseTimer}
         onMouseLeave={(event) => {
           const nextTarget = event.relatedTarget;
-          if (nextTarget instanceof Element && nextTarget.closest(".command-palette")) {
+          if (
+            nextTarget instanceof Element &&
+            (nextTarget.closest(".command-palette") || nextTarget.closest(".site-nav-dropdown"))
+          ) {
             return;
           }
           scheduleClose();
-        }}
-        onBlur={(event) => {
-          const nextTarget = event.relatedTarget;
-          if (!(nextTarget instanceof Node && event.currentTarget.contains(nextTarget))) {
-            setOpenSection(null);
-          }
         }}
       >
         <Link className="site-mark" href="/" onClick={closeMenu}>
@@ -147,24 +216,25 @@ export function SiteHeader() {
           <span>Archangel Laboratories</span>
         </Link>
 
-        {isMobile && (
-          <button
-            className="nav-toggle"
-            aria-label="Open navigation"
-            aria-controls="mobile-drawer"
-            aria-expanded={drawerOpen}
-            onClick={() => setDrawerOpen(true)}
-          >
-            <span className="hamburger" aria-hidden />
-          </button>
-        )}
+        <button
+          ref={navToggleBtnRef}
+          type="button"
+          className="nav-toggle"
+          aria-label="Open navigation menu"
+          aria-controls="mobile-drawer"
+          aria-expanded={drawerOpen}
+          onClick={() => setDrawerOpen(true)}
+        >
+          <LineHorizontal3Icon size="1.35rem" />
+        </button>
 
-        {!isMobile && (
-          <nav
-            className={`site-nav ${isExpanded ? "has-active" : ""}`}
-            aria-label="Primary navigation"
-          >
-            {navigationSections.map(({ key, label, emoji }) => (
+        <nav
+          className={`site-nav ${isExpanded ? "has-active" : ""}`}
+          aria-label="Primary navigation"
+        >
+          {navigationSections.map(({ key, label, emoji }) => {
+            const isCurrent = pathname === `/categories/${key}`;
+            return (
               <div
                 className={`site-nav-menu ${openSection === key ? "is-open" : ""}`}
                 key={key}
@@ -172,9 +242,8 @@ export function SiteHeader() {
               >
                 <Link
                   href={`/categories/${key}`}
-                  aria-haspopup="true"
+                  aria-current={isCurrent ? "page" : undefined}
                   aria-expanded={openSection === key}
-                  onFocus={() => openMenu(key)}
                   onClick={closeMenu}
                 >
                   <span className="nav-emoji" aria-hidden="true">
@@ -183,103 +252,160 @@ export function SiteHeader() {
                   <span className="nav-label">{label}</span>
                 </Link>
               </div>
-            ))}
-            <button
-              type="button"
-              className={`command-palette-trigger ${searchOpen ? "is-open" : ""}`}
-              onClick={handleOpenSearchClick}
-              onMouseEnter={handleOpenSearchHover}
-              aria-label="Search projects (Cmd+K)"
-              aria-expanded={searchOpen}
-              title="Press Cmd+K to search projects"
-            >
-              <span className="nav-emoji" aria-hidden="true">
-                🔍
-              </span>
-              <span className="nav-label">Search</span>
-              <kbd className="search-hint">⌘K</kbd>
-            </button>
-          </nav>
-        )}
-
-        {!isMobile && (
-          <div
-            className={`site-nav-dropdown ${openSection ? "is-open" : ""}`}
-            aria-hidden={!openSection}
+            );
+          })}
+          <button
+            type="button"
+            className={`command-palette-trigger ${searchOpen ? "is-open" : ""}`}
+            onClick={handleOpenSearchClick}
+            onMouseEnter={handleOpenSearchHover}
+            aria-label={`Search projects (${shortcutAria})`}
+            aria-expanded={searchOpen}
+            aria-controls="command-palette-dialog"
+            title={`Search projects (${shortcutLabel})`}
           >
-            {displaySection && (
-              <div className="site-nav-dropdown-inner">
-                <div
-                  className={`site-nav-project-list ${
-                    activeSectionProjects.length > 5 ? "is-multi-column" : ""
-                  }`}
-                >
-                  {activeSectionProjects.map((project) => (
-                    <Link
-                      href={`/projects/${project.id}`}
-                      key={project.id}
-                      onClick={closeMenu}
-                    >
-                      {project.emoji && (
-                        <span className="site-nav-project-emoji" aria-hidden="true">
-                          {project.emoji}
-                        </span>
-                      )}
-                      <span>{project.name}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
+            <span className="nav-emoji" aria-hidden="true">
+              🔍
+            </span>
+            <span className="nav-label">Search</span>
+            <kbd className="search-hint" aria-hidden="true">
+              {shortcutLabel}
+            </kbd>
+          </button>
+        </nav>
       </header>
 
-      {isMobile && drawerOpen && (
-        <>
-          <div id="mobile-drawer" className="mobile-drawer open" aria-hidden={false}>
-            <div className="drawer-inner">
-              <button
-                type="button"
-                className="drawer-close"
-                aria-label="Close navigation"
-                onClick={() => setDrawerOpen(false)}
-              >
-                ×
-              </button>
-              <nav className="drawer-nav" aria-label="Mobile navigation">
-                <Link href="/categories/bespoke" onClick={() => setDrawerOpen(false)}>
-                  Bespoke
-                </Link>
-                <Link href="/categories/government" onClick={() => setDrawerOpen(false)}>
-                  Government
-                </Link>
-                <Link href="/categories/industry" onClick={() => setDrawerOpen(false)}>
-                  Industry
-                </Link>
-                <Link href="/categories/research" onClick={() => setDrawerOpen(false)}>
-                  Research
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setDrawerOpen(false);
-                    handleOpenSearchClick();
-                  }}
-                  className="command-palette-trigger"
+      <div
+        className={`site-nav-dropdown ${openSection ? "is-open" : ""}`}
+        aria-hidden={!openSection}
+        inert={!openSection}
+        onMouseEnter={clearCloseTimer}
+        onMouseLeave={(event) => {
+          const nextTarget = event.relatedTarget;
+          if (nextTarget instanceof Element && nextTarget.closest(".site-header")) {
+            return;
+          }
+          scheduleClose();
+        }}
+      >
+        {displaySection && (
+          <div className="site-nav-dropdown-inner">
+            <div
+              className={`site-nav-project-list ${
+                activeSectionProjects.length > 5 ? "is-multi-column" : ""
+              }`}
+            >
+              {activeSectionProjects.map((project) => (
+                <Link
+                  href={`/projects/${project.id}`}
+                  key={project.id}
+                  onClick={closeMenu}
                 >
-                  <span className="nav-emoji" aria-hidden="true">
-                    🔍
-                  </span>
-                  Search
-                </button>
-              </nav>
+                  {project.emoji && (
+                    <span className="site-nav-project-emoji" aria-hidden="true">
+                      {project.emoji}
+                    </span>
+                  )}
+                  <span>{project.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
-          <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
-        </>
-      )}
+        )}
+      </div>
+
+      <div
+        id="mobile-drawer"
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation Menu"
+        aria-hidden={!drawerOpen}
+        inert={!drawerOpen}
+        className={`mobile-drawer ${drawerOpen ? "open" : ""}`}
+      >
+        <div className="drawer-inner">
+          <div className="drawer-header">
+            <span className="drawer-title">Menu</span>
+            <button
+              ref={drawerCloseBtnRef}
+              type="button"
+              className="drawer-close"
+              aria-label="Close Navigation Menu"
+              onClick={() => setDrawerOpen(false)}
+            >
+              <XmarkIcon size="1.25rem" />
+            </button>
+          </div>
+          <nav className="drawer-nav" aria-label="Mobile navigation">
+            {navigationSections.map(({ key, label, emoji }) => {
+              const isCurrent = pathname === `/categories/${key}`;
+              const isSubOpen = expandedDrawerSection === key;
+              const sectionProjects = projects.filter(
+                (project) => project.section === key && !project.archived,
+              );
+              return (
+                <div className="drawer-nav-group" key={key}>
+                  <div className="drawer-nav-row">
+                    <Link
+                      href={`/categories/${key}`}
+                      aria-current={isCurrent ? "page" : undefined}
+                      onClick={() => setDrawerOpen(false)}
+                    >
+                      <span aria-hidden="true">{emoji}</span>
+                      <span>{label}</span>
+                    </Link>
+                    {sectionProjects.length > 0 && (
+                      <button
+                        type="button"
+                        className="drawer-expand-btn"
+                        aria-expanded={isSubOpen}
+                        aria-label={`${isSubOpen ? "Collapse" : "Expand"} ${label} projects`}
+                        onClick={() =>
+                          setExpandedDrawerSection((prev) => (prev === key ? null : key))
+                        }
+                      >
+                        <ChevronRightIcon size="1.05rem" />
+                      </button>
+                    )}
+                  </div>
+                  {isSubOpen && sectionProjects.length > 0 && (
+                    <div className="drawer-sublist">
+                      {sectionProjects.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={`/projects/${project.id}`}
+                          onClick={() => setDrawerOpen(false)}
+                        >
+                          {project.emoji && <span aria-hidden="true">{project.emoji}</span>}
+                          <span>{project.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="drawer-action-btn"
+              onClick={() => {
+                setDrawerOpen(false);
+                handleOpenSearchClick();
+              }}
+            >
+              <MagnifyingGlassIcon size="1.05rem" className="inline-symbol" />
+              <span>Search projects</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+
+      <div
+        className={`drawer-overlay ${drawerOpen ? "open" : ""}`}
+        aria-hidden="true"
+        onClick={() => setDrawerOpen(false)}
+      />
 
       <div
         className={`site-nav-backdrop ${openSection ? "open" : ""}`}

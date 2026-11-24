@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BreadcrumbNav } from "@/app/components/BreadcrumbNav";
 import { CategoryCarousel } from "@/app/components/CategoryCarousel";
 import { CvSection } from "@/app/components/CvSection";
 import { PageLayout } from "@/app/components/PageLayout";
@@ -79,15 +80,21 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     <PageLayout>
       <div className="category-page">
         <section className="category-hero" aria-labelledby="category-title">
+          <BreadcrumbNav
+            items={[
+              { label: "Home", href: "/" },
+              { label: details.label },
+            ]}
+          />
           <h1 id="category-title">{details.label}</h1>
           <p>
             {details.description}
             {categorySlug === "bespoke" && (
               <>
                 {" "}
-                If you are interested in the adoption of human-centered AI experiences for your organization,{" "}
+                To explore human-centered AI experiences for your organization,{" "}
                 <a className="category-hero-link" href={`mailto:${siteConfig.contactEmail}`}>
-                  please contact us
+                  contact us
                 </a>
                 .
               </>
